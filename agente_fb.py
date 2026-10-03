@@ -15,14 +15,6 @@ PROXY_PASS = "password"       # password del proxy (se non ce l'hai metti: None)
 
 NOME_PROFILO = "facebook-mio-proxy"   # nome della "memoria" del browser
 
-COMPITO = (
-    "Apri https://www.facebook.com/messages . "
-    "Leggi le conversazioni con messaggi non letti. "
-    "Per ognuna scrivi nella risposta finale: nome della persona, "
-    "il suo ultimo messaggio e una bozza di risposta gentile in italiano. "
-    "NON inviare nessun messaggio, scrivi solo le bozze."
-)
-
 # ---------- 2) DA QUI IN GIU' NON TOCCARE NIENTE ----------
 
 from browser_use_sdk import BrowserUse, CustomProxy
@@ -63,22 +55,36 @@ def login():
 
 def lavora():
     profilo = trova_o_crea_profilo()
-    sessione = client.sessions.create(profile_id=profilo, custom_proxy=proxy)
+    sessione = client.sessions.create(
+        profile_id=profilo, custom_proxy=proxy, keep_alive=True
+    )
     print()
-    print("L'agente sta lavorando. Se vuoi guardarlo, apri questo link:")
+    print("Browser pronto. Se vuoi guardare l'agente, apri questo link:")
     print("  ", sessione.live_url)
+    print()
+    print("Scrivi un comando per l'agente e premi INVIO.")
+    print("Scrivi  esci  per chiudere (cosi' non consumi crediti).")
     try:
-        risultato = client.run(COMPITO, session_id=str(sessione.id))
-        print()
-        print("===== RISULTATO =====")
-        print(risultato.output)
+        while True:
+            print()
+            comando = input("COMANDO > ").strip()
+            if not comando:
+                continue
+            if comando.lower() == "esci":
+                break
+            print("L'agente sta lavorando, aspetta...")
+            risultato = client.run(comando, session_id=str(sessione.id))
+            print()
+            print("===== RISULTATO =====")
+            print(risultato.output)
     finally:
         client.sessions.stop(str(sessione.id))
+        print("Browser chiuso.")
 
 
 print("Cosa vuoi fare?")
 print("  1 = Primo accesso a Facebook (lo fai solo la prima volta)")
-print("  2 = Fai lavorare l'agente")
+print("  2 = Dai comandi all'agente (quanti ne vuoi)")
 scelta = input("Scrivi 1 o 2 e premi INVIO: ").strip()
 
 if scelta == "1":
