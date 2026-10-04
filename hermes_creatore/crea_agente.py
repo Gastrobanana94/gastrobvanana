@@ -389,7 +389,8 @@ def crea():
     if cartella.exists():
         if not chiedi_si_no(f"L'agente '{dati['nome']}' esiste gia'. Lo aggiorno?", True):
             return
-    elif hermes("profile", "create", dati["nome"], "--description",
+    # --clone: copia modello e chiavi gia' configurati (es. DeepSeek), cosi' non li rimetti
+    elif hermes("profile", "create", dati["nome"], "--clone", "--description",
                 f"Gestisce l'account Facebook di {dati['proprietario']} dentro Brave") != 0:
         print("Hermes non e' riuscito a creare il profilo (vedi sopra).")
         return
@@ -407,9 +408,8 @@ def crea():
     print("OK: personalita', istruzioni, skill e collegamento a Brave pronti.")
 
     titolo("CERVELLO DELL'AGENTE (modello AI)")
-    print("Ora Hermes ti chiede quale intelligenza artificiale usare e la sua chiave.")
-    print("Telegram puoi saltarlo: lo colleghi tu quando vuoi.")
-    if chiedi_si_no("Configuro adesso il modello?", True):
+    print("L'agente usa lo stesso modello che hai gia' configurato in Hermes (es. DeepSeek).")
+    if chiedi_si_no("Vuoi cambiare modello solo per questo agente?", False):
         hermes("-p", dati["nome"], "setup", interattivo=True)
 
     if dati["auto"]:
