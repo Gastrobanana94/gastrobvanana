@@ -1,0 +1,3 @@
+browser-use-sdk>=3.11
+mcp
+pyyaml
