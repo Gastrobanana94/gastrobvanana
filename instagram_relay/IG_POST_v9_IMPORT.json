@@ -1,9 +1,24 @@
 {
-  "title": "IG POST v9.7",
-  "desc": "v9.7: all'inizio il telefono dice al relay chi e' (codice del telefono + nome Instagram in alto nel profilo); il relay trova il nome del telefono (elisa, melina francoforte, ...) e lo manda a commentbot con ogni commento, con una memoria separata per ogni telefono. Se il relay non conosce il telefono il task si ferma subito. Per il resto come la v9.6.",
+  "title": "IG POST v9.8",
+  "desc": "v9.8: Instagram si chiude e si riapre da zero all'inizio (riparte sempre dalla home) e se il profilo non si apre si preme Indietro e si riprova. Per il resto come la v9.7: il telefono dice al relay chi e' (codice + nome Instagram in alto nel profilo) e commentbot riceve il nome del telefono.",
   "content": {
     "startParamMap": [],
     "contents": [
+      {
+        "position": {
+          "x": 18800,
+          "y": 285
+        },
+        "id": "42672fc1-f882-4863-84a9-6492ee7311bb",
+        "name": "chiudi Instagram (riparte dalla home)",
+        "type": "executeADB",
+        "config": {
+          "content": "am force-stop com.instagram.android",
+          "timeout": 120000,
+          "variable": "stopIg",
+          "error": false
+        }
+      },
       {
         "position": {
           "x": 19000,
@@ -22,8 +37,8 @@
           "y": 285
         },
         "config": {
-          "timeoutMax": 6000,
-          "timeoutMin": 4000,
+          "timeoutMax": 9000,
+          "timeoutMin": 7000,
           "timeoutType": "randomInterval"
         },
         "id": "e4e53f4d-cc31-41db-a768-ae47e0252f06",
@@ -124,6 +139,13 @@
                 "filterType": "contain",
                 "type": "text"
               }
+            ],
+            [
+              {
+                "content": "Not Now",
+                "filterType": "equal",
+                "type": "text"
+              }
             ]
           ],
           "hiddenChildren": false,
@@ -170,6 +192,124 @@
         "id": "959c20b3-f5b9-46b9-84ab-53f28384f3d9",
         "name": "click",
         "type": "click"
+      },
+      {
+        "position": {
+          "x": 21010,
+          "y": 285
+        },
+        "id": "bbbafb90-a3ee-4cb1-ad6f-2d6f6c651151",
+        "name": "IF profilo non aperto -> indietro e riprova",
+        "type": "ifElse",
+        "config": {
+          "apposition": "and",
+          "other": [],
+          "conditionList": [
+            {
+              "probability": 50,
+              "relation": "notExist",
+              "useVariable": "onProf"
+            }
+          ],
+          "children": [
+            {
+              "position": {
+                "x": 21020,
+                "y": 285
+              },
+              "id": "a41b9744-0b1e-4f80-9d9e-396416c2110a",
+              "name": "indietro",
+              "type": "executeADB",
+              "config": {
+                "content": "input keyevent 4",
+                "timeout": 120000,
+                "variable": "backOut",
+                "error": false
+              }
+            },
+            {
+              "position": {
+                "x": 21040,
+                "y": 285
+              },
+              "id": "f444f35c-abf4-4b34-b9fd-69a88a899456",
+              "name": "wait",
+              "type": "waitTime",
+              "config": {
+                "timeoutMax": 2500,
+                "timeoutMin": 1500,
+                "timeoutType": "randomInterval"
+              }
+            },
+            {
+              "position": {
+                "x": 21060,
+                "y": 285
+              },
+              "config": {
+                "filterCollection": [
+                  [
+                    {
+                      "content": "ot now",
+                      "filterType": "contain",
+                      "type": "text"
+                    }
+                  ],
+                  [
+                    {
+                      "content": "Not Now",
+                      "filterType": "equal",
+                      "type": "text"
+                    }
+                  ]
+                ],
+                "hiddenChildren": false,
+                "randomDistance": 0,
+                "searchTime": 400,
+                "useOffset": false,
+                "serialType": "fixedValue",
+                "serial": 1
+              },
+              "id": "5f7ce8d9-a101-4d1e-a771-9e3f0a561ee4",
+              "name": "popup",
+              "type": "click"
+            },
+            {
+              "position": {
+                "x": 21080,
+                "y": 285
+              },
+              "config": {
+                "filterCollection": [
+                  [
+                    {
+                      "content": "com.instagram.android:id/profile_tab",
+                      "filterType": "equal",
+                      "type": "id"
+                    }
+                  ],
+                  [
+                    {
+                      "content": "Profile",
+                      "filterType": "contain",
+                      "type": "desc"
+                    }
+                  ]
+                ],
+                "hiddenChildren": false,
+                "randomDistance": 0,
+                "searchTime": 4000,
+                "useOffset": false,
+                "serialType": "fixedValue",
+                "serial": 1,
+                "variable": "onProf"
+              },
+              "id": "fdfa341b-184b-437e-8f8e-3c3ef4b35999",
+              "name": "click",
+              "type": "click"
+            }
+          ]
+        }
       },
       {
         "position": {
