@@ -8,10 +8,10 @@
 
 # ---------- 1) COMPILA QUI (solo questa parte) ----------
 
-# Il bot Hermes "commentbot" (che usa DeepSeek Flash). Sono i valori
-# API_SERVER_PORT e API_SERVER_KEY del file .env del profilo commentbot
-# (di solito in ~/.hermes/profiles/commentbot/.env).
-URL_API = "http://127.0.0.1:8642/v1/chat/completions"
+# Il bot Hermes "commentbot" (DeepSeek Flash), raggiunto tramite il
+# multiplexer del profilo default. La chiave e' la voce API_SERVER_KEY in
+# C:\Users\bstaa\AppData\Local\hermes\profiles\commentbot\.env
+URL_API = "http://127.0.0.1:8643/p/commentbot/v1/chat/completions"
 CHIAVE_API = "INCOLLA_QUI_API_SERVER_KEY_DI_COMMENTBOT"
 MODELLO = "commentbot"
 
@@ -19,14 +19,10 @@ PORTA = 8787                 # la stessa porta che dai a ngrok
 PERCENTUALE_RISPOSTE = 0.40  # 0.40 = risponde a circa 4 commenti nuovi su 10
 TIMEOUT_AI = 25              # secondi massimi di attesa per commentbot
 
-# Come deve rispondere l'account. Per un account specifico crea il file
-# persona_<nome account>.txt nella cartella del relay e scrivilo li'.
-PERSONA = (
-    "Sei la persona proprietaria di questo profilo Instagram e rispondi ai "
-    "commenti sotto i tuoi post. Rispondi nella stessa lingua del commento, "
-    "in modo breve (massimo 1-2 frasi), naturale e simpatico, come farebbe "
-    "una persona vera. Puoi usare al massimo un'emoji."
-)
+# Lo stile delle risposte lo decide commentbot. Se vuoi aggiungere istruzioni
+# per un account specifico crea il file persona_<nome account>.txt nella
+# cartella del relay e scrivile li'.
+PERSONA = ""
 
 # ---------- 2) DA QUI IN GIU' NON TOCCARE NIENTE ----------
 
@@ -160,22 +156,23 @@ def commenti_a_schermo(xml_testo):
 
 def chiedi_a_commentbot(account, candidati):
     elenco = "\n".join(f"[{i}] {c['testo']}" for i, c in enumerate(candidati, start=1))
-    istruzioni = (
-        persona(account) + "\n\n"
-        "Ti do alcuni commenti letti dallo schermo dell'app (ogni riga contiene "
-        "il nome utente e il testo del commento, a volte con pezzi di interfaccia). "
-        "Scegline UNO a cui rispondere. Salta i commenti scritti dal proprietario "
-        "del profilo, lo spam, i commenti offensivi e quelli incomprensibili.\n"
-        'Rispondi SOLO con JSON: {"scelta": numero, "utente": "nome utente '
-        'esatto del commento scelto, senza @", "risposta": "testo"} '
-        'oppure {"scelta": 0} se nessuno va bene.'
+    extra = persona(account)
+    messaggio = (
+        f"Modella / account Instagram: {account}\n"
+        + (f"Istruzioni per questo account: {extra}\n" if extra else "")
+        + "\nQuesti sono commenti sotto un suo post, letti dallo schermo dell'app "
+        "(ogni riga contiene il nome utente e il testo del commento, a volte con "
+        "pezzi di interfaccia). Scegline UNO a cui rispondere come farebbe lei. "
+        "Salta i commenti scritti da lei stessa, lo spam, quelli offensivi e "
+        "quelli incomprensibili.\n\n"
+        f"{elenco}\n\n"
+        'Rispondi SOLO con questo JSON, senza altro testo: {"scelta": numero, '
+        '"utente": "nome utente esatto del commento scelto, senza @", '
+        '"risposta": "testo da pubblicare"} oppure {"scelta": 0} se nessuno va bene.'
     )
     corpo = json.dumps({
         "model": MODELLO,
-        "messages": [
-            {"role": "system", "content": istruzioni},
-            {"role": "user", "content": elenco},
-        ],
+        "messages": [{"role": "user", "content": messaggio}],
         "stream": False,
     }).encode("utf-8")
     richiesta = urllib.request.Request(URL_API, data=corpo, headers={
