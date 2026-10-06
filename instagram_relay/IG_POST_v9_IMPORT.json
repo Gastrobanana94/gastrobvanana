@@ -1,6 +1,6 @@
 {
-  "title": "IG POST v9.5",
-  "desc": "v9.5: legge i nomi a schermo e li manda al relay (commentbot via ngrok); il relay sceglie esattamente 2 commenti nuovi ogni 5 (40%) e ricorda chi ha gia' visto; dopo una risposta resta sulla schermata, poi scorre piano (nessun commento saltato); se il relay non risponde rilegge invece di scorrere; fino a 100 giri per post, si ferma quando la lista non scorre piu'.",
+  "title": "IG POST v9.6",
+  "desc": "v9.6: legge i nomi a schermo e li manda al relay (commentbot via ngrok); il relay sceglie 2 commenti nuovi ogni 5 (40%) e ricorda chi ha gia' visto; la persona della risposta si legge dalla casella di scrittura; tastiera GeeLark forzata; i post con solo commenti di Facebook si saltano subito.",
   "content": {
     "startParamMap": [],
     "contents": [
@@ -29,6 +29,21 @@
         "id": "e4e53f4d-cc31-41db-a768-ae47e0252f06",
         "name": "wait",
         "type": "waitTime"
+      },
+      {
+        "position": {
+          "x": 19450,
+          "y": 285
+        },
+        "id": "5c18faae-b718-4d60-9261-53f4615e3ac0",
+        "name": "tastiera GeeLark",
+        "type": "executeADB",
+        "config": {
+          "content": "sh -c 'id=$(ime list -a -s | grep -i gee | head -n 1); if [ -n \"$id\" ]; then ime enable \"$id\" >/dev/null 2>&1; ime set \"$id\"; fi; echo \"ime=$id\"'",
+          "timeout": 120000,
+          "variable": "imeOut",
+          "error": false
+        }
       },
       {
         "position": {
@@ -395,6 +410,98 @@
                   },
                   {
                     "position": {
+                      "x": 15500,
+                      "y": 285
+                    },
+                    "id": "5da283b0-6b00-47be-8317-e196307ca961",
+                    "name": "IF pulsante commenti non trovato -> scorri e riprova",
+                    "type": "ifElse",
+                    "config": {
+                      "apposition": "and",
+                      "other": [],
+                      "conditionList": [
+                        {
+                          "probability": 50,
+                          "relation": "notExist",
+                          "useVariable": "cmOpen"
+                        }
+                      ],
+                      "children": [
+                        {
+                          "position": {
+                            "x": 15550,
+                            "y": 285
+                          },
+                          "id": "7a2cf63c-9a64-4d0c-94ab-6ae685488d52",
+                          "name": "scorri un po'",
+                          "type": "executeADB",
+                          "config": {
+                            "content": "input swipe 360 1000 360 500 800",
+                            "timeout": 120000,
+                            "variable": "shReveal",
+                            "error": false
+                          }
+                        },
+                        {
+                          "position": {
+                            "x": 15600,
+                            "y": 285
+                          },
+                          "id": "730be609-89e6-4acc-9b27-283a29799bd3",
+                          "name": "wait",
+                          "type": "waitTime",
+                          "config": {
+                            "timeoutMax": 2500,
+                            "timeoutMin": 1500,
+                            "timeoutType": "randomInterval"
+                          }
+                        },
+                        {
+                          "position": {
+                            "x": 15650,
+                            "y": 285
+                          },
+                          "config": {
+                            "filterCollection": [
+                              [
+                                {
+                                  "content": "com.instagram.android:id/comment_button",
+                                  "filterType": "equal",
+                                  "type": "id"
+                                }
+                              ],
+                              [
+                                {
+                                  "content": "com.instagram.android:id/row_feed_button_comment",
+                                  "filterType": "equal",
+                                  "type": "id"
+                                }
+                              ],
+                              [
+                                {
+                                  "content": "Comment",
+                                  "filterType": "contain",
+                                  "type": "desc"
+                                }
+                              ]
+                            ],
+                            "hiddenChildren": true,
+                            "randomDistance": 0,
+                            "searchTime": 6000,
+                            "useOffset": false,
+                            "serialType": "fixedValue",
+                            "serial": 1,
+                            "variable": "cmOpen"
+                          },
+                          "id": "441fedff-6010-4c26-9574-371665efc1b7",
+                          "name": "click",
+                          "type": "click"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "position": {
                       "x": 15800,
                       "y": 285
                     },
@@ -460,7 +567,7 @@
                                 "type": "script",
                                 "config": {
                                   "injectVariables": [],
-                                  "script": "async function main() { return { goOn: '1', vuote: '0' }; }",
+                                  "script": "async function main() { return { goOn: '1', vuote: '0', nuovo: '1' }; }",
                                   "type": "js",
                                   "variableMap": [
                                     {
@@ -470,6 +577,10 @@
                                     {
                                       "value": "vuote",
                                       "variable": "vuote"
+                                    },
+                                    {
+                                      "value": "nuovo",
+                                      "variable": "nuovo"
                                     }
                                   ]
                                 }
@@ -667,7 +778,7 @@
                                             "name": "manda al relay",
                                             "type": "executeADB",
                                             "config": {
-                                              "content": "sh -c 'curl -sk --max-time 40 -H \"ngrok-skip-browser-warning: 1\" --data-binary \"${accEnc}\" \"https://paying-cake-engulf.ngrok-free.dev/pick?acc=Melina%20Berner%20Frankfurt\"'",
+                                              "content": "sh -c 'curl -sk --max-time 40 -H \"ngrok-skip-browser-warning: 1\" --data-binary \"${accEnc}\" \"https://paying-cake-engulf.ngrok-free.dev/pick?acc=Melina%20Berner%20Frankfurt&nuovo=${nuovo}\"'",
                                               "timeout": 120000,
                                               "variable": "curlResp",
                                               "error": false
@@ -681,9 +792,10 @@
                                             "config": {
                                               "injectVariables": [
                                                 "curlResp",
-                                                "vuote"
+                                                "vuote",
+                                                "nuovo"
                                               ],
-                                              "script": "async function main({ curlResp, vuote }) { const r=String(curlResp||'').replace(/\\s+/g,' ').trim(); const no={ goPost:'0', goOn:'1', pickN:0, tapX:'0', tapY:'0', useTap:'0', ocrAuthor:'', theReply:'', vuote:'0' }; if(/^END/.test(r)) return Object.assign(no,{ goOn:'0' }); if(/^NO_MATCH/.test(r)) return no; const p=r.split('|'); const n=parseInt(p[1],10)||0; if(p[0]==='PICK' && p.length>=6 && n>=1) return { goPost:'1', goOn:'1', pickN:n, tapX:'0', tapY:'0', useTap:'0', ocrAuthor:p[4], theReply:p.slice(5).join('|'), vuote:'0' }; const v=(parseInt(vuote,10)||0)+1; return Object.assign(no,{ goPost:'2', goOn: v>=3 ? '0' : '1', vuote:String(v) }); }",
+                                              "script": "async function main({ curlResp, vuote, nuovo }) { const r=String(curlResp||'').replace(/\\s+/g,' ').trim(); const no={ goPost:'0', goOn:'1', pickN:0, tapX:'0', tapY:'0', useTap:'0', ocrAuthor:'', theReply:'', vuote:'0', nuovo:'0' }; if(/^END/.test(r)) return Object.assign(no,{ goOn:'0' }); if(/^NO_MATCH/.test(r)) return no; const p=r.split('|'); const n=parseInt(p[1],10)||0; if(p[0]==='PICK' && p.length>=6 && n>=1) return { goPost:'1', goOn:'1', pickN:n, tapX:'0', tapY:'0', useTap:'0', ocrAuthor:p[4], theReply:p.slice(5).join('|'), vuote:'0', nuovo:'0' }; const v=(parseInt(vuote,10)||0)+1; return Object.assign(no,{ goPost:'2', goOn: v>=3 ? '0' : '1', vuote:String(v), nuovo:String(nuovo||'0') }); }",
                                               "type": "js",
                                               "variableMap": [
                                                 {
@@ -721,6 +833,10 @@
                                                 {
                                                   "value": "vuote",
                                                   "variable": "vuote"
+                                                },
+                                                {
+                                                  "value": "nuovo",
+                                                  "variable": "nuovo"
                                                 }
                                               ]
                                             },
@@ -807,6 +923,11 @@
                                                   "config": {
                                                     "filterCollection": [
                                                       [
+                                                        {
+                                                          "content": "TextView",
+                                                          "filterType": "contain",
+                                                          "type": "class"
+                                                        },
                                                         {
                                                           "content": "@",
                                                           "filterType": "contain",
@@ -913,6 +1034,10 @@
                                                           "filterType": "contain",
                                                           "filters": [
                                                             {
+                                                              "content": "TextView",
+                                                              "type": "class"
+                                                            },
+                                                            {
                                                               "content": "@",
                                                               "type": "text"
                                                             }
@@ -948,7 +1073,7 @@
                                                                 "filterType": "contain",
                                                                 "filters": [
                                                                   {
-                                                                    "content": "dd a comment",
+                                                                    "content": "@",
                                                                     "type": "text"
                                                                   }
                                                                 ],

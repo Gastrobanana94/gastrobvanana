@@ -285,10 +285,11 @@ def rimborsa(dati):
     dati["credito"] = min(dati["credito"] + 100, 200)
 
 
-def scegli(account, elenco):
-    inizio = time.time()
+def scegli(account, elenco, nuovo=None):
+    """Sceglie il commento e dice al telefono quale Reply premere. La risposta di
+    commentbot si chiede dopo, quando la casella e' aperta e si sa a chi rispondere."""
     with lock:
-        risultato, c = _prepara(account, elenco)
+        risultato, c = _prepara(account, elenco, nuovo)
         dati = dati_account(account)
         if c is not None and time.time() < dati["ai_ko_fino"]:
             log(account, "commentbot non risponde: salto per ora, riprovo tra poco")
@@ -296,44 +297,31 @@ def scegli(account, elenco):
         if c is None:
             dati["esito"] = risultato
             return risultato
-
-    errore = False
-    try:
-        risposta = chiedi_risposta(account, c)
-    except Exception as e:
-        log(account, "commentbot non ha risposto:", e)
-        risposta, errore = "", True
-
-    with lock:
-        dati = dati_account(account)
-        if not risposta:
-            if errore:
-                dati["ai_ko_fino"] = time.time() + 60
-            else:
-                ricorda(account, c["utente"], "scartato_ai")
-                rimborsa(dati)
-            dati["esito"] = "NO_MATCH"
-            return "NO_MATCH"
         premuto = max(1, c["numero"] + dati["spostamento"])
-        dati["attesa"] = {"utente": c["utente"], "premuto": premuto, "risposta": risposta,
+        dati["attesa"] = {"utente": c["utente"], "commento": c["commento"], "premuto": premuto,
                           "quando": time.time()}
         dati["esito"] = "PICK"
-    log(account, f"scelto @{c['utente']} (Reply n.{premuto}) -> \"{risposta}\" ({time.time() - inizio:.1f}s)")
-    return f"PICK|{premuto}|0|0|{c['utente']}|{risposta}"
+    log(account, f"scelto @{c['utente']}: premo il Reply n.{premuto}")
+    return f"PICK|{premuto}|0|0|{c['utente']}|ok"
 
 
-def _prepara(account, elenco):
-    """Legge la schermata, decide i commenti nuovi e sceglie il prossimo a cui rispondere."""
+def _prepara(account, elenco, nuovo=None):
+    """Legge la schermata, decide i commenti nuovi e sceglie il prossimo a cui rispondere.
+    nuovo: True se il telefono ha appena aperto i commenti di un post (None = non lo dice)."""
     commenti = commenti_da_elenco(elenco)
     dati = dati_account(account)
     dati["attesa"] = None
     firma = tuple(c["utente"] for c in commenti)
     adesso = time.time()
-    if dati["esito"] in (None, "END") or adesso - dati["ultimo_pick"] > 120:
+    if nuovo is None:
+        nuovo = dati["esito"] in (None, "END") or adesso - dati["ultimo_pick"] > 120
+    if nuovo:
         # primo sguardo a un post: la lista parte dall'inizio
+        log(account, "--- commenti di un post nuovo ---")
+        dati.update(ultima=None, stallo=0, nuovi_post=0, risposte_post=0, tentativi={})
         dati["schermo"], dati["da_osservare"] = "inizio", True
         dati["spostamento"] = maggioranza(dati["visti"]["inizio"], 0)
-    elif dati["esito"] != "PICK" and firma != dati["ultima"]:
+    elif dati["esito"] != "PICK" and firma != dati["ultima"] and dati["ultima"]:
         # dopo uno scroll di solito il commento in alto e' tagliato: si vede il suo Reply
         # ma non il suo nome, quindi i Reply sono uno in piu' dei nomi
         dati["schermo"], dati["da_osservare"] = "scroll", True
@@ -344,12 +332,26 @@ def _prepara(account, elenco):
         # il telefono ha letto anche i Reply: il numero e' gia' quello giusto
         dati["spostamento"], dati["da_osservare"] = 0, False
     # schermata identica dopo uno scroll (non dopo una risposta) = fine della lista
-    if firma and firma == dati["ultima"] and dati["esito"] != "PICK":
+    if firma == dati["ultima"] and dati["esito"] != "PICK":
         dati["stallo"] += 1
     elif firma != dati["ultima"]:
         dati["stallo"] = 0
     dati["ultima"] = firma
     dati["nomi"] = {c["numero"]: c["utente"] for c in commenti}
+
+    if not commenti:
+        # con la scritta di Facebook la lista e' caricata ma non ha commenti di Instagram;
+        # senza niente forse sta ancora caricando: si aspetta un giro in piu'
+        facebook = re.search(r"\d+ comments? from facebook", elenco, re.IGNORECASE)
+        if dati["stallo"] >= (1 if facebook else 2):
+            log(account, "nessun commento di Instagram"
+                + (" (ci sono solo commenti di Facebook, da Instagram non si rispondono)" if facebook else "")
+                + " -> END, passo al post dopo")
+            dati["nuovi_post"] = dati["risposte_post"] = 0
+            return "END", None
+        log(account, "nessun commento riconosciuto a schermo"
+            + (" (solo commenti di Facebook)" if facebook else ""))
+        return "NO_MATCH", None
 
     candidati, visti = [], set()
     nuovi = scelti = gia = propri = 0
@@ -379,12 +381,9 @@ def _prepara(account, elenco):
             candidati.append(c)
     dati["nuovi_post"] += nuovi
 
-    if commenti:
-        log(account, f"{nuovi + gia} commenti a schermo"
-            + (f" (+{propri} dell'account)" if propri else "")
-            + f": {nuovi} nuovi ({scelti} scelti), {gia} gia' visti prima -> da rispondere: {len(candidati)}")
-    else:
-        log(account, "nessun commento riconosciuto a schermo")
+    log(account, f"{nuovi + gia} commenti a schermo"
+        + (f" (+{propri} dell'account)" if propri else "")
+        + f": {nuovi} nuovi ({scelti} scelti), {gia} gia' visti prima -> da rispondere: {len(candidati)}")
 
     if dati["stallo"] >= 4 or (dati["stallo"] >= 2 and not candidati):
         log(account, f"la lista non scorre piu': commenti finiti -> END (in questo post: "
@@ -455,31 +454,57 @@ def conferma(account, utente_casella):
             # solo dopo uno scroll il primo Reply puo' essere di un nome non a schermo (commento
             # tagliato in alto): altrimenti la casella e' stata letta male (es. una @menzione)
             motivo = f"nella casella c'e' @{reale}, che non e' tra i nomi a schermo"
-        tentativi = dati["tentativi"].get(scelto, 0)
         if motivo:
-            if tentativi < 2:
-                # si riprova la stessa persona: lo sfasamento ora e' corretto
-                dati["tentativi"][scelto] = tentativi + 1
-                if not reale and dati["spostamento"] > -2:
-                    dati["spostamento"] -= 1  # premuto un Reply oltre l'ultimo a schermo
-                log(account, f"{motivo} -> riprovo @{scelto} con un altro Reply")
-            else:
-                log(account, f"{motivo} -> salto @{scelto}, il prossimo commento nuovo prende il suo posto")
-                ricorda(account, scelto, "fallito", motivo)
-                rimborsa(dati)
-            dati["attesa"] = None
+            non_riuscito(account, dati, scelto, motivo, casella_vuota=not reale)
+            return "NO_MATCH"
+        commento = attesa["commento"] if reale == scelto else ""
+
+    # la risposta si chiede solo ora, per la persona della casella aperta
+    inizio = time.time()
+    errore = False
+    try:
+        risposta = chiedi_risposta(account, {"utente": reale, "commento": commento})
+    except Exception as e:
+        log(account, "commentbot non ha risposto:", e)
+        risposta, errore = "", True
+
+    with lock:
+        dati = dati_account(account)
+        if dati["attesa"] is not attesa:
+            return "NO_MATCH"
+        if not risposta:
+            if errore:
+                dati["ai_ko_fino"] = time.time() + 60
+            non_riuscito(account, dati, scelto, "nessuna risposta valida da commentbot")
             return "NO_MATCH"
         if reale != scelto:
             log(account, f"il Reply premuto e' di @{reale} (scelto @{scelto}): rispondo a @{reale}")
+            tentativi = dati["tentativi"].get(scelto, 0)
             if deciso(dati, reale) == "si" and tentativi < 2:
                 dati["tentativi"][scelto] = tentativi + 1  # @reale usa il suo posto, @scelto si riprova
             else:
                 ricorda(account, scelto, "fallito", f"aperto @{reale}")
         # segnato subito: anche se la conferma finale si perde non gli risponde una seconda volta
-        ricorda(account, reale, "in_corso", attesa["risposta"])
-        attesa["reale"] = reale
-        log(account, f"rispondo a @{reale}")
-        return f"@{reale} {attesa['risposta']}"
+        ricorda(account, reale, "in_corso", risposta)
+        attesa["reale"], attesa["risposta"] = reale, risposta
+    log(account, f"rispondo a @{reale}: \"{risposta}\" ({time.time() - inizio:.1f}s)")
+    return f"@{reale} {risposta}"
+
+
+def non_riuscito(account, dati, scelto, motivo, casella_vuota=False):
+    """Il Reply non e' andato: si riprova la stessa persona (lo sfasamento ora e'
+    corretto), dopo 2 tentativi la si salta e il suo posto passa al prossimo commento nuovo."""
+    tentativi = dati["tentativi"].get(scelto, 0)
+    if tentativi < 2:
+        dati["tentativi"][scelto] = tentativi + 1
+        if casella_vuota and dati["spostamento"] > -2:
+            dati["spostamento"] -= 1  # premuto un Reply oltre l'ultimo a schermo
+        log(account, f"{motivo} -> riprovo @{scelto}")
+    else:
+        log(account, f"{motivo} -> salto @{scelto}, il prossimo commento nuovo prende il suo posto")
+        ricorda(account, scelto, "fallito", motivo)
+        rimborsa(dati)
+    dati["attesa"] = None
 
 
 def fatto(account):
@@ -515,9 +540,8 @@ class Gestore(BaseHTTPRequestHandler):
                 (CARTELLA / "ultima_schermata.txt").write_text(elenco, encoding="utf-8")
                 if not elenco.strip():
                     log(account, "il telefono non ha mandato nessun testo")
-                    self.rispondi("NO_MATCH")
-                else:
-                    self.rispondi(scegli(account, elenco))
+                nuovo = (parametri.get("nuovo") or [""])[0]
+                self.rispondi(scegli(account, elenco, {"1": True, "0": False}.get(nuovo)))
             elif url.path == "/confirm":
                 casella = (parametri.get("u") or [""])[0] or re.sub(r"^u=", "", corpo.strip())
                 self.rispondi(conferma(account, casella))
