@@ -24,9 +24,11 @@ GEELARK_TOKEN = ""
 
 PORTA = 8787                 # la stessa porta che dai a ngrok
 PERCENTUALE_RISPOSTE = 0.40  # 0.40 = in ogni post risponde a 4 commenti nuovi su 10 (il primo sempre)
-GIORNI_MEMORIA = 7           # una persona gia' decisa (risposta o saltata) non viene riconsiderata
-                             # per questi giorni, cosi' non risponde mai due volte allo stesso
-                             # commento. Se Melina pubblica meno di un post ogni 2 giorni metti 14.
+GIORNI_MEMORIA = 3           # una persona gia' decisa (risposta o saltata) non viene riconsiderata
+                             # per questi giorni: dopo, se commenta un post nuovo, puo' avere un'altra
+                             # risposta. Deve essere piu' dell'eta' dei 5 post che il bot guarda, se no
+                             # rivede commenti vecchi e risponde due volte: 3 va bene con 2-3 post al
+                             # giorno; con 1 post al giorno metti 6.
 TIMEOUT_AI = 25              # secondi massimi di attesa per commentbot
 
 # Lo stile delle risposte lo decide commentbot, che riceve "Telefono: <nome>"
