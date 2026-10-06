@@ -48,7 +48,7 @@ RUMORE = re.compile(
     r"liked by creator|view \d+ more repl(y|ies)|hide replies|hide|nascondi|ausblenden|"
     r"for you|per te|für dich|comments|commenti|kommentare|view|visualizza|ansehen|"
     r"\d+ comments from .*|add a comment.*|aggiungi un commento.*|kommentar hinzufügen.*|"
-    r"\d+[.,]?\d*\s?[kKmM]?|\d+\s?(s|m|h|d|w|y|min|sec|hr|std|tag|tage|wo)\.?)$",
+    r"\d+[.,]?\d*\s?[kKmM]?|\d+\s?(s|m|h|d|w|y|min|sec|hr|std|tag|tage|wo)\.?|\d{1,2}:\d{2})$",
     re.IGNORECASE,
 )
 
@@ -73,7 +73,8 @@ def dati_account(account):
                 parti = riga.split("\t")
                 if len(parti) >= 2:
                     memoria[parti[0]] = parti[1]
-        stato[account] = {"memoria": memoria, "ultima": None, "attesa": None}
+        stato[account] = {"memoria": memoria, "ultima": None, "attesa": None,
+                          "esito": None, "stallo": 0}
     return stato[account]
 
 
@@ -123,6 +124,7 @@ def commenti_da_elenco(elenco):
             righe.append(riga)
 
     commenti = []
+    oggi = time.strftime("%Y-%m-%d")
     if any(e_reply(r) for r in righe):
         pezzi = []
         numero = 0
@@ -133,13 +135,12 @@ def commenti_da_elenco(elenco):
                     utente = next((p for p in pezzi if e_nome(p)), "")
                     corpo = " ".join(p for p in pezzi if p != utente)
                     commenti.append({"numero": numero, "utente": utente, "commento": corpo,
-                                     "chiave": chiave(*pezzi)})
+                                     "chiave": chiave(*pezzi) if corpo else chiave(utente, oggi)})
                 pezzi = []
             elif not RUMORE.match(riga) and riga not in pezzi:
                 pezzi.append(riga)
         return commenti
 
-    oggi = time.strftime("%Y-%m-%d")
     nomi = [r for r in righe if e_nome(r)]
     for numero, utente in enumerate(nomi, start=1):
         commenti.append({"numero": numero, "utente": utente, "commento": "",
@@ -171,10 +172,11 @@ def pulisci_risposta(testo):
     righe = [r for r in righe if not r.endswith(":")]
     testo = righe[0] if righe else ""
     testo = re.sub(r"^(risposta|reply|antwort)\s*:\s*", "", testo, flags=re.IGNORECASE)
+    testo = re.sub(r"^(@[A-Za-z0-9._]+\s*)+", "", testo)
     testo = pulisci(testo.strip(" \"'«»“”„"))
-    if len(testo) > 200:
-        taglio = max(testo.rfind(s, 0, 200) for s in ".!?")
-        testo = testo[:taglio + 1] if taglio > 40 else testo[:200]
+    if len(testo) > 180:
+        taglio = max(testo.rfind(s, 0, 180) for s in ".!?")
+        testo = testo[:taglio + 1] if taglio > 40 else testo[:180]
     if META.search(testo):
         return ""
     return testo
@@ -188,7 +190,8 @@ def chiedi_risposta(account, c):
         + (f"Istruzioni: {extra}\n" if extra else "")
         + f"Commento di @{c['utente']} sotto un suo post: {commento}\n\n"
         "Scrivi SOLO la risposta da pubblicare sotto questo commento, come la scriverebbe lei: "
-        "breve (massimo 1-2 frasi), senza virgolette, senza @nome e senza altro testo."
+        "breve (massimo 1-2 frasi), senza virgolette, senza @ e senza usare il nome della persona, "
+        "senza altro testo."
     )
     corpo = json.dumps({
         "model": MODELLO,
@@ -214,66 +217,100 @@ def nome_utente(testo):
 
 def scegli(account, elenco):
     inizio = time.time()
-    commenti = commenti_da_elenco(elenco)
     with lock:
-        dati = dati_account(account)
-        firma = tuple(c["chiave"] for c in commenti)
-        if firma and firma == dati["ultima"]:
-            log(account, "schermata uguale alla precedente -> END")
-            return "END"
-        dati["ultima"] = firma
+        risultato, c = _prepara(account, elenco)
+        if c is None:
+            dati_account(account)["esito"] = risultato
+            return risultato
 
-        candidati = []
-        for c in commenti:
-            if not c["utente"] or e_proprio(account, c["utente"]):
-                continue
-            esito = dati["memoria"].get(c["chiave"])
-            if esito is None:
-                esito = "si" if random.random() < PERCENTUALE_RISPOSTE else "skip"
-                ricorda(account, c["chiave"], esito, c["utente"], c["commento"])
-            if esito == "si":
-                candidati.append(c)
-
-    solo_nomi = bool(commenti) and not any(c["commento"] for c in commenti)
-    log(account, f"{len(commenti)} commenti a schermo, {len(candidati)} da valutare"
-        + (" (letti solo i nomi)" if solo_nomi else "")
-        + (" (nessun commento riconosciuto)" if not commenti else ""))
-    if not candidati:
-        return "NO_MATCH"
-
-    c = random.choice(candidati)
+    errore = False
     try:
         risposta = chiedi_risposta(account, c)
     except Exception as e:
         log(account, "commentbot non ha risposto:", e)
-        return "NO_MATCH"
-    if not risposta:
-        with lock:
-            ricorda(account, c["chiave"], "scartato_ai", c["utente"], c["commento"])
-        return "NO_MATCH"
+        risposta, errore = "", True
 
-    utente = nome_utente(c["utente"])
     with lock:
+        dati = dati_account(account)
+        if not risposta:
+            if not errore:
+                ricorda(account, c["chiave"], "scartato_ai", c["utente"], c["commento"])
+            dati["esito"] = "NO_MATCH"
+            return "NO_MATCH"
+        utente = nome_utente(c["utente"])
         dati["attesa"] = {"chiave": c["chiave"], "utente": utente,
                           "risposta": risposta, "quando": time.time()}
+        dati["esito"] = "PICK"
     log(account, f"scelto @{utente} (Reply n.{c['numero']}) -> \"{risposta}\" ({time.time() - inizio:.1f}s)")
     return f"PICK|{c['numero']}|0|0|{utente}|{risposta}"
 
 
+def _prepara(account, elenco):
+    """Legge la schermata e sceglie il prossimo commento a cui rispondere."""
+    commenti = commenti_da_elenco(elenco)
+    dati = dati_account(account)
+    firma = tuple(c["chiave"] for c in commenti)
+    # schermata identica dopo uno scroll (non dopo una risposta): riprova, poi END
+    if firma and firma == dati["ultima"] and dati["esito"] != "PICK":
+        dati["stallo"] += 1
+        if dati["stallo"] >= 2:
+            log(account, "la lista non scorre piu': commenti finiti -> END")
+            return "END", None
+        log(account, "la schermata non e' cambiata, riprovo a scorrere")
+        return "NO_MATCH", None
+    if firma != dati["ultima"]:
+        dati["stallo"] = 0
+    dati["ultima"] = firma
+
+    candidati = []
+    for c in commenti:
+        if not c["utente"] or e_proprio(account, c["utente"]):
+            continue
+        esito = dati["memoria"].get(c["chiave"])
+        if esito is None:
+            esito = "si" if random.random() < PERCENTUALE_RISPOSTE else "skip"
+            ricorda(account, c["chiave"], esito, c["utente"], c["commento"])
+        if esito == "si":
+            candidati.append(c)
+
+    solo_nomi = bool(commenti) and not any(c["commento"] for c in commenti)
+    log(account, f"{len(commenti)} commenti a schermo, {len(candidati)} da rispondere"
+        + (" (letti solo i nomi)" if solo_nomi else "")
+        + (" (nessun commento riconosciuto)" if not commenti else ""))
+    if not candidati:
+        return "NO_MATCH", None
+    return "PICK", candidati[0]
+
+
 def conferma(account, utente_casella):
+    """Il telefono ha premuto Reply e dice di chi e' la casella aperta.
+    Si risponde a quella persona (la risposta e' generica), salvo eccezioni."""
     with lock:
         dati = dati_account(account)
         attesa = dati["attesa"]
         if not attesa or time.time() - attesa["quando"] > 180:
             log(account, "conferma senza scelta in attesa -> NO_MATCH")
             return "NO_MATCH"
-        if nome_utente(utente_casella) != attesa["utente"]:
-            log(account, f"NOME SBAGLIATO: casella {utente_casella!r}, scelto @{attesa['utente']} -> NO_MATCH")
-            ricorda(account, attesa["chiave"], "nome_sbagliato", attesa["utente"], utente_casella)
+        reale = nome_utente(utente_casella)
+        oggi = time.strftime("%Y-%m-%d")
+        motivo = None
+        if not reale:
+            motivo = "la casella di risposta non si e' aperta"
+        elif e_proprio(account, reale):
+            motivo = f"il Reply aperto e' sotto un commento di @{reale} (l'account stesso)"
+        elif dati["memoria"].get(chiave(reale, oggi)) == "risposto":
+            motivo = f"a @{reale} ha gia' risposto oggi"
+        if motivo:
+            log(account, motivo + " -> salto")
+            ricorda(account, attesa["chiave"], "fallito", attesa["utente"], motivo)
             dati["attesa"] = None
             return "NO_MATCH"
-        log(account, f"nome confermato @{attesa['utente']}")
-        return attesa["risposta"]
+        if reale != attesa["utente"]:
+            log(account, f"il Reply aperto e' di @{reale} (scelto @{attesa['utente']}): rispondo a @{reale}")
+            ricorda(account, attesa["chiave"], "fallito", attesa["utente"], f"aperto @{reale}")
+        attesa["reale"] = reale
+        log(account, f"rispondo a @{reale}")
+        return f"@{reale} {attesa['risposta']}"
 
 
 def fatto(account):
@@ -281,9 +318,12 @@ def fatto(account):
         dati = dati_account(account)
         attesa = dati["attesa"]
         if attesa:
-            ricorda(account, attesa["chiave"], "risposto", attesa["utente"], attesa["risposta"])
+            reale = attesa.get("reale") or attesa["utente"]
+            ricorda(account, chiave(reale, time.strftime("%Y-%m-%d")), "risposto", reale, attesa["risposta"])
+            if reale == attesa["utente"]:
+                ricorda(account, attesa["chiave"], "risposto", reale, attesa["risposta"])
             dati["attesa"] = None
-            log(account, f"risposta pubblicata a @{attesa['utente']}, salvata in memoria")
+            log(account, f"risposta pubblicata a @{reale}, salvata in memoria")
     return "ACK_OK"
 
 
@@ -312,7 +352,8 @@ class Gestore(BaseHTTPRequestHandler):
                 else:
                     self.rispondi(scegli(account, elenco))
             elif url.path == "/confirm":
-                self.rispondi(conferma(account, corpo))
+                casella = (parametri.get("u") or [""])[0] or re.sub(r"^u=", "", corpo.strip())
+                self.rispondi(conferma(account, casella))
             elif url.path == "/ack":
                 self.rispondi(fatto(account))
             else:

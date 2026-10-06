@@ -1,6 +1,6 @@
 {
-  "title": "IG POST v9.3",
-  "desc": "v9.3: legge i nomi a schermo uno per uno (For Loop Times + Get element data, si ferma a 'Add a comment'); il relay (commentbot via ngrok) sceglie il commento N e la risposta; click sul N-esimo Reply; controllo del nome, 40% e memoria nel relay.",
+  "title": "IG POST v9.4",
+  "desc": "v9.4: legge nomi e pulsanti Reply a schermo e li manda al relay (commentbot via ngrok); risponde al 40% dei commenti: dopo una risposta resta sulla schermata, chiude la tastiera, poi scorre; fino a 40 giri per post, si ferma quando la lista non scorre piu'.",
   "content": {
     "startParamMap": [],
     "contents": [
@@ -572,6 +572,13 @@
                                                                 "filterType": "contain",
                                                                 "type": "class"
                                                               }
+                                                            ],
+                                                            [
+                                                              {
+                                                                "content": "Reply",
+                                                                "filterType": "equal",
+                                                                "type": "text"
+                                                              }
                                                             ]
                                                           ],
                                                           "serialType": "fixedValue",
@@ -597,7 +604,7 @@
                                                             "t",
                                                             "miss"
                                                           ],
-                                                          "script": "async function main({ acc, t, miss }) { const x=String(t||'').replace(/\\s+/g,' ').trim(); const fine=/^(add a comment|aggiungi un commento|kommentar hinzuf)/i.test(x); const m = x ? 0 : (parseInt(miss,10)||0) + 1; return { acc: x ? (String(acc||'') + '\\n' + x) : String(acc||''), t: '', miss: String(m), leggi: (fine || m >= 4) ? '0' : '1' }; }",
+                                                          "script": "async function main({ acc, t, miss }) { const x=String(t||'').replace(/\\s+/g,' ').trim(); const fine=/^(add a comment|aggiungi un commento|kommentar hinzuf|@)/i.test(x); const m = x ? 0 : (parseInt(miss,10)||0) + 1; return { acc: (x && !fine) ? (String(acc||'') + '\\n' + x) : String(acc||''), t: '', miss: String(m), leggi: (fine || m >= 4) ? '0' : '1' }; }",
                                                           "type": "js",
                                                           "variableMap": [
                                                             {
@@ -819,7 +826,7 @@
                                                     "injectVariables": [
                                                       "prefill"
                                                     ],
-                                                    "script": "async function main({ prefill }) { const s=String(prefill||'').trim(); const m=/^@([A-Za-z0-9._]{2,30})/.exec(s); return { pfUser: m?('@'+m[1]):'', via: m?'T':'C' }; }",
+                                                    "script": "async function main({ prefill }) { const s=String(prefill||'').trim(); const m=/^@([A-Za-z0-9._]{2,30})/.exec(s); return { pfUser: m ? m[1] : '', via: m ? 'T' : 'C' }; }",
                                                     "type": "js",
                                                     "variableMap": [
                                                       {
@@ -842,7 +849,7 @@
                                                     "y": 285
                                                   },
                                                   "config": {
-                                                    "content": "sh -c 'curl -sk -H \"ngrok-skip-browser-warning: 1\" --max-time 40 --data-binary \"${pfUser}\" \"https://paying-cake-engulf.ngrok-free.dev/confirm?acc=Melina%20Berner%20Frankfurt&via=${via}\"'",
+                                                    "content": "sh -c 'curl -sk -H \"ngrok-skip-browser-warning: 1\" --max-time 40 --data-binary \"u=${pfUser}\" \"https://paying-cake-engulf.ngrok-free.dev/confirm?acc=Melina%20Berner%20Frankfurt&via=${via}&u=${pfUser}\"'",
                                                     "timeout": 120000,
                                                     "variable": "confResp",
                                                     "error": false
@@ -1184,32 +1191,7 @@
                                                               "useVariable": "typedChk"
                                                             }
                                                           ],
-                                                          "other": [
-                                                            {
-                                                              "position": {
-                                                                "x": 13800,
-                                                                "y": 285
-                                                              },
-                                                              "config": {},
-                                                              "id": "6278ce23-cfea-41ac-b29b-a10222db1a21",
-                                                              "name": "back",
-                                                              "type": "goBack"
-                                                            },
-                                                            {
-                                                              "position": {
-                                                                "x": 14200,
-                                                                "y": 285
-                                                              },
-                                                              "config": {
-                                                                "timeoutMax": 1100,
-                                                                "timeoutMin": 600,
-                                                                "timeoutType": "randomInterval"
-                                                              },
-                                                              "id": "c1fb583f-64fd-4720-9c5c-0dd24c1cd989",
-                                                              "name": "wait",
-                                                              "type": "waitTime"
-                                                            }
-                                                          ]
+                                                          "other": []
                                                         },
                                                         "id": "4adf2ae9-af6c-48ef-809b-c25d82d06b60",
                                                         "name": "IF testo verificato -> Post, ELSE chiudi tastiera",
@@ -1224,36 +1206,40 @@
                                                         "result": "1"
                                                       }
                                                     ],
-                                                    "other": [
-                                                      {
-                                                        "position": {
-                                                          "x": 19000,
-                                                          "y": 285
-                                                        },
-                                                        "config": {},
-                                                        "id": "5b4c71b2-1833-4723-8ec8-b5b2f1bbb2c3",
-                                                        "name": "back",
-                                                        "type": "goBack"
-                                                      },
-                                                      {
-                                                        "position": {
-                                                          "x": 19400,
-                                                          "y": 285
-                                                        },
-                                                        "config": {
-                                                          "timeoutMax": 1100,
-                                                          "timeoutMin": 600,
-                                                          "timeoutType": "randomInterval"
-                                                        },
-                                                        "id": "dd759e45-53a0-4637-94b7-fc38c9a516bb",
-                                                        "name": "wait",
-                                                        "type": "waitTime"
-                                                      }
-                                                    ]
+                                                    "other": []
                                                   },
                                                   "id": "f64cddfe-0fbd-4b08-84c7-a04dc3e66fd7",
                                                   "name": "IF goType -> digita, ELSE chiudi tastiera",
                                                   "type": "ifElse"
+                                                },
+                                                {
+                                                  "position": {
+                                                    "x": 15000,
+                                                    "y": 285
+                                                  },
+                                                  "id": "5f1accce-2cf2-45b1-95d7-6b09113eb7f3",
+                                                  "name": "chiudi tastiera se aperta",
+                                                  "type": "executeADB",
+                                                  "config": {
+                                                    "content": "sh -c 'dumpsys input_method | grep -qE \"mInputShown=true|mIsInputViewShown=true\" && input keyevent 4; echo ok'",
+                                                    "timeout": 120000,
+                                                    "variable": "kbOut",
+                                                    "error": false
+                                                  }
+                                                },
+                                                {
+                                                  "position": {
+                                                    "x": 15200,
+                                                    "y": 285
+                                                  },
+                                                  "id": "a3591606-2611-4430-b081-babcc5549f89",
+                                                  "name": "wait",
+                                                  "type": "waitTime",
+                                                  "config": {
+                                                    "timeoutMax": 1000,
+                                                    "timeoutMin": 600,
+                                                    "timeoutType": "randomInterval"
+                                                  }
                                                 }
                                               ],
                                               "conditionList": [
@@ -1272,32 +1258,55 @@
                                           },
                                           {
                                             "position": {
-                                              "x": 11800,
+                                              "x": 15400,
                                               "y": 285
                                             },
+                                            "id": "cbf5919f-a7b5-4ae3-8d45-2b762f4e2730",
+                                            "name": "IF nessuna risposta -> scorri",
+                                            "type": "ifElse",
                                             "config": {
-                                              "content": "input swipe 360 1050 360 450 300",
-                                              "timeout": 120000,
-                                              "variable": "shScroll",
-                                              "error": false
-                                            },
-                                            "id": "5c1235c2-ffde-40e1-ad50-4bda82a671c0",
-                                            "name": "scroll sheet",
-                                            "type": "executeADB"
-                                          },
-                                          {
-                                            "position": {
-                                              "x": 12200,
-                                              "y": 285
-                                            },
-                                            "config": {
-                                              "timeoutMax": 2500,
-                                              "timeoutMin": 1500,
-                                              "timeoutType": "randomInterval"
-                                            },
-                                            "id": "adbf96cc-46f3-463e-8c3a-9a971e3ac33c",
-                                            "name": "wait",
-                                            "type": "waitTime"
+                                              "apposition": "and",
+                                              "other": [],
+                                              "conditionList": [
+                                                {
+                                                  "probability": 50,
+                                                  "relation": "equal",
+                                                  "useVariable": "goPost",
+                                                  "result": "0"
+                                                }
+                                              ],
+                                              "children": [
+                                                {
+                                                  "position": {
+                                                    "x": 15500,
+                                                    "y": 285
+                                                  },
+                                                  "id": "3b36004f-8278-438d-8118-81768e5b04e6",
+                                                  "name": "scroll sheet",
+                                                  "type": "executeADB",
+                                                  "config": {
+                                                    "content": "input swipe 360 900 360 350 400",
+                                                    "timeout": 120000,
+                                                    "variable": "shScroll",
+                                                    "error": false
+                                                  }
+                                                },
+                                                {
+                                                  "position": {
+                                                    "x": 15600,
+                                                    "y": 285
+                                                  },
+                                                  "id": "0b2fc5eb-615d-4e6b-9ad6-cd9fa4287d74",
+                                                  "name": "wait",
+                                                  "type": "waitTime",
+                                                  "config": {
+                                                    "timeoutMax": 2500,
+                                                    "timeoutMin": 1500,
+                                                    "timeoutType": "randomInterval"
+                                                  }
+                                                }
+                                              ]
+                                            }
                                           }
                                         ],
                                         "conditionList": [
@@ -1312,8 +1321,8 @@
                                     }
                                   ],
                                   "serialType": "randomInterval",
-                                  "maxTimes": 7,
-                                  "minTimes": 5
+                                  "maxTimes": 40,
+                                  "minTimes": 40
                                 },
                                 "id": "3e7265fa-1ed3-4d42-971d-6ccea617c338",
                                 "name": "For commenti",
