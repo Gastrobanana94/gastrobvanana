@@ -1,5 +1,5 @@
 {
-  "title": "IG POST v9",
+  "title": "IG POST v9.1",
   "desc": "v9: legge i commenti con i nodi GeeLark (For Loop Elements + Get element data); il relay (commentbot via ngrok) sceglie quale Reply cliccare; click con ordine da variabile; controllo del nome, 40% e memoria nel relay; END ferma lo scroll a fine commenti.",
   "content": {
     "startParamMap": [],
@@ -525,9 +525,9 @@
                                               "filterCollection": [
                                                 [
                                                   {
-                                                    "content": "com.instagram.android:id/",
+                                                    "content": "TextView",
                                                     "filterType": "contain",
-                                                    "type": "id"
+                                                    "type": "className"
                                                   }
                                                 ]
                                               ],
