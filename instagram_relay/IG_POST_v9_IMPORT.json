@@ -1,6 +1,6 @@
 {
-  "title": "IG POST v9.4",
-  "desc": "v9.4: legge nomi e pulsanti Reply a schermo e li manda al relay (commentbot via ngrok); risponde al 40% dei commenti: dopo una risposta resta sulla schermata, chiude la tastiera, poi scorre; fino a 40 giri per post, si ferma quando la lista non scorre piu'.",
+  "title": "IG POST v9.5",
+  "desc": "v9.5: legge i nomi a schermo e li manda al relay (commentbot via ngrok); il relay sceglie esattamente 2 commenti nuovi ogni 5 (40%) e ricorda chi ha gia' visto; dopo una risposta resta sulla schermata, poi scorre piano (nessun commento saltato); se il relay non risponde rilegge invece di scorrere; fino a 100 giri per post, si ferma quando la lista non scorre piu'.",
   "content": {
     "startParamMap": [],
     "contents": [
@@ -383,7 +383,7 @@
                       ],
                       "hiddenChildren": true,
                       "randomDistance": 0,
-                      "searchTime": 3000,
+                      "searchTime": 6000,
                       "useOffset": false,
                       "serialType": "fixedValue",
                       "serial": 1,
@@ -460,12 +460,16 @@
                                 "type": "script",
                                 "config": {
                                   "injectVariables": [],
-                                  "script": "async function main() { return { goOn: '1' }; }",
+                                  "script": "async function main() { return { goOn: '1', vuote: '0' }; }",
                                   "type": "js",
                                   "variableMap": [
                                     {
                                       "value": "goOn",
                                       "variable": "goOn"
+                                    },
+                                    {
+                                      "value": "vuote",
+                                      "variable": "vuote"
                                     }
                                   ]
                                 }
@@ -531,8 +535,8 @@
                                             "type": "forTimes",
                                             "config": {
                                               "serialType": "randomInterval",
-                                              "minTimes": 60,
-                                              "maxTimes": 60,
+                                              "minTimes": 30,
+                                              "maxTimes": 30,
                                               "variableIndex": "k",
                                               "hiddenChildren": false,
                                               "children": [
@@ -676,9 +680,10 @@
                                             },
                                             "config": {
                                               "injectVariables": [
-                                                "curlResp"
+                                                "curlResp",
+                                                "vuote"
                                               ],
-                                              "script": "async function main({ curlResp }) { const r=String(curlResp||'').replace(/\\s+/g,' ').trim(); const no={ goPost:'0', goOn:'1', pickN:0, tapX:'0', tapY:'0', useTap:'0', ocrAuthor:'', theReply:'' }; if(/^END/.test(r)) return Object.assign(no,{ goOn:'0' }); const p=r.split('|'); if(p[0]!=='PICK'||p.length<6) return no; const n=parseInt(p[1],10)||0; if(n<1) return no; return { goPost:'1', goOn:'1', pickN:n, tapX:'0', tapY:'0', useTap:'0', ocrAuthor:p[4], theReply:p.slice(5).join('|') }; }",
+                                              "script": "async function main({ curlResp, vuote }) { const r=String(curlResp||'').replace(/\\s+/g,' ').trim(); const no={ goPost:'0', goOn:'1', pickN:0, tapX:'0', tapY:'0', useTap:'0', ocrAuthor:'', theReply:'', vuote:'0' }; if(/^END/.test(r)) return Object.assign(no,{ goOn:'0' }); if(/^NO_MATCH/.test(r)) return no; const p=r.split('|'); const n=parseInt(p[1],10)||0; if(p[0]==='PICK' && p.length>=6 && n>=1) return { goPost:'1', goOn:'1', pickN:n, tapX:'0', tapY:'0', useTap:'0', ocrAuthor:p[4], theReply:p.slice(5).join('|'), vuote:'0' }; const v=(parseInt(vuote,10)||0)+1; return Object.assign(no,{ goPost:'2', goOn: v>=3 ? '0' : '1', vuote:String(v) }); }",
                                               "type": "js",
                                               "variableMap": [
                                                 {
@@ -712,6 +717,10 @@
                                                 {
                                                   "value": "theReply",
                                                   "variable": "theReply"
+                                                },
+                                                {
+                                                  "value": "vuote",
+                                                  "variable": "vuote"
                                                 }
                                               ]
                                             },
@@ -1285,7 +1294,7 @@
                                                   "name": "scroll sheet",
                                                   "type": "executeADB",
                                                   "config": {
-                                                    "content": "input swipe 360 900 360 350 400",
+                                                    "content": "input swipe 360 900 360 500 1500",
                                                     "timeout": 120000,
                                                     "variable": "shScroll",
                                                     "error": false
@@ -1321,8 +1330,8 @@
                                     }
                                   ],
                                   "serialType": "randomInterval",
-                                  "maxTimes": 40,
-                                  "minTimes": 40
+                                  "maxTimes": 100,
+                                  "minTimes": 100
                                 },
                                 "id": "3e7265fa-1ed3-4d42-971d-6ccea617c338",
                                 "name": "For commenti",

@@ -1,9 +1,9 @@
 # ==========================================================
 #  RELAY INSTAGRAM - risponde ai commenti leggendo il TESTO
-#  Il telefono GeeLark legge i testi a schermo con i nodi RPA
-#  (For Loop Elements + Get element data), il relay sceglie il commento con
-#  il bot Hermes "commentbot" e dice al telefono QUALE "Reply" cliccare.
-#  Gira sul tuo PC, ngrok lo rende raggiungibile dal cloud.
+#  Il telefono GeeLark legge i nomi a schermo con i nodi RPA e li manda qui.
+#  Il relay decide a chi rispondere (2 commenti nuovi ogni 5 = 40%), chiede
+#  la risposta al bot Hermes "commentbot" e dice al telefono QUALE "Reply"
+#  premere. Gira sul tuo PC, ngrok lo rende raggiungibile dal cloud.
 # ==========================================================
 
 # ---------- 1) COMPILA QUI (solo questa parte) ----------
@@ -16,7 +16,10 @@ CHIAVE_API = "INCOLLA_QUI_API_SERVER_KEY_DI_COMMENTBOT"
 MODELLO = "commentbot"
 
 PORTA = 8787                 # la stessa porta che dai a ngrok
-PERCENTUALE_RISPOSTE = 0.40  # 0.40 = risponde a circa 4 commenti nuovi su 10
+PERCENTUALE_RISPOSTE = 0.40  # 0.40 = risponde a 2 commenti nuovi ogni 5 (conteggio fisso, non a sorte)
+GIORNI_MEMORIA = 7           # una persona gia' decisa (risposta o saltata) non viene riconsiderata
+                             # per questi giorni, cosi' non risponde mai due volte allo stesso
+                             # commento. Se Melina pubblica meno di un post ogni 2 giorni metti 14.
 TIMEOUT_AI = 25              # secondi massimi di attesa per commentbot
 
 # Lo stile delle risposte lo decide commentbot. Se vuoi aggiungere istruzioni
@@ -26,9 +29,7 @@ PERSONA = ""
 
 # ---------- 2) DA QUI IN GIU' NON TOCCARE NIENTE ----------
 
-import hashlib
 import json
-import random
 import re
 import threading
 import time
@@ -51,9 +52,11 @@ RUMORE = re.compile(
     r"\d+[.,]?\d*\s?[kKmM]?|\d+\s?(s|m|h|d|w|y|min|sec|hr|std|tag|tage|wo)\.?|\d{1,2}:\d{2})$",
     re.IGNORECASE,
 )
+# chi e' gia' stato servito: non si sceglie e non si risponde di nuovo
+GIA_SERVITO = ("risposto", "in_corso")
 
 lock = threading.Lock()
-stato = {}  # per account: memoria, ultima schermata, scelta in attesa
+stato = {}  # per account: memoria, conteggio del 40%, ultima schermata, scelta in attesa
 
 
 def log(*parti):
@@ -64,26 +67,91 @@ def slug(account):
     return re.sub(r"[^A-Za-z0-9._-]+", "_", account).strip("_") or "account"
 
 
+def quota():
+    """Quanti commenti nuovi su 100 ricevono una risposta."""
+    p = PERCENTUALE_RISPOSTE
+    return max(0, min(100, round(p * 100 if p <= 1 else p)))
+
+
+def secondi(quando):
+    try:
+        return time.mktime(time.strptime(quando, "%Y-%m-%d %H:%M:%S"))
+    except ValueError:
+        return 0.0
+
+
+def nome_utente(testo):
+    return re.sub(r"[^a-z0-9._]", "", str(testo or "").lower().lstrip("@"))
+
+
+def leggi_memoria(account):
+    """Una riga per decisione: @nome, esito, nome, data, testo. L'ultima riga vince.
+    Dei file delle versioni vecchie si tengono solo le risposte pubblicate."""
+    memoria = {}
+    file = CARTELLA_MEMORIA / f"{slug(account)}.txt"
+    if file.exists():
+        for riga in file.read_text(encoding="utf-8").splitlines():
+            parti = riga.split("\t")
+            if len(parti) < 4:
+                continue
+            chiave, esito, utente, quando = parti[:4]
+            if chiave.startswith("@"):
+                utente = chiave[1:]
+            elif esito != "risposto":
+                continue
+            utente = nome_utente(utente)
+            if utente:
+                memoria[utente] = (esito, secondi(quando))
+    return memoria
+
+
 def dati_account(account):
     if account not in stato:
-        memoria = {}
-        file = CARTELLA_MEMORIA / f"{slug(account)}.txt"
-        if file.exists():
-            for riga in file.read_text(encoding="utf-8").splitlines():
-                parti = riga.split("\t")
-                if len(parti) >= 2:
-                    memoria[parti[0]] = parti[1]
-        stato[account] = {"memoria": memoria, "ultima": None, "attesa": None,
-                          "esito": None, "stallo": 0}
+        memoria = leggi_memoria(account)
+        stato[account] = {
+            "memoria": memoria, "credito": 100 - quota(), "ultima": None, "nomi": {},
+            "attesa": None, "esito": None, "stallo": 0, "spostamento": 0, "ai_ko_fino": 0.0,
+            "nuovi_post": 0, "risposte_post": 0, "ultimo_pick": 0.0, "tentativi": {},
+            # sfasamento tra nomi e Reply visto sulla prima schermata dei post e dopo gli scroll
+            "schermo": "inizio", "da_osservare": False, "visti": {"inizio": [], "scroll": []},
+        }
+        recenti = [e for e, t in memoria.values() if time.time() - t < GIORNI_MEMORIA * 86400]
+        log(account, f"memoria: {len(recenti)} persone gia' decise negli ultimi {GIORNI_MEMORIA} giorni "
+                     f"({sum(e in GIA_SERVITO for e in recenti)} con risposta)")
     return stato[account]
 
 
-def ricorda(account, chiave, esito, utente="", testo=""):
-    dati_account(account)["memoria"][chiave] = esito
-    riga = "\t".join([chiave, esito, utente, time.strftime("%Y-%m-%d %H:%M:%S"),
-                      testo.replace("\t", " ").replace("\n", " ")])
+def ricorda(account, utente, esito, testo=""):
+    adesso = time.time()
+    dati_account(account)["memoria"][utente] = (esito, adesso)
+    riga = "\t".join(["@" + utente, esito, utente, time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(adesso)),
+                      re.sub(r"\s+", " ", str(testo or "")).strip()])
     with open(CARTELLA_MEMORIA / f"{slug(account)}.txt", "a", encoding="utf-8") as f:
         f.write(riga + "\n")
+
+
+def deciso(dati, utente):
+    """Cosa si e' deciso per questa persona negli ultimi GIORNI_MEMORIA giorni (None = mai vista)."""
+    voce = dati["memoria"].get(utente)
+    if voce and time.time() - voce[1] < GIORNI_MEMORIA * 86400:
+        return voce[0]
+    return None
+
+
+def azzera(account):
+    """Per rifare un test sugli stessi post: dimentica i commenti saltati o scelti,
+    tiene chi ha gia' ricevuto una risposta (cosi' non gli risponde due volte)."""
+    with lock:
+        memoria = leggi_memoria(account)
+        tenuti = {u: v for u, v in memoria.items() if v[0] in GIA_SERVITO}
+        file = CARTELLA_MEMORIA / f"{slug(account)}.txt"
+        righe = ["\t".join(["@" + u, e, u, time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(t)), ""])
+                 for u, (e, t) in tenuti.items()]
+        file.write_text("".join(r + "\n" for r in righe), encoding="utf-8")
+        stato.pop(account, None)
+    log(account, f"memoria azzerata: tenute {len(tenuti)} persone con risposta, "
+                 f"dimenticate {len(memoria) - len(tenuti)} decisioni")
+    return len(tenuti), len(memoria) - len(tenuti)
 
 
 def persona(account):
@@ -106,46 +174,38 @@ def e_nome(valore):
     return bool(NOME_IG.fullmatch(valore)) and not valore.isdigit() and not RUMORE.match(valore)
 
 
-def chiave(*parti):
-    return hashlib.sha1("|".join(parti).lower().encode("utf-8")).hexdigest()[:16]
-
-
 def commenti_da_elenco(elenco):
     """Il telefono manda i testi a schermo uno per riga, dall'alto in basso.
-    Se tra i testi c'e' "Reply", ogni "Reply" chiude un commento (nome + testo).
-    Altrimenti Instagram ha mostrato solo i nomi: il commento N e' quello
-    dell'N-esimo nome, che corrisponde all'N-esimo pulsante Reply."""
+    Di solito Instagram mostra come testo solo i nomi: il commento N e' quello
+    dell'N-esimo nome, che corrisponde all'N-esimo pulsante Reply.
+    Se tra i testi ci sono anche i "Reply", ogni "Reply" chiude un commento."""
     righe = []
     for riga in elenco.splitlines():
         riga = re.sub(r"\s+", " ", riga).strip()
-        if COMPOSER.match(riga):
+        if COMPOSER.match(riga) or riga.startswith("@"):
             break
         if riga:
             righe.append(riga)
 
     commenti = []
-    oggi = time.strftime("%Y-%m-%d")
     if any(e_reply(r) for r in righe):
         pezzi = []
         numero = 0
         for riga in righe:
             if e_reply(riga):
                 numero += 1
-                if pezzi:
-                    utente = next((p for p in pezzi if e_nome(p)), "")
+                utente = next((p for p in pezzi if e_nome(p)), "")
+                if utente:
                     corpo = " ".join(p for p in pezzi if p != utente)
-                    commenti.append({"numero": numero, "utente": utente, "commento": corpo,
-                                     "chiave": chiave(*pezzi) if corpo else chiave(utente, oggi)})
+                    commenti.append({"numero": numero, "utente": nome_utente(utente), "commento": corpo,
+                                     "con_reply": True})
                 pezzi = []
             elif not RUMORE.match(riga) and riga not in pezzi:
                 pezzi.append(riga)
         return commenti
 
     nomi = [r for r in righe if e_nome(r)]
-    for numero, utente in enumerate(nomi, start=1):
-        commenti.append({"numero": numero, "utente": utente, "commento": "",
-                         "chiave": chiave(utente, oggi)})
-    return commenti
+    return [{"numero": n, "utente": nome_utente(u), "commento": ""} for n, u in enumerate(nomi, start=1)]
 
 
 def e_proprio(account, utente):
@@ -211,16 +271,30 @@ def chiedi_risposta(account, c):
     return pulito
 
 
-def nome_utente(testo):
-    return re.sub(r"[^a-z0-9._]", "", str(testo or "").lower().lstrip("@"))
+def maggioranza(osservati, predefinito):
+    """Lo sfasamento visto piu' spesso di recente (a parita' il piu' recente)."""
+    recenti = osservati[-6:]
+    if not recenti:
+        return predefinito
+    migliore = max(recenti.count(o) for o in recenti)
+    return next(o for o in reversed(recenti) if recenti.count(o) == migliore)
+
+
+def rimborsa(dati):
+    """Il commento scelto non ha avuto risposta: il prossimo commento nuovo prende il suo posto."""
+    dati["credito"] = min(dati["credito"] + 100, 200)
 
 
 def scegli(account, elenco):
     inizio = time.time()
     with lock:
         risultato, c = _prepara(account, elenco)
+        dati = dati_account(account)
+        if c is not None and time.time() < dati["ai_ko_fino"]:
+            log(account, "commentbot non risponde: salto per ora, riprovo tra poco")
+            risultato, c = "NO_MATCH", None
         if c is None:
-            dati_account(account)["esito"] = risultato
+            dati["esito"] = risultato
             return risultato
 
     errore = False
@@ -233,53 +307,124 @@ def scegli(account, elenco):
     with lock:
         dati = dati_account(account)
         if not risposta:
-            if not errore:
-                ricorda(account, c["chiave"], "scartato_ai", c["utente"], c["commento"])
+            if errore:
+                dati["ai_ko_fino"] = time.time() + 60
+            else:
+                ricorda(account, c["utente"], "scartato_ai")
+                rimborsa(dati)
             dati["esito"] = "NO_MATCH"
             return "NO_MATCH"
-        utente = nome_utente(c["utente"])
-        dati["attesa"] = {"chiave": c["chiave"], "utente": utente,
-                          "risposta": risposta, "quando": time.time()}
+        premuto = max(1, c["numero"] + dati["spostamento"])
+        dati["attesa"] = {"utente": c["utente"], "premuto": premuto, "risposta": risposta,
+                          "quando": time.time()}
         dati["esito"] = "PICK"
-    log(account, f"scelto @{utente} (Reply n.{c['numero']}) -> \"{risposta}\" ({time.time() - inizio:.1f}s)")
-    return f"PICK|{c['numero']}|0|0|{utente}|{risposta}"
+    log(account, f"scelto @{c['utente']} (Reply n.{premuto}) -> \"{risposta}\" ({time.time() - inizio:.1f}s)")
+    return f"PICK|{premuto}|0|0|{c['utente']}|{risposta}"
 
 
 def _prepara(account, elenco):
-    """Legge la schermata e sceglie il prossimo commento a cui rispondere."""
+    """Legge la schermata, decide i commenti nuovi e sceglie il prossimo a cui rispondere."""
     commenti = commenti_da_elenco(elenco)
     dati = dati_account(account)
-    firma = tuple(c["chiave"] for c in commenti)
-    # schermata identica dopo uno scroll (non dopo una risposta): riprova, poi END
+    dati["attesa"] = None
+    firma = tuple(c["utente"] for c in commenti)
+    adesso = time.time()
+    if dati["esito"] in (None, "END") or adesso - dati["ultimo_pick"] > 120:
+        # primo sguardo a un post: la lista parte dall'inizio
+        dati["schermo"], dati["da_osservare"] = "inizio", True
+        dati["spostamento"] = maggioranza(dati["visti"]["inizio"], 0)
+    elif dati["esito"] != "PICK" and firma != dati["ultima"]:
+        # dopo uno scroll di solito il commento in alto e' tagliato: si vede il suo Reply
+        # ma non il suo nome, quindi i Reply sono uno in piu' dei nomi
+        dati["schermo"], dati["da_osservare"] = "scroll", True
+        dati["spostamento"] = maggioranza(dati["visti"]["scroll"], 1)
+    dati["ultimo_pick"] = adesso
+    con_reply = any(c.get("con_reply") for c in commenti)
+    if con_reply:
+        # il telefono ha letto anche i Reply: il numero e' gia' quello giusto
+        dati["spostamento"], dati["da_osservare"] = 0, False
+    # schermata identica dopo uno scroll (non dopo una risposta) = fine della lista
     if firma and firma == dati["ultima"] and dati["esito"] != "PICK":
         dati["stallo"] += 1
-        if dati["stallo"] >= 2:
-            log(account, "la lista non scorre piu': commenti finiti -> END")
-            return "END", None
-        log(account, "la schermata non e' cambiata, riprovo a scorrere")
-        return "NO_MATCH", None
-    if firma != dati["ultima"]:
+    elif firma != dati["ultima"]:
         dati["stallo"] = 0
     dati["ultima"] = firma
+    dati["nomi"] = {c["numero"]: c["utente"] for c in commenti}
 
-    candidati = []
+    candidati, visti = [], set()
+    nuovi = scelti = gia = propri = 0
     for c in commenti:
-        if not c["utente"] or e_proprio(account, c["utente"]):
+        utente = c["utente"]
+        if not utente or utente in visti:
             continue
-        esito = dati["memoria"].get(c["chiave"])
+        visti.add(utente)
+        if e_proprio(account, utente):
+            propri += 1
+            continue
+        esito = deciso(dati, utente)
         if esito is None:
-            esito = "si" if random.random() < PERCENTUALE_RISPOSTE else "skip"
-            ricorda(account, c["chiave"], esito, c["utente"], c["commento"])
+            # 40% esatto: ogni commento nuovo aggiunge 40, ogni 100 si risponde a uno
+            nuovi += 1
+            dati["credito"] += quota()
+            if dati["credito"] >= 100:
+                dati["credito"] -= 100
+                esito = "si"
+                scelti += 1
+            else:
+                esito = "skip"
+            ricorda(account, utente, esito, c["commento"])
+        else:
+            gia += 1
         if esito == "si":
             candidati.append(c)
+    dati["nuovi_post"] += nuovi
 
-    solo_nomi = bool(commenti) and not any(c["commento"] for c in commenti)
-    log(account, f"{len(commenti)} commenti a schermo, {len(candidati)} da rispondere"
-        + (" (letti solo i nomi)" if solo_nomi else "")
-        + (" (nessun commento riconosciuto)" if not commenti else ""))
+    if commenti:
+        log(account, f"{nuovi + gia} commenti a schermo"
+            + (f" (+{propri} dell'account)" if propri else "")
+            + f": {nuovi} nuovi ({scelti} scelti), {gia} gia' visti prima -> da rispondere: {len(candidati)}")
+    else:
+        log(account, "nessun commento riconosciuto a schermo")
+
+    if dati["stallo"] >= 4 or (dati["stallo"] >= 2 and not candidati):
+        log(account, f"la lista non scorre piu': commenti finiti -> END (in questo post: "
+                     f"{dati['nuovi_post']} commenti nuovi, {dati['risposte_post']} risposte pubblicate)")
+        dati["nuovi_post"] = dati["risposte_post"] = 0
+        dati["tentativi"] = {}
+        return "END", None
     if not candidati:
+        if dati["stallo"] == 1:
+            log(account, "la schermata non e' cambiata, riprovo a scorrere")
         return "NO_MATCH", None
-    return "PICK", candidati[0]
+    # il Reply dell'ultimo nome in basso puo' essere ancora fuori schermo: prima si scorre
+    ultimo = commenti[-1]["numero"]
+    scelta = next((c for c in candidati if c["numero"] != ultimo), None)
+    if scelta is None:
+        if dati["stallo"] == 0 and len(commenti) > 1 and not con_reply:
+            log(account, f"@{candidati[0]['utente']} e' l'ultimo in basso: scorro un po' e gli rispondo dopo")
+            return "NO_MATCH", None
+        scelta = candidati[0]
+    return "PICK", scelta
+
+
+def impara_spostamento(account, dati, premuto, reale):
+    """Si e' aperto il Reply di un altro: capisce di quanto sono sfasati nomi e Reply
+    in questa schermata (es. il primo commento in alto e' tagliato: si vede il suo
+    Reply ma non il suo nome) e lo corregge per le prossime scelte."""
+    posizioni = [n for n, u in dati["nomi"].items() if u == reale]
+    if posizioni:
+        vero = min(posizioni, key=lambda n: abs(n - premuto))
+    elif premuto == 1 and dati["schermo"] == "scroll":
+        vero = 0  # il primo Reply era di un commento tagliato in alto
+    else:
+        return None
+    spostamento = premuto - vero
+    if not -2 <= spostamento <= 2:
+        return None
+    if spostamento != dati["spostamento"]:
+        dati["spostamento"] = spostamento
+        log(account, f"nomi e Reply sfasati di {spostamento}: correggo le prossime scelte")
+    return spostamento
 
 
 def conferma(account, utente_casella):
@@ -291,23 +436,47 @@ def conferma(account, utente_casella):
         if not attesa or time.time() - attesa["quando"] > 180:
             log(account, "conferma senza scelta in attesa -> NO_MATCH")
             return "NO_MATCH"
+        scelto = attesa["utente"]
         reale = nome_utente(utente_casella)
-        oggi = time.strftime("%Y-%m-%d")
+        visto = dati["spostamento"] if reale == scelto else None
+        if reale and reale != scelto:
+            visto = impara_spostamento(account, dati, attesa["premuto"], reale)
+        if visto is not None and dati["da_osservare"]:
+            dati["visti"][dati["schermo"]].append(visto)
+            dati["da_osservare"] = False
         motivo = None
         if not reale:
             motivo = "la casella di risposta non si e' aperta"
         elif e_proprio(account, reale):
-            motivo = f"il Reply aperto e' sotto un commento di @{reale} (l'account stesso)"
-        elif dati["memoria"].get(chiave(reale, oggi)) == "risposto":
-            motivo = f"a @{reale} ha gia' risposto oggi"
+            motivo = f"il Reply premuto e' sotto un commento di @{reale} (l'account stesso)"
+        elif deciso(dati, reale) in GIA_SERVITO:
+            motivo = f"il Reply premuto e' di @{reale}, che ha gia' una risposta"
+        elif reale not in dati["nomi"].values() and not (attesa["premuto"] == 1 and dati["schermo"] == "scroll"):
+            # solo dopo uno scroll il primo Reply puo' essere di un nome non a schermo (commento
+            # tagliato in alto): altrimenti la casella e' stata letta male (es. una @menzione)
+            motivo = f"nella casella c'e' @{reale}, che non e' tra i nomi a schermo"
+        tentativi = dati["tentativi"].get(scelto, 0)
         if motivo:
-            log(account, motivo + " -> salto")
-            ricorda(account, attesa["chiave"], "fallito", attesa["utente"], motivo)
+            if tentativi < 2:
+                # si riprova la stessa persona: lo sfasamento ora e' corretto
+                dati["tentativi"][scelto] = tentativi + 1
+                if not reale and dati["spostamento"] > -2:
+                    dati["spostamento"] -= 1  # premuto un Reply oltre l'ultimo a schermo
+                log(account, f"{motivo} -> riprovo @{scelto} con un altro Reply")
+            else:
+                log(account, f"{motivo} -> salto @{scelto}, il prossimo commento nuovo prende il suo posto")
+                ricorda(account, scelto, "fallito", motivo)
+                rimborsa(dati)
             dati["attesa"] = None
             return "NO_MATCH"
-        if reale != attesa["utente"]:
-            log(account, f"il Reply aperto e' di @{reale} (scelto @{attesa['utente']}): rispondo a @{reale}")
-            ricorda(account, attesa["chiave"], "fallito", attesa["utente"], f"aperto @{reale}")
+        if reale != scelto:
+            log(account, f"il Reply premuto e' di @{reale} (scelto @{scelto}): rispondo a @{reale}")
+            if deciso(dati, reale) == "si" and tentativi < 2:
+                dati["tentativi"][scelto] = tentativi + 1  # @reale usa il suo posto, @scelto si riprova
+            else:
+                ricorda(account, scelto, "fallito", f"aperto @{reale}")
+        # segnato subito: anche se la conferma finale si perde non gli risponde una seconda volta
+        ricorda(account, reale, "in_corso", attesa["risposta"])
         attesa["reale"] = reale
         log(account, f"rispondo a @{reale}")
         return f"@{reale} {attesa['risposta']}"
@@ -317,13 +486,11 @@ def fatto(account):
     with lock:
         dati = dati_account(account)
         attesa = dati["attesa"]
-        if attesa:
-            reale = attesa.get("reale") or attesa["utente"]
-            ricorda(account, chiave(reale, time.strftime("%Y-%m-%d")), "risposto", reale, attesa["risposta"])
-            if reale == attesa["utente"]:
-                ricorda(account, attesa["chiave"], "risposto", reale, attesa["risposta"])
-            dati["attesa"] = None
-            log(account, f"risposta pubblicata a @{reale}, salvata in memoria")
+        if attesa and attesa.get("reale"):
+            ricorda(account, attesa["reale"], "risposto", attesa["risposta"])
+            dati["risposte_post"] += 1
+            log(account, f"risposta pubblicata a @{attesa['reale']}, salvata in memoria")
+        dati["attesa"] = None
     return "ACK_OK"
 
 
@@ -339,7 +506,7 @@ class Gestore(BaseHTTPRequestHandler):
     def gestisci(self):
         url = urlparse(self.path)
         parametri = parse_qs(url.query)
-        account = (parametri.get("acc") or ["account"])[0]
+        account = (parametri.get("acc") or ["Melina Berner Frankfurt"])[0]
         lunghezza = int(self.headers.get("Content-Length") or 0)
         corpo = self.rfile.read(lunghezza).decode("utf-8", errors="replace") if lunghezza else ""
         try:
@@ -356,6 +523,15 @@ class Gestore(BaseHTTPRequestHandler):
                 self.rispondi(conferma(account, casella))
             elif url.path == "/ack":
                 self.rispondi(fatto(account))
+            elif url.path == "/azzera":
+                # solo dal browser del PC, non da internet tramite ngrok
+                if self.client_address[0] != "127.0.0.1" or self.headers.get("X-Forwarded-For"):
+                    self.rispondi("RELAY_OK")
+                else:
+                    tenuti, dimenticati = azzera(account)
+                    self.rispondi(f"Memoria azzerata per {account}: dimenticate {dimenticati} decisioni, "
+                                  f"tenute {tenuti} persone che hanno gia' una risposta. "
+                                  "Ora puoi rifare il test.")
             else:
                 self.rispondi("RELAY_OK")
         except Exception as e:
