@@ -527,7 +527,7 @@
                                                   {
                                                     "content": "TextView",
                                                     "filterType": "contain",
-                                                    "type": "className"
+                                                    "type": "class"
                                                   }
                                                 ]
                                               ],
