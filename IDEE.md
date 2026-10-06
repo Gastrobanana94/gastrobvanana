@@ -11,7 +11,10 @@
   (`media_album_art_button`) → menu ⋯ (`clips_ufi_more_button_component`) → "Audio" → "Use audio"
   → galleria → sceglie il video. I volumi li regola da "Audio Track" → "Volume" (cursore).
 - **Per i trial reels NON si usa.**
+- **Condivisione su Facebook sempre accesa.** (Nei trial reels invece si spegne solo per quel reel:
+  "Don't share this reel", mai "Stop sharing all reels", che la spegnerebbe anche per i reel normali.)
 
 ## Regole per tutte le automazioni di upload
 
 - **MAI l'etichetta AI** ("Add AI label" / `AITags` sempre spento): con l'etichetta i video vanno male subito.
+- **Copertina: la sceglie sempre Instagram** (non caricarla).
