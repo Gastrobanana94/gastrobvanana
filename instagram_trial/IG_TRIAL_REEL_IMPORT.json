@@ -1,12 +1,12 @@
 {
-  "title": "IG TRIAL REEL v2",
-  "desc": "Pubblica 1 trial reel: profilo -> menu -> Account type and tools -> Trial reels -> Create trial reel -> video del task (album Download) -> Next -> descrizione -> Facebook spento solo per questo reel -> Share. Si ferma senza pubblicare se non vede 'This is a trial reel' o se non riesce a spegnere Facebook. Etichetta AI e altre opzioni: non le tocca. SoloProva acceso: fa tutto ma non preme Share.",
+  "title": "IG TRIAL REEL v3",
+  "desc": "Warm-up sui Reels 7-10 minuti (in prova 1), poi pubblica 1 trial reel: profilo -> menu -> Account type and tools -> Trial reels -> Create trial reel -> video del task (album Download) -> Next -> descrizione -> Facebook spento solo per questo reel -> Share. Si ferma senza pubblicare se non vede 'This is a trial reel' o se non riesce a spegnere Facebook. Etichetta AI e altre opzioni: non le tocca. SoloProva acceso: fa tutto ma non preme Share.",
   "content": {
     "startParamMap": [
       {
         "contentable": true,
         "createFrom": "",
-        "id": "db0ce4d8-f166-4323-b2b0-e7a54850f8f4",
+        "id": "a8340b41-c334-4366-af75-329ad346d490",
         "isNotRequired": true,
         "key": "Caption",
         "length": 2200,
@@ -15,7 +15,7 @@
       },
       {
         "createFrom": "",
-        "id": "d56335b8-e0ec-4005-be48-1dc43d8fb88b",
+        "id": "f1fdcf41-632e-4abd-a4c9-77f42e9dc416",
         "isNotRequired": false,
         "key": "Video",
         "restrict": {
@@ -26,7 +26,7 @@
       },
       {
         "createFrom": "",
-        "id": "8887b9a5-0888-43ca-a07d-c7dcef8f74a7",
+        "id": "d1af8168-55ac-415e-ab0b-bcb4637f306d",
         "isNotRequired": false,
         "key": "SoloProva",
         "type": "boolean",
@@ -39,7 +39,7 @@
           "x": 533,
           "y": 285
         },
-        "id": "0ef39cd5-7240-426d-b155-627474cceb18",
+        "id": "b038653f-39ba-49cf-8d43-4409577d92fb",
         "name": "prepara: Solo prova? c'e' una descrizione?",
         "type": "script",
         "config": {
@@ -74,7 +74,7 @@
           "x": 1333,
           "y": 285
         },
-        "id": "a9707bb8-0b62-4dc3-87ac-27a158b69905",
+        "id": "6569b3ba-17ae-4190-b20e-4ba84d5bc215",
         "name": "IF lo script non ha letto SoloProva -> decide GeeLark",
         "type": "ifElse",
         "config": {
@@ -85,7 +85,7 @@
                 "x": 1133,
                 "y": 285
               },
-              "id": "f24ea499-f087-4b4c-8243-760d8b1e4eaa",
+              "id": "f3e8d0de-af77-45bb-8adb-ed065ff1f597",
               "name": "IF SoloProva acceso",
               "type": "ifElse",
               "config": {
@@ -96,7 +96,7 @@
                       "x": 733,
                       "y": 285
                     },
-                    "id": "3355e667-7870-4d3a-aa67-4ac715eeb050",
+                    "id": "3da9ec3a-d4b1-4e89-8494-3cc9bbc3d971",
                     "name": "e' una prova",
                     "type": "script",
                     "config": {
@@ -125,7 +125,7 @@
                       "x": 933,
                       "y": 285
                     },
-                    "id": "9fc07592-4ed0-4de8-ba61-51a4e7e93032",
+                    "id": "6eb93718-a532-44a3-aa4c-60df6481a9d5",
                     "name": "non e' una prova",
                     "type": "script",
                     "config": {
@@ -160,7 +160,7 @@
           "x": 1933,
           "y": 285
         },
-        "id": "0eafe95f-368a-4a5d-bbe5-9bee1cbd20da",
+        "id": "3edbf41e-cc6d-4f82-b671-0311795084a2",
         "name": "IF lo script non ha letto la descrizione -> decide GeeLark",
         "type": "ifElse",
         "config": {
@@ -171,7 +171,7 @@
                 "x": 1733,
                 "y": 285
               },
-              "id": "000ba509-fa8e-433c-b88f-c19b958c6aca",
+              "id": "a38a8487-62d8-45b7-9db1-f92783f68485",
               "name": "IF c'e' una descrizione",
               "type": "ifElse",
               "config": {
@@ -182,7 +182,7 @@
                       "x": 1533,
                       "y": 285
                     },
-                    "id": "e3ec01dc-6e14-4ba6-a23e-733517c770d5",
+                    "id": "dc889f7d-e3ed-40ec-97a9-b7d609e58975",
                     "name": "c'e' una descrizione",
                     "type": "script",
                     "config": {
@@ -225,7 +225,7 @@
           "x": 2133,
           "y": 285
         },
-        "id": "e8288fd8-2964-4d2e-a7e3-ce01bdc9e1be",
+        "id": "c3030bbc-afa0-40c0-b07d-27bd15f337e9",
         "name": "tastiera GeeLark",
         "type": "executeADB",
         "config": {
@@ -240,7 +240,7 @@
           "x": 2333,
           "y": 285
         },
-        "id": "e8de5c86-c9bb-4b96-800f-9a3a025eed9d",
+        "id": "1658d612-1607-4e36-a8db-04e1ed2f8a73",
         "name": "permessi a Instagram (foto, video, fotocamera)",
         "type": "executeADB",
         "config": {
@@ -255,7 +255,7 @@
           "x": 2533,
           "y": 285
         },
-        "id": "f97dcfaa-2ca5-4a74-9aa9-0cfbbbd5c64a",
+        "id": "810c6ef4-7ad9-4812-b8e7-52821e157597",
         "name": "chiudi Instagram",
         "type": "executeADB",
         "config": {
@@ -270,11 +270,11 @@
           "x": 2733,
           "y": 285
         },
-        "id": "353995f0-309f-4902-9911-1a4d82408db1",
+        "id": "c8ed4453-93b1-4e2f-9686-b2176ebe3f14",
         "name": "svuota la cartella Download",
         "type": "executeADB",
         "config": {
-          "content": "sh -c 'for f in /sdcard/Download/*; do if [ -f \"$f\" ]; then rm -f \"$f\"; am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d \"file://$f\" >/dev/null 2>&1; fi; done; echo ok'",
+          "content": "sh -c 'for f in /sdcard/Download/* /sdcard/Downloads/*; do if [ -f \"$f\" ]; then rm -f \"$f\"; am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d \"file://$f\" >/dev/null 2>&1; fi; done; echo ok'",
           "timeout": 120000,
           "variable": "pulisciOut",
           "error": false
@@ -285,7 +285,22 @@
           "x": 2933,
           "y": 285
         },
-        "id": "45997d2b-f71b-4b4c-b4e3-847765e44dde",
+        "id": "810ecf70-5272-4416-bcb8-198b357aee3d",
+        "name": "segnaposto: da qui in poi arriva solo il video del task",
+        "type": "executeADB",
+        "config": {
+          "content": "sh -c 'touch /sdcard/.trial_inizio; echo ok'",
+          "timeout": 120000,
+          "variable": "segnoOut",
+          "error": false
+        }
+      },
+      {
+        "position": {
+          "x": 3133,
+          "y": 285
+        },
+        "id": "3efd4773-2624-4648-8bab-ee8ecce5aedb",
         "name": "carica il video del task sul telefono",
         "type": "uploadFile",
         "config": {
@@ -296,20 +311,32 @@
       },
       {
         "position": {
-          "x": 3133,
+          "x": 3333,
           "y": 285
         },
-        "id": "29c2ca56-55ef-4bc8-bb80-e4490b1ec51a",
+        "id": "c8e0b463-a6f0-4f83-aded-4425e1d599b8",
         "name": "azzera: video arrivato?",
         "type": "script",
         "config": {
           "injectVariables": [],
-          "script": "async function main() { return { nVideo: \"0\", videoOk: \"0\" }; }",
+          "script": "async function main() { return { trovaOut: \"\", videoPath: \"\", videoNome: \"\", albumNome: \"\", videoOk: \"0\" }; }",
           "type": "js",
           "variableMap": [
             {
-              "value": "nVideo",
-              "variable": "nVideo"
+              "value": "trovaOut",
+              "variable": "trovaOut"
+            },
+            {
+              "value": "videoPath",
+              "variable": "videoPath"
+            },
+            {
+              "value": "videoNome",
+              "variable": "videoNome"
+            },
+            {
+              "value": "albumNome",
+              "variable": "albumNome"
             },
             {
               "value": "videoOk",
@@ -320,11 +347,11 @@
       },
       {
         "position": {
-          "x": 4333,
+          "x": 4533,
           "y": 285
         },
-        "id": "ee674ba1-113f-411e-996e-d8a3f22f171f",
-        "name": "aspetta il video in Download (fino a 1 minuto)",
+        "id": "1fce1955-8c66-46f5-8891-315d4413d144",
+        "name": "aspetta il video del task (fino a 1 minuto)",
         "type": "forTimes",
         "config": {
           "serialType": "randomInterval",
@@ -334,10 +361,10 @@
           "children": [
             {
               "position": {
-                "x": 4133,
+                "x": 4333,
                 "y": 285
               },
-              "id": "f35f412f-83d9-448e-9712-64ef1d7417bc",
+              "id": "c6566d6a-85d7-430c-bbfc-99e7106774ab",
               "name": "IF video non ancora arrivato",
               "type": "ifElse",
               "config": {
@@ -345,34 +372,46 @@
                 "children": [
                   {
                     "position": {
-                      "x": 3333,
+                      "x": 3533,
                       "y": 285
                     },
-                    "id": "642a802b-d16f-4022-ad3c-5dd069a2d2cb",
-                    "name": "quanti video ci sono in Download?",
+                    "id": "f8c07dc8-59f9-4535-a695-e3939c1ecd08",
+                    "name": "dov'e' il video del task?",
                     "type": "executeADB",
                     "config": {
-                      "content": "sh -c 'n=$(ls /sdcard/Download 2>/dev/null | grep -ciE \"\\.(mp4|mov|m4v|3gp|webm|mkv)$\"); echo \"${n:-0}\"'",
+                      "content": "sh -c 'f=\"\"; for x in /sdcard/Download/* /sdcard/Downloads/*; do case \"$x\" in *.mp4|*.MP4|*.mov|*.MOV|*.m4v|*.M4V|*.3gp|*.3GP|*.webm|*.WEBM|*.mkv|*.MKV) f=\"$x\";; esac; done; if [ -z \"$f\" ] && [ -f /sdcard/.trial_inizio ]; then f=$(find /sdcard/DCIM /sdcard/Movies /sdcard/Pictures -maxdepth 3 -type f -newer /sdcard/.trial_inizio 2>/dev/null | grep -iE \"\\.(mp4|mov|m4v|3gp|webm|mkv)$\" | head -n 1); fi; echo \"video=$f\"'",
                       "timeout": 120000,
-                      "variable": "nVideo",
+                      "variable": "trovaOut",
                       "error": false
                     }
                   },
                   {
                     "position": {
-                      "x": 3533,
+                      "x": 3733,
                       "y": 285
                     },
-                    "id": "b869bc27-f001-4286-ab5d-07472da146c4",
-                    "name": "video arrivato?",
+                    "id": "42097fd8-1ae3-43f9-8152-b4abd7ec45bf",
+                    "name": "video arrivato? (percorso e album)",
                     "type": "script",
                     "config": {
                       "injectVariables": [
-                        "nVideo"
+                        "trovaOut"
                       ],
-                      "script": "async function main({ nVideo }) { return { videoOk: (parseInt(String(nVideo||'').trim(),10)||0) > 0 ? '1' : '0' }; }",
+                      "script": "async function main({ trovaOut }) { const m=/video=(\\S.*)$/m.exec(String(trovaOut||'')); const p=m?m[1].trim():''; const parti=p.split('/'); const nome=parti.pop()||''; const album=parti.pop()||''; return { videoPath: p, videoNome: nome, albumNome: album, videoOk: p ? '1' : '0' }; }",
                       "type": "js",
                       "variableMap": [
+                        {
+                          "value": "videoPath",
+                          "variable": "videoPath"
+                        },
+                        {
+                          "value": "videoNome",
+                          "variable": "videoNome"
+                        },
+                        {
+                          "value": "albumNome",
+                          "variable": "albumNome"
+                        },
                         {
                           "value": "videoOk",
                           "variable": "videoOk"
@@ -382,10 +421,10 @@
                   },
                   {
                     "position": {
-                      "x": 3933,
+                      "x": 4133,
                       "y": 285
                     },
-                    "id": "4cbd4006-24c9-4b6b-8381-68e96f5845d6",
+                    "id": "cab0d5d4-47c9-4d09-b021-5e202ce5be92",
                     "name": "IF non ancora -> aspetta 5 secondi",
                     "type": "ifElse",
                     "config": {
@@ -393,10 +432,10 @@
                       "children": [
                         {
                           "position": {
-                            "x": 3733,
+                            "x": 3933,
                             "y": 285
                           },
-                          "id": "423c7d90-35e9-4f83-8734-781256b0a15b",
+                          "id": "7f0ea92a-cf93-4197-9ba9-feadceac10c6",
                           "name": "wait",
                           "type": "waitTime",
                           "config": {
@@ -434,10 +473,10 @@
       },
       {
         "position": {
-          "x": 4933,
+          "x": 5133,
           "y": 285
         },
-        "id": "d936e60f-b258-46b7-aa8c-ed376cbb2147",
+        "id": "b0855fd4-401d-480f-a71d-5adcd547a5a4",
         "name": "IF il video non e' arrivato e non e' una prova -> errore",
         "type": "ifElse",
         "config": {
@@ -445,10 +484,10 @@
           "children": [
             {
               "position": {
-                "x": 4533,
+                "x": 4733,
                 "y": 285
               },
-              "id": "5de4f454-a829-4b5d-bd34-6d784c80b216",
+              "id": "20de754f-5620-4d55-ba5c-043afe9c654c",
               "name": "errore: [Video] Il video del task non e' arrivato sul telefono (cart",
               "type": "throwException",
               "config": {
@@ -457,10 +496,10 @@
             },
             {
               "position": {
-                "x": 4733,
+                "x": 4933,
                 "y": 285
               },
-              "id": "07f65c87-a569-437c-bc1a-9a72ef659e62",
+              "id": "c5752de3-4d68-4389-9ab9-2683aa40d7ab",
               "name": "End task (dopo l'errore)",
               "type": "endTask",
               "config": {}
@@ -485,14 +524,14 @@
       },
       {
         "position": {
-          "x": 5133,
+          "x": 5333,
           "y": 285
         },
-        "id": "3ff49d4e-8928-44f2-a957-20f3be42ddb9",
+        "id": "dea12b63-b3e2-4eb0-a9ca-860ac454c05a",
         "name": "la galleria vede il video nuovo",
         "type": "executeADB",
         "config": {
-          "content": "sh -c 'for f in /sdcard/Download/*; do if [ -f \"$f\" ]; then touch \"$f\"; am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d \"file://$f\" >/dev/null 2>&1; fi; done; echo ok'",
+          "content": "sh -c 'f=\"${videoPath}\"; if [ -f \"$f\" ]; then touch \"$f\"; am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d \"file://$f\" >/dev/null 2>&1; fi; echo ok'",
           "timeout": 120000,
           "variable": "scanOut",
           "error": false
@@ -500,24 +539,91 @@
       },
       {
         "position": {
-          "x": 5333,
+          "x": 5533,
           "y": 285
         },
-        "id": "99d95e2f-9726-4ee5-b5cf-6a57629759d4",
+        "id": "c8c0fe63-685b-4897-a8fc-3d582d3e6e3e",
         "name": "wait",
         "type": "waitTime",
         "config": {
-          "timeoutMax": 3000,
-          "timeoutMin": 2000,
+          "timeoutMax": 4000,
+          "timeoutMin": 3000,
           "timeoutType": "randomInterval"
         }
       },
       {
         "position": {
-          "x": 5533,
+          "x": 5733,
           "y": 285
         },
-        "id": "9ad107b1-1549-4458-8ad1-63986af2b1d0",
+        "id": "a3e90034-0f77-4a81-bdf4-048b3f882e88",
+        "name": "azzera: e' il piu' recente?",
+        "type": "script",
+        "config": {
+          "injectVariables": [],
+          "script": "async function main() { return { ordineOut: \"\", primo: \"0\" }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "ordineOut",
+              "variable": "ordineOut"
+            },
+            {
+              "value": "primo",
+              "variable": "primo"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 5933,
+          "y": 285
+        },
+        "id": "b4bd0bf5-e4bf-49ae-847e-0eba923a1ee1",
+        "name": "Android: qual e' il video piu' recente?",
+        "type": "executeADB",
+        "config": {
+          "content": "sh -c 'for o in datetaken date_added date_modified; do r=$(content query --uri content://media/external/video/media --projection _data --sort \"$o DESC\" 2>/dev/null | head -n 1); echo \"$o=$r\"; done'",
+          "timeout": 120000,
+          "variable": "ordineOut",
+          "error": false
+        }
+      },
+      {
+        "position": {
+          "x": 6133,
+          "y": 285
+        },
+        "id": "d0777c75-43f2-43cf-be2e-3d3db7c21fe8",
+        "name": "il video del task e' il piu' recente? (scatto, aggiunta, modifica)",
+        "type": "script",
+        "config": {
+          "injectVariables": [
+            "ordineOut",
+            "videoPath",
+            "albumNome"
+          ],
+          "script": "async function main({ ordineOut, videoPath, albumNome }) { const out=String(ordineOut||'').split('\\n'); const rel=String(videoPath||'').trim().replace(/^\\/sdcard\\//, ''); const primo = !!rel && ['datetaken','date_added','date_modified'].every(o => { const r = out.find(x => x.indexOf(o + '=') === 0) || ''; return r.indexOf('/' + rel) >= 0; }); const album=String(albumNome||''); return { primo: primo ? '1' : '0', albumSicuro: (album==='Download'||album==='Downloads') ? '1' : '0' }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "primo",
+              "variable": "primo"
+            },
+            {
+              "value": "albumSicuro",
+              "variable": "albumSicuro"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 6333,
+          "y": 285
+        },
+        "id": "8c0fd38c-b095-47aa-bc09-369b5cfcc976",
         "name": "apri Instagram",
         "type": "openApp",
         "config": {
@@ -526,10 +632,10 @@
       },
       {
         "position": {
-          "x": 5733,
+          "x": 6533,
           "y": 285
         },
-        "id": "ded373bc-06c5-4499-8feb-243a3f9fe34d",
+        "id": "e196377a-948f-4692-9dd6-f988503014b5",
         "name": "aspetta che Instagram si apra",
         "type": "waitTime",
         "config": {
@@ -540,10 +646,10 @@
       },
       {
         "position": {
-          "x": 5933,
+          "x": 6733,
           "y": 285
         },
-        "id": "b656573a-4d3b-4a03-9f3f-ad8a0733ed30",
+        "id": "e5da4f6d-eab5-42e3-96ad-0f5cf43ad1bf",
         "name": "pop-up 'Not now'",
         "type": "click",
         "config": {
@@ -574,10 +680,358 @@
       },
       {
         "position": {
-          "x": 6133,
+          "x": 6933,
           "y": 285
         },
-        "id": "dcaa2d8d-a6a8-4adf-9a97-47b7b3286adb",
+        "id": "7fb81cea-03d4-40ac-9819-289e828e4d56",
+        "name": "warm-up: quanto dura (7-10 minuti, in prova 1)",
+        "type": "script",
+        "config": {
+          "injectVariables": [
+            "prova"
+          ],
+          "script": "async function main({ prova }) { const min = String(prova)==='1' ? 1 : 7 + Math.random()*3; const t = Date.now(); const ok = typeof t === 'number' && isFinite(t) && t > 0; return { fineWarm: ok ? String(Math.round(t + min*60000)) : '0', maxReel: String(Math.round(min*7)), ancora: '1', warmMin: String(Math.round(min*10)/10) }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "fineWarm",
+              "variable": "fineWarm"
+            },
+            {
+              "value": "maxReel",
+              "variable": "maxReel"
+            },
+            {
+              "value": "ancora",
+              "variable": "ancora"
+            },
+            {
+              "value": "warmMin",
+              "variable": "warmMin"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 7133,
+          "y": 285
+        },
+        "id": "238d857e-0853-49b1-9662-b8a9f8633853",
+        "name": "azzera: Reels",
+        "type": "script",
+        "config": {
+          "injectVariables": [],
+          "script": "async function main() { return { cReels: \"\", reelsOk: \"0\" }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "cReels",
+              "variable": "cReels"
+            },
+            {
+              "value": "reelsOk",
+              "variable": "reelsOk"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 7333,
+          "y": 285
+        },
+        "id": "caed6c6b-8ecd-4e6f-9460-703539e24b1e",
+        "name": "tocca Reels (in basso)",
+        "type": "click",
+        "config": {
+          "filterCollection": [
+            [
+              {
+                "content": "com.instagram.android:id/clips_tab",
+                "filterType": "equal",
+                "type": "id"
+              }
+            ],
+            [
+              {
+                "content": "Reels",
+                "filterType": "equal",
+                "type": "desc"
+              }
+            ]
+          ],
+          "hiddenChildren": false,
+          "randomDistance": 0,
+          "searchTime": 4000,
+          "useOffset": false,
+          "serialType": "fixedValue",
+          "serial": 1,
+          "excuteError": "noProcessing",
+          "variable": "cReels"
+        }
+      },
+      {
+        "position": {
+          "x": 7533,
+          "y": 285
+        },
+        "id": "ada63f60-f8fa-41c5-8dfe-f1ca0594118a",
+        "name": "Reels aperti?",
+        "type": "script",
+        "config": {
+          "injectVariables": [
+            "cReels"
+          ],
+          "script": "async function main({ cReels }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { reelsOk: ok(cReels) ? '1' : '0' }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "reelsOk",
+              "variable": "reelsOk"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 7933,
+          "y": 285
+        },
+        "id": "0567ba80-91be-4886-a6f2-8b8790b09223",
+        "name": "IF Reels non aperti -> niente warm-up",
+        "type": "ifElse",
+        "config": {
+          "apposition": "and",
+          "children": [
+            {
+              "position": {
+                "x": 7733,
+                "y": 285
+              },
+              "id": "ed632a63-a7e0-443d-9683-e92e6e8b27e4",
+              "name": "niente warm-up",
+              "type": "script",
+              "config": {
+                "injectVariables": [],
+                "script": "async function main() { return { ancora: \"0\" }; }",
+                "type": "js",
+                "variableMap": [
+                  {
+                    "value": "ancora",
+                    "variable": "ancora"
+                  }
+                ]
+              }
+            }
+          ],
+          "conditionList": [
+            {
+              "probability": 50,
+              "relation": "equal",
+              "useVariable": "reelsOk",
+              "result": "0"
+            }
+          ],
+          "other": []
+        }
+      },
+      {
+        "position": {
+          "x": 8133,
+          "y": 285
+        },
+        "id": "485f8302-5be6-4f96-946c-7372ccb2ed73",
+        "name": "wait",
+        "type": "waitTime",
+        "config": {
+          "timeoutMax": 3000,
+          "timeoutMin": 2000,
+          "timeoutType": "randomInterval"
+        }
+      },
+      {
+        "position": {
+          "x": 9333,
+          "y": 285
+        },
+        "id": "4b6ae6b3-a8a7-46e9-aed1-d458a9492663",
+        "name": "warm-up: guarda e scorri i reels",
+        "type": "forTimes",
+        "config": {
+          "serialType": "randomInterval",
+          "minTimes": 150,
+          "maxTimes": 150,
+          "hiddenChildren": false,
+          "children": [
+            {
+              "position": {
+                "x": 9133,
+                "y": 285
+              },
+              "id": "2bf56119-22d5-46af-afb5-6686775a6d5f",
+              "name": "IF warm-up non finito",
+              "type": "ifElse",
+              "config": {
+                "apposition": "and",
+                "children": [
+                  {
+                    "position": {
+                      "x": 8333,
+                      "y": 285
+                    },
+                    "id": "87c73d21-a432-4e76-9fa4-43cc31dedf1d",
+                    "name": "guarda il reel",
+                    "type": "waitTime",
+                    "config": {
+                      "timeoutMax": 14000,
+                      "timeoutMin": 4000,
+                      "timeoutType": "randomInterval"
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 8533,
+                      "y": 285
+                    },
+                    "id": "0f20d708-5e15-4d3a-9338-b914a906abae",
+                    "name": "pop-up 'Not now'",
+                    "type": "click",
+                    "config": {
+                      "filterCollection": [
+                        [
+                          {
+                            "content": "ot now",
+                            "filterType": "contain",
+                            "type": "text"
+                          }
+                        ],
+                        [
+                          {
+                            "content": "Not Now",
+                            "filterType": "equal",
+                            "type": "text"
+                          }
+                        ]
+                      ],
+                      "hiddenChildren": false,
+                      "randomDistance": 0,
+                      "searchTime": 300,
+                      "useOffset": false,
+                      "serialType": "fixedValue",
+                      "serial": 1,
+                      "excuteError": "noProcessing"
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 8733,
+                      "y": 285
+                    },
+                    "id": "b178e545-ac38-4894-888b-4d5aa4534104",
+                    "name": "reel dopo",
+                    "type": "executeADB",
+                    "config": {
+                      "content": "input swipe 360 1000 360 300 280",
+                      "timeout": 120000,
+                      "variable": "swOut",
+                      "error": false
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 8933,
+                      "y": 285
+                    },
+                    "id": "82595e87-b3f3-4b71-ad61-053122638511",
+                    "name": "warm-up finito?",
+                    "type": "script",
+                    "config": {
+                      "injectVariables": [
+                        "fineWarm",
+                        "maxReel",
+                        "kw"
+                      ],
+                      "script": "async function main({ fineWarm, maxReel, kw }) { const f=Number(fineWarm)||0; const t=Date.now(); const tempoOk=f>0 && typeof t==='number' && isFinite(t); const n=parseInt(kw,10)||0; const ancora=(tempoOk ? t < f : true) && n < (Number(maxReel)||60); return { ancora: ancora ? '1' : '0' }; }",
+                      "type": "js",
+                      "variableMap": [
+                        {
+                          "value": "ancora",
+                          "variable": "ancora"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "conditionList": [
+                  {
+                    "probability": 50,
+                    "relation": "equal",
+                    "useVariable": "ancora",
+                    "result": "1"
+                  }
+                ],
+                "other": []
+              }
+            }
+          ],
+          "variableIndex": "kw"
+        }
+      },
+      {
+        "position": {
+          "x": 9533,
+          "y": 285
+        },
+        "id": "177d51a9-601c-4362-89fd-8c82de357e12",
+        "name": "wait",
+        "type": "waitTime",
+        "config": {
+          "timeoutMax": 2500,
+          "timeoutMin": 1500,
+          "timeoutType": "randomInterval"
+        }
+      },
+      {
+        "position": {
+          "x": 9733,
+          "y": 285
+        },
+        "id": "a691adaf-806e-42de-be58-08604c7cfd30",
+        "name": "pop-up 'Not now'",
+        "type": "click",
+        "config": {
+          "filterCollection": [
+            [
+              {
+                "content": "ot now",
+                "filterType": "contain",
+                "type": "text"
+              }
+            ],
+            [
+              {
+                "content": "Not Now",
+                "filterType": "equal",
+                "type": "text"
+              }
+            ]
+          ],
+          "hiddenChildren": false,
+          "randomDistance": 0,
+          "searchTime": 400,
+          "useOffset": false,
+          "serialType": "fixedValue",
+          "serial": 1,
+          "excuteError": "noProcessing"
+        }
+      },
+      {
+        "position": {
+          "x": 9933,
+          "y": 285
+        },
+        "id": "39da621b-a8c7-443d-a01d-24244016a001",
         "name": "azzera: profilo",
         "type": "script",
         "config": {
@@ -598,10 +1052,10 @@
       },
       {
         "position": {
-          "x": 6333,
+          "x": 10133,
           "y": 285
         },
-        "id": "be94e1ec-5b4e-405e-bd58-b54d85e7e2ad",
+        "id": "0b2da63b-d0f3-4fbe-812b-2a90642bc4f1",
         "name": "tocca Profilo (in basso a destra)",
         "type": "click",
         "config": {
@@ -633,10 +1087,10 @@
       },
       {
         "position": {
-          "x": 6533,
+          "x": 10333,
           "y": 285
         },
-        "id": "10052b36-3c0c-48e5-aa25-4c665dc45f94",
+        "id": "b8cb8187-b27d-4bd1-a609-317af48c3aa7",
         "name": "profilo toccato?",
         "type": "script",
         "config": {
@@ -655,10 +1109,10 @@
       },
       {
         "position": {
-          "x": 7933,
+          "x": 11733,
           "y": 285
         },
-        "id": "63125844-c78b-49ee-84ab-14cec6add84a",
+        "id": "6cbfcf45-c73b-4f26-82ea-dbbe3ccc474e",
         "name": "IF profilo non toccato -> indietro e riprova",
         "type": "ifElse",
         "config": {
@@ -666,10 +1120,10 @@
           "children": [
             {
               "position": {
-                "x": 6733,
+                "x": 10533,
                 "y": 285
               },
-              "id": "9747914f-bf8c-420d-af9d-4949912e690a",
+              "id": "75312a47-4517-4e88-b285-90c32f875f39",
               "name": "indietro",
               "type": "executeADB",
               "config": {
@@ -681,10 +1135,10 @@
             },
             {
               "position": {
-                "x": 6933,
+                "x": 10733,
                 "y": 285
               },
-              "id": "8e66629b-0d22-447b-b2d9-e34b2076d8d0",
+              "id": "0bb51e55-4d94-4627-8f82-9be928c42952",
               "name": "wait",
               "type": "waitTime",
               "config": {
@@ -695,10 +1149,10 @@
             },
             {
               "position": {
-                "x": 7133,
+                "x": 10933,
                 "y": 285
               },
-              "id": "171757b4-7a65-4750-adb7-997d717ef238",
+              "id": "2c22436c-3c77-49d4-addc-bb11e39a05bd",
               "name": "pop-up 'Not now'",
               "type": "click",
               "config": {
@@ -729,10 +1183,10 @@
             },
             {
               "position": {
-                "x": 7333,
+                "x": 11133,
                 "y": 285
               },
-              "id": "9a061f08-6eb0-4134-b1f5-9827c4df3447",
+              "id": "ade5c759-0ea7-4c21-8b85-07bfa1058952",
               "name": "azzera: profilo",
               "type": "script",
               "config": {
@@ -753,10 +1207,10 @@
             },
             {
               "position": {
-                "x": 7533,
+                "x": 11333,
                 "y": 285
               },
-              "id": "fd26f087-c92b-430f-b92d-b00f224d6843",
+              "id": "f240a4a0-d6bb-4360-800a-ecffad89b6b2",
               "name": "tocca Profilo (in basso a destra)",
               "type": "click",
               "config": {
@@ -788,10 +1242,10 @@
             },
             {
               "position": {
-                "x": 7733,
+                "x": 11533,
                 "y": 285
               },
-              "id": "0fad1f3d-df76-405c-98d3-6ed2493097cc",
+              "id": "d27ffd34-8e21-42ea-8950-bcc4d148dc37",
               "name": "profilo toccato?",
               "type": "script",
               "config": {
@@ -822,10 +1276,10 @@
       },
       {
         "position": {
-          "x": 8133,
+          "x": 11933,
           "y": 285
         },
-        "id": "22e97565-f0b3-493d-bf99-b3ed9c4a1e4a",
+        "id": "35dbc4bb-82b5-4edb-b73c-4d173a6cb52d",
         "name": "wait",
         "type": "waitTime",
         "config": {
@@ -836,10 +1290,10 @@
       },
       {
         "position": {
-          "x": 8333,
+          "x": 12133,
           "y": 285
         },
-        "id": "a0ac2306-2b8f-4525-8cea-3f6ab1b1aebd",
+        "id": "288e45ac-d43d-45fb-9233-623a87bfb9d8",
         "name": "azzera: e' il mio profilo?",
         "type": "script",
         "config": {
@@ -860,10 +1314,10 @@
       },
       {
         "position": {
-          "x": 8533,
+          "x": 12333,
           "y": 285
         },
-        "id": "1b0f9452-16ab-482d-874f-5995427dcd1d",
+        "id": "b643e9c7-cc4e-4557-b52b-7a1bc23efef4",
         "name": "c'e' 'Edit profile'?",
         "type": "getEle",
         "config": {
@@ -894,10 +1348,10 @@
       },
       {
         "position": {
-          "x": 8733,
+          "x": 12533,
           "y": 285
         },
-        "id": "914862f2-826f-4071-a1dc-3313bb5bfdab",
+        "id": "06a936bb-9442-4cfb-be00-dfdece718821",
         "name": "e' il mio profilo?",
         "type": "script",
         "config": {
@@ -916,10 +1370,10 @@
       },
       {
         "position": {
-          "x": 9533,
+          "x": 13333,
           "y": 285
         },
-        "id": "c0cdc463-3ebe-4927-8a19-8273da90a71a",
+        "id": "83f641f4-cec5-4700-866e-4818a0c8a812",
         "name": "IF non sono sul profilo -> errore",
         "type": "ifElse",
         "config": {
@@ -927,10 +1381,10 @@
           "children": [
             {
               "position": {
-                "x": 8933,
+                "x": 12733,
                 "y": 285
               },
-              "id": "1dc30c23-48e6-4cd2-8425-79b6f3f9abef",
+              "id": "8b6fa519-9b57-4c53-b39c-9053fd8dbbef",
               "name": "screenshot dell'errore",
               "type": "screenshotPage",
               "config": {
@@ -939,10 +1393,10 @@
             },
             {
               "position": {
-                "x": 9133,
+                "x": 12933,
                 "y": 285
               },
-              "id": "8cdca770-08ff-45d1-89d0-678f3d627900",
+              "id": "f65801dd-768c-4af5-b5b0-085797471166",
               "name": "errore: [Profilo] Non riesco ad aprire il profilo dell'account (non ",
               "type": "throwException",
               "config": {
@@ -951,10 +1405,10 @@
             },
             {
               "position": {
-                "x": 9333,
+                "x": 13133,
                 "y": 285
               },
-              "id": "33f62191-f776-4aa4-a4bf-8cb64fc2467b",
+              "id": "c0d349b5-d1a7-4f93-82ec-bdeb64b514d0",
               "name": "End task (dopo l'errore)",
               "type": "endTask",
               "config": {}
@@ -973,10 +1427,10 @@
       },
       {
         "position": {
-          "x": 9733,
+          "x": 13533,
           "y": 285
         },
-        "id": "37744d9c-c4bc-457d-8344-473645dac3b7",
+        "id": "9dbfdf01-7306-40fd-b840-f3d637aea6f0",
         "name": "azzera: menu",
         "type": "script",
         "config": {
@@ -1001,10 +1455,10 @@
       },
       {
         "position": {
-          "x": 9933,
+          "x": 13733,
           "y": 285
         },
-        "id": "1cdb2344-ea9b-41d4-84e3-a6c76aa4bb66",
+        "id": "7bbf198e-24ae-4c1b-b815-e8acc2cd334a",
         "name": "tocca il menu (tre righe in alto a destra)",
         "type": "click",
         "config": {
@@ -1043,10 +1497,10 @@
       },
       {
         "position": {
-          "x": 10133,
+          "x": 13933,
           "y": 285
         },
-        "id": "ace111d5-2297-4ab3-ab27-142102bb3e2c",
+        "id": "98df3487-22ad-41bc-bf5a-74657d9a3e63",
         "name": "wait",
         "type": "waitTime",
         "config": {
@@ -1057,10 +1511,10 @@
       },
       {
         "position": {
-          "x": 10333,
+          "x": 14133,
           "y": 285
         },
-        "id": "41b7c320-3499-4ea8-b5cc-6633ef4019a9",
+        "id": "5e20281c-2de1-46cd-be94-6ea2622b7816",
         "name": "si e' aperto 'Settings and activity'?",
         "type": "getEle",
         "config": {
@@ -1098,10 +1552,10 @@
       },
       {
         "position": {
-          "x": 10533,
+          "x": 14333,
           "y": 285
         },
-        "id": "d3d92fe7-0ac6-477c-835d-7f8c68413f8a",
+        "id": "e57cd79f-0255-4d42-b76e-cb5bbc1dc989",
         "name": "menu aperto?",
         "type": "script",
         "config": {
@@ -1120,10 +1574,10 @@
       },
       {
         "position": {
-          "x": 12333,
+          "x": 16133,
           "y": 285
         },
-        "id": "8e7309ca-baf8-417c-b35d-7e01f8abacc3",
+        "id": "57226ef5-e00a-4469-8caa-aedccd999b2d",
         "name": "IF menu non aperto -> tocca l'angolo in alto a destra",
         "type": "ifElse",
         "config": {
@@ -1131,10 +1585,10 @@
           "children": [
             {
               "position": {
-                "x": 10733,
+                "x": 14533,
                 "y": 285
               },
-              "id": "2985e159-7ff0-49ab-bbc4-01b1cb12522a",
+              "id": "de527931-47e6-4d57-86e1-896fc5af7768",
               "name": "larghezza dello schermo",
               "type": "mathOperation",
               "config": {
@@ -1144,10 +1598,10 @@
             },
             {
               "position": {
-                "x": 10933,
+                "x": 14733,
                 "y": 285
               },
-              "id": "ec399d85-62b7-4a63-b49b-19766402e698",
+              "id": "4062b2a0-0a95-430a-b03e-f73038bda487",
               "name": "altezza della barra in alto",
               "type": "mathOperation",
               "config": {
@@ -1157,10 +1611,10 @@
             },
             {
               "position": {
-                "x": 11133,
+                "x": 14933,
                 "y": 285
               },
-              "id": "b2065e2d-1f87-40eb-bf44-9cc395332d60",
+              "id": "786103a9-7616-49b5-8393-e23482441f9a",
               "name": "posizione delle tre righe",
               "type": "script",
               "config": {
@@ -1184,10 +1638,10 @@
             },
             {
               "position": {
-                "x": 11333,
+                "x": 15133,
                 "y": 285
               },
-              "id": "79071c6e-0045-4200-a6d7-b7b7aafca668",
+              "id": "7be08bea-56a6-4c81-90c1-7565c05d1eb2",
               "name": "tocca le tre righe (posizione)",
               "type": "clickXY",
               "config": {
@@ -1199,10 +1653,10 @@
             },
             {
               "position": {
-                "x": 11533,
+                "x": 15333,
                 "y": 285
               },
-              "id": "3e5011ed-d787-4fd5-8225-66c82fde8f94",
+              "id": "f86e6724-bfdc-4c43-8624-004d9651252d",
               "name": "wait",
               "type": "waitTime",
               "config": {
@@ -1213,10 +1667,10 @@
             },
             {
               "position": {
-                "x": 11733,
+                "x": 15533,
                 "y": 285
               },
-              "id": "c988fca5-3eb7-4d22-8f7e-cbf3fcb347a3",
+              "id": "c1c6f6af-3d3d-4b86-9ea1-0a660bf86000",
               "name": "azzera: menu aperto?",
               "type": "script",
               "config": {
@@ -1233,10 +1687,10 @@
             },
             {
               "position": {
-                "x": 11933,
+                "x": 15733,
                 "y": 285
               },
-              "id": "b7ffafa3-2900-4134-acfd-5fc783f4e8a6",
+              "id": "952c3218-629b-4fd8-9065-24de3bdf0f82",
               "name": "si e' aperto 'Settings and activity'?",
               "type": "getEle",
               "config": {
@@ -1274,10 +1728,10 @@
             },
             {
               "position": {
-                "x": 12133,
+                "x": 15933,
                 "y": 285
               },
-              "id": "5dfd6abc-0831-400e-adb0-36c66b616f52",
+              "id": "60856c53-1c0a-470f-8232-c357da7d13a6",
               "name": "menu aperto?",
               "type": "script",
               "config": {
@@ -1308,10 +1762,10 @@
       },
       {
         "position": {
-          "x": 13133,
+          "x": 16933,
           "y": 285
         },
-        "id": "fecd5707-dbe6-41c8-8af1-178e4f7e6238",
+        "id": "470ac955-fcf7-4855-ade0-0cd764d94130",
         "name": "IF menu non aperto -> errore",
         "type": "ifElse",
         "config": {
@@ -1319,10 +1773,10 @@
           "children": [
             {
               "position": {
-                "x": 12533,
+                "x": 16333,
                 "y": 285
               },
-              "id": "68d042c7-cbda-40c7-9c48-46eb6059a74b",
+              "id": "8f720bfd-37db-4d03-bf06-fdbcdd1c6cf7",
               "name": "screenshot dell'errore",
               "type": "screenshotPage",
               "config": {
@@ -1331,10 +1785,10 @@
             },
             {
               "position": {
-                "x": 12733,
+                "x": 16533,
                 "y": 285
               },
-              "id": "841b8809-30cb-4255-ace6-8ae0c21129bc",
+              "id": "044be16e-1839-44ad-b9c0-d97f8ad3adf8",
               "name": "errore: [Menu] Dal profilo non si apre 'Settings and activity' (menu",
               "type": "throwException",
               "config": {
@@ -1343,10 +1797,10 @@
             },
             {
               "position": {
-                "x": 12933,
+                "x": 16733,
                 "y": 285
               },
-              "id": "1a97df04-8665-4b32-a71f-0b6c71559a6f",
+              "id": "7bb0248c-e3fe-4a9c-8bad-e7292873e6e9",
               "name": "End task (dopo l'errore)",
               "type": "endTask",
               "config": {}
@@ -1365,10 +1819,10 @@
       },
       {
         "position": {
-          "x": 13333,
+          "x": 17133,
           "y": 285
         },
-        "id": "58b2812c-8351-40bf-98fc-5052b042e3b8",
+        "id": "97ca2182-17fc-4724-9cc7-28a588d55c31",
         "name": "azzera: Account type and tools",
         "type": "script",
         "config": {
@@ -1389,10 +1843,10 @@
       },
       {
         "position": {
-          "x": 14733,
+          "x": 18533,
           "y": 285
         },
-        "id": "cef82034-85ac-42ab-b510-807211aea1e2",
+        "id": "73d2b23d-7883-454e-9fd1-ffd54e801166",
         "name": "cerca 'Account type and tools' (scorre giu' se serve)",
         "type": "forTimes",
         "config": {
@@ -1403,10 +1857,10 @@
           "children": [
             {
               "position": {
-                "x": 14533,
+                "x": 18333,
                 "y": 285
               },
-              "id": "0bd34422-fd09-4675-b8ac-059973a16307",
+              "id": "d67b2bdd-420c-43ab-a86d-a5932280e2d4",
               "name": "IF 'Account type and tools' non ancora toccato",
               "type": "ifElse",
               "config": {
@@ -1414,10 +1868,10 @@
                 "children": [
                   {
                     "position": {
-                      "x": 13533,
+                      "x": 17333,
                       "y": 285
                     },
-                    "id": "e1b980fb-c913-4d6a-98e3-c75e3eeab50a",
+                    "id": "3d060380-f44c-4999-bc28-373f0b27742e",
                     "name": "tocca 'Account type and tools'",
                     "type": "click",
                     "config": {
@@ -1442,10 +1896,10 @@
                   },
                   {
                     "position": {
-                      "x": 13733,
+                      "x": 17533,
                       "y": 285
                     },
-                    "id": "3aba870f-25c1-4e21-9bd1-5174014e1e9a",
+                    "id": "34525b7d-9174-402a-815a-60d6bd44e077",
                     "name": "toccato?",
                     "type": "script",
                     "config": {
@@ -1464,10 +1918,10 @@
                   },
                   {
                     "position": {
-                      "x": 14333,
+                      "x": 18133,
                       "y": 285
                     },
-                    "id": "f2cd22e1-3cdb-4689-8d08-f3da72c52293",
+                    "id": "e611ba65-6a6e-4f94-8316-67aa9e01abf8",
                     "name": "IF non visto -> scorri giu'",
                     "type": "ifElse",
                     "config": {
@@ -1475,10 +1929,10 @@
                       "children": [
                         {
                           "position": {
-                            "x": 13933,
+                            "x": 17733,
                             "y": 285
                           },
-                          "id": "1b6a98a7-1ee2-4baa-a991-64f03affaf8c",
+                          "id": "2246d3ea-e194-45d1-a841-ebf43a2ed38d",
                           "name": "scorri giu'",
                           "type": "executeADB",
                           "config": {
@@ -1490,10 +1944,10 @@
                         },
                         {
                           "position": {
-                            "x": 14133,
+                            "x": 17933,
                             "y": 285
                           },
-                          "id": "00bd1e05-27c1-4d15-ba84-2de57dd32ebc",
+                          "id": "81c663ca-fe70-4dc7-8a65-b0e7d1d2fba9",
                           "name": "wait",
                           "type": "waitTime",
                           "config": {
@@ -1531,10 +1985,10 @@
       },
       {
         "position": {
-          "x": 15533,
+          "x": 19333,
           "y": 285
         },
-        "id": "44fb4b09-780d-4719-adc3-080d1c087882",
+        "id": "b21343ad-9c95-4294-becb-1cbd2cdc5ca1",
         "name": "IF non trovato -> errore",
         "type": "ifElse",
         "config": {
@@ -1542,10 +1996,10 @@
           "children": [
             {
               "position": {
-                "x": 14933,
+                "x": 18733,
                 "y": 285
               },
-              "id": "b2ec417c-f53e-4cda-8f96-e57469657902",
+              "id": "6ce8c9d0-4d6b-4719-8774-af290fac928d",
               "name": "screenshot dell'errore",
               "type": "screenshotPage",
               "config": {
@@ -1554,10 +2008,10 @@
             },
             {
               "position": {
-                "x": 15133,
+                "x": 18933,
                 "y": 285
               },
-              "id": "1d30ca6b-8444-4d17-b108-703018457ce2",
+              "id": "c67091f3-bb2c-40f6-bffa-8f43f712fe6a",
               "name": "errore: [Menu] Non trovo 'Account type and tools' in 'Settings and a",
               "type": "throwException",
               "config": {
@@ -1566,10 +2020,10 @@
             },
             {
               "position": {
-                "x": 15333,
+                "x": 19133,
                 "y": 285
               },
-              "id": "60b55ca9-1a44-49db-ae73-b337dad269cf",
+              "id": "c46551d0-a5e1-4de9-8ca4-d09e9232b057",
               "name": "End task (dopo l'errore)",
               "type": "endTask",
               "config": {}
@@ -1588,10 +2042,10 @@
       },
       {
         "position": {
-          "x": 15733,
+          "x": 19533,
           "y": 285
         },
-        "id": "6ab401d7-a564-49e3-a13f-8fbbfe48cf66",
+        "id": "8bdb8f66-1e55-47a9-adba-06e34d84d12a",
         "name": "wait",
         "type": "waitTime",
         "config": {
@@ -1602,10 +2056,10 @@
       },
       {
         "position": {
-          "x": 15933,
+          "x": 19733,
           "y": 285
         },
-        "id": "bbd3eae5-3ba6-44b0-ad0f-e39b2f1c2c6e",
+        "id": "357b159f-aa7b-4451-bb3e-ef044f459095",
         "name": "azzera: Trial reels",
         "type": "script",
         "config": {
@@ -1626,10 +2080,10 @@
       },
       {
         "position": {
-          "x": 17333,
+          "x": 21133,
           "y": 285
         },
-        "id": "b9ce89ba-691a-409b-bfb3-e688afaa1fb1",
+        "id": "09d54b86-41ea-4b47-bf8b-3a341f7bcda3",
         "name": "cerca 'Trial reels' (scorre giu' se serve)",
         "type": "forTimes",
         "config": {
@@ -1640,10 +2094,10 @@
           "children": [
             {
               "position": {
-                "x": 17133,
+                "x": 20933,
                 "y": 285
               },
-              "id": "b5969863-68d6-4919-83cb-1d006c40ccd2",
+              "id": "9304cd69-f718-4a34-aa7f-9ced6928cd8e",
               "name": "IF 'Trial reels' non ancora toccato",
               "type": "ifElse",
               "config": {
@@ -1651,10 +2105,10 @@
                 "children": [
                   {
                     "position": {
-                      "x": 16133,
+                      "x": 19933,
                       "y": 285
                     },
-                    "id": "dfe73abb-fa77-4a6e-9179-fc860688c0be",
+                    "id": "9888254e-059c-4567-b975-536f6bd6d2b8",
                     "name": "tocca 'Trial reels'",
                     "type": "click",
                     "config": {
@@ -1679,10 +2133,10 @@
                   },
                   {
                     "position": {
-                      "x": 16333,
+                      "x": 20133,
                       "y": 285
                     },
-                    "id": "a086ccf3-e249-46a5-aad6-88a35fc1844c",
+                    "id": "042785cf-e3ba-4e88-9f3b-336d94fa832e",
                     "name": "toccato?",
                     "type": "script",
                     "config": {
@@ -1701,10 +2155,10 @@
                   },
                   {
                     "position": {
-                      "x": 16933,
+                      "x": 20733,
                       "y": 285
                     },
-                    "id": "e97c5fee-ad34-4cdf-8ef7-a7f925f80821",
+                    "id": "e7ffc3a8-8daa-4874-8d49-fbb42cfa124a",
                     "name": "IF non visto -> scorri giu'",
                     "type": "ifElse",
                     "config": {
@@ -1712,10 +2166,10 @@
                       "children": [
                         {
                           "position": {
-                            "x": 16533,
+                            "x": 20333,
                             "y": 285
                           },
-                          "id": "93728363-ffdd-4055-9a8e-48392973c406",
+                          "id": "e61fd60f-dd14-47c1-a94c-8137beebe47f",
                           "name": "scorri giu'",
                           "type": "executeADB",
                           "config": {
@@ -1727,10 +2181,10 @@
                         },
                         {
                           "position": {
-                            "x": 16733,
+                            "x": 20533,
                             "y": 285
                           },
-                          "id": "b9ecb195-09c9-4a44-8e25-6280b390dfa1",
+                          "id": "5614e75c-d2e6-4227-bb0b-d72b1ecf2fe7",
                           "name": "wait",
                           "type": "waitTime",
                           "config": {
@@ -1768,10 +2222,10 @@
       },
       {
         "position": {
-          "x": 18133,
+          "x": 21933,
           "y": 285
         },
-        "id": "b0186f3d-9c48-4465-b97a-f7ceefa7b32d",
+        "id": "664b40de-a926-4cf5-a360-50d5fa5ab6ef",
         "name": "IF non trovato -> errore",
         "type": "ifElse",
         "config": {
@@ -1779,10 +2233,10 @@
           "children": [
             {
               "position": {
-                "x": 17533,
+                "x": 21333,
                 "y": 285
               },
-              "id": "d3965f0e-8789-4ec1-acd9-7950e9b04d61",
+              "id": "8e509257-79df-49d3-9d58-5007be636c00",
               "name": "screenshot dell'errore",
               "type": "screenshotPage",
               "config": {
@@ -1791,10 +2245,10 @@
             },
             {
               "position": {
-                "x": 17733,
+                "x": 21533,
                 "y": 285
               },
-              "id": "66cb2f95-e243-419a-82ba-8c992cbc0485",
+              "id": "f7655a81-91ed-4b75-8bb9-11607648bdef",
               "name": "errore: [Trial reels] Non trovo 'Trial reels' in 'Account type and t",
               "type": "throwException",
               "config": {
@@ -1803,10 +2257,10 @@
             },
             {
               "position": {
-                "x": 17933,
+                "x": 21733,
                 "y": 285
               },
-              "id": "8edb3709-c706-4cab-a3d4-3f8990382e0f",
+              "id": "63403a69-0ffe-49d0-8e0f-f81314f905f8",
               "name": "End task (dopo l'errore)",
               "type": "endTask",
               "config": {}
@@ -1825,10 +2279,10 @@
       },
       {
         "position": {
-          "x": 18333,
+          "x": 22133,
           "y": 285
         },
-        "id": "75948551-cdad-45db-aaeb-34a662f7d60d",
+        "id": "6407f56f-59a6-42ec-981e-d0ca3af580ef",
         "name": "aspetta la pagina Trial reels",
         "type": "waitTime",
         "config": {
@@ -1839,10 +2293,10 @@
       },
       {
         "position": {
-          "x": 18533,
+          "x": 22333,
           "y": 285
         },
-        "id": "07836274-3850-4cd2-bd5c-3be63dbcaf9b",
+        "id": "b1bceccc-9551-4626-9a93-e138d0ed5ac0",
         "name": "azzera: galleria aperta?",
         "type": "script",
         "config": {
@@ -1867,10 +2321,10 @@
       },
       {
         "position": {
-          "x": 21333,
+          "x": 25133,
           "y": 285
         },
-        "id": "d49e65a7-80d3-4bab-b116-29fa835e46a1",
+        "id": "cac8af14-b16f-4fd1-b9ff-5c23962041c1",
         "name": "apri la galleria del trial reel (3 tentativi)",
         "type": "forTimes",
         "config": {
@@ -1881,10 +2335,10 @@
           "children": [
             {
               "position": {
-                "x": 21133,
+                "x": 24933,
                 "y": 285
               },
-              "id": "b676f5ab-88b2-4f36-9609-265fc6916956",
+              "id": "1e6cf898-89f5-4293-a1a0-a96ba36f22ce",
               "name": "IF galleria non ancora aperta",
               "type": "ifElse",
               "config": {
@@ -1892,10 +2346,10 @@
                 "children": [
                   {
                     "position": {
-                      "x": 18733,
+                      "x": 22533,
                       "y": 285
                     },
-                    "id": "290f8e3a-2176-4136-b2c8-3c7611c50897",
+                    "id": "59f341a2-fb9c-4d64-a7d8-4c90f29faef2",
                     "name": "numero del tentativo",
                     "type": "script",
                     "config": {
@@ -1914,10 +2368,10 @@
                   },
                   {
                     "position": {
-                      "x": 19333,
+                      "x": 23133,
                       "y": 285
                     },
-                    "id": "88ccee29-77f2-4fcb-8b1a-cd650ac5c3ef",
+                    "id": "06862685-ef73-4879-b783-9c29ac574e58",
                     "name": "IF 2o tentativo -> chiudi il pop-up di spiegazione",
                     "type": "ifElse",
                     "config": {
@@ -1925,10 +2379,10 @@
                       "children": [
                         {
                           "position": {
-                            "x": 18933,
+                            "x": 22733,
                             "y": 285
                           },
-                          "id": "b3e3e36f-55f2-4ac0-bb88-1970b4b3fd52",
+                          "id": "6b64add0-f8c7-4625-912f-edc3abb4dbc1",
                           "name": "chiudi il pop-up (OK / Got it / Continue...)",
                           "type": "click",
                           "config": {
@@ -2001,10 +2455,10 @@
                         },
                         {
                           "position": {
-                            "x": 19133,
+                            "x": 22933,
                             "y": 285
                           },
-                          "id": "e41086c6-780c-48eb-9bb4-a3fce8bac6a9",
+                          "id": "74d67e0c-3891-44d8-aef6-bcb05236bac9",
                           "name": "wait",
                           "type": "waitTime",
                           "config": {
@@ -2027,10 +2481,10 @@
                   },
                   {
                     "position": {
-                      "x": 19933,
+                      "x": 23733,
                       "y": 285
                     },
-                    "id": "500807d2-548e-423e-beea-4fd92ed48481",
+                    "id": "4a9e7613-60f7-481a-92b6-b279ceb30e14",
                     "name": "IF 3o tentativo -> indietro (chiude il pop-up)",
                     "type": "ifElse",
                     "config": {
@@ -2038,10 +2492,10 @@
                       "children": [
                         {
                           "position": {
-                            "x": 19533,
+                            "x": 23333,
                             "y": 285
                           },
-                          "id": "f0eaccd1-b66e-479a-8a19-d4c48b851d01",
+                          "id": "1294ec15-d6b9-4ecd-a498-90813aca7a7a",
                           "name": "indietro",
                           "type": "executeADB",
                           "config": {
@@ -2053,10 +2507,10 @@
                         },
                         {
                           "position": {
-                            "x": 19733,
+                            "x": 23533,
                             "y": 285
                           },
-                          "id": "a4533eec-734f-41ed-aafe-227214411a9e",
+                          "id": "c7dee2de-bff6-4b9a-a817-e7625f05e73c",
                           "name": "wait",
                           "type": "waitTime",
                           "config": {
@@ -2079,10 +2533,10 @@
                   },
                   {
                     "position": {
-                      "x": 20133,
+                      "x": 23933,
                       "y": 285
                     },
-                    "id": "c7fe454c-acba-4eca-9f7b-0ac88fba6460",
+                    "id": "8e212818-38e0-427f-a79e-45dadc55b0ed",
                     "name": "tocca 'Create trial reel'",
                     "type": "click",
                     "config": {
@@ -2128,10 +2582,10 @@
                   },
                   {
                     "position": {
-                      "x": 20333,
+                      "x": 24133,
                       "y": 285
                     },
-                    "id": "91063aae-cff1-416a-b14d-a7a87daef339",
+                    "id": "e8fa02f6-26a5-47a8-9d0b-1fe1edf02325",
                     "name": "wait",
                     "type": "waitTime",
                     "config": {
@@ -2142,10 +2596,10 @@
                   },
                   {
                     "position": {
-                      "x": 20533,
+                      "x": 24333,
                       "y": 285
                     },
-                    "id": "c8e3fe2b-0df3-459a-9dca-ee66795335b6",
+                    "id": "d09dc279-393f-443b-bfbb-2beb586e9456",
                     "name": "azzera: galleria?",
                     "type": "script",
                     "config": {
@@ -2162,10 +2616,10 @@
                   },
                   {
                     "position": {
-                      "x": 20733,
+                      "x": 24533,
                       "y": 285
                     },
-                    "id": "5f6ac0f9-1349-47a7-99b6-e833523e7e16",
+                    "id": "ce29061c-bb7f-498b-a8b2-690a252bb628",
                     "name": "si e' aperta la galleria 'New reel'?",
                     "type": "getEle",
                     "config": {
@@ -2203,10 +2657,10 @@
                   },
                   {
                     "position": {
-                      "x": 20933,
+                      "x": 24733,
                       "y": 285
                     },
-                    "id": "5a6fa6eb-847e-403d-86a3-5d8da697597b",
+                    "id": "e10099ac-6d0a-4204-82fc-c40dc5e67345",
                     "name": "galleria aperta?",
                     "type": "script",
                     "config": {
@@ -2241,10 +2695,10 @@
       },
       {
         "position": {
-          "x": 22133,
+          "x": 25933,
           "y": 285
         },
-        "id": "ea2bd7a7-df20-44d7-87fe-ff0a8b5b739e",
+        "id": "6dbcfefb-3ddd-4e76-9fa6-839b06746b12",
         "name": "IF galleria non aperta -> errore",
         "type": "ifElse",
         "config": {
@@ -2252,10 +2706,10 @@
           "children": [
             {
               "position": {
-                "x": 21533,
+                "x": 25333,
                 "y": 285
               },
-              "id": "a3a25b31-b268-4fcf-b8f4-c0cea0078bd5",
+              "id": "a3598f48-25c5-4aa0-bedf-9a70135aee8b",
               "name": "screenshot dell'errore",
               "type": "screenshotPage",
               "config": {
@@ -2264,10 +2718,10 @@
             },
             {
               "position": {
-                "x": 21733,
+                "x": 25533,
                 "y": 285
               },
-              "id": "98aa0b40-a583-4918-8d81-2ff90a5c0fd1",
+              "id": "b9ad148e-7e1d-4b67-91d7-4cbaf8fbde66",
               "name": "errore: [Trial reels] Toccando 'Create trial reel' non si apre la ga",
               "type": "throwException",
               "config": {
@@ -2276,10 +2730,10 @@
             },
             {
               "position": {
-                "x": 21933,
+                "x": 25733,
                 "y": 285
               },
-              "id": "917237aa-605b-4836-8694-cc897ebd7ff8",
+              "id": "3c8abf33-eeba-40c1-a899-56263aec1670",
               "name": "End task (dopo l'errore)",
               "type": "endTask",
               "config": {}
@@ -2298,10 +2752,10 @@
       },
       {
         "position": {
-          "x": 22333,
+          "x": 26133,
           "y": 285
         },
-        "id": "58546b37-0419-4587-99d9-f2fde0cea6a8",
+        "id": "22b13615-c2f4-4139-a044-4308c0483cbb",
         "name": "azzera: e' un trial? (galleria)",
         "type": "script",
         "config": {
@@ -2322,10 +2776,10 @@
       },
       {
         "position": {
-          "x": 22533,
+          "x": 26333,
           "y": 285
         },
-        "id": "1041aa69-2d0f-4cff-95b4-2fc1ee32ab91",
+        "id": "c00a9e4a-002c-446b-939f-3af9c98baa30",
         "name": "c'e' 'This is a trial reel'? (galleria)",
         "type": "getEle",
         "config": {
@@ -2349,10 +2803,10 @@
       },
       {
         "position": {
-          "x": 22733,
+          "x": 26533,
           "y": 285
         },
-        "id": "92024f06-c8b6-4688-98fd-9c23f34dcc34",
+        "id": "b386263d-063f-4a07-b4cb-aeb67728ab78",
         "name": "e' un trial?",
         "type": "script",
         "config": {
@@ -2371,10 +2825,10 @@
       },
       {
         "position": {
-          "x": 23533,
+          "x": 27333,
           "y": 285
         },
-        "id": "e6f59f75-45ee-4bc3-ae5f-e749fb34d438",
+        "id": "ac817dca-5706-4568-8d3e-d4b9eaeae96d",
         "name": "IF non e' un trial -> errore (sicurezza)",
         "type": "ifElse",
         "config": {
@@ -2382,10 +2836,10 @@
           "children": [
             {
               "position": {
-                "x": 22933,
+                "x": 26733,
                 "y": 285
               },
-              "id": "a50ebab9-53a5-4974-89f7-dc476f566330",
+              "id": "2847ab7c-2ddc-46f9-bdd9-ebdbb421a43a",
               "name": "screenshot dell'errore",
               "type": "screenshotPage",
               "config": {
@@ -2394,10 +2848,10 @@
             },
             {
               "position": {
-                "x": 23133,
+                "x": 26933,
                 "y": 285
               },
-              "id": "172c65a6-a748-4a00-a00b-d49a83bb73da",
+              "id": "552c916e-8a45-4160-a709-f1dbc31e42a8",
               "name": "errore: [Sicurezza] Nella galleria non vedo 'This is a trial reel': ",
               "type": "throwException",
               "config": {
@@ -2406,10 +2860,10 @@
             },
             {
               "position": {
-                "x": 23333,
+                "x": 27133,
                 "y": 285
               },
-              "id": "ed402c9d-ebda-4a42-be6b-a74cf6e863be",
+              "id": "f6b1594b-6243-4ec8-9063-e785b22c4854",
               "name": "End task (dopo l'errore)",
               "type": "endTask",
               "config": {}
@@ -2428,10 +2882,10 @@
       },
       {
         "position": {
-          "x": 23733,
+          "x": 27533,
           "y": 285
         },
-        "id": "fe120411-e4e2-4c6b-99f3-b75651ab41fa",
+        "id": "3ec7676a-9874-48f9-aed6-1bb5110776ea",
         "name": "azzera: album",
         "type": "script",
         "config": {
@@ -2460,246 +2914,89 @@
       },
       {
         "position": {
-          "x": 23933,
+          "x": 32933,
           "y": 285
         },
-        "id": "8d5d0e84-8e28-4a2a-ab71-5b6ac240bcf7",
-        "name": "apri la lista degli album ('Recents')",
-        "type": "click",
-        "config": {
-          "filterCollection": [
-            [
-              {
-                "content": "Recents",
-                "filterType": "equal",
-                "type": "text"
-              }
-            ],
-            [
-              {
-                "content": "Recents",
-                "filterType": "contain",
-                "type": "text"
-              }
-            ]
-          ],
-          "hiddenChildren": false,
-          "randomDistance": 0,
-          "searchTime": 3000,
-          "useOffset": false,
-          "serialType": "fixedValue",
-          "serial": 1,
-          "excuteError": "noProcessing",
-          "variable": "cRecenti"
-        }
-      },
-      {
-        "position": {
-          "x": 24133,
-          "y": 285
-        },
-        "id": "37f9d8e5-db7b-4e39-b59e-f42b079fea4d",
-        "name": "lista degli album aperta?",
-        "type": "script",
-        "config": {
-          "injectVariables": [
-            "cRecenti"
-          ],
-          "script": "async function main({ cRecenti }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { recentiOk: ok(cRecenti) ? '1' : '0' }; }",
-          "type": "js",
-          "variableMap": [
-            {
-              "value": "recentiOk",
-              "variable": "recentiOk"
-            }
-          ]
-        }
-      },
-      {
-        "position": {
-          "x": 24333,
-          "y": 285
-        },
-        "id": "1383da67-6e59-440b-afee-2f25694360b4",
-        "name": "wait",
-        "type": "waitTime",
-        "config": {
-          "timeoutMax": 2000,
-          "timeoutMin": 1500,
-          "timeoutType": "randomInterval"
-        }
-      },
-      {
-        "position": {
-          "x": 24533,
-          "y": 285
-        },
-        "id": "57da0544-0308-4345-b370-12dc25c82c59",
-        "name": "scegli l'album 'Download' (c'e' solo il video del task)",
-        "type": "click",
-        "config": {
-          "filterCollection": [
-            [
-              {
-                "content": "Download",
-                "filterType": "equal",
-                "type": "text"
-              }
-            ],
-            [
-              {
-                "content": "Downloads",
-                "filterType": "equal",
-                "type": "text"
-              }
-            ]
-          ],
-          "hiddenChildren": false,
-          "randomDistance": 0,
-          "searchTime": 4000,
-          "useOffset": false,
-          "serialType": "fixedValue",
-          "serial": 1,
-          "excuteError": "noProcessing",
-          "variable": "cAlbum"
-        }
-      },
-      {
-        "position": {
-          "x": 24733,
-          "y": 285
-        },
-        "id": "b88752dd-1513-496e-afd2-3de4b31d1723",
-        "name": "album Download scelto?",
-        "type": "script",
-        "config": {
-          "injectVariables": [
-            "cAlbum"
-          ],
-          "script": "async function main({ cAlbum }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { albumOk: ok(cAlbum) ? '1' : '0' }; }",
-          "type": "js",
-          "variableMap": [
-            {
-              "value": "albumOk",
-              "variable": "albumOk"
-            }
-          ]
-        }
-      },
-      {
-        "position": {
-          "x": 26533,
-          "y": 285
-        },
-        "id": "8a6cbee5-75c8-4eac-b93f-89a2927d6679",
-        "name": "IF album 'Download' non trovato",
+        "id": "841388dc-a8d3-4aa9-a490-a027ae1962d1",
+        "name": "IF il video del task NON e' il piu' recente -> apri il suo album",
         "type": "ifElse",
         "config": {
           "apposition": "and",
           "children": [
             {
               "position": {
-                "x": 24933,
+                "x": 29733,
                 "y": 285
               },
-              "id": "70122726-6956-4227-8eaf-a7706c9d540a",
-              "name": "screenshot: album 'Download' non trovato",
-              "type": "screenshotPage",
-              "config": {
-                "error": false,
-                "isBase64": false,
-                "isScope": false
-              }
-            },
-            {
-              "position": {
-                "x": 25733,
-                "y": 285
-              },
-              "id": "822f92cc-838e-447f-bc70-4b975890d4b4",
-              "name": "IF non e' una prova -> errore",
+              "id": "3c9d5629-946b-4ac2-8270-4b0cd5fb2446",
+              "name": "IF il video e' in Download/Downloads -> cerca l'album",
               "type": "ifElse",
               "config": {
                 "apposition": "and",
                 "children": [
                   {
                     "position": {
-                      "x": 25133,
+                      "x": 27733,
                       "y": 285
                     },
-                    "id": "85cc738d-8a77-413f-9bbb-57be2e4897cf",
-                    "name": "screenshot dell'errore",
-                    "type": "screenshotPage",
+                    "id": "24fe5efa-23d4-4419-8d9c-ffc64830b8e9",
+                    "name": "apri la lista degli album ('Recents')",
+                    "type": "click",
                     "config": {
-                      "endPicture": true
+                      "filterCollection": [
+                        [
+                          {
+                            "content": "Recents",
+                            "filterType": "equal",
+                            "type": "text"
+                          }
+                        ],
+                        [
+                          {
+                            "content": "Recents",
+                            "filterType": "contain",
+                            "type": "text"
+                          }
+                        ]
+                      ],
+                      "hiddenChildren": false,
+                      "randomDistance": 0,
+                      "searchTime": 3000,
+                      "useOffset": false,
+                      "serialType": "fixedValue",
+                      "serial": 1,
+                      "excuteError": "noProcessing",
+                      "variable": "cRecenti"
                     }
                   },
                   {
                     "position": {
-                      "x": 25333,
+                      "x": 27933,
                       "y": 285
                     },
-                    "id": "e1055276-0918-4735-9cba-f758fbc6e950",
-                    "name": "errore: [Galleria] Non trovo l'album 'Download': non scelgo un video",
-                    "type": "throwException",
+                    "id": "b6a0a24d-1a59-4abc-98a1-ccd99dda993f",
+                    "name": "lista degli album aperta?",
+                    "type": "script",
                     "config": {
-                      "content": "[Galleria] Non trovo l'album 'Download': non scelgo un video a caso, non pubblico niente."
+                      "injectVariables": [
+                        "cRecenti"
+                      ],
+                      "script": "async function main({ cRecenti }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { recentiOk: ok(cRecenti) ? '1' : '0' }; }",
+                      "type": "js",
+                      "variableMap": [
+                        {
+                          "value": "recentiOk",
+                          "variable": "recentiOk"
+                        }
+                      ]
                     }
                   },
                   {
                     "position": {
-                      "x": 25533,
+                      "x": 28133,
                       "y": 285
                     },
-                    "id": "d6e29f45-885c-4812-a6ea-a01ffc12601d",
-                    "name": "End task (dopo l'errore)",
-                    "type": "endTask",
-                    "config": {}
-                  }
-                ],
-                "conditionList": [
-                  {
-                    "probability": 50,
-                    "relation": "equal",
-                    "useVariable": "prova",
-                    "result": "0"
-                  }
-                ],
-                "other": []
-              }
-            },
-            {
-              "position": {
-                "x": 26333,
-                "y": 285
-              },
-              "id": "c2b15d1a-5e77-4b1d-bcdc-11d727a4bb4b",
-              "name": "IF prova e lista degli album aperta -> chiudila",
-              "type": "ifElse",
-              "config": {
-                "apposition": "and",
-                "children": [
-                  {
-                    "position": {
-                      "x": 25933,
-                      "y": 285
-                    },
-                    "id": "1be55310-5c30-47b4-a00c-17975047df88",
-                    "name": "indietro",
-                    "type": "executeADB",
-                    "config": {
-                      "content": "input keyevent 4",
-                      "timeout": 120000,
-                      "variable": "backOut",
-                      "error": false
-                    }
-                  },
-                  {
-                    "position": {
-                      "x": 26133,
-                      "y": 285
-                    },
-                    "id": "099cc96d-d085-420f-92f8-c17da5a93d40",
+                    "id": "bec75d4e-3102-457a-8439-c9c1794c042a",
                     "name": "wait",
                     "type": "waitTime",
                     "config": {
@@ -2707,14 +3004,459 @@
                       "timeoutMin": 1500,
                       "timeoutType": "randomInterval"
                     }
+                  },
+                  {
+                    "position": {
+                      "x": 29533,
+                      "y": 285
+                    },
+                    "id": "df0e230a-5bc4-41c4-9be1-42a0f6ad180a",
+                    "name": "cerca l'album del video (scorre la lista se serve)",
+                    "type": "forTimes",
+                    "config": {
+                      "serialType": "randomInterval",
+                      "minTimes": 3,
+                      "maxTimes": 3,
+                      "hiddenChildren": false,
+                      "children": [
+                        {
+                          "position": {
+                            "x": 29333,
+                            "y": 285
+                          },
+                          "id": "873126a0-59d3-4b0c-9955-06667c02164e",
+                          "name": "IF album non ancora scelto",
+                          "type": "ifElse",
+                          "config": {
+                            "apposition": "and",
+                            "children": [
+                              {
+                                "position": {
+                                  "x": 28333,
+                                  "y": 285
+                                },
+                                "id": "637cbf57-e0f3-4359-ada0-9966634a01c4",
+                                "name": "tocca l'album del video (Download)",
+                                "type": "click",
+                                "config": {
+                                  "filterCollection": [
+                                    [
+                                      {
+                                        "content": "${albumNome}",
+                                        "filterType": "equal",
+                                        "type": "text"
+                                      }
+                                    ],
+                                    [
+                                      {
+                                        "content": "Download",
+                                        "filterType": "equal",
+                                        "type": "text"
+                                      }
+                                    ],
+                                    [
+                                      {
+                                        "content": "Downloads",
+                                        "filterType": "equal",
+                                        "type": "text"
+                                      }
+                                    ]
+                                  ],
+                                  "hiddenChildren": false,
+                                  "randomDistance": 0,
+                                  "searchTime": 3000,
+                                  "useOffset": false,
+                                  "serialType": "fixedValue",
+                                  "serial": 1,
+                                  "excuteError": "noProcessing",
+                                  "variable": "cAlbum"
+                                }
+                              },
+                              {
+                                "position": {
+                                  "x": 28533,
+                                  "y": 285
+                                },
+                                "id": "5ea25523-4bd9-4de7-9aeb-b913ad936146",
+                                "name": "album scelto?",
+                                "type": "script",
+                                "config": {
+                                  "injectVariables": [
+                                    "cAlbum"
+                                  ],
+                                  "script": "async function main({ cAlbum }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { albumOk: ok(cAlbum) ? '1' : '0' }; }",
+                                  "type": "js",
+                                  "variableMap": [
+                                    {
+                                      "value": "albumOk",
+                                      "variable": "albumOk"
+                                    }
+                                  ]
+                                }
+                              },
+                              {
+                                "position": {
+                                  "x": 29133,
+                                  "y": 285
+                                },
+                                "id": "445b9820-2b3d-4743-9551-ecef81277b93",
+                                "name": "IF non visto -> scorri la lista degli album",
+                                "type": "ifElse",
+                                "config": {
+                                  "apposition": "and",
+                                  "children": [
+                                    {
+                                      "position": {
+                                        "x": 28733,
+                                        "y": 285
+                                      },
+                                      "id": "cbc4da02-7ec3-4bd0-8e4c-08b108e57212",
+                                      "name": "scorri la lista degli album",
+                                      "type": "executeADB",
+                                      "config": {
+                                        "content": "input swipe 360 1100 360 500 500",
+                                        "timeout": 120000,
+                                        "variable": "scorriOut",
+                                        "error": false
+                                      }
+                                    },
+                                    {
+                                      "position": {
+                                        "x": 28933,
+                                        "y": 285
+                                      },
+                                      "id": "f75f538f-1cb5-44aa-849b-4935c3784259",
+                                      "name": "wait",
+                                      "type": "waitTime",
+                                      "config": {
+                                        "timeoutMax": 1500,
+                                        "timeoutMin": 1000,
+                                        "timeoutType": "randomInterval"
+                                      }
+                                    }
+                                  ],
+                                  "conditionList": [
+                                    {
+                                      "probability": 50,
+                                      "relation": "equal",
+                                      "useVariable": "albumOk",
+                                      "result": "0"
+                                    },
+                                    {
+                                      "probability": 50,
+                                      "relation": "equal",
+                                      "useVariable": "recentiOk",
+                                      "result": "1"
+                                    }
+                                  ],
+                                  "other": []
+                                }
+                              }
+                            ],
+                            "conditionList": [
+                              {
+                                "probability": 50,
+                                "relation": "equal",
+                                "useVariable": "albumOk",
+                                "result": "0"
+                              }
+                            ],
+                            "other": []
+                          }
+                        }
+                      ]
+                    }
                   }
                 ],
                 "conditionList": [
                   {
                     "probability": 50,
                     "relation": "equal",
-                    "useVariable": "recentiOk",
+                    "useVariable": "albumSicuro",
                     "result": "1"
+                  }
+                ],
+                "other": []
+              }
+            },
+            {
+              "position": {
+                "x": 32733,
+                "y": 285
+              },
+              "id": "6adb5c69-65ff-4dd0-b1b8-0d4d32a21887",
+              "name": "IF album non trovato",
+              "type": "ifElse",
+              "config": {
+                "apposition": "and",
+                "children": [
+                  {
+                    "position": {
+                      "x": 29933,
+                      "y": 285
+                    },
+                    "id": "38cf2eec-7003-48e4-86fb-40c2db4e7b25",
+                    "name": "screenshot: album del video non trovato",
+                    "type": "screenshotPage",
+                    "config": {
+                      "error": false,
+                      "isBase64": false,
+                      "isScope": false
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 30133,
+                      "y": 285
+                    },
+                    "id": "61f4076e-a841-4fa7-bc23-538535522669",
+                    "name": "azzera: testi a schermo",
+                    "type": "script",
+                    "config": {
+                      "injectVariables": [],
+                      "script": "async function main() { return { testi: \"\", tx: \"\" }; }",
+                      "type": "js",
+                      "variableMap": [
+                        {
+                          "value": "testi",
+                          "variable": "testi"
+                        },
+                        {
+                          "value": "tx",
+                          "variable": "tx"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 30933,
+                      "y": 285
+                    },
+                    "id": "36d2c6fe-bb76-4a70-b97c-7cb88e7a8aa0",
+                    "name": "leggi i testi a schermo (finiscono nel log)",
+                    "type": "forTimes",
+                    "config": {
+                      "serialType": "randomInterval",
+                      "minTimes": 15,
+                      "maxTimes": 15,
+                      "hiddenChildren": false,
+                      "children": [
+                        {
+                          "position": {
+                            "x": 30333,
+                            "y": 285
+                          },
+                          "id": "5d9d334b-9766-4146-8f56-532745779c65",
+                          "name": "azzera testo",
+                          "type": "script",
+                          "config": {
+                            "injectVariables": [],
+                            "script": "async function main() { return { tx: \"\" }; }",
+                            "type": "js",
+                            "variableMap": [
+                              {
+                                "value": "tx",
+                                "variable": "tx"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "position": {
+                            "x": 30533,
+                            "y": 285
+                          },
+                          "id": "39cd61ae-a0cd-4709-8b5a-a706ea10e832",
+                          "name": "testo n. kt",
+                          "type": "getEle",
+                          "config": {
+                            "filterCollection": [
+                              [
+                                {
+                                  "content": "android.widget.TextView",
+                                  "filterType": "equal",
+                                  "type": "class"
+                                }
+                              ]
+                            ],
+                            "serialType": "fixedValue",
+                            "serial": "${kt}",
+                            "hiddenChildren": false,
+                            "searchTime": 500,
+                            "type": "text",
+                            "variable": "tx",
+                            "error": false
+                          }
+                        },
+                        {
+                          "position": {
+                            "x": 30733,
+                            "y": 285
+                          },
+                          "id": "9202042d-9a5f-47d2-ba19-87b12c0960bc",
+                          "name": "aggiungi il testo",
+                          "type": "script",
+                          "config": {
+                            "injectVariables": [
+                              "testi",
+                              "tx"
+                            ],
+                            "script": "async function main({ testi, tx }) { const t=String(tx||'').trim(); return { testi: t ? (String(testi||'') + ' | ' + t).slice(-1500) : String(testi||'') }; }",
+                            "type": "js",
+                            "variableMap": [
+                              {
+                                "value": "testi",
+                                "variable": "testi"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "variableIndex": "kt"
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 31133,
+                      "y": 285
+                    },
+                    "id": "272321e3-009d-48ec-be8b-9e2e870ed612",
+                    "name": "cosa vede (per il log)",
+                    "type": "script",
+                    "config": {
+                      "injectVariables": [
+                        "testi",
+                        "videoPath",
+                        "albumNome",
+                        "ordineOut"
+                      ],
+                      "script": "async function main({ testi, videoPath, albumNome, ordineOut }) { return { diag: 'album=' + String(albumNome||'') + ' video=' + String(videoPath||'') }; }",
+                      "type": "js",
+                      "variableMap": [
+                        {
+                          "value": "diag",
+                          "variable": "diag"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 31933,
+                      "y": 285
+                    },
+                    "id": "112cef7a-26e5-4975-b571-964872897c65",
+                    "name": "IF non e' una prova -> errore",
+                    "type": "ifElse",
+                    "config": {
+                      "apposition": "and",
+                      "children": [
+                        {
+                          "position": {
+                            "x": 31333,
+                            "y": 285
+                          },
+                          "id": "f56e13e9-afba-416b-9359-6c2dd732c918",
+                          "name": "screenshot dell'errore",
+                          "type": "screenshotPage",
+                          "config": {
+                            "endPicture": true
+                          }
+                        },
+                        {
+                          "position": {
+                            "x": 31533,
+                            "y": 285
+                          },
+                          "id": "aa6ca496-30af-4ebb-98fe-cb77dd7bb64a",
+                          "name": "errore: [Galleria] Il video del task non e' il primo della galleria ",
+                          "type": "throwException",
+                          "config": {
+                            "content": "[Galleria] Il video del task non e' il primo della galleria e non trovo il suo album: non scelgo un video a caso, non pubblico niente."
+                          }
+                        },
+                        {
+                          "position": {
+                            "x": 31733,
+                            "y": 285
+                          },
+                          "id": "d80b573f-d615-4465-adc8-36e78d2b9dc2",
+                          "name": "End task (dopo l'errore)",
+                          "type": "endTask",
+                          "config": {}
+                        }
+                      ],
+                      "conditionList": [
+                        {
+                          "probability": 50,
+                          "relation": "equal",
+                          "useVariable": "prova",
+                          "result": "0"
+                        }
+                      ],
+                      "other": []
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 32533,
+                      "y": 285
+                    },
+                    "id": "243cb8a6-74d3-41b9-aa8d-89dab9f85179",
+                    "name": "IF prova e lista degli album aperta -> chiudila",
+                    "type": "ifElse",
+                    "config": {
+                      "apposition": "and",
+                      "children": [
+                        {
+                          "position": {
+                            "x": 32133,
+                            "y": 285
+                          },
+                          "id": "f37469a0-50ab-4e14-b5b8-f6900f7424fd",
+                          "name": "indietro",
+                          "type": "executeADB",
+                          "config": {
+                            "content": "input keyevent 4",
+                            "timeout": 120000,
+                            "variable": "backOut",
+                            "error": false
+                          }
+                        },
+                        {
+                          "position": {
+                            "x": 32333,
+                            "y": 285
+                          },
+                          "id": "ab201811-4901-4af5-bc47-373895a10535",
+                          "name": "wait",
+                          "type": "waitTime",
+                          "config": {
+                            "timeoutMax": 2000,
+                            "timeoutMin": 1500,
+                            "timeoutType": "randomInterval"
+                          }
+                        }
+                      ],
+                      "conditionList": [
+                        {
+                          "probability": 50,
+                          "relation": "equal",
+                          "useVariable": "recentiOk",
+                          "result": "1"
+                        }
+                      ],
+                      "other": []
+                    }
+                  }
+                ],
+                "conditionList": [
+                  {
+                    "probability": 50,
+                    "relation": "equal",
+                    "useVariable": "albumOk",
+                    "result": "0"
                   }
                 ],
                 "other": []
@@ -2725,7 +3467,7 @@
             {
               "probability": 50,
               "relation": "equal",
-              "useVariable": "albumOk",
+              "useVariable": "primo",
               "result": "0"
             }
           ],
@@ -2734,10 +3476,10 @@
       },
       {
         "position": {
-          "x": 26733,
+          "x": 33133,
           "y": 285
         },
-        "id": "8be111e8-4e41-4dc8-9dec-b871c7670ffd",
+        "id": "90c6df3a-6a48-4d64-b82c-8d3ff062a8b5",
         "name": "wait",
         "type": "waitTime",
         "config": {
@@ -2748,10 +3490,10 @@
       },
       {
         "position": {
-          "x": 26933,
+          "x": 33333,
           "y": 285
         },
-        "id": "4be8628d-c7b2-49db-b9ec-51760641d6d3",
+        "id": "cca49675-c1f9-42e2-9210-01634e0b553d",
         "name": "azzera: video scelto?",
         "type": "script",
         "config": {
@@ -2776,10 +3518,10 @@
       },
       {
         "position": {
-          "x": 27133,
+          "x": 33533,
           "y": 285
         },
-        "id": "6761b0e8-1e41-44e7-9ea0-92b3408b7535",
+        "id": "d34351d1-0de0-4879-be39-bd0e02b1be14",
         "name": "tocca il primo video (quello del task)",
         "type": "click",
         "config": {
@@ -2811,10 +3553,10 @@
       },
       {
         "position": {
-          "x": 27333,
+          "x": 33733,
           "y": 285
         },
-        "id": "3ee83f00-b51d-45ba-9102-12420be9e86f",
+        "id": "00fae874-f44e-4b70-a96c-af20d1675935",
         "name": "aspetta l'editor",
         "type": "waitTime",
         "config": {
@@ -2825,10 +3567,10 @@
       },
       {
         "position": {
-          "x": 27533,
+          "x": 33933,
           "y": 285
         },
-        "id": "8295976a-496a-4cc4-baac-6677c3ceb1f8",
+        "id": "64c8b02a-623c-488c-b655-b8d901568e37",
         "name": "si e' aperto l'editor? (tasto Next)",
         "type": "getEle",
         "config": {
@@ -2871,10 +3613,10 @@
       },
       {
         "position": {
-          "x": 27733,
+          "x": 34133,
           "y": 285
         },
-        "id": "5f2a7e31-44af-4972-aa1d-1389e2c942c2",
+        "id": "1f3ac914-ac39-481f-abb5-1071e67ef328",
         "name": "editor aperto?",
         "type": "script",
         "config": {
@@ -2893,10 +3635,10 @@
       },
       {
         "position": {
-          "x": 28933,
+          "x": 35333,
           "y": 285
         },
-        "id": "c2ec11ea-137a-4820-afe1-e3f5ae18399a",
+        "id": "2a84886e-af71-4be2-9496-4f7cca722c71",
         "name": "IF editor non aperto -> tocca di nuovo il video",
         "type": "ifElse",
         "config": {
@@ -2904,10 +3646,10 @@
           "children": [
             {
               "position": {
-                "x": 27933,
+                "x": 34333,
                 "y": 285
               },
-              "id": "6cc2ed61-5952-48fa-9f43-2d0e7d124d62",
+              "id": "33f019c3-3c9b-49b0-b5e3-16a697d033ea",
               "name": "tocca il primo video (quello del task)",
               "type": "click",
               "config": {
@@ -2939,10 +3681,10 @@
             },
             {
               "position": {
-                "x": 28133,
+                "x": 34533,
                 "y": 285
               },
-              "id": "f2532853-436b-4ad1-9f1c-71aa3be7b30e",
+              "id": "4ab4acf6-4483-4208-b514-3a249b49b995",
               "name": "aspetta l'editor",
               "type": "waitTime",
               "config": {
@@ -2953,10 +3695,10 @@
             },
             {
               "position": {
-                "x": 28333,
+                "x": 34733,
                 "y": 285
               },
-              "id": "8d1984a9-26c0-4b66-9556-fe4e41eddd0d",
+              "id": "75719d4e-e71f-49a8-bec4-2f811e581b24",
               "name": "azzera: editor?",
               "type": "script",
               "config": {
@@ -2973,10 +3715,10 @@
             },
             {
               "position": {
-                "x": 28533,
+                "x": 34933,
                 "y": 285
               },
-              "id": "3c3ec56b-9ded-4b88-9270-ba499555f493",
+              "id": "b061c73f-650f-451a-8c61-63abf333b835",
               "name": "si e' aperto l'editor? (tasto Next)",
               "type": "getEle",
               "config": {
@@ -3019,10 +3761,10 @@
             },
             {
               "position": {
-                "x": 28733,
+                "x": 35133,
                 "y": 285
               },
-              "id": "fa61e82f-0787-4598-97ca-9d79c8659671",
+              "id": "7fbb4da6-3df3-40bd-8cf8-019568a86c72",
               "name": "editor aperto?",
               "type": "script",
               "config": {
@@ -3053,10 +3795,10 @@
       },
       {
         "position": {
-          "x": 29733,
+          "x": 36133,
           "y": 285
         },
-        "id": "1bf46e21-4ced-47d2-a8b3-bf0c1ac3618e",
+        "id": "859c1720-6ee8-436d-8be5-1599dd228235",
         "name": "IF editor non aperto -> errore",
         "type": "ifElse",
         "config": {
@@ -3064,10 +3806,10 @@
           "children": [
             {
               "position": {
-                "x": 29133,
+                "x": 35533,
                 "y": 285
               },
-              "id": "ede61f24-408b-4462-a1b1-e0ff7efcd8c0",
+              "id": "c4271176-db4e-4c1e-9a4d-913c3e31b427",
               "name": "screenshot dell'errore",
               "type": "screenshotPage",
               "config": {
@@ -3076,10 +3818,10 @@
             },
             {
               "position": {
-                "x": 29333,
+                "x": 35733,
                 "y": 285
               },
-              "id": "ed29f32b-1b9b-44d6-94c7-ed9d8b2e46e1",
+              "id": "39665d5d-798e-40c5-9f37-7cfea3b8c3f9",
               "name": "errore: [Galleria] Non riesco ad aprire il video nell'editor.",
               "type": "throwException",
               "config": {
@@ -3088,10 +3830,10 @@
             },
             {
               "position": {
-                "x": 29533,
+                "x": 35933,
                 "y": 285
               },
-              "id": "c40cd6b6-c250-485e-90db-47c74a7f4cd2",
+              "id": "39c9a214-4bf1-4958-b2e0-ee848a9afe51",
               "name": "End task (dopo l'errore)",
               "type": "endTask",
               "config": {}
@@ -3110,10 +3852,10 @@
       },
       {
         "position": {
-          "x": 29933,
+          "x": 36333,
           "y": 285
         },
-        "id": "824d5816-1aec-417f-9a81-eae1e6693f25",
+        "id": "a45c0407-dc0d-4108-888b-5569379026d0",
         "name": "pop-up 'Create a sticker' -> Not now",
         "type": "click",
         "config": {
@@ -3137,10 +3879,10 @@
       },
       {
         "position": {
-          "x": 30133,
+          "x": 36533,
           "y": 285
         },
-        "id": "a3f66902-3a29-4518-aec1-3ac17cc61958",
+        "id": "9ad7a2ec-970f-48f0-a990-5d16f497ee7c",
         "name": "wait",
         "type": "waitTime",
         "config": {
@@ -3151,10 +3893,10 @@
       },
       {
         "position": {
-          "x": 30333,
+          "x": 36733,
           "y": 285
         },
-        "id": "472d055a-4a0e-4c81-acb5-cb1f5bf465d3",
+        "id": "8871ecea-319e-4454-81ad-e5d2c80d31e4",
         "name": "azzera: Next",
         "type": "script",
         "config": {
@@ -3175,10 +3917,10 @@
       },
       {
         "position": {
-          "x": 30533,
+          "x": 36933,
           "y": 285
         },
-        "id": "c70edc03-d9e0-419e-a2c7-a212ead27d11",
+        "id": "6f0cdf3b-1506-4452-a8f0-819a74fd2ae1",
         "name": "tocca Next",
         "type": "click",
         "config": {
@@ -3222,10 +3964,10 @@
       },
       {
         "position": {
-          "x": 30733,
+          "x": 37133,
           "y": 285
         },
-        "id": "02246696-2f8c-48ca-a907-bef64f76dda7",
+        "id": "770176f7-1196-4e3f-b2da-d4fa18b59af6",
         "name": "Next toccato?",
         "type": "script",
         "config": {
@@ -3244,10 +3986,10 @@
       },
       {
         "position": {
-          "x": 31533,
+          "x": 37933,
           "y": 285
         },
-        "id": "628b12b1-0ce2-4060-9ad4-c7b9e76bcccc",
+        "id": "a79db4b8-c5c0-452b-8fd3-10bc84640210",
         "name": "IF Next non toccato -> errore",
         "type": "ifElse",
         "config": {
@@ -3255,10 +3997,10 @@
           "children": [
             {
               "position": {
-                "x": 30933,
+                "x": 37333,
                 "y": 285
               },
-              "id": "1df962af-cde5-4858-8901-ca5156b745a2",
+              "id": "6fc2af4d-3583-4562-b09f-40f495100855",
               "name": "screenshot dell'errore",
               "type": "screenshotPage",
               "config": {
@@ -3267,10 +4009,10 @@
             },
             {
               "position": {
-                "x": 31133,
+                "x": 37533,
                 "y": 285
               },
-              "id": "2a88c9fc-c037-47bd-a7b1-5cd6f7b859c8",
+              "id": "c2206679-fea2-4735-a723-005260ff7961",
               "name": "errore: [Editor] Non riesco a toccare 'Next'.",
               "type": "throwException",
               "config": {
@@ -3279,10 +4021,10 @@
             },
             {
               "position": {
-                "x": 31333,
+                "x": 37733,
                 "y": 285
               },
-              "id": "8984fffc-c534-499a-8977-4d2ae8097c41",
+              "id": "65ab8392-70f0-43cd-9a77-01082e183342",
               "name": "End task (dopo l'errore)",
               "type": "endTask",
               "config": {}
@@ -3301,10 +4043,10 @@
       },
       {
         "position": {
-          "x": 31733,
+          "x": 38133,
           "y": 285
         },
-        "id": "5406b02d-531b-427c-96cc-a4132a4a062a",
+        "id": "71e92881-a60b-4c9e-b92a-c94bf70102ba",
         "name": "aspetta la pagina finale",
         "type": "waitTime",
         "config": {
@@ -3315,10 +4057,10 @@
       },
       {
         "position": {
-          "x": 31933,
+          "x": 38333,
           "y": 285
         },
-        "id": "c147b8ea-b708-4303-b7cf-057f5c38ef43",
+        "id": "7586ff75-d23d-4ecd-a401-2258811545f9",
         "name": "azzera: avviso download",
         "type": "script",
         "config": {
@@ -3339,10 +4081,10 @@
       },
       {
         "position": {
-          "x": 32133,
+          "x": 38533,
           "y": 285
         },
-        "id": "7c21b750-a4a9-46f8-9bd6-a11544cda3bb",
+        "id": "58f4bfc8-adbb-496a-8b40-9a3aa8163912",
         "name": "avviso 'Others can now download and share'?",
         "type": "getEle",
         "config": {
@@ -3366,10 +4108,10 @@
       },
       {
         "position": {
-          "x": 32333,
+          "x": 38733,
           "y": 285
         },
-        "id": "d77efebc-d0e2-4f78-8736-d746193d0523",
+        "id": "128ef3ab-2c05-4ed1-ab47-6fc89210f070",
         "name": "avviso?",
         "type": "script",
         "config": {
@@ -3388,10 +4130,10 @@
       },
       {
         "position": {
-          "x": 32933,
+          "x": 39333,
           "y": 285
         },
-        "id": "03747048-46b7-466b-a53e-a8ff98b0dcd2",
+        "id": "948880d1-bbe3-41e4-956f-94f8119dfa02",
         "name": "IF avviso -> Continue",
         "type": "ifElse",
         "config": {
@@ -3399,10 +4141,10 @@
           "children": [
             {
               "position": {
-                "x": 32533,
+                "x": 38933,
                 "y": 285
               },
-              "id": "47765d56-b5c2-4566-b6ef-2df045e57733",
+              "id": "10671345-7df4-46fe-8a55-676fe75b4272",
               "name": "tocca Continue",
               "type": "click",
               "config": {
@@ -3438,10 +4180,10 @@
             },
             {
               "position": {
-                "x": 32733,
+                "x": 39133,
                 "y": 285
               },
-              "id": "29668046-73a4-4f82-8030-d4059209e4c1",
+              "id": "f83d2f5a-4a5c-4966-9815-1e7fafe6fce7",
               "name": "wait",
               "type": "waitTime",
               "config": {
@@ -3464,10 +4206,10 @@
       },
       {
         "position": {
-          "x": 33133,
+          "x": 39533,
           "y": 285
         },
-        "id": "a5ba5a10-cad5-4e9d-8a68-5e0574faa14f",
+        "id": "6a648eab-28d9-4ba9-a5cd-0f8030e917bb",
         "name": "azzera: e' un trial? (pagina finale)",
         "type": "script",
         "config": {
@@ -3488,10 +4230,10 @@
       },
       {
         "position": {
-          "x": 33333,
+          "x": 39733,
           "y": 285
         },
-        "id": "6b4bd633-a082-4363-b5a2-bc175012af0e",
+        "id": "40c2698a-b80c-4cd9-9c30-351df95c9681",
         "name": "c'e' 'This is a trial reel'? (pagina finale)",
         "type": "getEle",
         "config": {
@@ -3515,10 +4257,10 @@
       },
       {
         "position": {
-          "x": 33533,
+          "x": 39933,
           "y": 285
         },
-        "id": "aacf4fa9-8124-410d-ab4a-9b82fb180332",
+        "id": "419f8c4a-81c7-43f6-ac03-bd0fcf363fcf",
         "name": "e' un trial?",
         "type": "script",
         "config": {
@@ -3537,10 +4279,10 @@
       },
       {
         "position": {
-          "x": 34333,
+          "x": 40733,
           "y": 285
         },
-        "id": "b7bfc884-40b8-46af-ac14-2ef3226a439a",
+        "id": "deca6009-30f1-42c4-8ba0-7fe080b20b55",
         "name": "IF non e' un trial -> errore (sicurezza)",
         "type": "ifElse",
         "config": {
@@ -3548,10 +4290,10 @@
           "children": [
             {
               "position": {
-                "x": 33733,
+                "x": 40133,
                 "y": 285
               },
-              "id": "c6a62580-4822-4b80-a4a7-2032267fe5b3",
+              "id": "8a9d7ff3-c157-43dd-b041-913af51767cb",
               "name": "screenshot dell'errore",
               "type": "screenshotPage",
               "config": {
@@ -3560,10 +4302,10 @@
             },
             {
               "position": {
-                "x": 33933,
+                "x": 40333,
                 "y": 285
               },
-              "id": "15b4a3d2-e643-4bd5-8246-88276046da61",
+              "id": "a26dcfda-b124-46f1-b9f6-0eb53fd8beff",
               "name": "errore: [Sicurezza] Nella pagina finale non vedo 'This is a trial re",
               "type": "throwException",
               "config": {
@@ -3572,10 +4314,10 @@
             },
             {
               "position": {
-                "x": 34133,
+                "x": 40533,
                 "y": 285
               },
-              "id": "6bc55541-7278-45ee-bc0f-24b7f29bbcf0",
+              "id": "090cd68c-5a3c-42ea-9043-01c8c735a018",
               "name": "End task (dopo l'errore)",
               "type": "endTask",
               "config": {}
@@ -3594,10 +4336,10 @@
       },
       {
         "position": {
-          "x": 37133,
+          "x": 43533,
           "y": 285
         },
-        "id": "5b4dc7d9-d299-43e2-bb43-30caa72e9607",
+        "id": "bd824d28-1f2d-4df1-8e0d-095ae6b6a89e",
         "name": "IF c'e' una descrizione -> scrivila",
         "type": "ifElse",
         "config": {
@@ -3605,10 +4347,10 @@
           "children": [
             {
               "position": {
-                "x": 34533,
+                "x": 40933,
                 "y": 285
               },
-              "id": "952e7e5c-ecfc-413d-a943-925f2b6cda42",
+              "id": "f2e4b8cf-205c-4115-a9ef-38677833515c",
               "name": "azzera: descrizione",
               "type": "script",
               "config": {
@@ -3629,10 +4371,10 @@
             },
             {
               "position": {
-                "x": 34733,
+                "x": 41133,
                 "y": 285
               },
-              "id": "5ec972d1-c946-4ac5-8a81-021d733acc3d",
+              "id": "27a14cc0-2bed-4214-afec-3110ce1c097a",
               "name": "scrivi la descrizione",
               "type": "inputContent",
               "config": {
@@ -3656,10 +4398,10 @@
             },
             {
               "position": {
-                "x": 34933,
+                "x": 41333,
                 "y": 285
               },
-              "id": "4a5ad921-36b0-4c3d-80e5-3a6d819834e4",
+              "id": "efb527eb-9b8c-49d1-b37f-622cf27556a9",
               "name": "descrizione scritta?",
               "type": "script",
               "config": {
@@ -3678,10 +4420,10 @@
             },
             {
               "position": {
-                "x": 35533,
+                "x": 41933,
                 "y": 285
               },
-              "id": "f1c48b4c-9673-44da-be42-f3cc72c676e1",
+              "id": "8a503304-1132-48e5-bba6-cf6f208803d9",
               "name": "IF non scritta -> prova nella casella di testo",
               "type": "ifElse",
               "config": {
@@ -3689,10 +4431,10 @@
                 "children": [
                   {
                     "position": {
-                      "x": 35133,
+                      "x": 41533,
                       "y": 285
                     },
-                    "id": "ef082832-e1fa-435a-83ad-70686ef81723",
+                    "id": "15761eb4-aab0-4b34-8550-5c58beae16c3",
                     "name": "scrivi la descrizione (casella di testo)",
                     "type": "inputContent",
                     "config": {
@@ -3716,10 +4458,10 @@
                   },
                   {
                     "position": {
-                      "x": 35333,
+                      "x": 41733,
                       "y": 285
                     },
-                    "id": "92da6d7b-5104-465b-adb8-38a28b7243a9",
+                    "id": "3fb927ed-e0af-4e2e-9674-761b503ebc26",
                     "name": "descrizione scritta?",
                     "type": "script",
                     "config": {
@@ -3750,10 +4492,10 @@
             },
             {
               "position": {
-                "x": 36333,
+                "x": 42733,
                 "y": 285
               },
-              "id": "52251e02-ac1e-4379-adc1-0285611487f1",
+              "id": "bf905d08-0a1b-435d-875a-2c5e51daaade",
               "name": "IF non scritta -> errore",
               "type": "ifElse",
               "config": {
@@ -3761,10 +4503,10 @@
                 "children": [
                   {
                     "position": {
-                      "x": 35733,
+                      "x": 42133,
                       "y": 285
                     },
-                    "id": "f05488d1-3993-4def-be3a-24afde2a6e6a",
+                    "id": "04d7822a-548f-4a3f-a8e8-7be3fe3d317e",
                     "name": "screenshot dell'errore",
                     "type": "screenshotPage",
                     "config": {
@@ -3773,10 +4515,10 @@
                   },
                   {
                     "position": {
-                      "x": 35933,
+                      "x": 42333,
                       "y": 285
                     },
-                    "id": "78905726-a9e0-471b-bdaa-da567fe9f51b",
+                    "id": "6a4d5d67-7e98-4251-a792-6c562a57e0fd",
                     "name": "errore: [Descrizione] Non riesco a scrivere la descrizione.",
                     "type": "throwException",
                     "config": {
@@ -3785,10 +4527,10 @@
                   },
                   {
                     "position": {
-                      "x": 36133,
+                      "x": 42533,
                       "y": 285
                     },
-                    "id": "9e85c7d7-fafb-4c29-a6d8-32f82ce2c551",
+                    "id": "cb75d2d9-a597-49e9-a586-bdb9cf5ac65e",
                     "name": "End task (dopo l'errore)",
                     "type": "endTask",
                     "config": {}
@@ -3807,10 +4549,10 @@
             },
             {
               "position": {
-                "x": 36533,
+                "x": 42933,
                 "y": 285
               },
-              "id": "033be4a6-cc0a-4987-9315-5b19fb2bcf74",
+              "id": "a8e2557a-eb96-46c5-8810-092fca74fc45",
               "name": "wait",
               "type": "waitTime",
               "config": {
@@ -3821,10 +4563,10 @@
             },
             {
               "position": {
-                "x": 36733,
+                "x": 43133,
                 "y": 285
               },
-              "id": "fd316d9b-49e8-4048-9314-be177ee46544",
+              "id": "ee00c96b-d9cb-4c6b-b354-a62e8e88acbe",
               "name": "tocca OK (fine descrizione), se c'e'",
               "type": "click",
               "config": {
@@ -3869,10 +4611,10 @@
             },
             {
               "position": {
-                "x": 36933,
+                "x": 43333,
                 "y": 285
               },
-              "id": "d103c466-3e8b-4406-a118-509beeb65271",
+              "id": "be5426c3-ad30-4ab7-9865-21024f6f2243",
               "name": "wait",
               "type": "waitTime",
               "config": {
@@ -3895,10 +4637,10 @@
       },
       {
         "position": {
-          "x": 37333,
+          "x": 43733,
           "y": 285
         },
-        "id": "ca0b34d2-0a6d-4a98-b06c-9fcaa99df70d",
+        "id": "98040aa4-8191-4fa2-9f35-f81ff1b7ae74",
         "name": "screenshot: descrizione",
         "type": "screenshotPage",
         "config": {
@@ -3909,10 +4651,10 @@
       },
       {
         "position": {
-          "x": 37533,
+          "x": 43933,
           "y": 285
         },
-        "id": "6f9504fe-667e-480c-a958-e763a7b09fb7",
+        "id": "c79ec5dc-aecf-4598-9cf4-ccfa208ec185",
         "name": "azzera: fondo della pagina",
         "type": "script",
         "config": {
@@ -3933,10 +4675,10 @@
       },
       {
         "position": {
-          "x": 40333,
+          "x": 46733,
           "y": 285
         },
-        "id": "0bdceedb-0736-4a34-984f-9c66c649f025",
+        "id": "6b5bcc69-dd23-4283-9a64-5e260923f07e",
         "name": "scorri giu' fino a 'Share to' (al massimo 5 volte)",
         "type": "forTimes",
         "config": {
@@ -3947,10 +4689,10 @@
           "children": [
             {
               "position": {
-                "x": 40133,
+                "x": 46533,
                 "y": 285
               },
-              "id": "932116fa-a60d-40c6-a938-8b86019c0554",
+              "id": "811da7ae-683f-4cce-a6b7-dffc7fc71ce7",
               "name": "IF fondo non ancora visto",
               "type": "ifElse",
               "config": {
@@ -3958,10 +4700,10 @@
                 "children": [
                   {
                     "position": {
-                      "x": 37733,
+                      "x": 44133,
                       "y": 285
                     },
-                    "id": "1f715b76-c889-4dd8-939c-206d628e39cf",
+                    "id": "8c4c0e79-71ec-4e67-8f7c-3391d37eb033",
                     "name": "azzera: pagina finale?",
                     "type": "script",
                     "config": {
@@ -3982,10 +4724,10 @@
                   },
                   {
                     "position": {
-                      "x": 37933,
+                      "x": 44333,
                       "y": 285
                     },
-                    "id": "eeef0b2d-990c-4424-bbd7-3fdd929f73f5",
+                    "id": "50c1cc55-2e2c-4221-a244-1ff91f54dba4",
                     "name": "sono ancora sulla pagina finale?",
                     "type": "getEle",
                     "config": {
@@ -4051,10 +4793,10 @@
                   },
                   {
                     "position": {
-                      "x": 38133,
+                      "x": 44533,
                       "y": 285
                     },
-                    "id": "4555299e-1226-4913-a5b3-5d71b0851b54",
+                    "id": "3e98a3ec-ba56-4ed9-b60d-852a825d4343",
                     "name": "pagina finale?",
                     "type": "script",
                     "config": {
@@ -4073,10 +4815,10 @@
                   },
                   {
                     "position": {
-                      "x": 38933,
+                      "x": 45333,
                       "y": 285
                     },
-                    "id": "e19dd8e0-11ef-4290-8f71-0573b585db16",
+                    "id": "f6eba42a-93d1-45c2-85be-b00b14a86aba",
                     "name": "IF non sono piu' sulla pagina finale -> errore (non scorro)",
                     "type": "ifElse",
                     "config": {
@@ -4084,10 +4826,10 @@
                       "children": [
                         {
                           "position": {
-                            "x": 38333,
+                            "x": 44733,
                             "y": 285
                           },
-                          "id": "43318188-45ea-429d-b458-88a858214931",
+                          "id": "2de488ea-cf58-477a-8902-d384433d8f42",
                           "name": "screenshot dell'errore",
                           "type": "screenshotPage",
                           "config": {
@@ -4096,10 +4838,10 @@
                         },
                         {
                           "position": {
-                            "x": 38533,
+                            "x": 44933,
                             "y": 285
                           },
-                          "id": "b8221eb6-d51d-48ac-94a9-e45652b34639",
+                          "id": "a0de9c1a-7a69-48b9-a41e-3ddc631849fa",
                           "name": "errore: [Pagina finale] Non sono piu' sulla pagina con Share: non sc",
                           "type": "throwException",
                           "config": {
@@ -4108,10 +4850,10 @@
                         },
                         {
                           "position": {
-                            "x": 38733,
+                            "x": 45133,
                             "y": 285
                           },
-                          "id": "41e4b01c-6f68-4ef8-9f13-24efe659d1d1",
+                          "id": "5bafe17a-cebc-4208-9154-46b235d6eba5",
                           "name": "End task (dopo l'errore)",
                           "type": "endTask",
                           "config": {}
@@ -4130,10 +4872,10 @@
                   },
                   {
                     "position": {
-                      "x": 39133,
+                      "x": 45533,
                       "y": 285
                     },
-                    "id": "d3b8220e-c542-4368-9c21-ffb82209a9f6",
+                    "id": "03a5cab1-11b0-4b75-9199-9797628bcf3a",
                     "name": "scorri giu'",
                     "type": "executeADB",
                     "config": {
@@ -4145,10 +4887,10 @@
                   },
                   {
                     "position": {
-                      "x": 39333,
+                      "x": 45733,
                       "y": 285
                     },
-                    "id": "69826c0a-a451-48a9-8a5b-1b39134c885a",
+                    "id": "7d10f46c-21b9-4b6c-9771-7b342963d6ab",
                     "name": "wait",
                     "type": "waitTime",
                     "config": {
@@ -4159,10 +4901,10 @@
                   },
                   {
                     "position": {
-                      "x": 39533,
+                      "x": 45933,
                       "y": 285
                     },
-                    "id": "adef4be8-5262-4f3e-b47d-ecaf6cebc523",
+                    "id": "d4657c6f-26fa-4dff-9c7f-1ba9623b5b44",
                     "name": "azzera: fondo?",
                     "type": "script",
                     "config": {
@@ -4179,10 +4921,10 @@
                   },
                   {
                     "position": {
-                      "x": 39733,
+                      "x": 46133,
                       "y": 285
                     },
-                    "id": "bfacfa43-a0c1-4c08-93f0-3fe6f06e941d",
+                    "id": "f6f7e534-4523-4a99-9389-47167c026be3",
                     "name": "si vede il fondo? (More options / Your story)",
                     "type": "getEle",
                     "config": {
@@ -4213,10 +4955,10 @@
                   },
                   {
                     "position": {
-                      "x": 39933,
+                      "x": 46333,
                       "y": 285
                     },
-                    "id": "82b6a0a1-436c-4986-adc8-9c9f35df9f14",
+                    "id": "4d7e50dc-ae62-490f-8cbb-e2d9c22f4d9c",
                     "name": "fondo visto?",
                     "type": "script",
                     "config": {
@@ -4250,10 +4992,10 @@
       },
       {
         "position": {
-          "x": 40533,
+          "x": 46933,
           "y": 285
         },
-        "id": "1eb1e67c-d075-43f4-bd85-2aede88e95b6",
+        "id": "567bb9b9-f118-4297-bfb6-c2cfe61f6c1a",
         "name": "azzera: Facebook",
         "type": "script",
         "config": {
@@ -4278,10 +5020,10 @@
       },
       {
         "position": {
-          "x": 40733,
+          "x": 47133,
           "y": 285
         },
-        "id": "78d6673c-076b-45fe-b127-a9f011a79be0",
+        "id": "0226f85e-5c4e-4886-92e6-ac95a13c6875",
         "name": "c'e' la riga di Facebook in 'Share to'?",
         "type": "getEle",
         "config": {
@@ -4326,10 +5068,10 @@
       },
       {
         "position": {
-          "x": 40933,
+          "x": 47333,
           "y": 285
         },
-        "id": "27127683-460f-4626-8cda-dc54930ae267",
+        "id": "3892e20c-3021-4281-96f0-b3c00451a442",
         "name": "c'e' Facebook?",
         "type": "script",
         "config": {
@@ -4348,10 +5090,10 @@
       },
       {
         "position": {
-          "x": 41733,
+          "x": 48133,
           "y": 285
         },
-        "id": "24cc67ce-9f04-486a-9cc7-f6326bdb5e98",
+        "id": "09fd74d8-0a30-4aa3-972e-ca8e55a476ff",
         "name": "IF niente Facebook e non vedo il fondo -> errore",
         "type": "ifElse",
         "config": {
@@ -4359,10 +5101,10 @@
           "children": [
             {
               "position": {
-                "x": 41133,
+                "x": 47533,
                 "y": 285
               },
-              "id": "520a0e3c-d45a-432c-b395-47e0b43a4e1e",
+              "id": "8a269dc6-e5d0-4006-b531-933f1e34a90b",
               "name": "screenshot dell'errore",
               "type": "screenshotPage",
               "config": {
@@ -4371,10 +5113,10 @@
             },
             {
               "position": {
-                "x": 41333,
+                "x": 47733,
                 "y": 285
               },
-              "id": "c7ce4cd6-4213-4f23-99e7-0c7ac8030f1b",
+              "id": "fb60ad25-f846-41bd-bf23-f676ae4b63b4",
               "name": "errore: [Facebook] Non trovo la parte 'Share to' per spegnere Facebo",
               "type": "throwException",
               "config": {
@@ -4383,10 +5125,10 @@
             },
             {
               "position": {
-                "x": 41533,
+                "x": 47933,
                 "y": 285
               },
-              "id": "52f9628a-4388-4bbb-8e1f-d7467d3a875a",
+              "id": "1fd2d9de-760e-4710-86d3-7f40d4032ded",
               "name": "End task (dopo l'errore)",
               "type": "endTask",
               "config": {}
@@ -4411,10 +5153,10 @@
       },
       {
         "position": {
-          "x": 45333,
+          "x": 51733,
           "y": 285
         },
-        "id": "e7a557a2-c191-4795-b96f-acb0aa89042f",
+        "id": "8b5c57d0-9b90-4e90-9583-25e97742620a",
         "name": "IF c'e' Facebook -> spegnilo solo per questo reel",
         "type": "ifElse",
         "config": {
@@ -4422,10 +5164,10 @@
           "children": [
             {
               "position": {
-                "x": 41933,
+                "x": 48333,
                 "y": 285
               },
-              "id": "97a388ef-9df6-469d-8f25-1cb91dd4bdd3",
+              "id": "c8be7a3b-6e78-49f4-bd8b-2a3739a329e1",
               "name": "larghezza dello schermo",
               "type": "mathOperation",
               "config": {
@@ -4435,10 +5177,10 @@
             },
             {
               "position": {
-                "x": 42133,
+                "x": 48533,
                 "y": 285
               },
-              "id": "d49f4c37-f6ca-4fbf-9210-a10693ad80a7",
+              "id": "a305f8c4-dd18-4a74-a6ff-6b2ce73b5937",
               "name": "posizione dell'interruttore di Facebook",
               "type": "script",
               "config": {
@@ -4462,10 +5204,10 @@
             },
             {
               "position": {
-                "x": 44333,
+                "x": 50733,
                 "y": 285
               },
-              "id": "a3202c9a-3a34-4645-9c99-a0b1c2302a5c",
+              "id": "1a4ad95a-ff48-4627-b271-bf5c0452693f",
               "name": "spegni Facebook (al massimo 2 tocchi)",
               "type": "forTimes",
               "config": {
@@ -4476,10 +5218,10 @@
                 "children": [
                   {
                     "position": {
-                      "x": 44133,
+                      "x": 50533,
                       "y": 285
                     },
-                    "id": "3e0f3575-c086-4567-8807-97d2b71cf63b",
+                    "id": "ed99cb01-6560-40d4-8ca6-de99231e0a30",
                     "name": "IF Facebook non ancora spento",
                     "type": "ifElse",
                     "config": {
@@ -4487,10 +5229,10 @@
                       "children": [
                         {
                           "position": {
-                            "x": 42333,
+                            "x": 48733,
                             "y": 285
                           },
-                          "id": "d6d7c2ad-e37a-4861-9368-09ae3b074794",
+                          "id": "a51deec4-ef62-4ad5-8b1c-ed2d95049176",
                           "name": "tocca l'interruttore di Facebook",
                           "type": "clickXY",
                           "config": {
@@ -4502,10 +5244,10 @@
                         },
                         {
                           "position": {
-                            "x": 42533,
+                            "x": 48933,
                             "y": 285
                           },
-                          "id": "54be61e2-0975-4f0e-9411-8f9c2a39d722",
+                          "id": "4edd8eb2-8e16-4b4e-aa13-262acd521246",
                           "name": "wait",
                           "type": "waitTime",
                           "config": {
@@ -4516,10 +5258,10 @@
                         },
                         {
                           "position": {
-                            "x": 42733,
+                            "x": 49133,
                             "y": 285
                           },
-                          "id": "197a1b64-93c2-4465-bdcf-b6a2a6914140",
+                          "id": "bf48980a-1c39-48e9-9003-ff74a19b316e",
                           "name": "azzera: pop-up Facebook",
                           "type": "script",
                           "config": {
@@ -4544,10 +5286,10 @@
                         },
                         {
                           "position": {
-                            "x": 42933,
+                            "x": 49333,
                             "y": 285
                           },
-                          "id": "8c9a5d6b-030b-4d93-acac-8d8b10920394",
+                          "id": "7e1e2cec-7d9e-4823-8a9d-007e8af25552",
                           "name": "e' uscito 'Stop sharing on Facebook?'",
                           "type": "getEle",
                           "config": {
@@ -4578,10 +5320,10 @@
                         },
                         {
                           "position": {
-                            "x": 43133,
+                            "x": 49533,
                             "y": 285
                           },
-                          "id": "9c927492-cedd-433f-a70d-59921a31629a",
+                          "id": "d6433138-983f-464b-ab4b-1cad7d1011b7",
                           "name": "pop-up uscito?",
                           "type": "script",
                           "config": {
@@ -4600,10 +5342,10 @@
                         },
                         {
                           "position": {
-                            "x": 43933,
+                            "x": 50333,
                             "y": 285
                           },
-                          "id": "01fdc1ca-bfe2-4535-9f73-b9856062ba18",
+                          "id": "51cedca6-d9d1-457c-b842-d49cf5ff7b3f",
                           "name": "IF pop-up -> 'Don't share this reel'",
                           "type": "ifElse",
                           "config": {
@@ -4611,10 +5353,10 @@
                             "children": [
                               {
                                 "position": {
-                                  "x": 43333,
+                                  "x": 49733,
                                   "y": 285
                                 },
-                                "id": "ce3258b5-c80d-4bcd-8c79-4869e97bd6f0",
+                                "id": "c452448b-1091-4fcd-9635-264f06a4b3db",
                                 "name": "tocca 'Don't share this reel' (solo questo reel)",
                                 "type": "click",
                                 "config": {
@@ -4646,10 +5388,10 @@
                               },
                               {
                                 "position": {
-                                  "x": 43533,
+                                  "x": 49933,
                                   "y": 285
                                 },
-                                "id": "f87604df-211d-4baa-9af4-dca36cf5e7eb",
+                                "id": "e8ba30d1-ed82-40c7-a737-bb0c30d34ef5",
                                 "name": "Facebook spento?",
                                 "type": "script",
                                 "config": {
@@ -4668,10 +5410,10 @@
                               },
                               {
                                 "position": {
-                                  "x": 43733,
+                                  "x": 50133,
                                   "y": 285
                                 },
-                                "id": "f991db30-b22a-408f-80f7-cc00b269eeef",
+                                "id": "e09eefdc-a4a7-4a6e-8ca2-2d3416452c1f",
                                 "name": "wait",
                                 "type": "waitTime",
                                 "config": {
@@ -4709,10 +5451,10 @@
             },
             {
               "position": {
-                "x": 45133,
+                "x": 51533,
                 "y": 285
               },
-              "id": "704a132a-18de-462c-b858-d4ad916c6b66",
+              "id": "2d11e8ad-29a8-491d-83ed-089f4561c5e6",
               "name": "IF Facebook non spento -> errore",
               "type": "ifElse",
               "config": {
@@ -4720,10 +5462,10 @@
                 "children": [
                   {
                     "position": {
-                      "x": 44533,
+                      "x": 50933,
                       "y": 285
                     },
-                    "id": "e4037c7e-0433-4a85-9400-8842385435a5",
+                    "id": "bd404a5a-04b1-43ba-9af2-a665a4b101ac",
                     "name": "screenshot dell'errore",
                     "type": "screenshotPage",
                     "config": {
@@ -4732,10 +5474,10 @@
                   },
                   {
                     "position": {
-                      "x": 44733,
+                      "x": 51133,
                       "y": 285
                     },
-                    "id": "2659d6b8-383e-4b96-bd19-d6531bc49ce5",
+                    "id": "b013580d-5d68-483d-ae43-4f38a91086d7",
                     "name": "errore: [Facebook] Non riesco a spegnere la condivisione su Facebook",
                     "type": "throwException",
                     "config": {
@@ -4744,10 +5486,10 @@
                   },
                   {
                     "position": {
-                      "x": 44933,
+                      "x": 51333,
                       "y": 285
                     },
-                    "id": "7bc361ad-56e8-45fd-9e7a-ea82ebd78b16",
+                    "id": "09aab8f3-1f6d-4345-b742-4969fc12fc3b",
                     "name": "End task (dopo l'errore)",
                     "type": "endTask",
                     "config": {}
@@ -4778,10 +5520,10 @@
       },
       {
         "position": {
-          "x": 45533,
+          "x": 51933,
           "y": 285
         },
-        "id": "cd160f00-4f7b-43ff-9ee3-8af761520ed9",
+        "id": "d6ca4a4c-4584-4591-84d0-0f53b115bfa4",
         "name": "si puo' pubblicare? (trial e Facebook a posto)",
         "type": "script",
         "config": {
@@ -4803,10 +5545,10 @@
       },
       {
         "position": {
-          "x": 51533,
+          "x": 57933,
           "y": 285
         },
-        "id": "8b1f87be-2db7-4d3d-928b-d2a958e7f9b1",
+        "id": "c7651bf8-92e4-4248-a5c8-1f6b14c64e43",
         "name": "IF Solo prova -> non pubblico (ELSE: Share)",
         "type": "ifElse",
         "config": {
@@ -4814,10 +5556,10 @@
           "children": [
             {
               "position": {
-                "x": 50733,
+                "x": 57133,
                 "y": 285
               },
-              "id": "5618dfaa-56bf-4427-ad0c-731b4a565f82",
+              "id": "fc4ab7fa-1615-403b-9708-720b6ac8f7e5",
               "name": "SOLO PROVA: pagina finale, non pubblico",
               "type": "screenshotPage",
               "config": {
@@ -4826,10 +5568,10 @@
             },
             {
               "position": {
-                "x": 50933,
+                "x": 57333,
                 "y": 285
               },
-              "id": "4e4f94a1-6702-4a64-85c3-ee8d117f63bb",
+              "id": "fec820cf-14a5-4bf5-979a-b78029712206",
               "name": "chiudi Instagram senza pubblicare",
               "type": "executeADB",
               "config": {
@@ -4841,10 +5583,10 @@
             },
             {
               "position": {
-                "x": 51133,
+                "x": 57533,
                 "y": 285
               },
-              "id": "bca35a84-928f-406a-acba-4550c34db678",
+              "id": "99030665-e2d2-495a-89bd-e25f63eea56f",
               "name": "HOME",
               "type": "executeADB",
               "config": {
@@ -4856,10 +5598,10 @@
             },
             {
               "position": {
-                "x": 51333,
+                "x": 57733,
                 "y": 285
               },
-              "id": "d3a31a86-0d0d-4979-a40e-95acd1bddab7",
+              "id": "271cb291-d2f6-498f-9f93-932bff397557",
               "name": "End task",
               "type": "endTask",
               "config": {}
@@ -4876,10 +5618,10 @@
           "other": [
             {
               "position": {
-                "x": 46333,
+                "x": 52733,
                 "y": 285
               },
-              "id": "76432634-40ba-4e43-8cca-90a8642dee9a",
+              "id": "827d2bb7-7abf-42c6-a86b-704b75e00e9e",
               "name": "IF controlli non passati -> errore",
               "type": "ifElse",
               "config": {
@@ -4887,10 +5629,10 @@
                 "children": [
                   {
                     "position": {
-                      "x": 45733,
+                      "x": 52133,
                       "y": 285
                     },
-                    "id": "ff75271e-486f-402e-95fb-210589271ee3",
+                    "id": "4eb80eba-7308-46ae-ba03-c8e379442362",
                     "name": "screenshot dell'errore",
                     "type": "screenshotPage",
                     "config": {
@@ -4899,10 +5641,10 @@
                   },
                   {
                     "position": {
-                      "x": 45933,
+                      "x": 52333,
                       "y": 285
                     },
-                    "id": "bd11ce9c-0a2c-4544-ab88-202536b79197",
+                    "id": "6420524a-3262-4f54-a8a1-ad5b378bdbbd",
                     "name": "errore: [Sicurezza] Controlli non passati (trial o Facebook): non pu",
                     "type": "throwException",
                     "config": {
@@ -4911,10 +5653,10 @@
                   },
                   {
                     "position": {
-                      "x": 46133,
+                      "x": 52533,
                       "y": 285
                     },
-                    "id": "340c1428-b863-4251-b51d-5119c7a03ef1",
+                    "id": "1cdf0fe0-7636-4590-954e-12b416799986",
                     "name": "End task (dopo l'errore)",
                     "type": "endTask",
                     "config": {}
@@ -4933,10 +5675,10 @@
             },
             {
               "position": {
-                "x": 46533,
+                "x": 52933,
                 "y": 285
               },
-              "id": "9d841801-abba-4f08-9b04-922b580f85a3",
+              "id": "9e53a67d-6099-40da-9b2e-88f51236bd49",
               "name": "screenshot: prima di Share",
               "type": "screenshotPage",
               "config": {
@@ -4947,10 +5689,10 @@
             },
             {
               "position": {
-                "x": 46733,
+                "x": 53133,
                 "y": 285
               },
-              "id": "d4c50c73-f921-48f5-aaed-0e976199b2f5",
+              "id": "fb3d024e-d17c-4c84-9e7a-557e9f576bd5",
               "name": "azzera: Share",
               "type": "script",
               "config": {
@@ -4971,10 +5713,10 @@
             },
             {
               "position": {
-                "x": 46933,
+                "x": 53333,
                 "y": 285
               },
-              "id": "8da9366c-3b41-4745-9b21-e4faf134b94f",
+              "id": "cebc2edc-8715-4042-96ca-e3e01a9161fb",
               "name": "tocca Share",
               "type": "click",
               "config": {
@@ -5006,10 +5748,10 @@
             },
             {
               "position": {
-                "x": 47133,
+                "x": 53533,
                 "y": 285
               },
-              "id": "7d6a9f08-1529-46e3-8d4b-65885d60c21d",
+              "id": "476aa07d-68b3-4906-a975-b8289dad301b",
               "name": "Share toccato?",
               "type": "script",
               "config": {
@@ -5028,10 +5770,10 @@
             },
             {
               "position": {
-                "x": 47933,
+                "x": 54333,
                 "y": 285
               },
-              "id": "27284baa-3c55-4c84-89c8-0eed92b7acb6",
+              "id": "36e4b4f1-3f14-46f2-9b9f-014a3344b885",
               "name": "IF Share non toccato -> errore",
               "type": "ifElse",
               "config": {
@@ -5039,10 +5781,10 @@
                 "children": [
                   {
                     "position": {
-                      "x": 47333,
+                      "x": 53733,
                       "y": 285
                     },
-                    "id": "40f5d5fe-3ce5-4f42-8fd3-d145227dade1",
+                    "id": "f6aeddab-1eae-4ae3-9017-9c3d48589e0d",
                     "name": "screenshot dell'errore",
                     "type": "screenshotPage",
                     "config": {
@@ -5051,10 +5793,10 @@
                   },
                   {
                     "position": {
-                      "x": 47533,
+                      "x": 53933,
                       "y": 285
                     },
-                    "id": "6adf4a14-9874-41b5-93bb-b6316d6fd9d8",
+                    "id": "0dd80f81-291d-4877-ab15-3e97903cd60d",
                     "name": "errore: [Share] Non riesco a toccare 'Share'.",
                     "type": "throwException",
                     "config": {
@@ -5063,10 +5805,10 @@
                   },
                   {
                     "position": {
-                      "x": 47733,
+                      "x": 54133,
                       "y": 285
                     },
-                    "id": "722ef2cc-d1e3-450d-a327-97e6ff2e94c6",
+                    "id": "a2620d84-e124-4ffe-8453-16e88c4bcae5",
                     "name": "End task (dopo l'errore)",
                     "type": "endTask",
                     "config": {}
@@ -5085,10 +5827,10 @@
             },
             {
               "position": {
-                "x": 48133,
+                "x": 54533,
                 "y": 285
               },
-              "id": "671238e0-c829-4e5d-b6c8-379e62bb794c",
+              "id": "842b4079-b096-4c26-a67a-3952c81d24a5",
               "name": "wait",
               "type": "waitTime",
               "config": {
@@ -5099,10 +5841,10 @@
             },
             {
               "position": {
-                "x": 48333,
+                "x": 54733,
                 "y": 285
               },
-              "id": "93c62d5b-0d9a-45fc-8d92-34a690125944",
+              "id": "296fdff2-6251-4b0b-ad6f-39842be2c166",
               "name": "azzera: avviso dopo Share",
               "type": "script",
               "config": {
@@ -5123,10 +5865,10 @@
             },
             {
               "position": {
-                "x": 48533,
+                "x": 54933,
                 "y": 285
               },
-              "id": "fc9081d8-1648-4dd6-b334-d157fb154d40",
+              "id": "5eca52da-3f36-4465-9c93-a46bf44fd07b",
               "name": "avviso 'About Reels' / audio originale?",
               "type": "getEle",
               "config": {
@@ -5157,10 +5899,10 @@
             },
             {
               "position": {
-                "x": 48733,
+                "x": 55133,
                 "y": 285
               },
-              "id": "c2cf48a4-7d49-4db8-9169-a58aee68abcb",
+              "id": "ed9c6872-5048-40d0-8ee5-f99df9094042",
               "name": "avviso?",
               "type": "script",
               "config": {
@@ -5179,10 +5921,10 @@
             },
             {
               "position": {
-                "x": 49333,
+                "x": 55733,
                 "y": 285
               },
-              "id": "bcb2658c-a76a-41f0-9d77-12054fd9c867",
+              "id": "380aac5a-57f1-4604-bdc9-20fc46450a2e",
               "name": "IF avviso -> Share",
               "type": "ifElse",
               "config": {
@@ -5190,10 +5932,10 @@
                 "children": [
                   {
                     "position": {
-                      "x": 48933,
+                      "x": 55333,
                       "y": 285
                     },
-                    "id": "fff669b2-728d-4a1f-9bc1-7b88f64b1e72",
+                    "id": "c85fd5a8-42e1-4d82-9c71-34ee33766f27",
                     "name": "tocca Share nell'avviso",
                     "type": "click",
                     "config": {
@@ -5236,10 +5978,10 @@
                   },
                   {
                     "position": {
-                      "x": 49133,
+                      "x": 55533,
                       "y": 285
                     },
-                    "id": "a59843d1-5bfe-4def-b975-c122b1cc573c",
+                    "id": "f3fa60bf-ea62-4ed2-80ad-ba21ebbbe872",
                     "name": "wait",
                     "type": "waitTime",
                     "config": {
@@ -5262,10 +6004,10 @@
             },
             {
               "position": {
-                "x": 49533,
+                "x": 55933,
                 "y": 285
               },
-              "id": "cb833e8b-d961-4bcb-8fc5-5565280f27e2",
+              "id": "7a296585-a92b-4fc2-81f9-8acb79bcd998",
               "name": "aspetta il caricamento",
               "type": "waitTime",
               "config": {
@@ -5276,10 +6018,10 @@
             },
             {
               "position": {
-                "x": 49733,
+                "x": 56133,
                 "y": 285
               },
-              "id": "8673fb0a-41a3-4889-b3e9-c4405c0447b3",
+              "id": "f35e36ce-3348-4dc2-b101-e4e57796363e",
               "name": "screenshot: dopo Share",
               "type": "screenshotPage",
               "config": {
@@ -5290,10 +6032,10 @@
             },
             {
               "position": {
-                "x": 49933,
+                "x": 56333,
                 "y": 285
               },
-              "id": "5186ced3-657e-465e-807d-e9f8ef4d2f62",
+              "id": "47540e05-59b8-4604-9b9e-380134e11fdd",
               "name": "aspetta che finisca di caricare",
               "type": "waitTime",
               "config": {
@@ -5304,10 +6046,10 @@
             },
             {
               "position": {
-                "x": 50133,
+                "x": 56533,
                 "y": 285
               },
-              "id": "71be33ec-5998-4b2f-b097-e84d0b2773e0",
+              "id": "462413c6-d906-4d8a-8959-7f7070adaa2a",
               "name": "screenshot: fine",
               "type": "screenshotPage",
               "config": {
@@ -5316,10 +6058,10 @@
             },
             {
               "position": {
-                "x": 50333,
+                "x": 56733,
                 "y": 285
               },
-              "id": "c040c15d-4d2f-4c5a-b7a7-0c842d00b5ca",
+              "id": "15cc8309-f276-4ecc-9824-0b03966f924d",
               "name": "HOME",
               "type": "executeADB",
               "config": {
@@ -5331,10 +6073,10 @@
             },
             {
               "position": {
-                "x": 50533,
+                "x": 56933,
                 "y": 285
               },
-              "id": "69cb7bf5-3e77-4e19-888a-ed5e45c51eb7",
+              "id": "6e24a2f6-7091-4509-b371-343256ca5d5e",
               "name": "End task",
               "type": "endTask",
               "config": {}
