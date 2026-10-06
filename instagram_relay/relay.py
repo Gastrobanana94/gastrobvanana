@@ -2,19 +2,22 @@
 #  RELAY INSTAGRAM - risponde ai commenti leggendo il TESTO
 #  Il telefono GeeLark manda l'elenco di cosa c'e' a schermo
 #  (uiautomator dump), il relay sceglie il commento con
-#  DeepSeek e dice al telefono DOVE cliccare "Reply".
+#  il bot Hermes "commentbot" e dice al telefono DOVE cliccare "Reply".
 #  Gira sul tuo PC, ngrok lo rende raggiungibile dal cloud.
 # ==========================================================
 
 # ---------- 1) COMPILA QUI (solo questa parte) ----------
 
-DEEPSEEK_API_KEY = "INCOLLA_QUI_LA_TUA_API_KEY_DEEPSEEK"
-MODELLO = "deepseek-flash"
-URL_API = "https://api.deepseek.com/chat/completions"
+# Il bot Hermes "commentbot" (che usa DeepSeek Flash). Sono i valori
+# API_SERVER_PORT e API_SERVER_KEY del file .env del profilo commentbot
+# (di solito in ~/.hermes/profiles/commentbot/.env).
+URL_API = "http://127.0.0.1:8642/v1/chat/completions"
+CHIAVE_API = "INCOLLA_QUI_API_SERVER_KEY_DI_COMMENTBOT"
+MODELLO = "commentbot"
 
 PORTA = 8787                 # la stessa porta che dai a ngrok
 PERCENTUALE_RISPOSTE = 0.40  # 0.40 = risponde a circa 4 commenti nuovi su 10
-TIMEOUT_AI = 15              # secondi massimi di attesa per DeepSeek
+TIMEOUT_AI = 25              # secondi massimi di attesa per commentbot
 
 # Come deve rispondere l'account. Per un account specifico crea il file
 # persona_<nome account>.txt nella cartella del relay e scrivilo li'.
@@ -155,7 +158,7 @@ def commenti_a_schermo(xml_testo):
     return commenti
 
 
-def chiedi_a_deepseek(account, candidati):
+def chiedi_a_commentbot(account, candidati):
     elenco = "\n".join(f"[{i}] {c['testo']}" for i, c in enumerate(candidati, start=1))
     istruzioni = (
         persona(account) + "\n\n"
@@ -173,13 +176,11 @@ def chiedi_a_deepseek(account, candidati):
             {"role": "system", "content": istruzioni},
             {"role": "user", "content": elenco},
         ],
-        "response_format": {"type": "json_object"},
-        "temperature": 0.8,
-        "max_tokens": 300,
+        "stream": False,
     }).encode("utf-8")
     richiesta = urllib.request.Request(URL_API, data=corpo, headers={
         "Content-Type": "application/json",
-        "Authorization": f"Bearer {DEEPSEEK_API_KEY}",
+        "Authorization": f"Bearer {CHIAVE_API}",
     })
     with urllib.request.urlopen(richiesta, timeout=TIMEOUT_AI) as r:
         risposta = json.loads(r.read().decode("utf-8"))
@@ -221,9 +222,9 @@ def scegli(account, xml_testo):
         return "NO_MATCH"
 
     try:
-        scelta = chiedi_a_deepseek(account, candidati)
+        scelta = chiedi_a_commentbot(account, candidati)
     except Exception as e:
-        log(account, "DeepSeek non ha risposto:", e)
+        log(account, "commentbot non ha risposto:", e)
         return "NO_MATCH"
 
     indice = int(scelta.get("scelta") or 0)

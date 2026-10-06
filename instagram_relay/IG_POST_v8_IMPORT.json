@@ -1,6 +1,6 @@
 {
   "title": "IG POST v8",
-  "desc": "v8: legge il TESTO dello schermo (uiautomator dump) invece degli screenshot; il relay su ngrok sceglie il commento con DeepSeek e restituisce le coordinate esatte del suo Reply; blocco se il nome nella casella non coincide; 40% e memoria nel relay; END ferma lo scroll a fine commenti.",
+  "desc": "v8: legge il TESTO dello schermo (uiautomator dump) invece degli screenshot; il relay su ngrok sceglie il commento con il bot Hermes commentbot e restituisce le coordinate esatte del suo Reply; blocco se il nome nella casella non coincide; 40% e memoria nel relay; END ferma lo scroll a fine commenti.",
   "content": {
     "startParamMap": [],
     "contents": [
