@@ -1,6 +1,6 @@
 {
-  "title": "IG POST v9.1",
-  "desc": "v9: legge i commenti con i nodi GeeLark (For Loop Elements + Get element data); il relay (commentbot via ngrok) sceglie quale Reply cliccare; click con ordine da variabile; controllo del nome, 40% e memoria nel relay; END ferma lo scroll a fine commenti.",
+  "title": "IG POST v9.2",
+  "desc": "v9.2: legge i testi a schermo uno per uno (For Loop Times + Get element data con ordine k) e li manda al relay; il relay (commentbot via ngrok) sceglie quale Reply cliccare; controllo del nome, 40% e memoria nel relay.",
   "content": {
     "startParamMap": [],
     "contents": [
@@ -494,12 +494,12 @@
                                               "x": 9000,
                                               "y": 285
                                             },
-                                            "id": "ef64e54b-815f-4191-99cc-bbc401568a61",
+                                            "id": "729d53fe-1305-41ae-a3dc-1bf08da23880",
                                             "name": "reset elenco",
                                             "type": "script",
                                             "config": {
                                               "injectVariables": [],
-                                              "script": "async function main() { return { acc: '', t: '' }; }",
+                                              "script": "async function main() { return { acc: '', t: '', miss: '0', leggi: '1' }; }",
                                               "type": "js",
                                               "variableMap": [
                                                 {
@@ -509,6 +509,14 @@
                                                 {
                                                   "value": "t",
                                                   "variable": "t"
+                                                },
+                                                {
+                                                  "value": "miss",
+                                                  "variable": "miss"
+                                                },
+                                                {
+                                                  "value": "leggi",
+                                                  "variable": "leggi"
                                                 }
                                               ]
                                             }
@@ -518,62 +526,98 @@
                                               "x": 9200,
                                               "y": 285
                                             },
-                                            "id": "a652e90d-184b-4cf9-bc6e-78a8cd29cd71",
+                                            "id": "bbe5f6b2-cd96-49e5-b091-c9f165e0e61e",
                                             "name": "leggi testi a schermo",
-                                            "type": "forElements",
+                                            "type": "forTimes",
                                             "config": {
-                                              "filterCollection": [
-                                                [
-                                                  {
-                                                    "content": "TextView",
-                                                    "filterType": "contain",
-                                                    "type": "class"
-                                                  }
-                                                ]
-                                              ],
+                                              "serialType": "randomInterval",
+                                              "minTimes": 60,
+                                              "maxTimes": 60,
+                                              "variableIndex": "k",
                                               "hiddenChildren": false,
-                                              "variable": "el",
-                                              "variableIndex": "elPos",
-                                              "error": false,
                                               "children": [
                                                 {
                                                   "position": {
                                                     "x": 9300,
                                                     "y": 285
                                                   },
-                                                  "id": "bd2e0ce7-5f29-4d38-bd11-8ee7d141111f",
-                                                  "name": "testo elemento",
-                                                  "type": "getEle",
+                                                  "id": "3085fe0c-1053-4ff1-a740-e7f7f0341064",
+                                                  "name": "IF ci sono ancora testi",
+                                                  "type": "ifElse",
                                                   "config": {
-                                                    "saveItemName": "el",
-                                                    "type": "text",
-                                                    "variable": "t",
-                                                    "error": false
-                                                  }
-                                                },
-                                                {
-                                                  "position": {
-                                                    "x": 9400,
-                                                    "y": 285
-                                                  },
-                                                  "id": "fee6cc4b-1daf-41f1-b41c-3c1932f8df9e",
-                                                  "name": "aggiungi all'elenco",
-                                                  "type": "script",
-                                                  "config": {
-                                                    "injectVariables": [
-                                                      "acc",
-                                                      "t"
-                                                    ],
-                                                    "script": "async function main({ acc, t }) { const x=String(t||'').replace(/\\s+/g,' ').trim(); return { acc: x ? (String(acc||'') + '\\n' + x) : String(acc||''), t: '' }; }",
-                                                    "type": "js",
-                                                    "variableMap": [
+                                                    "apposition": "and",
+                                                    "other": [],
+                                                    "conditionList": [
                                                       {
-                                                        "value": "acc",
-                                                        "variable": "acc"
+                                                        "probability": 50,
+                                                        "relation": "equal",
+                                                        "useVariable": "leggi",
+                                                        "result": "1"
+                                                      }
+                                                    ],
+                                                    "children": [
+                                                      {
+                                                        "position": {
+                                                          "x": 9400,
+                                                          "y": 285
+                                                        },
+                                                        "id": "6741c256-bb8f-4d46-acc8-687d54870589",
+                                                        "name": "testo numero k",
+                                                        "type": "getEle",
+                                                        "config": {
+                                                          "filterCollection": [
+                                                            [
+                                                              {
+                                                                "content": "TextView",
+                                                                "filterType": "contain",
+                                                                "type": "class"
+                                                              }
+                                                            ]
+                                                          ],
+                                                          "serialType": "fixedValue",
+                                                          "serial": "${k}",
+                                                          "hiddenChildren": false,
+                                                          "searchTime": 300,
+                                                          "type": "text",
+                                                          "variable": "t",
+                                                          "error": false
+                                                        }
                                                       },
                                                       {
-                                                        "value": "t",
-                                                        "variable": "t"
+                                                        "position": {
+                                                          "x": 9500,
+                                                          "y": 285
+                                                        },
+                                                        "id": "f4d453dd-3a06-4684-b2fe-35e69cb7c846",
+                                                        "name": "aggiungi all'elenco",
+                                                        "type": "script",
+                                                        "config": {
+                                                          "injectVariables": [
+                                                            "acc",
+                                                            "t",
+                                                            "miss"
+                                                          ],
+                                                          "script": "async function main({ acc, t, miss }) { const x=String(t||'').replace(/\\s+/g,' ').trim(); const m = x ? 0 : (parseInt(miss,10)||0) + 1; return { acc: x ? (String(acc||'') + '\\n' + x) : String(acc||''), t: '', miss: String(m), leggi: m >= 4 ? '0' : '1' }; }",
+                                                          "type": "js",
+                                                          "variableMap": [
+                                                            {
+                                                              "value": "acc",
+                                                              "variable": "acc"
+                                                            },
+                                                            {
+                                                              "value": "t",
+                                                              "variable": "t"
+                                                            },
+                                                            {
+                                                              "value": "miss",
+                                                              "variable": "miss"
+                                                            },
+                                                            {
+                                                              "value": "leggi",
+                                                              "variable": "leggi"
+                                                            }
+                                                          ]
+                                                        }
                                                       }
                                                     ]
                                                   }
