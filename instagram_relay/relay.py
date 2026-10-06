@@ -295,7 +295,8 @@ class Gestore(BaseHTTPRequestHandler):
             if url.path == "/pick":
                 (CARTELLA / "ultima_schermata.xml").write_text(corpo, encoding="utf-8")
                 if "<hierarchy" not in corpo:
-                    log(account, "il telefono non ha mandato la schermata (dump vuoto)")
+                    log(account, "il telefono non ha mandato la schermata (dump vuoto):",
+                        corpo.strip()[:400] or "nessun messaggio")
                     self.rispondi("NO_MATCH")
                 else:
                     self.rispondi(scegli(account, corpo))

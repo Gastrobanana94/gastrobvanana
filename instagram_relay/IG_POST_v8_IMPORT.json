@@ -1,5 +1,5 @@
 {
-  "title": "IG POST v8",
+  "title": "IG POST v8.1",
   "desc": "v8: legge il TESTO dello schermo (uiautomator dump) invece degli screenshot; il relay su ngrok sceglie il commento con il bot Hermes commentbot e restituisce le coordinate esatte del suo Reply; blocco se il nome nella casella non coincide; 40% e memoria nel relay; END ferma lo scroll a fine commenti.",
   "content": {
     "startParamMap": [],
@@ -495,7 +495,7 @@
                                               "y": 285
                                             },
                                             "config": {
-                                              "content": "sh -c 'rm -f /sdcard/u.xml; uiautomator dump /sdcard/u.xml >/dev/null 2>&1; curl -sk --max-time 30 -H \"ngrok-skip-browser-warning: 1\" -H \"Content-Type: text/xml\" --data-binary @/sdcard/u.xml \"https://paying-cake-engulf.ngrok-free.dev/pick?acc=Melina%20Berner%20Frankfurt\"'",
+                                              "content": "sh -c 'rm -f /sdcard/u.xml /data/local/tmp/u.xml; F=/sdcard/u.xml; E=$(uiautomator dump $F 2>&1); if [ ! -s $F ]; then F=/data/local/tmp/u.xml; E2=$(uiautomator dump --compressed $F 2>&1); fi; if [ -s $F ]; then curl -sk --max-time 30 -H \"ngrok-skip-browser-warning: 1\" -H \"Content-Type: text/xml\" --data-binary @$F \"https://paying-cake-engulf.ngrok-free.dev/pick?acc=Melina%20Berner%20Frankfurt\"; else curl -sk --max-time 30 -H \"ngrok-skip-browser-warning: 1\" --data-binary \"DUMPERR 1: $E || 2: $E2\" \"https://paying-cake-engulf.ngrok-free.dev/pick?acc=Melina%20Berner%20Frankfurt\"; fi'",
                                               "timeout": 120000,
                                               "variable": "curlResp",
                                               "error": false
