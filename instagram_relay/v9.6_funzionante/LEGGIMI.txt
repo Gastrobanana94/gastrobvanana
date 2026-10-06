@@ -1,0 +1,8 @@
+COPIA DI SICUREZZA - versione v9.6 che funziona (provata sul telefono il 6 ottobre 2026)
+
+Per tornare a questa versione:
+1. copia relay.py nella cartella del relay sul PC
+2. apri relay.py e rimetti la chiave di commentbot al posto di INCOLLA_QUI_API_SERVER_KEY_DI_COMMENTBOT
+3. in GeeLark importa IG_POST_v9_6.json
+
+In questa versione il nome dell'account e' fisso: "Melina Berner Frankfurt".
