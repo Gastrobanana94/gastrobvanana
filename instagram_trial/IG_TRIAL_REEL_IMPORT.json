@@ -1,0 +1,5206 @@
+{
+  "title": "IG TRIAL REEL v1",
+  "desc": "Pubblica 1 trial reel: profilo -> menu -> Account type and tools -> Trial reels -> Create trial reel -> video del task (album Download) -> Next -> descrizione -> Facebook spento solo per questo reel -> Share. Si ferma senza pubblicare se non vede 'This is a trial reel' o se non riesce a spegnere Facebook. Etichetta AI e altre opzioni: non le tocca. SoloProva acceso: fa tutto ma non preme Share.",
+  "content": {
+    "startParamMap": [
+      {
+        "contentable": true,
+        "createFrom": "",
+        "id": "7449b8f9-bff6-42e4-a25b-6383a8a79908",
+        "isNotRequired": true,
+        "key": "Caption",
+        "length": 2200,
+        "type": "string",
+        "value": ""
+      },
+      {
+        "createFrom": "",
+        "id": "956bf5e3-affb-45c3-a150-f0e1ac80be7b",
+        "isNotRequired": false,
+        "key": "Video",
+        "restrict": {
+          "fileType": "video"
+        },
+        "type": "file",
+        "value": []
+      },
+      {
+        "createFrom": "",
+        "id": "8f655389-8c34-459e-869c-eff3a31ee828",
+        "isNotRequired": false,
+        "key": "SoloProva",
+        "type": "boolean",
+        "value": false
+      }
+    ],
+    "contents": [
+      {
+        "position": {
+          "x": 533,
+          "y": 285
+        },
+        "id": "6914e3be-a7fa-4413-ad3b-e1dc8a41e8fa",
+        "name": "prepara: Solo prova? c'e' una descrizione?",
+        "type": "script",
+        "config": {
+          "injectVariables": [
+            "SoloProva",
+            "Caption"
+          ],
+          "script": "async function main({ SoloProva, Caption }) { const p=String(SoloProva===undefined||SoloProva===null?'':SoloProva).trim().toLowerCase(); const prova=(p==='true'||p==='1'||p==='yes'||p==='on')?'1':'0'; const provaBoh=(p===''||p==='undefined'||p==='null')?'1':'0'; const c=(Caption===undefined||Caption===null)?'':String(Caption); return { prova, provaBoh, haCaption: c.trim()?'1':'0', captionBoh: (Caption===undefined||Caption===null)?'1':'0' }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "prova",
+              "variable": "prova"
+            },
+            {
+              "value": "provaBoh",
+              "variable": "provaBoh"
+            },
+            {
+              "value": "haCaption",
+              "variable": "haCaption"
+            },
+            {
+              "value": "captionBoh",
+              "variable": "captionBoh"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 1333,
+          "y": 285
+        },
+        "id": "10ae75ea-1fa1-4589-9ff6-0aad295b3bd1",
+        "name": "IF lo script non ha letto SoloProva -> decide GeeLark",
+        "type": "ifElse",
+        "config": {
+          "apposition": "and",
+          "children": [
+            {
+              "position": {
+                "x": 1133,
+                "y": 285
+              },
+              "id": "048a10e0-4997-4e26-9c78-86696fd6a90f",
+              "name": "IF SoloProva acceso",
+              "type": "ifElse",
+              "config": {
+                "apposition": "and",
+                "children": [
+                  {
+                    "position": {
+                      "x": 733,
+                      "y": 285
+                    },
+                    "id": "e25a09d4-4fdb-46a3-b40a-f29c158e9995",
+                    "name": "e' una prova",
+                    "type": "script",
+                    "config": {
+                      "injectVariables": [],
+                      "script": "async function main() { return { prova: \"1\" }; }",
+                      "type": "js",
+                      "variableMap": [
+                        {
+                          "value": "prova",
+                          "variable": "prova"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "conditionList": [
+                  {
+                    "probability": 50,
+                    "relation": "exist",
+                    "useVariable": "SoloProva"
+                  }
+                ],
+                "other": [
+                  {
+                    "position": {
+                      "x": 933,
+                      "y": 285
+                    },
+                    "id": "44f14992-e02b-468c-bcfa-2ce2b85d5d35",
+                    "name": "non e' una prova",
+                    "type": "script",
+                    "config": {
+                      "injectVariables": [],
+                      "script": "async function main() { return { prova: \"0\" }; }",
+                      "type": "js",
+                      "variableMap": [
+                        {
+                          "value": "prova",
+                          "variable": "prova"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "conditionList": [
+            {
+              "probability": 50,
+              "relation": "equal",
+              "useVariable": "provaBoh",
+              "result": "1"
+            }
+          ],
+          "other": []
+        }
+      },
+      {
+        "position": {
+          "x": 1933,
+          "y": 285
+        },
+        "id": "24fbabdd-24e8-480c-97f6-a31baae6e456",
+        "name": "IF lo script non ha letto la descrizione -> decide GeeLark",
+        "type": "ifElse",
+        "config": {
+          "apposition": "and",
+          "children": [
+            {
+              "position": {
+                "x": 1733,
+                "y": 285
+              },
+              "id": "88fe91b5-c119-44c9-9d39-3c71a844709c",
+              "name": "IF c'e' una descrizione",
+              "type": "ifElse",
+              "config": {
+                "apposition": "and",
+                "children": [
+                  {
+                    "position": {
+                      "x": 1533,
+                      "y": 285
+                    },
+                    "id": "47a7e419-cb56-4604-bde6-c01f35938f54",
+                    "name": "c'e' una descrizione",
+                    "type": "script",
+                    "config": {
+                      "injectVariables": [],
+                      "script": "async function main() { return { haCaption: \"1\" }; }",
+                      "type": "js",
+                      "variableMap": [
+                        {
+                          "value": "haCaption",
+                          "variable": "haCaption"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "conditionList": [
+                  {
+                    "probability": 50,
+                    "relation": "exist",
+                    "useVariable": "Caption"
+                  }
+                ],
+                "other": []
+              }
+            }
+          ],
+          "conditionList": [
+            {
+              "probability": 50,
+              "relation": "equal",
+              "useVariable": "captionBoh",
+              "result": "1"
+            }
+          ],
+          "other": []
+        }
+      },
+      {
+        "position": {
+          "x": 2133,
+          "y": 285
+        },
+        "id": "d7d85638-fcbe-4b82-82ea-9fda1c8c7b34",
+        "name": "tastiera GeeLark",
+        "type": "executeADB",
+        "config": {
+          "content": "sh -c 'id=$(ime list -a -s | grep -i gee | head -n 1); if [ -n \"$id\" ]; then ime enable \"$id\" >/dev/null 2>&1; ime set \"$id\" >/dev/null 2>&1; fi; echo \"ime=$(settings get secure default_input_method)\"'",
+          "timeout": 120000,
+          "variable": "imeOut",
+          "error": false
+        }
+      },
+      {
+        "position": {
+          "x": 2333,
+          "y": 285
+        },
+        "id": "9b574c00-0638-4f9b-8655-fec4e594f3ad",
+        "name": "permessi a Instagram (foto, video, fotocamera)",
+        "type": "executeADB",
+        "config": {
+          "content": "sh -c 'for p in CAMERA RECORD_AUDIO POST_NOTIFICATIONS READ_EXTERNAL_STORAGE WRITE_EXTERNAL_STORAGE READ_MEDIA_IMAGES READ_MEDIA_VIDEO READ_MEDIA_AUDIO; do pm grant com.instagram.android android.permission.$p >/dev/null 2>&1; done; echo ok'",
+          "timeout": 120000,
+          "variable": "permOut",
+          "error": false
+        }
+      },
+      {
+        "position": {
+          "x": 2533,
+          "y": 285
+        },
+        "id": "104678b6-58cc-493f-89dd-e0d85429aa02",
+        "name": "chiudi Instagram",
+        "type": "executeADB",
+        "config": {
+          "content": "am force-stop com.instagram.android",
+          "timeout": 120000,
+          "variable": "stopIg",
+          "error": false
+        }
+      },
+      {
+        "position": {
+          "x": 2733,
+          "y": 285
+        },
+        "id": "ce65c042-3066-4f99-8cb3-b5cccf563bb9",
+        "name": "svuota la cartella Download",
+        "type": "executeADB",
+        "config": {
+          "content": "sh -c 'for f in /sdcard/Download/*; do if [ -f \"$f\" ]; then rm -f \"$f\"; am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d \"file://$f\" >/dev/null 2>&1; fi; done; echo ok'",
+          "timeout": 120000,
+          "variable": "pulisciOut",
+          "error": false
+        }
+      },
+      {
+        "position": {
+          "x": 2933,
+          "y": 285
+        },
+        "id": "27cca254-a083-434d-add4-74c4609d41a0",
+        "name": "carica il video del task sul telefono",
+        "type": "uploadFile",
+        "config": {
+          "inputType": "taskOrder",
+          "isUseVariable": false,
+          "useVariable": "Video"
+        }
+      },
+      {
+        "position": {
+          "x": 3133,
+          "y": 285
+        },
+        "id": "7f00cc68-9cb3-412d-9b92-f3faf1a75532",
+        "name": "azzera: video arrivato?",
+        "type": "script",
+        "config": {
+          "injectVariables": [],
+          "script": "async function main() { return { nVideo: \"0\", videoOk: \"0\" }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "nVideo",
+              "variable": "nVideo"
+            },
+            {
+              "value": "videoOk",
+              "variable": "videoOk"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 4333,
+          "y": 285
+        },
+        "id": "e51fe342-3191-4a62-b842-216851df8d29",
+        "name": "aspetta il video in Download (fino a 1 minuto)",
+        "type": "forTimes",
+        "config": {
+          "serialType": "randomInterval",
+          "minTimes": 12,
+          "maxTimes": 12,
+          "hiddenChildren": false,
+          "children": [
+            {
+              "position": {
+                "x": 4133,
+                "y": 285
+              },
+              "id": "7ed20038-fed4-44f0-bb13-480346819779",
+              "name": "IF video non ancora arrivato",
+              "type": "ifElse",
+              "config": {
+                "apposition": "and",
+                "children": [
+                  {
+                    "position": {
+                      "x": 3333,
+                      "y": 285
+                    },
+                    "id": "b95ee134-3365-414e-a443-e815c9553f7a",
+                    "name": "quanti video ci sono in Download?",
+                    "type": "executeADB",
+                    "config": {
+                      "content": "sh -c 'n=$(ls /sdcard/Download 2>/dev/null | grep -ciE \"\\.(mp4|mov|m4v|3gp|webm|mkv)$\"); echo \"${n:-0}\"'",
+                      "timeout": 120000,
+                      "variable": "nVideo",
+                      "error": false
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 3533,
+                      "y": 285
+                    },
+                    "id": "b9a644d0-c63f-4db7-96e2-075cce6e1a7d",
+                    "name": "video arrivato?",
+                    "type": "script",
+                    "config": {
+                      "injectVariables": [
+                        "nVideo"
+                      ],
+                      "script": "async function main({ nVideo }) { return { videoOk: (parseInt(String(nVideo||'').trim(),10)||0) > 0 ? '1' : '0' }; }",
+                      "type": "js",
+                      "variableMap": [
+                        {
+                          "value": "videoOk",
+                          "variable": "videoOk"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 3933,
+                      "y": 285
+                    },
+                    "id": "e7e821e8-2c60-4531-b407-533628aedb00",
+                    "name": "IF non ancora -> aspetta 5 secondi",
+                    "type": "ifElse",
+                    "config": {
+                      "apposition": "and",
+                      "children": [
+                        {
+                          "position": {
+                            "x": 3733,
+                            "y": 285
+                          },
+                          "id": "5b306d1a-c085-468e-bda1-ad59d7c00927",
+                          "name": "wait",
+                          "type": "waitTime",
+                          "config": {
+                            "timeoutMax": 5500,
+                            "timeoutMin": 4500,
+                            "timeoutType": "randomInterval"
+                          }
+                        }
+                      ],
+                      "conditionList": [
+                        {
+                          "probability": 50,
+                          "relation": "equal",
+                          "useVariable": "videoOk",
+                          "result": "0"
+                        }
+                      ],
+                      "other": []
+                    }
+                  }
+                ],
+                "conditionList": [
+                  {
+                    "probability": 50,
+                    "relation": "equal",
+                    "useVariable": "videoOk",
+                    "result": "0"
+                  }
+                ],
+                "other": []
+              }
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 4933,
+          "y": 285
+        },
+        "id": "3b2eadbe-7297-4913-8fb2-a9550af2b093",
+        "name": "IF il video non e' arrivato e non e' una prova -> errore",
+        "type": "ifElse",
+        "config": {
+          "apposition": "and",
+          "children": [
+            {
+              "position": {
+                "x": 4533,
+                "y": 285
+              },
+              "id": "7095bfa2-8ea0-4d0a-8468-510848478c4f",
+              "name": "errore: [Video] Il video del task non e' arrivato sul telefono (cart",
+              "type": "throwException",
+              "config": {
+                "content": "[Video] Il video del task non e' arrivato sul telefono (cartella Download). Non pubblico niente."
+              }
+            },
+            {
+              "position": {
+                "x": 4733,
+                "y": 285
+              },
+              "id": "a5e4951c-92d4-4f4e-85f0-98b6b99ba72c",
+              "name": "End task (dopo l'errore)",
+              "type": "endTask",
+              "config": {}
+            }
+          ],
+          "conditionList": [
+            {
+              "probability": 50,
+              "relation": "equal",
+              "useVariable": "videoOk",
+              "result": "0"
+            },
+            {
+              "probability": 50,
+              "relation": "equal",
+              "useVariable": "prova",
+              "result": "0"
+            }
+          ],
+          "other": []
+        }
+      },
+      {
+        "position": {
+          "x": 5133,
+          "y": 285
+        },
+        "id": "c543eed5-954f-4e7c-b0ad-e1a1feff28ec",
+        "name": "la galleria vede il video nuovo",
+        "type": "executeADB",
+        "config": {
+          "content": "sh -c 'for f in /sdcard/Download/*; do if [ -f \"$f\" ]; then touch \"$f\"; am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d \"file://$f\" >/dev/null 2>&1; fi; done; echo ok'",
+          "timeout": 120000,
+          "variable": "scanOut",
+          "error": false
+        }
+      },
+      {
+        "position": {
+          "x": 5333,
+          "y": 285
+        },
+        "id": "4e357aa7-bc55-44f8-86c4-78a7d763ecc8",
+        "name": "wait",
+        "type": "waitTime",
+        "config": {
+          "timeoutMax": 3000,
+          "timeoutMin": 2000,
+          "timeoutType": "randomInterval"
+        }
+      },
+      {
+        "position": {
+          "x": 5533,
+          "y": 285
+        },
+        "id": "a52b6a2e-a7de-41b4-89c2-d3512ddec797",
+        "name": "apri Instagram",
+        "type": "openApp",
+        "config": {
+          "packgename": "com.instagram.android"
+        }
+      },
+      {
+        "position": {
+          "x": 5733,
+          "y": 285
+        },
+        "id": "c08e4469-5876-45be-a1a9-21691291d0c7",
+        "name": "aspetta che Instagram si apra",
+        "type": "waitTime",
+        "config": {
+          "timeoutMax": 9000,
+          "timeoutMin": 7000,
+          "timeoutType": "randomInterval"
+        }
+      },
+      {
+        "position": {
+          "x": 5933,
+          "y": 285
+        },
+        "id": "5bf07b12-4d99-4043-94c2-29633bc9cfbb",
+        "name": "pop-up 'Not now'",
+        "type": "click",
+        "config": {
+          "filterCollection": [
+            [
+              {
+                "content": "ot now",
+                "filterType": "contain",
+                "type": "text"
+              }
+            ],
+            [
+              {
+                "content": "Not Now",
+                "filterType": "equal",
+                "type": "text"
+              }
+            ]
+          ],
+          "hiddenChildren": false,
+          "randomDistance": 0,
+          "searchTime": 400,
+          "useOffset": false,
+          "serialType": "fixedValue",
+          "serial": 1,
+          "excuteError": "noProcessing"
+        }
+      },
+      {
+        "position": {
+          "x": 6133,
+          "y": 285
+        },
+        "id": "4150e77b-fb1d-4d72-8850-e801c6d73cfc",
+        "name": "azzera: profilo",
+        "type": "script",
+        "config": {
+          "injectVariables": [],
+          "script": "async function main() { return { onProf: \"\", profiloOk: \"0\" }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "onProf",
+              "variable": "onProf"
+            },
+            {
+              "value": "profiloOk",
+              "variable": "profiloOk"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 6333,
+          "y": 285
+        },
+        "id": "5bab1d47-07b1-417c-85c5-ca18ae3b003f",
+        "name": "tocca Profilo (in basso a destra)",
+        "type": "click",
+        "config": {
+          "filterCollection": [
+            [
+              {
+                "content": "com.instagram.android:id/profile_tab",
+                "filterType": "equal",
+                "type": "id"
+              }
+            ],
+            [
+              {
+                "content": "Profile",
+                "filterType": "equal",
+                "type": "desc"
+              }
+            ]
+          ],
+          "hiddenChildren": false,
+          "randomDistance": 0,
+          "searchTime": 4000,
+          "useOffset": false,
+          "serialType": "fixedValue",
+          "serial": 1,
+          "excuteError": "noProcessing",
+          "variable": "onProf"
+        }
+      },
+      {
+        "position": {
+          "x": 6533,
+          "y": 285
+        },
+        "id": "703c748b-e4ca-4b4a-8e9d-5ac03bf8f1b8",
+        "name": "profilo toccato?",
+        "type": "script",
+        "config": {
+          "injectVariables": [
+            "onProf"
+          ],
+          "script": "async function main({ onProf }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { profiloOk: ok(onProf) ? '1' : '0' }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "profiloOk",
+              "variable": "profiloOk"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 7933,
+          "y": 285
+        },
+        "id": "c6e801e9-1aad-47a7-9848-deffab2426b4",
+        "name": "IF profilo non toccato -> indietro e riprova",
+        "type": "ifElse",
+        "config": {
+          "apposition": "and",
+          "children": [
+            {
+              "position": {
+                "x": 6733,
+                "y": 285
+              },
+              "id": "6cb6d1f7-9bed-4882-b4e6-fb3c58ab644f",
+              "name": "indietro",
+              "type": "executeADB",
+              "config": {
+                "content": "input keyevent 4",
+                "timeout": 120000,
+                "variable": "backOut",
+                "error": false
+              }
+            },
+            {
+              "position": {
+                "x": 6933,
+                "y": 285
+              },
+              "id": "a043ce9d-7dee-48f7-b8f4-74a810cb00db",
+              "name": "wait",
+              "type": "waitTime",
+              "config": {
+                "timeoutMax": 2500,
+                "timeoutMin": 1500,
+                "timeoutType": "randomInterval"
+              }
+            },
+            {
+              "position": {
+                "x": 7133,
+                "y": 285
+              },
+              "id": "34dcfc86-a4ce-4454-b9ec-68d88b5877ec",
+              "name": "pop-up 'Not now'",
+              "type": "click",
+              "config": {
+                "filterCollection": [
+                  [
+                    {
+                      "content": "ot now",
+                      "filterType": "contain",
+                      "type": "text"
+                    }
+                  ],
+                  [
+                    {
+                      "content": "Not Now",
+                      "filterType": "equal",
+                      "type": "text"
+                    }
+                  ]
+                ],
+                "hiddenChildren": false,
+                "randomDistance": 0,
+                "searchTime": 400,
+                "useOffset": false,
+                "serialType": "fixedValue",
+                "serial": 1,
+                "excuteError": "noProcessing"
+              }
+            },
+            {
+              "position": {
+                "x": 7333,
+                "y": 285
+              },
+              "id": "73721900-5323-4e0d-96ac-4e3f82ee5bb1",
+              "name": "azzera: profilo",
+              "type": "script",
+              "config": {
+                "injectVariables": [],
+                "script": "async function main() { return { onProf: \"\", profiloOk: \"0\" }; }",
+                "type": "js",
+                "variableMap": [
+                  {
+                    "value": "onProf",
+                    "variable": "onProf"
+                  },
+                  {
+                    "value": "profiloOk",
+                    "variable": "profiloOk"
+                  }
+                ]
+              }
+            },
+            {
+              "position": {
+                "x": 7533,
+                "y": 285
+              },
+              "id": "5a4cfe2f-974f-450f-95b2-c3300250343d",
+              "name": "tocca Profilo (in basso a destra)",
+              "type": "click",
+              "config": {
+                "filterCollection": [
+                  [
+                    {
+                      "content": "com.instagram.android:id/profile_tab",
+                      "filterType": "equal",
+                      "type": "id"
+                    }
+                  ],
+                  [
+                    {
+                      "content": "Profile",
+                      "filterType": "equal",
+                      "type": "desc"
+                    }
+                  ]
+                ],
+                "hiddenChildren": false,
+                "randomDistance": 0,
+                "searchTime": 4000,
+                "useOffset": false,
+                "serialType": "fixedValue",
+                "serial": 1,
+                "excuteError": "noProcessing",
+                "variable": "onProf"
+              }
+            },
+            {
+              "position": {
+                "x": 7733,
+                "y": 285
+              },
+              "id": "f20f1acf-cd2c-4afd-9940-5c67efbe8bdd",
+              "name": "profilo toccato?",
+              "type": "script",
+              "config": {
+                "injectVariables": [
+                  "onProf"
+                ],
+                "script": "async function main({ onProf }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { profiloOk: ok(onProf) ? '1' : '0' }; }",
+                "type": "js",
+                "variableMap": [
+                  {
+                    "value": "profiloOk",
+                    "variable": "profiloOk"
+                  }
+                ]
+              }
+            }
+          ],
+          "conditionList": [
+            {
+              "probability": 50,
+              "relation": "equal",
+              "useVariable": "profiloOk",
+              "result": "0"
+            }
+          ],
+          "other": []
+        }
+      },
+      {
+        "position": {
+          "x": 8133,
+          "y": 285
+        },
+        "id": "854b090b-861f-4f0c-b9e2-9b9275420a93",
+        "name": "wait",
+        "type": "waitTime",
+        "config": {
+          "timeoutMax": 4000,
+          "timeoutMin": 3000,
+          "timeoutType": "randomInterval"
+        }
+      },
+      {
+        "position": {
+          "x": 8333,
+          "y": 285
+        },
+        "id": "9e0b0514-1a03-4888-ad54-1766b60e22e7",
+        "name": "azzera: e' il mio profilo?",
+        "type": "script",
+        "config": {
+          "injectVariables": [],
+          "script": "async function main() { return { mioProfilo: \"\", mioOk: \"0\" }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "mioProfilo",
+              "variable": "mioProfilo"
+            },
+            {
+              "value": "mioOk",
+              "variable": "mioOk"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 8533,
+          "y": 285
+        },
+        "id": "732a5c74-d143-41fa-b8a6-48c82e274cef",
+        "name": "c'e' 'Edit profile'?",
+        "type": "getEle",
+        "config": {
+          "filterCollection": [
+            [
+              {
+                "content": "Edit profile",
+                "filterType": "equal",
+                "type": "text"
+              }
+            ],
+            [
+              {
+                "content": "Edit Profile",
+                "filterType": "equal",
+                "type": "text"
+              }
+            ]
+          ],
+          "serialType": "fixedValue",
+          "serial": 1,
+          "hiddenChildren": false,
+          "searchTime": 4000,
+          "type": "text",
+          "variable": "mioProfilo",
+          "error": false
+        }
+      },
+      {
+        "position": {
+          "x": 8733,
+          "y": 285
+        },
+        "id": "07cbbb03-36a6-405c-8704-95c2d7ad7347",
+        "name": "e' il mio profilo?",
+        "type": "script",
+        "config": {
+          "injectVariables": [
+            "mioProfilo"
+          ],
+          "script": "async function main({ mioProfilo }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { mioOk: ok(mioProfilo) ? '1' : '0' }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "mioOk",
+              "variable": "mioOk"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 9533,
+          "y": 285
+        },
+        "id": "2df4146a-b198-4ab7-bb94-2d718f556f37",
+        "name": "IF non sono sul profilo -> errore",
+        "type": "ifElse",
+        "config": {
+          "apposition": "and",
+          "children": [
+            {
+              "position": {
+                "x": 8933,
+                "y": 285
+              },
+              "id": "24586cad-e197-465d-b8ff-88cf916a6af5",
+              "name": "screenshot dell'errore",
+              "type": "screenshotPage",
+              "config": {
+                "endPicture": true
+              }
+            },
+            {
+              "position": {
+                "x": 9133,
+                "y": 285
+              },
+              "id": "729a76fe-bc40-4931-b966-9321d4d8c821",
+              "name": "errore: [Profilo] Non riesco ad aprire il profilo dell'account (non ",
+              "type": "throwException",
+              "config": {
+                "content": "[Profilo] Non riesco ad aprire il profilo dell'account (non vedo 'Edit profile')."
+              }
+            },
+            {
+              "position": {
+                "x": 9333,
+                "y": 285
+              },
+              "id": "b11b7e90-8f9c-40c8-b6c0-3f20b8bd7c92",
+              "name": "End task (dopo l'errore)",
+              "type": "endTask",
+              "config": {}
+            }
+          ],
+          "conditionList": [
+            {
+              "probability": 50,
+              "relation": "equal",
+              "useVariable": "mioOk",
+              "result": "0"
+            }
+          ],
+          "other": []
+        }
+      },
+      {
+        "position": {
+          "x": 9733,
+          "y": 285
+        },
+        "id": "926f9f1d-4d8d-4202-8e65-7903e558c9c4",
+        "name": "azzera: menu",
+        "type": "script",
+        "config": {
+          "injectVariables": [],
+          "script": "async function main() { return { cMenu: \"\", inMenu: \"\", menuOk: \"0\" }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "cMenu",
+              "variable": "cMenu"
+            },
+            {
+              "value": "inMenu",
+              "variable": "inMenu"
+            },
+            {
+              "value": "menuOk",
+              "variable": "menuOk"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 9933,
+          "y": 285
+        },
+        "id": "afb15727-a607-4dbc-939d-1d89409528c1",
+        "name": "tocca il menu (tre righe in alto a destra)",
+        "type": "click",
+        "config": {
+          "filterCollection": [
+            [
+              {
+                "content": "Options",
+                "filterType": "equal",
+                "type": "desc"
+              }
+            ],
+            [
+              {
+                "content": "Menu",
+                "filterType": "equal",
+                "type": "desc"
+              }
+            ],
+            [
+              {
+                "content": "Settings and activity",
+                "filterType": "equal",
+                "type": "desc"
+              }
+            ]
+          ],
+          "hiddenChildren": false,
+          "randomDistance": 0,
+          "searchTime": 3000,
+          "useOffset": false,
+          "serialType": "fixedValue",
+          "serial": 1,
+          "excuteError": "noProcessing",
+          "variable": "cMenu"
+        }
+      },
+      {
+        "position": {
+          "x": 10133,
+          "y": 285
+        },
+        "id": "7befb88d-c52a-4b14-afa0-b40a635ecb56",
+        "name": "wait",
+        "type": "waitTime",
+        "config": {
+          "timeoutMax": 3000,
+          "timeoutMin": 2000,
+          "timeoutType": "randomInterval"
+        }
+      },
+      {
+        "position": {
+          "x": 10333,
+          "y": 285
+        },
+        "id": "7e448077-87b3-44bc-be1e-f9a3bc0cfd17",
+        "name": "si e' aperto 'Settings and activity'?",
+        "type": "getEle",
+        "config": {
+          "filterCollection": [
+            [
+              {
+                "content": "Settings and activity",
+                "filterType": "equal",
+                "type": "text"
+              }
+            ],
+            [
+              {
+                "content": "Accounts Center",
+                "filterType": "equal",
+                "type": "text"
+              }
+            ],
+            [
+              {
+                "content": "Account type and tools",
+                "filterType": "equal",
+                "type": "text"
+              }
+            ]
+          ],
+          "serialType": "fixedValue",
+          "serial": 1,
+          "hiddenChildren": false,
+          "searchTime": 3000,
+          "type": "centerY",
+          "variable": "inMenu",
+          "error": false
+        }
+      },
+      {
+        "position": {
+          "x": 10533,
+          "y": 285
+        },
+        "id": "aaae1a76-053f-4a93-8170-8bf5a089edb4",
+        "name": "menu aperto?",
+        "type": "script",
+        "config": {
+          "injectVariables": [
+            "inMenu"
+          ],
+          "script": "async function main({ inMenu }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { menuOk: ok(inMenu) ? '1' : '0' }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "menuOk",
+              "variable": "menuOk"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 12333,
+          "y": 285
+        },
+        "id": "1c110f5f-05fe-4d3a-a21f-1b59e8767654",
+        "name": "IF menu non aperto -> tocca l'angolo in alto a destra",
+        "type": "ifElse",
+        "config": {
+          "apposition": "and",
+          "children": [
+            {
+              "position": {
+                "x": 10733,
+                "y": 285
+              },
+              "id": "695da7aa-3ebe-4a00-8322-32ec56d4656b",
+              "name": "larghezza dello schermo",
+              "type": "mathOperation",
+              "config": {
+                "operationStr": "${_SCREEN_WIDTH_} * 1",
+                "variable": "larghezza"
+              }
+            },
+            {
+              "position": {
+                "x": 10933,
+                "y": 285
+              },
+              "id": "3cabbd1f-dc67-4975-ac12-d3537513c7ff",
+              "name": "altezza della barra in alto",
+              "type": "mathOperation",
+              "config": {
+                "operationStr": "${_STATUSBAR_HEIGHT_} * 1",
+                "variable": "barra"
+              }
+            },
+            {
+              "position": {
+                "x": 11133,
+                "y": 285
+              },
+              "id": "62c2442c-4195-49a6-bb9b-871700d2bfad",
+              "name": "posizione delle tre righe",
+              "type": "script",
+              "config": {
+                "injectVariables": [
+                  "larghezza",
+                  "barra"
+                ],
+                "script": "async function main({ larghezza, barra }) { const w=Number(larghezza)||720, b=Number(barra)||48; return { menuX: String(Math.round(w*0.92)), menuY: String(Math.round(b + w*0.124)) }; }",
+                "type": "js",
+                "variableMap": [
+                  {
+                    "value": "menuX",
+                    "variable": "menuX"
+                  },
+                  {
+                    "value": "menuY",
+                    "variable": "menuY"
+                  }
+                ]
+              }
+            },
+            {
+              "position": {
+                "x": 11333,
+                "y": 285
+              },
+              "id": "e69b70a6-2d8a-46a4-ad42-297dc46e867a",
+              "name": "tocca le tre righe (posizione)",
+              "type": "clickXY",
+              "config": {
+                "excuteError": "noProcessing",
+                "randomDistance": 0,
+                "x": "${menuX}",
+                "y": "${menuY}"
+              }
+            },
+            {
+              "position": {
+                "x": 11533,
+                "y": 285
+              },
+              "id": "f4dd6e99-776c-404c-b803-e5552c8eba4b",
+              "name": "wait",
+              "type": "waitTime",
+              "config": {
+                "timeoutMax": 3000,
+                "timeoutMin": 2000,
+                "timeoutType": "randomInterval"
+              }
+            },
+            {
+              "position": {
+                "x": 11733,
+                "y": 285
+              },
+              "id": "ca1e81b3-527f-4d21-976f-a9a5e26ea8f2",
+              "name": "azzera: menu aperto?",
+              "type": "script",
+              "config": {
+                "injectVariables": [],
+                "script": "async function main() { return { inMenu: \"\" }; }",
+                "type": "js",
+                "variableMap": [
+                  {
+                    "value": "inMenu",
+                    "variable": "inMenu"
+                  }
+                ]
+              }
+            },
+            {
+              "position": {
+                "x": 11933,
+                "y": 285
+              },
+              "id": "6995de8f-29d5-4583-b6f9-7a326b83f6db",
+              "name": "si e' aperto 'Settings and activity'?",
+              "type": "getEle",
+              "config": {
+                "filterCollection": [
+                  [
+                    {
+                      "content": "Settings and activity",
+                      "filterType": "equal",
+                      "type": "text"
+                    }
+                  ],
+                  [
+                    {
+                      "content": "Accounts Center",
+                      "filterType": "equal",
+                      "type": "text"
+                    }
+                  ],
+                  [
+                    {
+                      "content": "Account type and tools",
+                      "filterType": "equal",
+                      "type": "text"
+                    }
+                  ]
+                ],
+                "serialType": "fixedValue",
+                "serial": 1,
+                "hiddenChildren": false,
+                "searchTime": 3000,
+                "type": "centerY",
+                "variable": "inMenu",
+                "error": false
+              }
+            },
+            {
+              "position": {
+                "x": 12133,
+                "y": 285
+              },
+              "id": "9d92219c-7d53-4f67-a1ab-c2480484b700",
+              "name": "menu aperto?",
+              "type": "script",
+              "config": {
+                "injectVariables": [
+                  "inMenu"
+                ],
+                "script": "async function main({ inMenu }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { menuOk: ok(inMenu) ? '1' : '0' }; }",
+                "type": "js",
+                "variableMap": [
+                  {
+                    "value": "menuOk",
+                    "variable": "menuOk"
+                  }
+                ]
+              }
+            }
+          ],
+          "conditionList": [
+            {
+              "probability": 50,
+              "relation": "equal",
+              "useVariable": "menuOk",
+              "result": "0"
+            }
+          ],
+          "other": []
+        }
+      },
+      {
+        "position": {
+          "x": 13133,
+          "y": 285
+        },
+        "id": "0d055c46-733c-42f6-8640-198494e75994",
+        "name": "IF menu non aperto -> errore",
+        "type": "ifElse",
+        "config": {
+          "apposition": "and",
+          "children": [
+            {
+              "position": {
+                "x": 12533,
+                "y": 285
+              },
+              "id": "9e5a506a-0393-4786-ac3e-36ae64df4bfe",
+              "name": "screenshot dell'errore",
+              "type": "screenshotPage",
+              "config": {
+                "endPicture": true
+              }
+            },
+            {
+              "position": {
+                "x": 12733,
+                "y": 285
+              },
+              "id": "b715da0f-dfa7-4f28-a40f-289db0e198be",
+              "name": "errore: [Menu] Dal profilo non si apre 'Settings and activity' (menu",
+              "type": "throwException",
+              "config": {
+                "content": "[Menu] Dal profilo non si apre 'Settings and activity' (menu con le tre righe)."
+              }
+            },
+            {
+              "position": {
+                "x": 12933,
+                "y": 285
+              },
+              "id": "ad0cb498-d80d-4a88-baee-8acb7e196df2",
+              "name": "End task (dopo l'errore)",
+              "type": "endTask",
+              "config": {}
+            }
+          ],
+          "conditionList": [
+            {
+              "probability": 50,
+              "relation": "equal",
+              "useVariable": "menuOk",
+              "result": "0"
+            }
+          ],
+          "other": []
+        }
+      },
+      {
+        "position": {
+          "x": 13333,
+          "y": 285
+        },
+        "id": "b67f74c0-d3a1-41bf-a230-5e1fa95c7b26",
+        "name": "azzera: Account type and tools",
+        "type": "script",
+        "config": {
+          "injectVariables": [],
+          "script": "async function main() { return { cTools: \"\", toolsOk: \"0\" }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "cTools",
+              "variable": "cTools"
+            },
+            {
+              "value": "toolsOk",
+              "variable": "toolsOk"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 14733,
+          "y": 285
+        },
+        "id": "86036e43-2323-42be-9496-724931081f86",
+        "name": "cerca 'Account type and tools' (scorre giu' se serve)",
+        "type": "forTimes",
+        "config": {
+          "serialType": "randomInterval",
+          "minTimes": 4,
+          "maxTimes": 4,
+          "hiddenChildren": false,
+          "children": [
+            {
+              "position": {
+                "x": 14533,
+                "y": 285
+              },
+              "id": "0edec6f8-0f9b-4284-8527-853196c53d69",
+              "name": "IF 'Account type and tools' non ancora toccato",
+              "type": "ifElse",
+              "config": {
+                "apposition": "and",
+                "children": [
+                  {
+                    "position": {
+                      "x": 13533,
+                      "y": 285
+                    },
+                    "id": "c0540284-fe00-4750-8915-4fe7babda31a",
+                    "name": "tocca 'Account type and tools'",
+                    "type": "click",
+                    "config": {
+                      "filterCollection": [
+                        [
+                          {
+                            "content": "Account type and tools",
+                            "filterType": "equal",
+                            "type": "text"
+                          }
+                        ]
+                      ],
+                      "hiddenChildren": false,
+                      "randomDistance": 0,
+                      "searchTime": 2500,
+                      "useOffset": false,
+                      "serialType": "fixedValue",
+                      "serial": 1,
+                      "excuteError": "noProcessing",
+                      "variable": "cTools"
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 13733,
+                      "y": 285
+                    },
+                    "id": "60f62c9d-9d06-4388-86d2-38994de69648",
+                    "name": "toccato?",
+                    "type": "script",
+                    "config": {
+                      "injectVariables": [
+                        "cTools"
+                      ],
+                      "script": "async function main({ cTools }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { toolsOk: ok(cTools) ? '1' : '0' }; }",
+                      "type": "js",
+                      "variableMap": [
+                        {
+                          "value": "toolsOk",
+                          "variable": "toolsOk"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 14333,
+                      "y": 285
+                    },
+                    "id": "6668fcd6-556b-4c6c-a35d-1564bf1ad6a0",
+                    "name": "IF non visto -> scorri giu'",
+                    "type": "ifElse",
+                    "config": {
+                      "apposition": "and",
+                      "children": [
+                        {
+                          "position": {
+                            "x": 13933,
+                            "y": 285
+                          },
+                          "id": "40ffeb9a-07ab-4af0-92e7-e30a50245aea",
+                          "name": "scorri giu'",
+                          "type": "executeADB",
+                          "config": {
+                            "content": "input swipe 360 950 360 350 600",
+                            "timeout": 120000,
+                            "variable": "scorriOut",
+                            "error": false
+                          }
+                        },
+                        {
+                          "position": {
+                            "x": 14133,
+                            "y": 285
+                          },
+                          "id": "40d3c610-f6dd-4313-a2ad-9a66cd3e71f6",
+                          "name": "wait",
+                          "type": "waitTime",
+                          "config": {
+                            "timeoutMax": 1800,
+                            "timeoutMin": 1200,
+                            "timeoutType": "randomInterval"
+                          }
+                        }
+                      ],
+                      "conditionList": [
+                        {
+                          "probability": 50,
+                          "relation": "equal",
+                          "useVariable": "toolsOk",
+                          "result": "0"
+                        }
+                      ],
+                      "other": []
+                    }
+                  }
+                ],
+                "conditionList": [
+                  {
+                    "probability": 50,
+                    "relation": "equal",
+                    "useVariable": "toolsOk",
+                    "result": "0"
+                  }
+                ],
+                "other": []
+              }
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 15533,
+          "y": 285
+        },
+        "id": "020c6a72-5564-4157-9f0c-bc4bc792eb81",
+        "name": "IF non trovato -> errore",
+        "type": "ifElse",
+        "config": {
+          "apposition": "and",
+          "children": [
+            {
+              "position": {
+                "x": 14933,
+                "y": 285
+              },
+              "id": "ce6f32e4-5270-402f-999e-936303aa918c",
+              "name": "screenshot dell'errore",
+              "type": "screenshotPage",
+              "config": {
+                "endPicture": true
+              }
+            },
+            {
+              "position": {
+                "x": 15133,
+                "y": 285
+              },
+              "id": "0de46c7f-c4a0-47f4-a604-a267bcd2d281",
+              "name": "errore: [Menu] Non trovo 'Account type and tools' in 'Settings and a",
+              "type": "throwException",
+              "config": {
+                "content": "[Menu] Non trovo 'Account type and tools' in 'Settings and activity'."
+              }
+            },
+            {
+              "position": {
+                "x": 15333,
+                "y": 285
+              },
+              "id": "0df7e75a-6694-434a-92c9-02cf6af70da5",
+              "name": "End task (dopo l'errore)",
+              "type": "endTask",
+              "config": {}
+            }
+          ],
+          "conditionList": [
+            {
+              "probability": 50,
+              "relation": "equal",
+              "useVariable": "toolsOk",
+              "result": "0"
+            }
+          ],
+          "other": []
+        }
+      },
+      {
+        "position": {
+          "x": 15733,
+          "y": 285
+        },
+        "id": "87866938-7a17-49b1-8c33-bf09d0c9131d",
+        "name": "wait",
+        "type": "waitTime",
+        "config": {
+          "timeoutMax": 3000,
+          "timeoutMin": 2000,
+          "timeoutType": "randomInterval"
+        }
+      },
+      {
+        "position": {
+          "x": 15933,
+          "y": 285
+        },
+        "id": "726bf4f4-2589-45c0-8e70-60e72b2d8f45",
+        "name": "azzera: Trial reels",
+        "type": "script",
+        "config": {
+          "injectVariables": [],
+          "script": "async function main() { return { cTrial: \"\", trialOk: \"0\" }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "cTrial",
+              "variable": "cTrial"
+            },
+            {
+              "value": "trialOk",
+              "variable": "trialOk"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 17333,
+          "y": 285
+        },
+        "id": "1f413283-ac0f-4bf2-9595-8b020fee25f8",
+        "name": "cerca 'Trial reels' (scorre giu' se serve)",
+        "type": "forTimes",
+        "config": {
+          "serialType": "randomInterval",
+          "minTimes": 3,
+          "maxTimes": 3,
+          "hiddenChildren": false,
+          "children": [
+            {
+              "position": {
+                "x": 17133,
+                "y": 285
+              },
+              "id": "2264ca10-be4c-43a5-b607-2ceb8d2180e7",
+              "name": "IF 'Trial reels' non ancora toccato",
+              "type": "ifElse",
+              "config": {
+                "apposition": "and",
+                "children": [
+                  {
+                    "position": {
+                      "x": 16133,
+                      "y": 285
+                    },
+                    "id": "6866767d-3ffd-436c-ad76-a924e4462e6e",
+                    "name": "tocca 'Trial reels'",
+                    "type": "click",
+                    "config": {
+                      "filterCollection": [
+                        [
+                          {
+                            "content": "Trial reels",
+                            "filterType": "equal",
+                            "type": "text"
+                          }
+                        ]
+                      ],
+                      "hiddenChildren": false,
+                      "randomDistance": 0,
+                      "searchTime": 3000,
+                      "useOffset": false,
+                      "serialType": "fixedValue",
+                      "serial": 1,
+                      "excuteError": "noProcessing",
+                      "variable": "cTrial"
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 16333,
+                      "y": 285
+                    },
+                    "id": "99f181a1-6277-4717-b1f1-6d9e210d30f1",
+                    "name": "toccato?",
+                    "type": "script",
+                    "config": {
+                      "injectVariables": [
+                        "cTrial"
+                      ],
+                      "script": "async function main({ cTrial }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { trialOk: ok(cTrial) ? '1' : '0' }; }",
+                      "type": "js",
+                      "variableMap": [
+                        {
+                          "value": "trialOk",
+                          "variable": "trialOk"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 16933,
+                      "y": 285
+                    },
+                    "id": "cc82402a-13f9-4b39-9760-fdd3a566d979",
+                    "name": "IF non visto -> scorri giu'",
+                    "type": "ifElse",
+                    "config": {
+                      "apposition": "and",
+                      "children": [
+                        {
+                          "position": {
+                            "x": 16533,
+                            "y": 285
+                          },
+                          "id": "0634e3fe-a388-4bba-a06d-74b125bda466",
+                          "name": "scorri giu'",
+                          "type": "executeADB",
+                          "config": {
+                            "content": "input swipe 360 950 360 350 600",
+                            "timeout": 120000,
+                            "variable": "scorriOut",
+                            "error": false
+                          }
+                        },
+                        {
+                          "position": {
+                            "x": 16733,
+                            "y": 285
+                          },
+                          "id": "313d87a4-47d3-4354-8b39-ac121f518f03",
+                          "name": "wait",
+                          "type": "waitTime",
+                          "config": {
+                            "timeoutMax": 1800,
+                            "timeoutMin": 1200,
+                            "timeoutType": "randomInterval"
+                          }
+                        }
+                      ],
+                      "conditionList": [
+                        {
+                          "probability": 50,
+                          "relation": "equal",
+                          "useVariable": "trialOk",
+                          "result": "0"
+                        }
+                      ],
+                      "other": []
+                    }
+                  }
+                ],
+                "conditionList": [
+                  {
+                    "probability": 50,
+                    "relation": "equal",
+                    "useVariable": "trialOk",
+                    "result": "0"
+                  }
+                ],
+                "other": []
+              }
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 18133,
+          "y": 285
+        },
+        "id": "2794310e-baf0-4519-bbd1-4e8101ea3edf",
+        "name": "IF non trovato -> errore",
+        "type": "ifElse",
+        "config": {
+          "apposition": "and",
+          "children": [
+            {
+              "position": {
+                "x": 17533,
+                "y": 285
+              },
+              "id": "3848bfcb-a917-4093-af50-fac25b1a5482",
+              "name": "screenshot dell'errore",
+              "type": "screenshotPage",
+              "config": {
+                "endPicture": true
+              }
+            },
+            {
+              "position": {
+                "x": 17733,
+                "y": 285
+              },
+              "id": "5468e439-5e17-457e-96a4-55350980436e",
+              "name": "errore: [Trial reels] Non trovo 'Trial reels' in 'Account type and t",
+              "type": "throwException",
+              "config": {
+                "content": "[Trial reels] Non trovo 'Trial reels' in 'Account type and tools' (l'account e' professionale?)."
+              }
+            },
+            {
+              "position": {
+                "x": 17933,
+                "y": 285
+              },
+              "id": "1f986e4f-93ad-406d-b317-69d1ac635b7c",
+              "name": "End task (dopo l'errore)",
+              "type": "endTask",
+              "config": {}
+            }
+          ],
+          "conditionList": [
+            {
+              "probability": 50,
+              "relation": "equal",
+              "useVariable": "trialOk",
+              "result": "0"
+            }
+          ],
+          "other": []
+        }
+      },
+      {
+        "position": {
+          "x": 18333,
+          "y": 285
+        },
+        "id": "162bdeb2-76c0-412b-841f-17219d2f7e1c",
+        "name": "aspetta la pagina Trial reels",
+        "type": "waitTime",
+        "config": {
+          "timeoutMax": 3500,
+          "timeoutMin": 2500,
+          "timeoutType": "randomInterval"
+        }
+      },
+      {
+        "position": {
+          "x": 18533,
+          "y": 285
+        },
+        "id": "42f4e888-83c9-458e-965c-4411b4b07472",
+        "name": "azzera: galleria aperta?",
+        "type": "script",
+        "config": {
+          "injectVariables": [],
+          "script": "async function main() { return { cCrea: \"\", inGalleria: \"\", galleriaOk: \"0\" }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "cCrea",
+              "variable": "cCrea"
+            },
+            {
+              "value": "inGalleria",
+              "variable": "inGalleria"
+            },
+            {
+              "value": "galleriaOk",
+              "variable": "galleriaOk"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 21333,
+          "y": 285
+        },
+        "id": "7e5983e0-e55a-435b-855d-af88c5982c8f",
+        "name": "apri la galleria del trial reel (3 tentativi)",
+        "type": "forTimes",
+        "config": {
+          "serialType": "randomInterval",
+          "minTimes": 3,
+          "maxTimes": 3,
+          "hiddenChildren": false,
+          "children": [
+            {
+              "position": {
+                "x": 21133,
+                "y": 285
+              },
+              "id": "4d283a4a-263a-421b-8cdb-72978b62c5b1",
+              "name": "IF galleria non ancora aperta",
+              "type": "ifElse",
+              "config": {
+                "apposition": "and",
+                "children": [
+                  {
+                    "position": {
+                      "x": 18733,
+                      "y": 285
+                    },
+                    "id": "7bac7498-d32c-46bd-8d07-a81d56d57c52",
+                    "name": "numero del tentativo",
+                    "type": "script",
+                    "config": {
+                      "injectVariables": [
+                        "tentativo"
+                      ],
+                      "script": "async function main({ tentativo }) { return { tent: String(parseInt(tentativo,10)||0) }; }",
+                      "type": "js",
+                      "variableMap": [
+                        {
+                          "value": "tent",
+                          "variable": "tent"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 19333,
+                      "y": 285
+                    },
+                    "id": "888cfb3a-ec61-43ef-a20d-fc301596ea6d",
+                    "name": "IF 2o tentativo -> chiudi il pop-up di spiegazione",
+                    "type": "ifElse",
+                    "config": {
+                      "apposition": "and",
+                      "children": [
+                        {
+                          "position": {
+                            "x": 18933,
+                            "y": 285
+                          },
+                          "id": "c7271b7c-1451-47c5-b40e-3356b6adb450",
+                          "name": "chiudi il pop-up (OK / Got it / Continue...)",
+                          "type": "click",
+                          "config": {
+                            "filterCollection": [
+                              [
+                                {
+                                  "content": "OK",
+                                  "filterType": "equal",
+                                  "type": "text"
+                                }
+                              ],
+                              [
+                                {
+                                  "content": "Got it",
+                                  "filterType": "equal",
+                                  "type": "text"
+                                }
+                              ],
+                              [
+                                {
+                                  "content": "Continue",
+                                  "filterType": "equal",
+                                  "type": "text"
+                                }
+                              ],
+                              [
+                                {
+                                  "content": "Get started",
+                                  "filterType": "equal",
+                                  "type": "text"
+                                }
+                              ],
+                              [
+                                {
+                                  "content": "Not now",
+                                  "filterType": "equal",
+                                  "type": "text"
+                                }
+                              ],
+                              [
+                                {
+                                  "content": "Close",
+                                  "filterType": "equal",
+                                  "type": "text"
+                                }
+                              ],
+                              [
+                                {
+                                  "content": "Close",
+                                  "filterType": "equal",
+                                  "type": "desc"
+                                }
+                              ],
+                              [
+                                {
+                                  "content": "Done",
+                                  "filterType": "equal",
+                                  "type": "text"
+                                }
+                              ]
+                            ],
+                            "hiddenChildren": false,
+                            "randomDistance": 0,
+                            "searchTime": 1500,
+                            "useOffset": false,
+                            "serialType": "fixedValue",
+                            "serial": 1,
+                            "excuteError": "noProcessing"
+                          }
+                        },
+                        {
+                          "position": {
+                            "x": 19133,
+                            "y": 285
+                          },
+                          "id": "edbd2b0b-3132-417a-9742-59695e043168",
+                          "name": "wait",
+                          "type": "waitTime",
+                          "config": {
+                            "timeoutMax": 2000,
+                            "timeoutMin": 1500,
+                            "timeoutType": "randomInterval"
+                          }
+                        }
+                      ],
+                      "conditionList": [
+                        {
+                          "probability": 50,
+                          "relation": "equal",
+                          "useVariable": "tent",
+                          "result": "2"
+                        }
+                      ],
+                      "other": []
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 19933,
+                      "y": 285
+                    },
+                    "id": "1dd318ac-cc58-4b59-bf5c-b91683c925f5",
+                    "name": "IF 3o tentativo -> indietro (chiude il pop-up)",
+                    "type": "ifElse",
+                    "config": {
+                      "apposition": "and",
+                      "children": [
+                        {
+                          "position": {
+                            "x": 19533,
+                            "y": 285
+                          },
+                          "id": "b1e0ddf0-c310-4a83-8116-ecdca1ad089d",
+                          "name": "indietro",
+                          "type": "executeADB",
+                          "config": {
+                            "content": "input keyevent 4",
+                            "timeout": 120000,
+                            "variable": "backOut",
+                            "error": false
+                          }
+                        },
+                        {
+                          "position": {
+                            "x": 19733,
+                            "y": 285
+                          },
+                          "id": "8ae32140-4d45-4365-9c07-830a3d934d96",
+                          "name": "wait",
+                          "type": "waitTime",
+                          "config": {
+                            "timeoutMax": 2000,
+                            "timeoutMin": 1500,
+                            "timeoutType": "randomInterval"
+                          }
+                        }
+                      ],
+                      "conditionList": [
+                        {
+                          "probability": 50,
+                          "relation": "equal",
+                          "useVariable": "tent",
+                          "result": "3"
+                        }
+                      ],
+                      "other": []
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 20133,
+                      "y": 285
+                    },
+                    "id": "7cb8148f-0eb5-4d7c-8bd4-a1e5339e98f1",
+                    "name": "tocca 'Create trial reel'",
+                    "type": "click",
+                    "config": {
+                      "filterCollection": [
+                        [
+                          {
+                            "content": "Create trial reel",
+                            "filterType": "equal",
+                            "type": "text"
+                          }
+                        ],
+                        [
+                          {
+                            "content": "Create new trial reel",
+                            "filterType": "equal",
+                            "type": "text"
+                          }
+                        ],
+                        [
+                          {
+                            "content": "Create trial reel",
+                            "filterType": "equal",
+                            "type": "desc"
+                          }
+                        ],
+                        [
+                          {
+                            "content": "Create new trial reel",
+                            "filterType": "equal",
+                            "type": "desc"
+                          }
+                        ]
+                      ],
+                      "hiddenChildren": false,
+                      "randomDistance": 0,
+                      "searchTime": 4000,
+                      "useOffset": false,
+                      "serialType": "fixedValue",
+                      "serial": 1,
+                      "excuteError": "noProcessing",
+                      "variable": "cCrea"
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 20333,
+                      "y": 285
+                    },
+                    "id": "8fb66921-a598-4ea3-8155-3e5440230620",
+                    "name": "wait",
+                    "type": "waitTime",
+                    "config": {
+                      "timeoutMax": 4000,
+                      "timeoutMin": 3000,
+                      "timeoutType": "randomInterval"
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 20533,
+                      "y": 285
+                    },
+                    "id": "a5a41d80-a675-4ea9-94e3-3723e394a3bc",
+                    "name": "azzera: galleria?",
+                    "type": "script",
+                    "config": {
+                      "injectVariables": [],
+                      "script": "async function main() { return { inGalleria: \"\" }; }",
+                      "type": "js",
+                      "variableMap": [
+                        {
+                          "value": "inGalleria",
+                          "variable": "inGalleria"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 20733,
+                      "y": 285
+                    },
+                    "id": "9591498c-fa5f-4f42-b3ab-4ccb41dfd1b1",
+                    "name": "si e' aperta la galleria 'New reel'?",
+                    "type": "getEle",
+                    "config": {
+                      "filterCollection": [
+                        [
+                          {
+                            "content": "This is a trial reel",
+                            "filterType": "contain",
+                            "type": "text"
+                          }
+                        ],
+                        [
+                          {
+                            "content": "New reel",
+                            "filterType": "equal",
+                            "type": "text"
+                          }
+                        ],
+                        [
+                          {
+                            "content": "Recents",
+                            "filterType": "equal",
+                            "type": "text"
+                          }
+                        ]
+                      ],
+                      "serialType": "fixedValue",
+                      "serial": 1,
+                      "hiddenChildren": false,
+                      "searchTime": 5000,
+                      "type": "centerY",
+                      "variable": "inGalleria",
+                      "error": false
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 20933,
+                      "y": 285
+                    },
+                    "id": "e4b8c8eb-30ba-4c61-b329-218537a7277c",
+                    "name": "galleria aperta?",
+                    "type": "script",
+                    "config": {
+                      "injectVariables": [
+                        "inGalleria"
+                      ],
+                      "script": "async function main({ inGalleria }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { galleriaOk: ok(inGalleria) ? '1' : '0' }; }",
+                      "type": "js",
+                      "variableMap": [
+                        {
+                          "value": "galleriaOk",
+                          "variable": "galleriaOk"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "conditionList": [
+                  {
+                    "probability": 50,
+                    "relation": "equal",
+                    "useVariable": "galleriaOk",
+                    "result": "0"
+                  }
+                ],
+                "other": []
+              }
+            }
+          ],
+          "variableIndex": "tentativo"
+        }
+      },
+      {
+        "position": {
+          "x": 22133,
+          "y": 285
+        },
+        "id": "3abd8d8f-78a1-47ba-b7ba-c04845eb35e2",
+        "name": "IF galleria non aperta -> errore",
+        "type": "ifElse",
+        "config": {
+          "apposition": "and",
+          "children": [
+            {
+              "position": {
+                "x": 21533,
+                "y": 285
+              },
+              "id": "81e1179b-ec11-443d-a485-da62a4e18368",
+              "name": "screenshot dell'errore",
+              "type": "screenshotPage",
+              "config": {
+                "endPicture": true
+              }
+            },
+            {
+              "position": {
+                "x": 21733,
+                "y": 285
+              },
+              "id": "67d76699-5208-4b62-960c-02c0f0377a56",
+              "name": "errore: [Trial reels] Toccando 'Create trial reel' non si apre la ga",
+              "type": "throwException",
+              "config": {
+                "content": "[Trial reels] Toccando 'Create trial reel' non si apre la galleria."
+              }
+            },
+            {
+              "position": {
+                "x": 21933,
+                "y": 285
+              },
+              "id": "0a95aaa0-03a3-4283-9dc9-230ff210768d",
+              "name": "End task (dopo l'errore)",
+              "type": "endTask",
+              "config": {}
+            }
+          ],
+          "conditionList": [
+            {
+              "probability": 50,
+              "relation": "equal",
+              "useVariable": "galleriaOk",
+              "result": "0"
+            }
+          ],
+          "other": []
+        }
+      },
+      {
+        "position": {
+          "x": 22333,
+          "y": 285
+        },
+        "id": "840ddda1-13e1-4d4b-aa85-3ff11b9887f6",
+        "name": "azzera: e' un trial? (galleria)",
+        "type": "script",
+        "config": {
+          "injectVariables": [],
+          "script": "async function main() { return { banner1: \"\", trial1: \"0\" }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "banner1",
+              "variable": "banner1"
+            },
+            {
+              "value": "trial1",
+              "variable": "trial1"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 22533,
+          "y": 285
+        },
+        "id": "7e188973-96fa-4f9e-bfb6-e29778c4580a",
+        "name": "c'e' 'This is a trial reel'? (galleria)",
+        "type": "getEle",
+        "config": {
+          "filterCollection": [
+            [
+              {
+                "content": "This is a trial reel",
+                "filterType": "contain",
+                "type": "text"
+              }
+            ]
+          ],
+          "serialType": "fixedValue",
+          "serial": 1,
+          "hiddenChildren": false,
+          "searchTime": 5000,
+          "type": "centerY",
+          "variable": "banner1",
+          "error": false
+        }
+      },
+      {
+        "position": {
+          "x": 22733,
+          "y": 285
+        },
+        "id": "7e5dcb22-45f8-4c48-92aa-4abdaa9d53e5",
+        "name": "e' un trial?",
+        "type": "script",
+        "config": {
+          "injectVariables": [
+            "banner1"
+          ],
+          "script": "async function main({ banner1 }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { trial1: ok(banner1) ? '1' : '0' }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "trial1",
+              "variable": "trial1"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 23533,
+          "y": 285
+        },
+        "id": "4530856e-1af2-4ed1-85d6-b2bf565916a2",
+        "name": "IF non e' un trial -> errore (sicurezza)",
+        "type": "ifElse",
+        "config": {
+          "apposition": "and",
+          "children": [
+            {
+              "position": {
+                "x": 22933,
+                "y": 285
+              },
+              "id": "24ecc84f-2e20-4669-a085-6bfb9bec9b28",
+              "name": "screenshot dell'errore",
+              "type": "screenshotPage",
+              "config": {
+                "endPicture": true
+              }
+            },
+            {
+              "position": {
+                "x": 23133,
+                "y": 285
+              },
+              "id": "55f2ffe6-af60-4e62-9a10-92e30c48048e",
+              "name": "errore: [Sicurezza] Nella galleria non vedo 'This is a trial reel': ",
+              "type": "throwException",
+              "config": {
+                "content": "[Sicurezza] Nella galleria non vedo 'This is a trial reel': non pubblico niente."
+              }
+            },
+            {
+              "position": {
+                "x": 23333,
+                "y": 285
+              },
+              "id": "8f72c8de-c8f2-4541-ada0-bb77fab79267",
+              "name": "End task (dopo l'errore)",
+              "type": "endTask",
+              "config": {}
+            }
+          ],
+          "conditionList": [
+            {
+              "probability": 50,
+              "relation": "equal",
+              "useVariable": "trial1",
+              "result": "0"
+            }
+          ],
+          "other": []
+        }
+      },
+      {
+        "position": {
+          "x": 23733,
+          "y": 285
+        },
+        "id": "32898019-c52d-47d0-a3e5-1b0a433489a7",
+        "name": "azzera: album",
+        "type": "script",
+        "config": {
+          "injectVariables": [],
+          "script": "async function main() { return { cRecenti: \"\", recentiOk: \"0\", cAlbum: \"\", albumOk: \"0\" }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "cRecenti",
+              "variable": "cRecenti"
+            },
+            {
+              "value": "recentiOk",
+              "variable": "recentiOk"
+            },
+            {
+              "value": "cAlbum",
+              "variable": "cAlbum"
+            },
+            {
+              "value": "albumOk",
+              "variable": "albumOk"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 23933,
+          "y": 285
+        },
+        "id": "30277fb6-c080-4b15-88f9-faee5de9070b",
+        "name": "apri la lista degli album ('Recents')",
+        "type": "click",
+        "config": {
+          "filterCollection": [
+            [
+              {
+                "content": "Recents",
+                "filterType": "equal",
+                "type": "text"
+              }
+            ],
+            [
+              {
+                "content": "Recents",
+                "filterType": "contain",
+                "type": "text"
+              }
+            ]
+          ],
+          "hiddenChildren": false,
+          "randomDistance": 0,
+          "searchTime": 3000,
+          "useOffset": false,
+          "serialType": "fixedValue",
+          "serial": 1,
+          "excuteError": "noProcessing",
+          "variable": "cRecenti"
+        }
+      },
+      {
+        "position": {
+          "x": 24133,
+          "y": 285
+        },
+        "id": "ad971090-e74e-458f-bc2f-64609cb41be0",
+        "name": "lista degli album aperta?",
+        "type": "script",
+        "config": {
+          "injectVariables": [
+            "cRecenti"
+          ],
+          "script": "async function main({ cRecenti }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { recentiOk: ok(cRecenti) ? '1' : '0' }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "recentiOk",
+              "variable": "recentiOk"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 24333,
+          "y": 285
+        },
+        "id": "0763a370-2256-468e-94fa-c94749fb3724",
+        "name": "wait",
+        "type": "waitTime",
+        "config": {
+          "timeoutMax": 2000,
+          "timeoutMin": 1500,
+          "timeoutType": "randomInterval"
+        }
+      },
+      {
+        "position": {
+          "x": 24533,
+          "y": 285
+        },
+        "id": "62d0dfb3-33aa-4ddd-b171-6ff9dc7169f2",
+        "name": "scegli l'album 'Download' (c'e' solo il video del task)",
+        "type": "click",
+        "config": {
+          "filterCollection": [
+            [
+              {
+                "content": "Download",
+                "filterType": "equal",
+                "type": "text"
+              }
+            ],
+            [
+              {
+                "content": "Downloads",
+                "filterType": "equal",
+                "type": "text"
+              }
+            ]
+          ],
+          "hiddenChildren": false,
+          "randomDistance": 0,
+          "searchTime": 4000,
+          "useOffset": false,
+          "serialType": "fixedValue",
+          "serial": 1,
+          "excuteError": "noProcessing",
+          "variable": "cAlbum"
+        }
+      },
+      {
+        "position": {
+          "x": 24733,
+          "y": 285
+        },
+        "id": "a8723cc5-d6dd-49d7-ae5c-c1a6e1eb9f10",
+        "name": "album Download scelto?",
+        "type": "script",
+        "config": {
+          "injectVariables": [
+            "cAlbum"
+          ],
+          "script": "async function main({ cAlbum }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { albumOk: ok(cAlbum) ? '1' : '0' }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "albumOk",
+              "variable": "albumOk"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 26533,
+          "y": 285
+        },
+        "id": "911852ce-6712-4d2c-a06c-cf045b114089",
+        "name": "IF album 'Download' non trovato",
+        "type": "ifElse",
+        "config": {
+          "apposition": "and",
+          "children": [
+            {
+              "position": {
+                "x": 24933,
+                "y": 285
+              },
+              "id": "5be773a3-c800-4055-b556-7b6df59cbedc",
+              "name": "screenshot: album 'Download' non trovato",
+              "type": "screenshotPage",
+              "config": {
+                "error": false,
+                "isBase64": false,
+                "isScope": false
+              }
+            },
+            {
+              "position": {
+                "x": 25733,
+                "y": 285
+              },
+              "id": "4d898021-ff01-4fc9-bcf9-2aa0c5799ce7",
+              "name": "IF non e' una prova -> errore",
+              "type": "ifElse",
+              "config": {
+                "apposition": "and",
+                "children": [
+                  {
+                    "position": {
+                      "x": 25133,
+                      "y": 285
+                    },
+                    "id": "cca34f73-aa6c-4e2f-b234-3e43a5151a0c",
+                    "name": "screenshot dell'errore",
+                    "type": "screenshotPage",
+                    "config": {
+                      "endPicture": true
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 25333,
+                      "y": 285
+                    },
+                    "id": "4c2364f7-d1bf-4634-8566-bfeafd1974f0",
+                    "name": "errore: [Galleria] Non trovo l'album 'Download': non scelgo un video",
+                    "type": "throwException",
+                    "config": {
+                      "content": "[Galleria] Non trovo l'album 'Download': non scelgo un video a caso, non pubblico niente."
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 25533,
+                      "y": 285
+                    },
+                    "id": "669314ff-8842-4519-8f8c-cef250c8aaef",
+                    "name": "End task (dopo l'errore)",
+                    "type": "endTask",
+                    "config": {}
+                  }
+                ],
+                "conditionList": [
+                  {
+                    "probability": 50,
+                    "relation": "equal",
+                    "useVariable": "prova",
+                    "result": "0"
+                  }
+                ],
+                "other": []
+              }
+            },
+            {
+              "position": {
+                "x": 26333,
+                "y": 285
+              },
+              "id": "4e164435-d7de-448a-9a24-14441422542d",
+              "name": "IF prova e lista degli album aperta -> chiudila",
+              "type": "ifElse",
+              "config": {
+                "apposition": "and",
+                "children": [
+                  {
+                    "position": {
+                      "x": 25933,
+                      "y": 285
+                    },
+                    "id": "b1da8cc1-425c-4c73-baf9-894184709ca9",
+                    "name": "indietro",
+                    "type": "executeADB",
+                    "config": {
+                      "content": "input keyevent 4",
+                      "timeout": 120000,
+                      "variable": "backOut",
+                      "error": false
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 26133,
+                      "y": 285
+                    },
+                    "id": "03dbe39e-34e8-4dc9-b7e3-23528c055377",
+                    "name": "wait",
+                    "type": "waitTime",
+                    "config": {
+                      "timeoutMax": 2000,
+                      "timeoutMin": 1500,
+                      "timeoutType": "randomInterval"
+                    }
+                  }
+                ],
+                "conditionList": [
+                  {
+                    "probability": 50,
+                    "relation": "equal",
+                    "useVariable": "recentiOk",
+                    "result": "1"
+                  }
+                ],
+                "other": []
+              }
+            }
+          ],
+          "conditionList": [
+            {
+              "probability": 50,
+              "relation": "equal",
+              "useVariable": "albumOk",
+              "result": "0"
+            }
+          ],
+          "other": []
+        }
+      },
+      {
+        "position": {
+          "x": 26733,
+          "y": 285
+        },
+        "id": "0906f4cc-8573-455b-8959-dc672098b6cf",
+        "name": "wait",
+        "type": "waitTime",
+        "config": {
+          "timeoutMax": 2500,
+          "timeoutMin": 1500,
+          "timeoutType": "randomInterval"
+        }
+      },
+      {
+        "position": {
+          "x": 26933,
+          "y": 285
+        },
+        "id": "1d0f3d42-e4a1-44d3-a7ca-6b1df6dfeb08",
+        "name": "azzera: video scelto?",
+        "type": "script",
+        "config": {
+          "injectVariables": [],
+          "script": "async function main() { return { cVideo: \"\", inEditor: \"\", editorOk: \"0\" }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "cVideo",
+              "variable": "cVideo"
+            },
+            {
+              "value": "inEditor",
+              "variable": "inEditor"
+            },
+            {
+              "value": "editorOk",
+              "variable": "editorOk"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 27133,
+          "y": 285
+        },
+        "id": "13b7137e-2ee5-44a6-827a-3a5f75305d83",
+        "name": "tocca il primo video (quello del task)",
+        "type": "click",
+        "config": {
+          "filterCollection": [
+            [
+              {
+                "content": "Video thumbnail",
+                "filterType": "contain",
+                "type": "desc"
+              }
+            ],
+            [
+              {
+                "content": "ideo thumbnail",
+                "filterType": "contain",
+                "type": "desc"
+              }
+            ]
+          ],
+          "hiddenChildren": false,
+          "randomDistance": 0,
+          "searchTime": 8000,
+          "useOffset": false,
+          "serialType": "fixedValue",
+          "serial": 1,
+          "excuteError": "noProcessing",
+          "variable": "cVideo"
+        }
+      },
+      {
+        "position": {
+          "x": 27333,
+          "y": 285
+        },
+        "id": "5ad3882d-9d75-4fe7-9ba1-7c33bf7787be",
+        "name": "aspetta l'editor",
+        "type": "waitTime",
+        "config": {
+          "timeoutMax": 4000,
+          "timeoutMin": 3000,
+          "timeoutType": "randomInterval"
+        }
+      },
+      {
+        "position": {
+          "x": 27533,
+          "y": 285
+        },
+        "id": "7ca32220-a66d-40b3-81f4-a1bb236f3394",
+        "name": "si e' aperto l'editor? (tasto Next)",
+        "type": "getEle",
+        "config": {
+          "filterCollection": [
+            [
+              {
+                "content": "android.widget.Button",
+                "filterType": "equal",
+                "type": "class"
+              },
+              {
+                "content": "Next",
+                "filterType": "equal",
+                "type": "desc"
+              }
+            ],
+            [
+              {
+                "content": "Next",
+                "filterType": "equal",
+                "type": "desc"
+              }
+            ],
+            [
+              {
+                "content": "Next",
+                "filterType": "equal",
+                "type": "text"
+              }
+            ]
+          ],
+          "serialType": "fixedValue",
+          "serial": 1,
+          "hiddenChildren": false,
+          "searchTime": 10000,
+          "type": "centerY",
+          "variable": "inEditor",
+          "error": false
+        }
+      },
+      {
+        "position": {
+          "x": 27733,
+          "y": 285
+        },
+        "id": "eb924cd5-d7ed-4bc6-9124-7b3b684e5eaf",
+        "name": "editor aperto?",
+        "type": "script",
+        "config": {
+          "injectVariables": [
+            "inEditor"
+          ],
+          "script": "async function main({ inEditor }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { editorOk: ok(inEditor) ? '1' : '0' }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "editorOk",
+              "variable": "editorOk"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 28933,
+          "y": 285
+        },
+        "id": "d7ee2216-6df7-495f-8a66-7921bdcc74ad",
+        "name": "IF editor non aperto -> tocca di nuovo il video",
+        "type": "ifElse",
+        "config": {
+          "apposition": "and",
+          "children": [
+            {
+              "position": {
+                "x": 27933,
+                "y": 285
+              },
+              "id": "b84a525d-3c7f-432d-ba12-0dcc5008dbb7",
+              "name": "tocca il primo video (quello del task)",
+              "type": "click",
+              "config": {
+                "filterCollection": [
+                  [
+                    {
+                      "content": "Video thumbnail",
+                      "filterType": "contain",
+                      "type": "desc"
+                    }
+                  ],
+                  [
+                    {
+                      "content": "ideo thumbnail",
+                      "filterType": "contain",
+                      "type": "desc"
+                    }
+                  ]
+                ],
+                "hiddenChildren": false,
+                "randomDistance": 0,
+                "searchTime": 4000,
+                "useOffset": false,
+                "serialType": "fixedValue",
+                "serial": 1,
+                "excuteError": "noProcessing",
+                "variable": "cVideo"
+              }
+            },
+            {
+              "position": {
+                "x": 28133,
+                "y": 285
+              },
+              "id": "8c08e5c0-b1e3-4e2c-99fd-c49b0769ffec",
+              "name": "aspetta l'editor",
+              "type": "waitTime",
+              "config": {
+                "timeoutMax": 4000,
+                "timeoutMin": 3000,
+                "timeoutType": "randomInterval"
+              }
+            },
+            {
+              "position": {
+                "x": 28333,
+                "y": 285
+              },
+              "id": "9580bd11-5cee-4b8e-94f2-7e9b832c8b7a",
+              "name": "azzera: editor?",
+              "type": "script",
+              "config": {
+                "injectVariables": [],
+                "script": "async function main() { return { inEditor: \"\" }; }",
+                "type": "js",
+                "variableMap": [
+                  {
+                    "value": "inEditor",
+                    "variable": "inEditor"
+                  }
+                ]
+              }
+            },
+            {
+              "position": {
+                "x": 28533,
+                "y": 285
+              },
+              "id": "18f97866-2cd7-4b43-b883-e82834d98c92",
+              "name": "si e' aperto l'editor? (tasto Next)",
+              "type": "getEle",
+              "config": {
+                "filterCollection": [
+                  [
+                    {
+                      "content": "android.widget.Button",
+                      "filterType": "equal",
+                      "type": "class"
+                    },
+                    {
+                      "content": "Next",
+                      "filterType": "equal",
+                      "type": "desc"
+                    }
+                  ],
+                  [
+                    {
+                      "content": "Next",
+                      "filterType": "equal",
+                      "type": "desc"
+                    }
+                  ],
+                  [
+                    {
+                      "content": "Next",
+                      "filterType": "equal",
+                      "type": "text"
+                    }
+                  ]
+                ],
+                "serialType": "fixedValue",
+                "serial": 1,
+                "hiddenChildren": false,
+                "searchTime": 10000,
+                "type": "centerY",
+                "variable": "inEditor",
+                "error": false
+              }
+            },
+            {
+              "position": {
+                "x": 28733,
+                "y": 285
+              },
+              "id": "e4dfca8c-e9f1-4e78-a7dc-e47dcae51840",
+              "name": "editor aperto?",
+              "type": "script",
+              "config": {
+                "injectVariables": [
+                  "inEditor"
+                ],
+                "script": "async function main({ inEditor }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { editorOk: ok(inEditor) ? '1' : '0' }; }",
+                "type": "js",
+                "variableMap": [
+                  {
+                    "value": "editorOk",
+                    "variable": "editorOk"
+                  }
+                ]
+              }
+            }
+          ],
+          "conditionList": [
+            {
+              "probability": 50,
+              "relation": "equal",
+              "useVariable": "editorOk",
+              "result": "0"
+            }
+          ],
+          "other": []
+        }
+      },
+      {
+        "position": {
+          "x": 29733,
+          "y": 285
+        },
+        "id": "4767f6e3-0faa-4193-a77b-ab7ccb4aafd2",
+        "name": "IF editor non aperto -> errore",
+        "type": "ifElse",
+        "config": {
+          "apposition": "and",
+          "children": [
+            {
+              "position": {
+                "x": 29133,
+                "y": 285
+              },
+              "id": "815305c1-9673-494a-bab3-e262c78b2e29",
+              "name": "screenshot dell'errore",
+              "type": "screenshotPage",
+              "config": {
+                "endPicture": true
+              }
+            },
+            {
+              "position": {
+                "x": 29333,
+                "y": 285
+              },
+              "id": "1371a75b-e443-4be4-9866-e4352d422194",
+              "name": "errore: [Galleria] Non riesco ad aprire il video nell'editor.",
+              "type": "throwException",
+              "config": {
+                "content": "[Galleria] Non riesco ad aprire il video nell'editor."
+              }
+            },
+            {
+              "position": {
+                "x": 29533,
+                "y": 285
+              },
+              "id": "08c86a46-82e3-4a82-8445-9505516dc504",
+              "name": "End task (dopo l'errore)",
+              "type": "endTask",
+              "config": {}
+            }
+          ],
+          "conditionList": [
+            {
+              "probability": 50,
+              "relation": "equal",
+              "useVariable": "editorOk",
+              "result": "0"
+            }
+          ],
+          "other": []
+        }
+      },
+      {
+        "position": {
+          "x": 29933,
+          "y": 285
+        },
+        "id": "563a4e90-e7d4-4083-8bf2-865398e55a6c",
+        "name": "pop-up 'Create a sticker' -> Not now",
+        "type": "click",
+        "config": {
+          "filterCollection": [
+            [
+              {
+                "content": "Not now",
+                "filterType": "equal",
+                "type": "text"
+              }
+            ]
+          ],
+          "hiddenChildren": false,
+          "randomDistance": 0,
+          "searchTime": 1500,
+          "useOffset": false,
+          "serialType": "fixedValue",
+          "serial": 1,
+          "excuteError": "noProcessing"
+        }
+      },
+      {
+        "position": {
+          "x": 30133,
+          "y": 285
+        },
+        "id": "eb3227d4-5f65-49d0-967a-c6e8b9ed1976",
+        "name": "wait",
+        "type": "waitTime",
+        "config": {
+          "timeoutMax": 1500,
+          "timeoutMin": 1000,
+          "timeoutType": "randomInterval"
+        }
+      },
+      {
+        "position": {
+          "x": 30333,
+          "y": 285
+        },
+        "id": "6a7c1de4-9108-41b7-9dd5-d6a95dae4481",
+        "name": "azzera: Next",
+        "type": "script",
+        "config": {
+          "injectVariables": [],
+          "script": "async function main() { return { cNext: \"\", nextOk: \"0\" }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "cNext",
+              "variable": "cNext"
+            },
+            {
+              "value": "nextOk",
+              "variable": "nextOk"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 30533,
+          "y": 285
+        },
+        "id": "bd1a0ae6-0c56-432f-aeb0-31fd60f3c975",
+        "name": "tocca Next",
+        "type": "click",
+        "config": {
+          "filterCollection": [
+            [
+              {
+                "content": "android.widget.Button",
+                "filterType": "equal",
+                "type": "class"
+              },
+              {
+                "content": "Next",
+                "filterType": "equal",
+                "type": "desc"
+              }
+            ],
+            [
+              {
+                "content": "Next",
+                "filterType": "equal",
+                "type": "desc"
+              }
+            ],
+            [
+              {
+                "content": "Next",
+                "filterType": "equal",
+                "type": "text"
+              }
+            ]
+          ],
+          "hiddenChildren": false,
+          "randomDistance": 0,
+          "searchTime": 10000,
+          "useOffset": false,
+          "serialType": "fixedValue",
+          "serial": 1,
+          "excuteError": "noProcessing",
+          "variable": "cNext"
+        }
+      },
+      {
+        "position": {
+          "x": 30733,
+          "y": 285
+        },
+        "id": "ca40c570-cfa9-4325-a5af-e0416cbeda07",
+        "name": "Next toccato?",
+        "type": "script",
+        "config": {
+          "injectVariables": [
+            "cNext"
+          ],
+          "script": "async function main({ cNext }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { nextOk: ok(cNext) ? '1' : '0' }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "nextOk",
+              "variable": "nextOk"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 31533,
+          "y": 285
+        },
+        "id": "ac357a3f-51dd-4d49-b231-0f14986fbb03",
+        "name": "IF Next non toccato -> errore",
+        "type": "ifElse",
+        "config": {
+          "apposition": "and",
+          "children": [
+            {
+              "position": {
+                "x": 30933,
+                "y": 285
+              },
+              "id": "2cfa5755-8ad1-49e1-b2cb-490274e3f727",
+              "name": "screenshot dell'errore",
+              "type": "screenshotPage",
+              "config": {
+                "endPicture": true
+              }
+            },
+            {
+              "position": {
+                "x": 31133,
+                "y": 285
+              },
+              "id": "ff1d9d17-939d-4bba-8756-c9574c253f76",
+              "name": "errore: [Editor] Non riesco a toccare 'Next'.",
+              "type": "throwException",
+              "config": {
+                "content": "[Editor] Non riesco a toccare 'Next'."
+              }
+            },
+            {
+              "position": {
+                "x": 31333,
+                "y": 285
+              },
+              "id": "2d416a3d-c0b2-44ad-9838-ba082ac0fe71",
+              "name": "End task (dopo l'errore)",
+              "type": "endTask",
+              "config": {}
+            }
+          ],
+          "conditionList": [
+            {
+              "probability": 50,
+              "relation": "equal",
+              "useVariable": "nextOk",
+              "result": "0"
+            }
+          ],
+          "other": []
+        }
+      },
+      {
+        "position": {
+          "x": 31733,
+          "y": 285
+        },
+        "id": "defb5aa1-36f9-406e-aa72-299c2cba17d8",
+        "name": "aspetta la pagina finale",
+        "type": "waitTime",
+        "config": {
+          "timeoutMax": 4000,
+          "timeoutMin": 3000,
+          "timeoutType": "randomInterval"
+        }
+      },
+      {
+        "position": {
+          "x": 31933,
+          "y": 285
+        },
+        "id": "ec6a30b5-8483-4909-ad45-28c11d3fab59",
+        "name": "azzera: avviso download",
+        "type": "script",
+        "config": {
+          "injectVariables": [],
+          "script": "async function main() { return { avvisoDl: \"\", avvisoDlOk: \"0\" }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "avvisoDl",
+              "variable": "avvisoDl"
+            },
+            {
+              "value": "avvisoDlOk",
+              "variable": "avvisoDlOk"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 32133,
+          "y": 285
+        },
+        "id": "f76173c6-31ab-4774-9dc9-d84f1a1661a2",
+        "name": "avviso 'Others can now download and share'?",
+        "type": "getEle",
+        "config": {
+          "filterCollection": [
+            [
+              {
+                "content": "Others can now download and share",
+                "filterType": "contain",
+                "type": "text"
+              }
+            ]
+          ],
+          "serialType": "fixedValue",
+          "serial": 1,
+          "hiddenChildren": false,
+          "searchTime": 3000,
+          "type": "centerY",
+          "variable": "avvisoDl",
+          "error": false
+        }
+      },
+      {
+        "position": {
+          "x": 32333,
+          "y": 285
+        },
+        "id": "bbb2b079-a110-43fc-8b51-8701cc960f20",
+        "name": "avviso?",
+        "type": "script",
+        "config": {
+          "injectVariables": [
+            "avvisoDl"
+          ],
+          "script": "async function main({ avvisoDl }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { avvisoDlOk: ok(avvisoDl) ? '1' : '0' }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "avvisoDlOk",
+              "variable": "avvisoDlOk"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 32933,
+          "y": 285
+        },
+        "id": "e08b2ba9-7b6b-4c62-9ae9-bd85e04fcb88",
+        "name": "IF avviso -> Continue",
+        "type": "ifElse",
+        "config": {
+          "apposition": "and",
+          "children": [
+            {
+              "position": {
+                "x": 32533,
+                "y": 285
+              },
+              "id": "5111e25e-197c-4561-a64c-f91bcc9834f2",
+              "name": "tocca Continue",
+              "type": "click",
+              "config": {
+                "filterCollection": [
+                  [
+                    {
+                      "content": "android.widget.Button",
+                      "filterType": "equal",
+                      "type": "class"
+                    },
+                    {
+                      "content": "Continue",
+                      "filterType": "equal",
+                      "type": "desc"
+                    }
+                  ],
+                  [
+                    {
+                      "content": "Continue",
+                      "filterType": "equal",
+                      "type": "text"
+                    }
+                  ]
+                ],
+                "hiddenChildren": false,
+                "randomDistance": 0,
+                "searchTime": 3000,
+                "useOffset": false,
+                "serialType": "fixedValue",
+                "serial": 1,
+                "excuteError": "noProcessing"
+              }
+            },
+            {
+              "position": {
+                "x": 32733,
+                "y": 285
+              },
+              "id": "3cf0a4cd-a9cb-4122-a52e-e21c1904a328",
+              "name": "wait",
+              "type": "waitTime",
+              "config": {
+                "timeoutMax": 2000,
+                "timeoutMin": 1500,
+                "timeoutType": "randomInterval"
+              }
+            }
+          ],
+          "conditionList": [
+            {
+              "probability": 50,
+              "relation": "equal",
+              "useVariable": "avvisoDlOk",
+              "result": "1"
+            }
+          ],
+          "other": []
+        }
+      },
+      {
+        "position": {
+          "x": 33133,
+          "y": 285
+        },
+        "id": "34489381-fc7a-455e-9308-c36522ad62a8",
+        "name": "azzera: e' un trial? (pagina finale)",
+        "type": "script",
+        "config": {
+          "injectVariables": [],
+          "script": "async function main() { return { banner2: \"\", trial2: \"0\" }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "banner2",
+              "variable": "banner2"
+            },
+            {
+              "value": "trial2",
+              "variable": "trial2"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 33333,
+          "y": 285
+        },
+        "id": "b622912c-04c3-476f-9bf4-29d9cd390f98",
+        "name": "c'e' 'This is a trial reel'? (pagina finale)",
+        "type": "getEle",
+        "config": {
+          "filterCollection": [
+            [
+              {
+                "content": "This is a trial reel",
+                "filterType": "contain",
+                "type": "text"
+              }
+            ]
+          ],
+          "serialType": "fixedValue",
+          "serial": 1,
+          "hiddenChildren": false,
+          "searchTime": 8000,
+          "type": "centerY",
+          "variable": "banner2",
+          "error": false
+        }
+      },
+      {
+        "position": {
+          "x": 33533,
+          "y": 285
+        },
+        "id": "1dcf8d94-c47f-429f-8ed8-1f325b56af36",
+        "name": "e' un trial?",
+        "type": "script",
+        "config": {
+          "injectVariables": [
+            "banner2"
+          ],
+          "script": "async function main({ banner2 }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { trial2: ok(banner2) ? '1' : '0' }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "trial2",
+              "variable": "trial2"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 34333,
+          "y": 285
+        },
+        "id": "5e1deb64-389a-4cb7-a094-139dc883b05d",
+        "name": "IF non e' un trial -> errore (sicurezza)",
+        "type": "ifElse",
+        "config": {
+          "apposition": "and",
+          "children": [
+            {
+              "position": {
+                "x": 33733,
+                "y": 285
+              },
+              "id": "e546c75c-3c1c-40b0-8d13-dd80ae55d865",
+              "name": "screenshot dell'errore",
+              "type": "screenshotPage",
+              "config": {
+                "endPicture": true
+              }
+            },
+            {
+              "position": {
+                "x": 33933,
+                "y": 285
+              },
+              "id": "de88f7b2-181c-479d-8e66-2ace797e9ac3",
+              "name": "errore: [Sicurezza] Nella pagina finale non vedo 'This is a trial re",
+              "type": "throwException",
+              "config": {
+                "content": "[Sicurezza] Nella pagina finale non vedo 'This is a trial reel': non pubblico niente."
+              }
+            },
+            {
+              "position": {
+                "x": 34133,
+                "y": 285
+              },
+              "id": "7057391e-196b-48e4-8d00-0c4cad7193d2",
+              "name": "End task (dopo l'errore)",
+              "type": "endTask",
+              "config": {}
+            }
+          ],
+          "conditionList": [
+            {
+              "probability": 50,
+              "relation": "equal",
+              "useVariable": "trial2",
+              "result": "0"
+            }
+          ],
+          "other": []
+        }
+      },
+      {
+        "position": {
+          "x": 37333,
+          "y": 285
+        },
+        "id": "c096444c-8aa2-43d3-a7a3-47440d5aa76d",
+        "name": "IF c'e' una descrizione -> scrivila",
+        "type": "ifElse",
+        "config": {
+          "apposition": "and",
+          "children": [
+            {
+              "position": {
+                "x": 34533,
+                "y": 285
+              },
+              "id": "86fcdc97-12cb-44ce-b2a3-53e64159cbf5",
+              "name": "azzera: descrizione",
+              "type": "script",
+              "config": {
+                "injectVariables": [],
+                "script": "async function main() { return { tCap: \"\", capOk: \"0\" }; }",
+                "type": "js",
+                "variableMap": [
+                  {
+                    "value": "tCap",
+                    "variable": "tCap"
+                  },
+                  {
+                    "value": "capOk",
+                    "variable": "capOk"
+                  }
+                ]
+              }
+            },
+            {
+              "position": {
+                "x": 34733,
+                "y": 285
+              },
+              "id": "843bef6b-750d-4c57-a9d7-7ef14b76ee22",
+              "name": "scrivi la descrizione",
+              "type": "inputContent",
+              "config": {
+                "content": [
+                  "${Caption}"
+                ],
+                "filterType": "contain",
+                "filters": [
+                  {
+                    "content": "Write a caption",
+                    "type": "text"
+                  }
+                ],
+                "hiddenChildren": true,
+                "inputType": "taskOrder",
+                "searchTime": 10000,
+                "serial": 1,
+                "serialType": "fixedValue",
+                "variable": "tCap"
+              }
+            },
+            {
+              "position": {
+                "x": 34933,
+                "y": 285
+              },
+              "id": "b9a070fa-e9a0-413d-9689-6614358b9b5e",
+              "name": "descrizione scritta?",
+              "type": "script",
+              "config": {
+                "injectVariables": [
+                  "tCap"
+                ],
+                "script": "async function main({ tCap }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { capOk: ok(tCap) ? '1' : '0' }; }",
+                "type": "js",
+                "variableMap": [
+                  {
+                    "value": "capOk",
+                    "variable": "capOk"
+                  }
+                ]
+              }
+            },
+            {
+              "position": {
+                "x": 35533,
+                "y": 285
+              },
+              "id": "be1ef071-a28b-4980-8a8d-34d00fd947fd",
+              "name": "IF non scritta -> prova nella casella di testo",
+              "type": "ifElse",
+              "config": {
+                "apposition": "and",
+                "children": [
+                  {
+                    "position": {
+                      "x": 35133,
+                      "y": 285
+                    },
+                    "id": "b9689052-23f0-448c-92eb-167da700b110",
+                    "name": "scrivi la descrizione (casella di testo)",
+                    "type": "inputContent",
+                    "config": {
+                      "content": [
+                        "${Caption}"
+                      ],
+                      "filterType": "contain",
+                      "filters": [
+                        {
+                          "content": "EditText",
+                          "type": "class"
+                        }
+                      ],
+                      "hiddenChildren": true,
+                      "inputType": "taskOrder",
+                      "searchTime": 5000,
+                      "serial": 1,
+                      "serialType": "fixedValue",
+                      "variable": "tCap"
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 35333,
+                      "y": 285
+                    },
+                    "id": "58fac4ab-a963-4989-9c76-5f4c09cec18b",
+                    "name": "descrizione scritta?",
+                    "type": "script",
+                    "config": {
+                      "injectVariables": [
+                        "tCap"
+                      ],
+                      "script": "async function main({ tCap }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { capOk: ok(tCap) ? '1' : '0' }; }",
+                      "type": "js",
+                      "variableMap": [
+                        {
+                          "value": "capOk",
+                          "variable": "capOk"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "conditionList": [
+                  {
+                    "probability": 50,
+                    "relation": "equal",
+                    "useVariable": "capOk",
+                    "result": "0"
+                  }
+                ],
+                "other": []
+              }
+            },
+            {
+              "position": {
+                "x": 36333,
+                "y": 285
+              },
+              "id": "1c42cdeb-ead9-4fd0-aaa5-e72760a1eae0",
+              "name": "IF non scritta -> errore",
+              "type": "ifElse",
+              "config": {
+                "apposition": "and",
+                "children": [
+                  {
+                    "position": {
+                      "x": 35733,
+                      "y": 285
+                    },
+                    "id": "22628bc6-81ea-4dad-8913-b4c0dcf7fffa",
+                    "name": "screenshot dell'errore",
+                    "type": "screenshotPage",
+                    "config": {
+                      "endPicture": true
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 35933,
+                      "y": 285
+                    },
+                    "id": "14e9035d-db99-4d93-bc2e-afcefdf83602",
+                    "name": "errore: [Descrizione] Non riesco a scrivere la descrizione.",
+                    "type": "throwException",
+                    "config": {
+                      "content": "[Descrizione] Non riesco a scrivere la descrizione."
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 36133,
+                      "y": 285
+                    },
+                    "id": "2fdced7a-0098-4764-b69f-b9c0d9176daa",
+                    "name": "End task (dopo l'errore)",
+                    "type": "endTask",
+                    "config": {}
+                  }
+                ],
+                "conditionList": [
+                  {
+                    "probability": 50,
+                    "relation": "equal",
+                    "useVariable": "capOk",
+                    "result": "0"
+                  }
+                ],
+                "other": []
+              }
+            },
+            {
+              "position": {
+                "x": 36533,
+                "y": 285
+              },
+              "id": "1c2241ad-cd1b-4345-91e3-dc0c8d8d033a",
+              "name": "wait",
+              "type": "waitTime",
+              "config": {
+                "timeoutMax": 1500,
+                "timeoutMin": 1000,
+                "timeoutType": "randomInterval"
+              }
+            },
+            {
+              "position": {
+                "x": 36733,
+                "y": 285
+              },
+              "id": "8ce81146-9f2e-4022-8efd-413ca7c2f5fa",
+              "name": "tocca OK (fine descrizione), se c'e'",
+              "type": "click",
+              "config": {
+                "filterCollection": [
+                  [
+                    {
+                      "content": "OK",
+                      "filterType": "equal",
+                      "type": "text"
+                    }
+                  ],
+                  [
+                    {
+                      "content": "OK",
+                      "filterType": "equal",
+                      "type": "desc"
+                    }
+                  ],
+                  [
+                    {
+                      "content": "Done",
+                      "filterType": "equal",
+                      "type": "text"
+                    }
+                  ],
+                  [
+                    {
+                      "content": "Done",
+                      "filterType": "equal",
+                      "type": "desc"
+                    }
+                  ]
+                ],
+                "hiddenChildren": false,
+                "randomDistance": 0,
+                "searchTime": 1500,
+                "useOffset": false,
+                "serialType": "fixedValue",
+                "serial": 1,
+                "excuteError": "noProcessing"
+              }
+            },
+            {
+              "position": {
+                "x": 36933,
+                "y": 285
+              },
+              "id": "def2db67-7ea5-4046-a861-eeed8673b6f3",
+              "name": "chiudi la tastiera se e' aperta",
+              "type": "executeADB",
+              "config": {
+                "content": "sh -c 'dumpsys input_method | grep -qE \"mInputShown=true|mIsInputViewShown=true\" && input keyevent 4; echo ok'",
+                "timeout": 120000,
+                "variable": "kbOut",
+                "error": false
+              }
+            },
+            {
+              "position": {
+                "x": 37133,
+                "y": 285
+              },
+              "id": "3e2e9804-265e-43ad-b509-883d55087bed",
+              "name": "wait",
+              "type": "waitTime",
+              "config": {
+                "timeoutMax": 1200,
+                "timeoutMin": 800,
+                "timeoutType": "randomInterval"
+              }
+            }
+          ],
+          "conditionList": [
+            {
+              "probability": 50,
+              "relation": "equal",
+              "useVariable": "haCaption",
+              "result": "1"
+            }
+          ],
+          "other": []
+        }
+      },
+      {
+        "position": {
+          "x": 37533,
+          "y": 285
+        },
+        "id": "f2911b77-b63f-4f9d-9923-de918cca8283",
+        "name": "screenshot: descrizione",
+        "type": "screenshotPage",
+        "config": {
+          "error": false,
+          "isBase64": false,
+          "isScope": false
+        }
+      },
+      {
+        "position": {
+          "x": 37733,
+          "y": 285
+        },
+        "id": "7acb964c-e77a-4d9f-b140-fe0f45ddf8e4",
+        "name": "azzera: fondo della pagina",
+        "type": "script",
+        "config": {
+          "injectVariables": [],
+          "script": "async function main() { return { fondo: \"\", vistoFondo: \"0\" }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "fondo",
+              "variable": "fondo"
+            },
+            {
+              "value": "vistoFondo",
+              "variable": "vistoFondo"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 39133,
+          "y": 285
+        },
+        "id": "1f08880f-6c20-4e5f-b9a0-845294c4fe31",
+        "name": "scorri giu' fino a 'Share to' (al massimo 3 volte)",
+        "type": "forTimes",
+        "config": {
+          "serialType": "randomInterval",
+          "minTimes": 3,
+          "maxTimes": 3,
+          "hiddenChildren": false,
+          "children": [
+            {
+              "position": {
+                "x": 38933,
+                "y": 285
+              },
+              "id": "c7a2566f-3834-46cf-9b4d-3983ea00cc55",
+              "name": "IF fondo non ancora visto",
+              "type": "ifElse",
+              "config": {
+                "apposition": "and",
+                "children": [
+                  {
+                    "position": {
+                      "x": 37933,
+                      "y": 285
+                    },
+                    "id": "5a101647-36c6-4ce4-9c3a-576551962094",
+                    "name": "scorri giu'",
+                    "type": "executeADB",
+                    "config": {
+                      "content": "input swipe 360 950 360 350 600",
+                      "timeout": 120000,
+                      "variable": "scorriOut",
+                      "error": false
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 38133,
+                      "y": 285
+                    },
+                    "id": "7b8e6158-ca32-4f26-8441-a20c4ce9705e",
+                    "name": "wait",
+                    "type": "waitTime",
+                    "config": {
+                      "timeoutMax": 1800,
+                      "timeoutMin": 1200,
+                      "timeoutType": "randomInterval"
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 38333,
+                      "y": 285
+                    },
+                    "id": "5199ec35-f762-4efa-8a5e-9371b1f67133",
+                    "name": "azzera: fondo?",
+                    "type": "script",
+                    "config": {
+                      "injectVariables": [],
+                      "script": "async function main() { return { fondo: \"\" }; }",
+                      "type": "js",
+                      "variableMap": [
+                        {
+                          "value": "fondo",
+                          "variable": "fondo"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 38533,
+                      "y": 285
+                    },
+                    "id": "708f3e4b-3a8c-4773-9b90-313b0a3d09cc",
+                    "name": "si vede il fondo? (More options / Your story)",
+                    "type": "getEle",
+                    "config": {
+                      "filterCollection": [
+                        [
+                          {
+                            "content": "More options",
+                            "filterType": "equal",
+                            "type": "text"
+                          }
+                        ],
+                        [
+                          {
+                            "content": "Your story",
+                            "filterType": "equal",
+                            "type": "text"
+                          }
+                        ]
+                      ],
+                      "serialType": "fixedValue",
+                      "serial": 1,
+                      "hiddenChildren": false,
+                      "searchTime": 1500,
+                      "type": "centerY",
+                      "variable": "fondo",
+                      "error": false
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 38733,
+                      "y": 285
+                    },
+                    "id": "31614369-2e2d-4c92-9eb6-5abf6d5d9b0a",
+                    "name": "fondo visto?",
+                    "type": "script",
+                    "config": {
+                      "injectVariables": [
+                        "fondo"
+                      ],
+                      "script": "async function main({ fondo }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { vistoFondo: ok(fondo) ? '1' : '0' }; }",
+                      "type": "js",
+                      "variableMap": [
+                        {
+                          "value": "vistoFondo",
+                          "variable": "vistoFondo"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "conditionList": [
+                  {
+                    "probability": 50,
+                    "relation": "equal",
+                    "useVariable": "vistoFondo",
+                    "result": "0"
+                  }
+                ],
+                "other": []
+              }
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 39333,
+          "y": 285
+        },
+        "id": "14f7b04f-df87-4aa3-8999-ef6b664eddb2",
+        "name": "azzera: Facebook",
+        "type": "script",
+        "config": {
+          "injectVariables": [],
+          "script": "async function main() { return { fbRiga: \"\", haFb: \"0\", fbOff: \"0\" }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "fbRiga",
+              "variable": "fbRiga"
+            },
+            {
+              "value": "haFb",
+              "variable": "haFb"
+            },
+            {
+              "value": "fbOff",
+              "variable": "fbOff"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 39533,
+          "y": 285
+        },
+        "id": "902ef492-b4d7-4044-bfac-23604a145d6b",
+        "name": "c'e' la riga di Facebook in 'Share to'?",
+        "type": "getEle",
+        "config": {
+          "filterCollection": [
+            [
+              {
+                "content": "Facebook ·",
+                "filterType": "contain",
+                "type": "text"
+              }
+            ],
+            [
+              {
+                "content": "Facebook •",
+                "filterType": "contain",
+                "type": "text"
+              }
+            ],
+            [
+              {
+                "content": "Facebook",
+                "filterType": "equal",
+                "type": "text"
+              }
+            ],
+            [
+              {
+                "content": "Facebook",
+                "filterType": "contain",
+                "type": "desc"
+              }
+            ]
+          ],
+          "serialType": "fixedValue",
+          "serial": 1,
+          "hiddenChildren": false,
+          "searchTime": 2000,
+          "type": "centerY",
+          "variable": "fbRiga",
+          "error": false
+        }
+      },
+      {
+        "position": {
+          "x": 39733,
+          "y": 285
+        },
+        "id": "bc7e05a1-5e8c-419a-87ad-25fb7a3448a6",
+        "name": "c'e' Facebook?",
+        "type": "script",
+        "config": {
+          "injectVariables": [
+            "fbRiga"
+          ],
+          "script": "async function main({ fbRiga }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { haFb: ok(fbRiga) ? '1' : '0' }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "haFb",
+              "variable": "haFb"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 40533,
+          "y": 285
+        },
+        "id": "f4b03762-84b4-47ec-b4a6-a41e45c8c0cb",
+        "name": "IF niente Facebook e non vedo il fondo -> errore",
+        "type": "ifElse",
+        "config": {
+          "apposition": "and",
+          "children": [
+            {
+              "position": {
+                "x": 39933,
+                "y": 285
+              },
+              "id": "ee67d5e9-ceea-488c-8bcf-b4549ad12311",
+              "name": "screenshot dell'errore",
+              "type": "screenshotPage",
+              "config": {
+                "endPicture": true
+              }
+            },
+            {
+              "position": {
+                "x": 40133,
+                "y": 285
+              },
+              "id": "f44cc4f5-5ab2-4c2a-b36f-700a55871c2d",
+              "name": "errore: [Facebook] Non trovo la parte 'Share to' per spegnere Facebo",
+              "type": "throwException",
+              "config": {
+                "content": "[Facebook] Non trovo la parte 'Share to' per spegnere Facebook: non pubblico niente."
+              }
+            },
+            {
+              "position": {
+                "x": 40333,
+                "y": 285
+              },
+              "id": "93b73980-0ad7-4c78-989c-2ec289fe5c7f",
+              "name": "End task (dopo l'errore)",
+              "type": "endTask",
+              "config": {}
+            }
+          ],
+          "conditionList": [
+            {
+              "probability": 50,
+              "relation": "equal",
+              "useVariable": "haFb",
+              "result": "0"
+            },
+            {
+              "probability": 50,
+              "relation": "equal",
+              "useVariable": "vistoFondo",
+              "result": "0"
+            }
+          ],
+          "other": []
+        }
+      },
+      {
+        "position": {
+          "x": 44133,
+          "y": 285
+        },
+        "id": "6d228a73-eed7-45c7-94c9-7e293091a074",
+        "name": "IF c'e' Facebook -> spegnilo solo per questo reel",
+        "type": "ifElse",
+        "config": {
+          "apposition": "and",
+          "children": [
+            {
+              "position": {
+                "x": 40733,
+                "y": 285
+              },
+              "id": "1c884645-fd02-4aa2-a194-c13f43c87a3e",
+              "name": "larghezza dello schermo",
+              "type": "mathOperation",
+              "config": {
+                "operationStr": "${_SCREEN_WIDTH_} * 1",
+                "variable": "larghezza"
+              }
+            },
+            {
+              "position": {
+                "x": 40933,
+                "y": 285
+              },
+              "id": "4d6c28d9-31cb-4a0d-b10e-3aae2326a239",
+              "name": "posizione dell'interruttore di Facebook",
+              "type": "script",
+              "config": {
+                "injectVariables": [
+                  "larghezza",
+                  "fbRiga"
+                ],
+                "script": "async function main({ larghezza, fbRiga }) { const w=Number(larghezza)||720, y=Number(fbRiga)||0; return { fbX: String(Math.round(w - 70)), fbY: String(Math.round(y - 12)) }; }",
+                "type": "js",
+                "variableMap": [
+                  {
+                    "value": "fbX",
+                    "variable": "fbX"
+                  },
+                  {
+                    "value": "fbY",
+                    "variable": "fbY"
+                  }
+                ]
+              }
+            },
+            {
+              "position": {
+                "x": 43133,
+                "y": 285
+              },
+              "id": "9de18a13-3ca6-42b9-9feb-3964fcf78d6a",
+              "name": "spegni Facebook (al massimo 2 tocchi)",
+              "type": "forTimes",
+              "config": {
+                "serialType": "randomInterval",
+                "minTimes": 2,
+                "maxTimes": 2,
+                "hiddenChildren": false,
+                "children": [
+                  {
+                    "position": {
+                      "x": 42933,
+                      "y": 285
+                    },
+                    "id": "18faefd1-d562-49d9-87af-3045493945e5",
+                    "name": "IF Facebook non ancora spento",
+                    "type": "ifElse",
+                    "config": {
+                      "apposition": "and",
+                      "children": [
+                        {
+                          "position": {
+                            "x": 41133,
+                            "y": 285
+                          },
+                          "id": "67e2043c-772a-401a-9128-c8ac6b94eea1",
+                          "name": "tocca l'interruttore di Facebook",
+                          "type": "clickXY",
+                          "config": {
+                            "excuteError": "noProcessing",
+                            "randomDistance": 0,
+                            "x": "${fbX}",
+                            "y": "${fbY}"
+                          }
+                        },
+                        {
+                          "position": {
+                            "x": 41333,
+                            "y": 285
+                          },
+                          "id": "0ab844a5-522e-4db5-b258-7772d2af760e",
+                          "name": "wait",
+                          "type": "waitTime",
+                          "config": {
+                            "timeoutMax": 2000,
+                            "timeoutMin": 1500,
+                            "timeoutType": "randomInterval"
+                          }
+                        },
+                        {
+                          "position": {
+                            "x": 41533,
+                            "y": 285
+                          },
+                          "id": "0b341e8b-c1b5-4b27-bfc8-46919e5d48a0",
+                          "name": "azzera: pop-up Facebook",
+                          "type": "script",
+                          "config": {
+                            "injectVariables": [],
+                            "script": "async function main() { return { fbPopup: \"\", popupOk: \"0\", cSoloQuesto: \"\" }; }",
+                            "type": "js",
+                            "variableMap": [
+                              {
+                                "value": "fbPopup",
+                                "variable": "fbPopup"
+                              },
+                              {
+                                "value": "popupOk",
+                                "variable": "popupOk"
+                              },
+                              {
+                                "value": "cSoloQuesto",
+                                "variable": "cSoloQuesto"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "position": {
+                            "x": 41733,
+                            "y": 285
+                          },
+                          "id": "f17d3aa7-2329-473d-983c-92292cf71999",
+                          "name": "e' uscito 'Stop sharing on Facebook?'",
+                          "type": "getEle",
+                          "config": {
+                            "filterCollection": [
+                              [
+                                {
+                                  "content": "Stop sharing on Facebook",
+                                  "filterType": "contain",
+                                  "type": "text"
+                                }
+                              ],
+                              [
+                                {
+                                  "content": "t share this reel",
+                                  "filterType": "contain",
+                                  "type": "text"
+                                }
+                              ]
+                            ],
+                            "serialType": "fixedValue",
+                            "serial": 1,
+                            "hiddenChildren": false,
+                            "searchTime": 3000,
+                            "type": "centerY",
+                            "variable": "fbPopup",
+                            "error": false
+                          }
+                        },
+                        {
+                          "position": {
+                            "x": 41933,
+                            "y": 285
+                          },
+                          "id": "c6c15804-fcf3-4fcb-a026-5f90478093e6",
+                          "name": "pop-up uscito?",
+                          "type": "script",
+                          "config": {
+                            "injectVariables": [
+                              "fbPopup"
+                            ],
+                            "script": "async function main({ fbPopup }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { popupOk: ok(fbPopup) ? '1' : '0' }; }",
+                            "type": "js",
+                            "variableMap": [
+                              {
+                                "value": "popupOk",
+                                "variable": "popupOk"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "position": {
+                            "x": 42733,
+                            "y": 285
+                          },
+                          "id": "783a2520-229d-443d-bdbd-6f3e1ebf1e37",
+                          "name": "IF pop-up -> 'Don't share this reel'",
+                          "type": "ifElse",
+                          "config": {
+                            "apposition": "and",
+                            "children": [
+                              {
+                                "position": {
+                                  "x": 42133,
+                                  "y": 285
+                                },
+                                "id": "bfd2ed14-6ab2-419b-8eda-c8e3a6e54981",
+                                "name": "tocca 'Don't share this reel' (solo questo reel)",
+                                "type": "click",
+                                "config": {
+                                  "filterCollection": [
+                                    [
+                                      {
+                                        "content": "t share this reel",
+                                        "filterType": "contain",
+                                        "type": "text"
+                                      }
+                                    ],
+                                    [
+                                      {
+                                        "content": "nly this reel",
+                                        "filterType": "contain",
+                                        "type": "text"
+                                      }
+                                    ]
+                                  ],
+                                  "hiddenChildren": false,
+                                  "randomDistance": 0,
+                                  "searchTime": 3000,
+                                  "useOffset": false,
+                                  "serialType": "fixedValue",
+                                  "serial": 1,
+                                  "excuteError": "noProcessing",
+                                  "variable": "cSoloQuesto"
+                                }
+                              },
+                              {
+                                "position": {
+                                  "x": 42333,
+                                  "y": 285
+                                },
+                                "id": "af485f2f-c0dc-4a2c-b7d6-5688436904d4",
+                                "name": "Facebook spento?",
+                                "type": "script",
+                                "config": {
+                                  "injectVariables": [
+                                    "cSoloQuesto"
+                                  ],
+                                  "script": "async function main({ cSoloQuesto }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { fbOff: ok(cSoloQuesto) ? '1' : '0' }; }",
+                                  "type": "js",
+                                  "variableMap": [
+                                    {
+                                      "value": "fbOff",
+                                      "variable": "fbOff"
+                                    }
+                                  ]
+                                }
+                              },
+                              {
+                                "position": {
+                                  "x": 42533,
+                                  "y": 285
+                                },
+                                "id": "3533d968-d0c6-4b5c-8377-a9e105b061ba",
+                                "name": "wait",
+                                "type": "waitTime",
+                                "config": {
+                                  "timeoutMax": 1800,
+                                  "timeoutMin": 1200,
+                                  "timeoutType": "randomInterval"
+                                }
+                              }
+                            ],
+                            "conditionList": [
+                              {
+                                "probability": 50,
+                                "relation": "equal",
+                                "useVariable": "popupOk",
+                                "result": "1"
+                              }
+                            ],
+                            "other": []
+                          }
+                        }
+                      ],
+                      "conditionList": [
+                        {
+                          "probability": 50,
+                          "relation": "equal",
+                          "useVariable": "fbOff",
+                          "result": "0"
+                        }
+                      ],
+                      "other": []
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "position": {
+                "x": 43933,
+                "y": 285
+              },
+              "id": "e5bd9b3a-e434-4507-abf0-9728c9edaeb5",
+              "name": "IF Facebook non spento -> errore",
+              "type": "ifElse",
+              "config": {
+                "apposition": "and",
+                "children": [
+                  {
+                    "position": {
+                      "x": 43333,
+                      "y": 285
+                    },
+                    "id": "284390e5-2c7a-4cd9-8c1d-c066253f2e58",
+                    "name": "screenshot dell'errore",
+                    "type": "screenshotPage",
+                    "config": {
+                      "endPicture": true
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 43533,
+                      "y": 285
+                    },
+                    "id": "080aaba3-860a-4faf-83ad-35390dfcbbf1",
+                    "name": "errore: [Facebook] Non riesco a spegnere la condivisione su Facebook",
+                    "type": "throwException",
+                    "config": {
+                      "content": "[Facebook] Non riesco a spegnere la condivisione su Facebook (non e' uscito 'Stop sharing on Facebook?'): non pubblico niente."
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 43733,
+                      "y": 285
+                    },
+                    "id": "fea9a747-c601-457e-8a5e-32a1ad9334a3",
+                    "name": "End task (dopo l'errore)",
+                    "type": "endTask",
+                    "config": {}
+                  }
+                ],
+                "conditionList": [
+                  {
+                    "probability": 50,
+                    "relation": "equal",
+                    "useVariable": "fbOff",
+                    "result": "0"
+                  }
+                ],
+                "other": []
+              }
+            }
+          ],
+          "conditionList": [
+            {
+              "probability": 50,
+              "relation": "equal",
+              "useVariable": "haFb",
+              "result": "1"
+            }
+          ],
+          "other": []
+        }
+      },
+      {
+        "position": {
+          "x": 44333,
+          "y": 285
+        },
+        "id": "ec6e6dae-6837-470f-9936-ab00d4cfd71b",
+        "name": "si puo' pubblicare? (trial e Facebook a posto)",
+        "type": "script",
+        "config": {
+          "injectVariables": [
+            "trial2",
+            "haFb",
+            "fbOff",
+            "vistoFondo"
+          ],
+          "script": "async function main({ trial2, haFb, fbOff, vistoFondo }) { const ok = String(trial2)==='1' && (String(fbOff)==='1' || (String(haFb)==='0' && String(vistoFondo)==='1')); return { puoi: ok ? '1' : '0' }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "puoi",
+              "variable": "puoi"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 50333,
+          "y": 285
+        },
+        "id": "d935aef4-36d6-4ee8-a431-ca74cf351a6a",
+        "name": "IF Solo prova -> non pubblico (ELSE: Share)",
+        "type": "ifElse",
+        "config": {
+          "apposition": "and",
+          "children": [
+            {
+              "position": {
+                "x": 49533,
+                "y": 285
+              },
+              "id": "1954d982-05a6-47f5-9814-e502fc134f3d",
+              "name": "SOLO PROVA: pagina finale, non pubblico",
+              "type": "screenshotPage",
+              "config": {
+                "endPicture": true
+              }
+            },
+            {
+              "position": {
+                "x": 49733,
+                "y": 285
+              },
+              "id": "77f83bc5-5191-4b4d-a0ed-6f4f8972efeb",
+              "name": "chiudi Instagram senza pubblicare",
+              "type": "executeADB",
+              "config": {
+                "content": "am force-stop com.instagram.android",
+                "timeout": 120000,
+                "variable": "stopIg",
+                "error": false
+              }
+            },
+            {
+              "position": {
+                "x": 49933,
+                "y": 285
+              },
+              "id": "892ee808-913f-4f42-b784-6619d988648c",
+              "name": "HOME",
+              "type": "executeADB",
+              "config": {
+                "content": "input keyevent 3",
+                "timeout": 120000,
+                "variable": "homeOut",
+                "error": false
+              }
+            },
+            {
+              "position": {
+                "x": 50133,
+                "y": 285
+              },
+              "id": "fb51e6a7-2e46-4610-9060-bcf397c8d6b1",
+              "name": "End task",
+              "type": "endTask",
+              "config": {}
+            }
+          ],
+          "conditionList": [
+            {
+              "probability": 50,
+              "relation": "equal",
+              "useVariable": "prova",
+              "result": "1"
+            }
+          ],
+          "other": [
+            {
+              "position": {
+                "x": 45133,
+                "y": 285
+              },
+              "id": "b8f89233-da64-4f19-b43e-4450c6ea96ad",
+              "name": "IF controlli non passati -> errore",
+              "type": "ifElse",
+              "config": {
+                "apposition": "and",
+                "children": [
+                  {
+                    "position": {
+                      "x": 44533,
+                      "y": 285
+                    },
+                    "id": "973f914e-1406-4180-99b7-ba4c87c2c4ca",
+                    "name": "screenshot dell'errore",
+                    "type": "screenshotPage",
+                    "config": {
+                      "endPicture": true
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 44733,
+                      "y": 285
+                    },
+                    "id": "b2f78cc5-1c81-49d3-99c5-65d4c7c8a8a3",
+                    "name": "errore: [Sicurezza] Controlli non passati (trial o Facebook): non pu",
+                    "type": "throwException",
+                    "config": {
+                      "content": "[Sicurezza] Controlli non passati (trial o Facebook): non pubblico niente."
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 44933,
+                      "y": 285
+                    },
+                    "id": "53355faa-8037-45a4-b0fb-27294f41ee56",
+                    "name": "End task (dopo l'errore)",
+                    "type": "endTask",
+                    "config": {}
+                  }
+                ],
+                "conditionList": [
+                  {
+                    "probability": 50,
+                    "relation": "equal",
+                    "useVariable": "puoi",
+                    "result": "0"
+                  }
+                ],
+                "other": []
+              }
+            },
+            {
+              "position": {
+                "x": 45333,
+                "y": 285
+              },
+              "id": "1c2aeccb-c96a-40d2-9c2f-9c7628e76093",
+              "name": "screenshot: prima di Share",
+              "type": "screenshotPage",
+              "config": {
+                "error": false,
+                "isBase64": false,
+                "isScope": false
+              }
+            },
+            {
+              "position": {
+                "x": 45533,
+                "y": 285
+              },
+              "id": "536152c5-d139-443f-a2a3-ea0043c7fbc5",
+              "name": "azzera: Share",
+              "type": "script",
+              "config": {
+                "injectVariables": [],
+                "script": "async function main() { return { cShare: \"\", shareOk: \"0\" }; }",
+                "type": "js",
+                "variableMap": [
+                  {
+                    "value": "cShare",
+                    "variable": "cShare"
+                  },
+                  {
+                    "value": "shareOk",
+                    "variable": "shareOk"
+                  }
+                ]
+              }
+            },
+            {
+              "position": {
+                "x": 45733,
+                "y": 285
+              },
+              "id": "ede48a8f-ec2c-472e-a174-8ead9087d65e",
+              "name": "tocca Share",
+              "type": "click",
+              "config": {
+                "filterCollection": [
+                  [
+                    {
+                      "content": "Share",
+                      "filterType": "equal",
+                      "type": "text"
+                    }
+                  ],
+                  [
+                    {
+                      "content": "Share",
+                      "filterType": "equal",
+                      "type": "desc"
+                    }
+                  ]
+                ],
+                "hiddenChildren": false,
+                "randomDistance": 0,
+                "searchTime": 8000,
+                "useOffset": false,
+                "serialType": "fixedValue",
+                "serial": 1,
+                "excuteError": "noProcessing",
+                "variable": "cShare"
+              }
+            },
+            {
+              "position": {
+                "x": 45933,
+                "y": 285
+              },
+              "id": "dabe2344-3ed0-4af8-b00e-57712122463e",
+              "name": "Share toccato?",
+              "type": "script",
+              "config": {
+                "injectVariables": [
+                  "cShare"
+                ],
+                "script": "async function main({ cShare }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { shareOk: ok(cShare) ? '1' : '0' }; }",
+                "type": "js",
+                "variableMap": [
+                  {
+                    "value": "shareOk",
+                    "variable": "shareOk"
+                  }
+                ]
+              }
+            },
+            {
+              "position": {
+                "x": 46733,
+                "y": 285
+              },
+              "id": "c55303a4-6a6b-4cae-bbef-0a20ac9ba1ea",
+              "name": "IF Share non toccato -> errore",
+              "type": "ifElse",
+              "config": {
+                "apposition": "and",
+                "children": [
+                  {
+                    "position": {
+                      "x": 46133,
+                      "y": 285
+                    },
+                    "id": "ce49ae31-1ec7-457c-b9fe-6413187b06d7",
+                    "name": "screenshot dell'errore",
+                    "type": "screenshotPage",
+                    "config": {
+                      "endPicture": true
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 46333,
+                      "y": 285
+                    },
+                    "id": "b5c8bb95-1ad3-4c8a-b6ab-7221af70c5d3",
+                    "name": "errore: [Share] Non riesco a toccare 'Share'.",
+                    "type": "throwException",
+                    "config": {
+                      "content": "[Share] Non riesco a toccare 'Share'."
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 46533,
+                      "y": 285
+                    },
+                    "id": "41e42c27-0bc1-4c9b-8568-900b690e13a1",
+                    "name": "End task (dopo l'errore)",
+                    "type": "endTask",
+                    "config": {}
+                  }
+                ],
+                "conditionList": [
+                  {
+                    "probability": 50,
+                    "relation": "equal",
+                    "useVariable": "shareOk",
+                    "result": "0"
+                  }
+                ],
+                "other": []
+              }
+            },
+            {
+              "position": {
+                "x": 46933,
+                "y": 285
+              },
+              "id": "3f8dd288-6d04-409b-a10e-1b66845e1736",
+              "name": "wait",
+              "type": "waitTime",
+              "config": {
+                "timeoutMax": 4000,
+                "timeoutMin": 3000,
+                "timeoutType": "randomInterval"
+              }
+            },
+            {
+              "position": {
+                "x": 47133,
+                "y": 285
+              },
+              "id": "c055a9a5-5c8a-46bd-874f-a2a56f657219",
+              "name": "azzera: avviso dopo Share",
+              "type": "script",
+              "config": {
+                "injectVariables": [],
+                "script": "async function main() { return { avviso: \"\", avvisoOk: \"0\" }; }",
+                "type": "js",
+                "variableMap": [
+                  {
+                    "value": "avviso",
+                    "variable": "avviso"
+                  },
+                  {
+                    "value": "avvisoOk",
+                    "variable": "avvisoOk"
+                  }
+                ]
+              }
+            },
+            {
+              "position": {
+                "x": 47333,
+                "y": 285
+              },
+              "id": "5b61411c-5935-4c46-ad42-cf11beb7c4cc",
+              "name": "avviso 'About Reels' / audio originale?",
+              "type": "getEle",
+              "config": {
+                "filterCollection": [
+                  [
+                    {
+                      "content": "About Reels",
+                      "filterType": "contain",
+                      "type": "text"
+                    }
+                  ],
+                  [
+                    {
+                      "content": "Update on your original audio",
+                      "filterType": "contain",
+                      "type": "text"
+                    }
+                  ]
+                ],
+                "serialType": "fixedValue",
+                "serial": 1,
+                "hiddenChildren": false,
+                "searchTime": 3000,
+                "type": "centerY",
+                "variable": "avviso",
+                "error": false
+              }
+            },
+            {
+              "position": {
+                "x": 47533,
+                "y": 285
+              },
+              "id": "01091ece-c545-4d25-b0bb-a95904723f27",
+              "name": "avviso?",
+              "type": "script",
+              "config": {
+                "injectVariables": [
+                  "avviso"
+                ],
+                "script": "async function main({ avviso }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { avvisoOk: ok(avviso) ? '1' : '0' }; }",
+                "type": "js",
+                "variableMap": [
+                  {
+                    "value": "avvisoOk",
+                    "variable": "avvisoOk"
+                  }
+                ]
+              }
+            },
+            {
+              "position": {
+                "x": 48133,
+                "y": 285
+              },
+              "id": "f7b1284d-12a3-42ba-91d7-6cec95ffba1d",
+              "name": "IF avviso -> Share",
+              "type": "ifElse",
+              "config": {
+                "apposition": "and",
+                "children": [
+                  {
+                    "position": {
+                      "x": 47733,
+                      "y": 285
+                    },
+                    "id": "309dd333-3866-40c0-a0fa-7e4cfc6f0dbd",
+                    "name": "tocca Share nell'avviso",
+                    "type": "click",
+                    "config": {
+                      "filterCollection": [
+                        [
+                          {
+                            "content": "android.widget.Button",
+                            "filterType": "equal",
+                            "type": "class"
+                          },
+                          {
+                            "content": "Share",
+                            "filterType": "equal",
+                            "type": "desc"
+                          }
+                        ],
+                        [
+                          {
+                            "content": "Share",
+                            "filterType": "equal",
+                            "type": "text"
+                          }
+                        ],
+                        [
+                          {
+                            "content": "Share",
+                            "filterType": "equal",
+                            "type": "desc"
+                          }
+                        ]
+                      ],
+                      "hiddenChildren": false,
+                      "randomDistance": 0,
+                      "searchTime": 5000,
+                      "useOffset": false,
+                      "serialType": "fixedValue",
+                      "serial": 1,
+                      "excuteError": "noProcessing"
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 47933,
+                      "y": 285
+                    },
+                    "id": "7cd6fe2b-df8f-41e1-ad3c-14543b9e38bf",
+                    "name": "wait",
+                    "type": "waitTime",
+                    "config": {
+                      "timeoutMax": 3000,
+                      "timeoutMin": 2000,
+                      "timeoutType": "randomInterval"
+                    }
+                  }
+                ],
+                "conditionList": [
+                  {
+                    "probability": 50,
+                    "relation": "equal",
+                    "useVariable": "avvisoOk",
+                    "result": "1"
+                  }
+                ],
+                "other": []
+              }
+            },
+            {
+              "position": {
+                "x": 48333,
+                "y": 285
+              },
+              "id": "c110b378-a1ff-498c-af03-837fb60216e8",
+              "name": "aspetta il caricamento",
+              "type": "waitTime",
+              "config": {
+                "timeoutMax": 25000,
+                "timeoutMin": 20000,
+                "timeoutType": "randomInterval"
+              }
+            },
+            {
+              "position": {
+                "x": 48533,
+                "y": 285
+              },
+              "id": "b7a60087-f2eb-44ec-adfc-e2eef043573d",
+              "name": "screenshot: dopo Share",
+              "type": "screenshotPage",
+              "config": {
+                "error": false,
+                "isBase64": false,
+                "isScope": false
+              }
+            },
+            {
+              "position": {
+                "x": 48733,
+                "y": 285
+              },
+              "id": "b135c0c3-9595-4f7e-99ed-43e20f5076cd",
+              "name": "aspetta che finisca di caricare",
+              "type": "waitTime",
+              "config": {
+                "timeoutMax": 70000,
+                "timeoutMin": 60000,
+                "timeoutType": "randomInterval"
+              }
+            },
+            {
+              "position": {
+                "x": 48933,
+                "y": 285
+              },
+              "id": "750783f4-0eb6-43cc-9eef-8b9c57bc103b",
+              "name": "screenshot: fine",
+              "type": "screenshotPage",
+              "config": {
+                "endPicture": true
+              }
+            },
+            {
+              "position": {
+                "x": 49133,
+                "y": 285
+              },
+              "id": "b0f9314c-2ae2-4e36-ab20-e32798a2e641",
+              "name": "HOME",
+              "type": "executeADB",
+              "config": {
+                "content": "input keyevent 3",
+                "timeout": 120000,
+                "variable": "homeOut",
+                "error": false
+              }
+            },
+            {
+              "position": {
+                "x": 49333,
+                "y": 285
+              },
+              "id": "66ccf0a9-f3da-405e-9a12-f9c23b926875",
+              "name": "End task",
+              "type": "endTask",
+              "config": {}
+            }
+          ]
+        }
+      }
+    ],
+    "otherContents": {
+      "startNode": {
+        "position": {
+          "x": 333,
+          "y": 285
+        },
+        "config": {},
+        "type": "start",
+        "id": "init-node"
+      },
+      "contents": [],
+      "edges": [],
+      "otherFunctionNode": []
+    },
+    "contentType": "phone",
+    "errorType": "skip"
+  }
+}
