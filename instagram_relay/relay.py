@@ -255,6 +255,7 @@ def conferma(account, utente_casella):
             return "NO_MATCH"
         if nome_utente(utente_casella) != attesa["utente"]:
             log(account, f"NOME SBAGLIATO: casella {utente_casella!r}, scelto @{attesa['utente']} -> NO_MATCH")
+            ricorda(account, attesa["chiave"], "nome_sbagliato", attesa["utente"], utente_casella)
             dati["attesa"] = None
             return "NO_MATCH"
         log(account, f"nome confermato @{attesa['utente']}")
