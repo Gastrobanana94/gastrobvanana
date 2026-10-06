@@ -1,7 +1,7 @@
 # ==========================================================
 #  RELAY INSTAGRAM - risponde ai commenti leggendo il TESTO
 #  Il telefono GeeLark legge i nomi a schermo con i nodi RPA e li manda qui.
-#  Il relay decide a chi rispondere (2 commenti nuovi ogni 5 = 40%), chiede
+#  Il relay decide a chi rispondere (in ogni post 4 commenti nuovi su 10), chiede
 #  la risposta al bot Hermes "commentbot" e dice al telefono QUALE "Reply"
 #  premere. Gira sul tuo PC, ngrok lo rende raggiungibile dal cloud.
 #  Ogni telefono (elisa, melina francoforte, ...) ha la sua memoria e
@@ -23,7 +23,7 @@ MODELLO = "commentbot"
 GEELARK_TOKEN = ""
 
 PORTA = 8787                 # la stessa porta che dai a ngrok
-PERCENTUALE_RISPOSTE = 0.40  # 0.40 = risponde a 2 commenti nuovi ogni 5 (conteggio fisso, non a sorte)
+PERCENTUALE_RISPOSTE = 0.40  # 0.40 = in ogni post risponde a 4 commenti nuovi su 10 (il primo sempre)
 GIORNI_MEMORIA = 7           # una persona gia' decisa (risposta o saltata) non viene riconsiderata
                              # per questi giorni, cosi' non risponde mai due volte allo stesso
                              # commento. Se Melina pubblica meno di un post ogni 2 giorni metti 14.
@@ -618,9 +618,10 @@ def _prepara(account, elenco, nuovo=None):
     if nuovo is None:
         nuovo = dati["esito"] in (None, "END") or adesso - dati["ultimo_pick"] > 120
     if nuovo:
-        # primo sguardo a un post: la lista parte dall'inizio
+        # primo sguardo a un post: la lista parte dall'inizio e il 40% si conta da capo,
+        # cosi' il primo commento nuovo di ogni post riceve sempre una risposta
         log(account, "--- commenti di un post nuovo ---")
-        dati.update(ultima=None, stallo=0, nuovi_post=0, risposte_post=0, tentativi={})
+        dati.update(ultima=None, stallo=0, nuovi_post=0, risposte_post=0, tentativi={}, credito=100 - quota())
         dati["schermo"], dati["da_osservare"] = "inizio", True
         dati["spostamento"] = maggioranza(dati["visti"]["inizio"], 0)
     elif dati["esito"] != "PICK" and firma != dati["ultima"] and dati["ultima"]:
