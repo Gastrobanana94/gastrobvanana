@@ -23,7 +23,8 @@ MODELLO = "commentbot"
 GEELARK_TOKEN = ""
 
 PORTA = 8787                 # la stessa porta che dai a ngrok
-PERCENTUALE_RISPOSTE = 0.40  # 0.40 = in ogni post risponde a 4 commenti nuovi su 10 (il primo sempre)
+PERCENTUALE_RISPOSTE = 1 / 3  # 1/3 = in ogni post risponde a 1 commento nuovo ogni 3: il 1o, il 4o, il 7o...
+                              # (0.40 = 4 commenti nuovi su 10; il primo commento nuovo ha sempre risposta)
 GIORNI_MEMORIA = 3           # una persona gia' decisa (risposta o saltata) non viene riconsiderata
                              # per questi giorni: dopo, se commenta un post nuovo, puo' avere un'altra
                              # risposta. Deve essere piu' dell'eta' dei 5 post che il bot guarda, se no
@@ -45,6 +46,7 @@ import threading
 import time
 import urllib.request
 import uuid
+from fractions import Fraction
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, unquote, urlparse
@@ -71,7 +73,7 @@ RUMORE = re.compile(
 GIA_SERVITO = ("risposto", "in_corso")
 
 lock = threading.Lock()
-stato = {}  # per account: memoria, conteggio del 40%, ultima schermata, scelta in attesa
+stato = {}  # per account: memoria, conteggio della percentuale, ultima schermata, scelta in attesa
 lock_log = threading.Lock()
 file_log = None  # log\relay_<data>_<ora>.txt, uno nuovo ogni volta che si accende il relay
 
@@ -92,9 +94,10 @@ def slug(account):
 
 
 def quota():
-    """Quanti commenti nuovi su 100 ricevono una risposta."""
-    p = PERCENTUALE_RISPOSTE
-    return max(0, min(100, round(p * 100 if p <= 1 else p)))
+    """Quanti commenti nuovi su 100 ricevono una risposta: esatto anche con 1/3 (33,333...),
+    se no con 33 ogni tanto ne salterebbe uno in piu'."""
+    p = Fraction(PERCENTUALE_RISPOSTE).limit_denominator(1000)
+    return max(Fraction(0), min(Fraction(100), p * 100 if p <= 1 else p))
 
 
 def secondi(quando):
@@ -625,8 +628,8 @@ def rimborsa(dati):
 
 def passa_il_turno(account, dati):
     """A chi era stato scelto non si e' potuto rispondere: il suo turno passa a un commento
-    dello stesso post che il 40% aveva saltato (se e' ancora a schermo), cosi' le risposte
-    del post restano il 40%. Se non ce n'e', lo prende il prossimo commento nuovo."""
+    dello stesso post che la percentuale aveva saltato (se e' ancora a schermo), cosi' le
+    risposte del post restano giuste. Se non ce n'e', lo prende il prossimo commento nuovo."""
     a_schermo = set(dati["nomi"].values())
     for utente in list(dati["saltati_post"]):
         if utente in a_schermo and deciso(dati, utente) == "skip":
@@ -668,7 +671,7 @@ def _prepara(account, elenco, nuovo=None):
     if nuovo is None:
         nuovo = dati["esito"] in (None, "END") or adesso - dati["ultimo_pick"] > 120
     if nuovo:
-        # primo sguardo a un post: la lista parte dall'inizio e il 40% si conta da capo,
+        # primo sguardo a un post: la lista parte dall'inizio e la percentuale si conta da capo,
         # cosi' il primo commento nuovo di ogni post riceve sempre una risposta
         log(account, "--- commenti di un post nuovo ---")
         dati.update(ultima=None, stallo=0, nuovi_post=0, risposte_post=0, tentativi={}, credito=100 - quota(),
@@ -719,7 +722,8 @@ def _prepara(account, elenco, nuovo=None):
             continue
         esito = deciso(dati, utente)
         if esito is None:
-            # 40% esatto: ogni commento nuovo aggiunge 40, ogni 100 si risponde a uno
+            # percentuale esatta: ogni commento nuovo aggiunge la quota (33,33 con 1/3, 40 con 0.40),
+            # ogni 100 si risponde a uno
             nuovi += 1
             dati["credito"] += quota()
             if dati["credito"] >= 100:
