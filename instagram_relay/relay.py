@@ -72,10 +72,18 @@ GIA_SERVITO = ("risposto", "in_corso")
 
 lock = threading.Lock()
 stato = {}  # per account: memoria, conteggio del 40%, ultima schermata, scelta in attesa
+lock_log = threading.Lock()
+file_log = None  # log\relay_<data>_<ora>.txt, uno nuovo ogni volta che si accende il relay
 
 
 def log(*parti):
     print(time.strftime("%H:%M:%S"), *parti, flush=True)
+    if file_log:
+        try:
+            with lock_log, open(file_log, "a", encoding="utf-8") as f:
+                f.write(time.strftime("%Y-%m-%d %H:%M:%S") + " " + " ".join(map(str, parti)) + "\n")
+        except OSError:
+            pass  # il file non si apre (es. aperto in un altro programma): la finestra va avanti uguale
 
 
 def slug(account):
@@ -990,9 +998,12 @@ def mostra_telefoni_geelark():
 
 if __name__ == "__main__":
     prepara_file_telefoni()
-    print(f"Relay acceso sulla porta {PORTA}. Lascia questa finestra aperta.")
+    (CARTELLA / "log").mkdir(exist_ok=True)
+    file_log = CARTELLA / "log" / f"relay_{time.strftime('%Y-%m-%d_%H-%M')}.txt"
+    log(f"Relay acceso sulla porta {PORTA}. Lascia questa finestra aperta.")
+    log(f"Queste righe si salvano anche nel file log\\{file_log.name} (nella cartella del relay)")
     if GEELARK_TOKEN.strip():
         threading.Thread(target=mostra_telefoni_geelark, daemon=True).start()
     else:
-        print("Chiave API di GeeLark non messa: i nomi dei telefoni li leggo da telefoni.txt")
+        log("Chiave API di GeeLark non messa: i nomi dei telefoni li leggo da telefoni.txt")
     ThreadingHTTPServer(("0.0.0.0", PORTA), Gestore).serve_forever()
