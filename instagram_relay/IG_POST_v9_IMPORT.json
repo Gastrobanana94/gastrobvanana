@@ -1,6 +1,6 @@
 {
-  "title": "IG POST v9.10",
-  "desc": "v9.10: il 40% si conta per ogni post (lo fa il relay). Prima di ogni clic/scrittura il flusso azzera il risultato vecchio, cosi' se il pulsante dei commenti non si trova scorre e riprova invece di leggere la pagina sbagliata; prima di aprire i commenti controlla di essere ancora nei propri post (scritta Posts), se no finisce; fino a 250 giri per post. Instagram riparte da zero, si apre solo il proprio profilo (Edit profile) e commentbot riceve il nome del telefono.",
+  "title": "IG POST v9.11",
+  "desc": "v9.11: ci sono commenti se entro 20 secondi si vede almeno un pulsante Reply (niente piu' 'No comments yet'); se dopo Reply nella casella non c'e' la @ legge il nome da 'Replying to' e risponde senza @; la lettura si ferma anche su 'Add a reply'; 'commenti ancora aperti?' guarda solo la casella vera; se la lista resta ferma 7 letture il reel finisce; il relay scrive quale tastiera e' attiva. Il 40% si conta per ogni post e se a uno non si riesce a rispondere il turno passa a un altro.",
   "content": {
     "startParamMap": [],
     "contents": [
@@ -54,7 +54,7 @@
         "name": "tastiera GeeLark",
         "type": "executeADB",
         "config": {
-          "content": "sh -c 'id=$(ime list -a -s | grep -i gee | head -n 1); if [ -n \"$id\" ]; then ime enable \"$id\" >/dev/null 2>&1; ime set \"$id\"; fi; echo \"ime=$id\"'",
+          "content": "sh -c 'id=$(ime list -a -s | grep -i gee | head -n 1); if [ -n \"$id\" ]; then ime enable \"$id\" >/dev/null 2>&1; ime set \"$id\" >/dev/null 2>&1; fi; echo \"ime=$(settings get secure default_input_method)\"'",
           "timeout": 120000,
           "variable": "imeOut",
           "error": false
@@ -577,9 +577,10 @@
         "config": {
           "injectVariables": [
             "ioTop",
-            "profilo"
+            "profilo",
+            "imeOut"
           ],
-          "script": "async function main({ ioTop, profilo }) { const s='top=' + String(ioTop||'').trim() + '\\n' + String(profilo||''); const e=encodeURIComponent(s).replace(/['()!*]/g, c => '%' + c.charCodeAt(0).toString(16).toUpperCase()); return { profEnc: e }; }",
+          "script": "async function main({ ioTop, profilo, imeOut }) { const ime=String(imeOut||'').replace(/\\s+/g,' ').trim(); const s='top=' + String(ioTop||'').trim() + '\\n' + (/^ime=/.test(ime) ? ime : 'ime=' + ime) + '\\n' + String(profilo||''); const e=encodeURIComponent(s).replace(/['()!*]/g, c => '%' + c.charCodeAt(0).toString(16).toUpperCase()); return { profEnc: e }; }",
           "type": "js",
           "variableMap": [
             {
@@ -1220,30 +1221,136 @@
                         },
                         {
                           "position": {
-                            "x": 14800,
+                            "x": 14780,
                             "y": 285
                           },
+                          "id": "4982c19c-94d4-4c61-9bf7-e7073ba1c240",
+                          "name": "azzera: ci sono commenti?",
+                          "type": "script",
                           "config": {
-                            "filterCollection": [
-                              [
-                                {
-                                  "content": "o comments yet",
-                                  "filterType": "contain",
-                                  "type": "text"
-                                }
-                              ]
-                            ],
-                            "serialType": "fixedValue",
-                            "serial": 1,
-                            "hiddenChildren": true,
-                            "searchTime": 1500,
-                            "type": "text",
-                            "variable": "noCom",
-                            "error": false
+                            "injectVariables": [],
+                            "script": "async function main() { return { haReply: '', ciSono: '0' }; }",
+                            "type": "js",
+                            "variableMap": [
+                              {
+                                "value": "haReply",
+                                "variable": "haReply"
+                              },
+                              {
+                                "value": "ciSono",
+                                "variable": "ciSono"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "position": {
+                            "x": 14785,
+                            "y": 285
                           },
-                          "id": "b4b61303-0bae-4d59-a722-aaaee1d2201d",
-                          "name": "probe empty",
-                          "type": "getEle"
+                          "id": "2c2d7ff0-a299-49c0-aabb-8e554ae2842f",
+                          "name": "cerca un pulsante Reply (fino a 20 secondi)",
+                          "type": "forTimes",
+                          "config": {
+                            "serialType": "randomInterval",
+                            "minTimes": 4,
+                            "maxTimes": 4,
+                            "hiddenChildren": false,
+                            "children": [
+                              {
+                                "position": {
+                                  "x": 14790,
+                                  "y": 285
+                                },
+                                "id": "1b3816f6-66e2-4746-aa85-d052fbcf5dee",
+                                "name": "IF Reply non ancora visto",
+                                "type": "ifElse",
+                                "config": {
+                                  "apposition": "and",
+                                  "children": [
+                                    {
+                                      "position": {
+                                        "x": 14795,
+                                        "y": 285
+                                      },
+                                      "id": "74789398-da4b-4642-9480-b0906ee8df49",
+                                      "name": "azzera Reply",
+                                      "type": "script",
+                                      "config": {
+                                        "injectVariables": [],
+                                        "script": "async function main() { return { haReply: '' }; }",
+                                        "type": "js",
+                                        "variableMap": [
+                                          {
+                                            "value": "haReply",
+                                            "variable": "haReply"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "position": {
+                                        "x": 14800,
+                                        "y": 285
+                                      },
+                                      "id": "dfc5e398-4be7-4ce1-9670-2bdfdb195b0f",
+                                      "name": "c'e' un pulsante Reply?",
+                                      "type": "getEle",
+                                      "config": {
+                                        "filterCollection": [
+                                          [
+                                            {
+                                              "content": "Reply",
+                                              "filterType": "equal",
+                                              "type": "text"
+                                            }
+                                          ]
+                                        ],
+                                        "serialType": "fixedValue",
+                                        "serial": 1,
+                                        "hiddenChildren": false,
+                                        "searchTime": 5000,
+                                        "type": "text",
+                                        "variable": "haReply",
+                                        "error": false
+                                      }
+                                    },
+                                    {
+                                      "position": {
+                                        "x": 14805,
+                                        "y": 285
+                                      },
+                                      "id": "f4acd052-cd68-4e84-b913-44829ea8ae7b",
+                                      "name": "visto un Reply?",
+                                      "type": "script",
+                                      "config": {
+                                        "injectVariables": [
+                                          "haReply"
+                                        ],
+                                        "script": "async function main({ haReply }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { ciSono: ok(haReply) ? '1' : '0' }; }",
+                                        "type": "js",
+                                        "variableMap": [
+                                          {
+                                            "value": "ciSono",
+                                            "variable": "ciSono"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  "conditionList": [
+                                    {
+                                      "probability": 50,
+                                      "relation": "equal",
+                                      "useVariable": "ciSono",
+                                      "result": "0"
+                                    }
+                                  ],
+                                  "other": []
+                                }
+                              }
+                            ]
+                          }
                         },
                         {
                           "position": {
@@ -1263,7 +1370,7 @@
                                 "type": "script",
                                 "config": {
                                   "injectVariables": [],
-                                  "script": "async function main() { return { goOn: '1', vuote: '0', nuovo: '1' }; }",
+                                  "script": "async function main() { return { goOn: '1', vuote: '0', nuovo: '1', accPrima: '', fermo: '0' }; }",
                                   "type": "js",
                                   "variableMap": [
                                     {
@@ -1277,6 +1384,14 @@
                                     {
                                       "value": "nuovo",
                                       "variable": "nuovo"
+                                    },
+                                    {
+                                      "value": "accPrima",
+                                      "variable": "accPrima"
+                                    },
+                                    {
+                                      "value": "fermo",
+                                      "variable": "fermo"
                                     }
                                   ]
                                 }
@@ -1439,7 +1554,7 @@
                                                                         "t",
                                                                         "miss"
                                                                       ],
-                                                                      "script": "async function main({ acc, t, miss }) { const x=String(t||'').replace(/\\s+/g,' ').trim(); const fine=/^(add a comment|aggiungi un commento|kommentar hinzuf|@)/i.test(x); const m = x ? 0 : (parseInt(miss,10)||0) + 1; return { acc: (x && !fine) ? (String(acc||'') + '\\n' + x) : String(acc||''), t: '', miss: String(m), leggi: (fine || m >= 4) ? '0' : '1' }; }",
+                                                                      "script": "async function main({ acc, t, miss }) { const x=String(t||'').replace(/\\s+/g,' ').trim(); const fine=/^(add a comment|add a reply|aggiungi un commento|aggiungi una risposta|kommentar hinzuf|antwort hinzuf|@)/i.test(x); const m = x ? 0 : (parseInt(miss,10)||0) + 1; return { acc: (x && !fine) ? (String(acc||'') + '\\n' + x) : String(acc||''), t: '', miss: String(m), leggi: (fine || m >= 4) ? '0' : '1' }; }",
                                                                       "type": "js",
                                                                       "variableMap": [
                                                                         {
@@ -1477,14 +1592,24 @@
                                                         "type": "script",
                                                         "config": {
                                                           "injectVariables": [
-                                                            "acc"
+                                                            "acc",
+                                                            "accPrima",
+                                                            "fermo"
                                                           ],
-                                                          "script": "async function main({ acc }) { const e=encodeURIComponent(String(acc||'')).replace(/['()!*]/g, c => '%' + c.charCodeAt(0).toString(16).toUpperCase()); return { accEnc: e }; }",
+                                                          "script": "async function main({ acc, accPrima, fermo }) { const pulito=String(acc||'').split('\\n').filter(r => !/^\\s*\\d{1,2}:\\d{2}\\s*$/.test(r)).join('\\n'); const f=(pulito===String(accPrima||'')) ? (parseInt(fermo,10)||0)+1 : 0; const e=encodeURIComponent(String(acc||'')).replace(/['()!*]/g, c => '%' + c.charCodeAt(0).toString(16).toUpperCase()); return { accEnc: e, accPrima: pulito, fermo: String(f) }; }",
                                                           "type": "js",
                                                           "variableMap": [
                                                             {
                                                               "value": "accEnc",
                                                               "variable": "accEnc"
+                                                            },
+                                                            {
+                                                              "value": "accPrima",
+                                                              "variable": "accPrima"
+                                                            },
+                                                            {
+                                                              "value": "fermo",
+                                                              "variable": "fermo"
                                                             }
                                                           ]
                                                         }
@@ -1513,9 +1638,10 @@
                                                           "injectVariables": [
                                                             "curlResp",
                                                             "vuote",
-                                                            "nuovo"
+                                                            "nuovo",
+                                                            "fermo"
                                                           ],
-                                                          "script": "async function main({ curlResp, vuote, nuovo }) { const r=String(curlResp||'').replace(/\\s+/g,' ').trim(); const no={ goPost:'0', goOn:'1', pickN:0, tapX:'0', tapY:'0', useTap:'0', ocrAuthor:'', theReply:'', vuote:'0', nuovo:'0' }; if(/^END/.test(r)) return Object.assign(no,{ goOn:'0' }); if(/^NO_MATCH/.test(r)) return no; const p=r.split('|'); const n=parseInt(p[1],10)||0; if(p[0]==='PICK' && p.length>=6 && n>=1) return { goPost:'1', goOn:'1', pickN:n, tapX:'0', tapY:'0', useTap:'0', ocrAuthor:p[4], theReply:p.slice(5).join('|'), vuote:'0', nuovo:'0' }; const v=(parseInt(vuote,10)||0)+1; return Object.assign(no,{ goPost:'2', goOn: v>=3 ? '0' : '1', vuote:String(v), nuovo:String(nuovo||'0') }); }",
+                                                          "script": "async function main({ curlResp, vuote, nuovo, fermo }) { const r=String(curlResp||'').replace(/\\s+/g,' ').trim(); const no={ goPost:'0', goOn:'1', pickN:0, tapX:'0', tapY:'0', useTap:'0', ocrAuthor:'', theReply:'', vuote:'0', nuovo:'0' }; if((parseInt(fermo,10)||0)>=6) return Object.assign(no,{ goOn:'0' }); if(/^END/.test(r)) return Object.assign(no,{ goOn:'0' }); if(/^NO_MATCH/.test(r)) return no; const p=r.split('|'); const n=parseInt(p[1],10)||0; if(p[0]==='PICK' && p.length>=6 && n>=1) return { goPost:'1', goOn:'1', pickN:n, tapX:'0', tapY:'0', useTap:'0', ocrAuthor:p[4], theReply:p.slice(5).join('|'), vuote:'0', nuovo:'0' }; const v=(parseInt(vuote,10)||0)+1; return Object.assign(no,{ goPost:'2', goOn: v>=3 ? '0' : '1', vuote:String(v), nuovo:String(nuovo||'0') }); }",
                                                           "type": "js",
                                                           "variableMap": [
                                                             {
@@ -1695,6 +1821,249 @@
                                                             },
                                                             {
                                                               "position": {
+                                                                "x": 16605,
+                                                                "y": 285
+                                                              },
+                                                              "id": "8c056980-8a4d-4bf8-bbd3-0669bda74cda",
+                                                              "name": "IF niente @ nella casella -> cerca la riga 'Replying to'",
+                                                              "type": "ifElse",
+                                                              "config": {
+                                                                "apposition": "and",
+                                                                "children": [
+                                                                  {
+                                                                    "position": {
+                                                                      "x": 16610,
+                                                                      "y": 285
+                                                                    },
+                                                                    "id": "7c8bd92a-8123-4c34-8591-202a4dd5e129",
+                                                                    "name": "azzera: riga Replying to",
+                                                                    "type": "script",
+                                                                    "config": {
+                                                                      "injectVariables": [],
+                                                                      "script": "async function main() { return { barra: '', trovato: '0', rispostaAperta: '' }; }",
+                                                                      "type": "js",
+                                                                      "variableMap": [
+                                                                        {
+                                                                          "value": "barra",
+                                                                          "variable": "barra"
+                                                                        },
+                                                                        {
+                                                                          "value": "trovato",
+                                                                          "variable": "trovato"
+                                                                        },
+                                                                        {
+                                                                          "value": "rispostaAperta",
+                                                                          "variable": "rispostaAperta"
+                                                                        }
+                                                                      ]
+                                                                    }
+                                                                  },
+                                                                  {
+                                                                    "position": {
+                                                                      "x": 16615,
+                                                                      "y": 285
+                                                                    },
+                                                                    "id": "99bc713e-5ef3-4214-96ac-c02b5d0ba8c1",
+                                                                    "name": "guarda le righe con 'Replying to'",
+                                                                    "type": "forTimes",
+                                                                    "config": {
+                                                                      "serialType": "randomInterval",
+                                                                      "minTimes": 3,
+                                                                      "maxTimes": 3,
+                                                                      "hiddenChildren": false,
+                                                                      "children": [
+                                                                        {
+                                                                          "position": {
+                                                                            "x": 16620,
+                                                                            "y": 285
+                                                                          },
+                                                                          "id": "4ae72bc9-9afd-4df1-9204-2bd43a21775f",
+                                                                          "name": "IF nome non ancora trovato",
+                                                                          "type": "ifElse",
+                                                                          "config": {
+                                                                            "apposition": "and",
+                                                                            "children": [
+                                                                              {
+                                                                                "position": {
+                                                                                  "x": 16622,
+                                                                                  "y": 285
+                                                                                },
+                                                                                "id": "b090365a-c502-478c-89af-1ad5a47765d6",
+                                                                                "name": "azzera riga",
+                                                                                "type": "script",
+                                                                                "config": {
+                                                                                  "injectVariables": [],
+                                                                                  "script": "async function main() { return { barra: '' }; }",
+                                                                                  "type": "js",
+                                                                                  "variableMap": [
+                                                                                    {
+                                                                                      "value": "barra",
+                                                                                      "variable": "barra"
+                                                                                    }
+                                                                                  ]
+                                                                                }
+                                                                              },
+                                                                              {
+                                                                                "position": {
+                                                                                  "x": 16624,
+                                                                                  "y": 285
+                                                                                },
+                                                                                "id": "6396e2c4-f1ce-40bc-b0ee-296753aac667",
+                                                                                "name": "riga 'Replying to' n. kb",
+                                                                                "type": "getEle",
+                                                                                "config": {
+                                                                                  "filterCollection": [
+                                                                                    [
+                                                                                      {
+                                                                                        "content": "eplying to",
+                                                                                        "filterType": "contain",
+                                                                                        "type": "text"
+                                                                                      }
+                                                                                    ]
+                                                                                  ],
+                                                                                  "serialType": "fixedValue",
+                                                                                  "serial": "${kb}",
+                                                                                  "hiddenChildren": false,
+                                                                                  "searchTime": 1000,
+                                                                                  "type": "text",
+                                                                                  "variable": "barra",
+                                                                                  "error": false
+                                                                                }
+                                                                              },
+                                                                              {
+                                                                                "position": {
+                                                                                  "x": 16626,
+                                                                                  "y": 285
+                                                                                },
+                                                                                "id": "3a65b5af-a6e1-4f08-808a-69d806cc34da",
+                                                                                "name": "e' 'Replying to nome'?",
+                                                                                "type": "script",
+                                                                                "config": {
+                                                                                  "injectVariables": [
+                                                                                    "barra",
+                                                                                    "pfUser",
+                                                                                    "via"
+                                                                                  ],
+                                                                                  "script": "async function main({ barra, pfUser, via }) { const s=String(barra||'').replace(/\\s+/g,' ').trim(); const m=/^replying to @?([A-Za-z0-9._]{2,30})[^A-Za-z0-9 ]*$/i.exec(s); return m ? { pfUser: m[1], via: 'R', trovato: '1' } : { pfUser: String(pfUser||''), via: String(via||'C'), trovato: '0' }; }",
+                                                                                  "type": "js",
+                                                                                  "variableMap": [
+                                                                                    {
+                                                                                      "value": "pfUser",
+                                                                                      "variable": "pfUser"
+                                                                                    },
+                                                                                    {
+                                                                                      "value": "via",
+                                                                                      "variable": "via"
+                                                                                    },
+                                                                                    {
+                                                                                      "value": "trovato",
+                                                                                      "variable": "trovato"
+                                                                                    }
+                                                                                  ]
+                                                                                }
+                                                                              }
+                                                                            ],
+                                                                            "conditionList": [
+                                                                              {
+                                                                                "probability": 50,
+                                                                                "relation": "equal",
+                                                                                "useVariable": "trovato",
+                                                                                "result": "0"
+                                                                              }
+                                                                            ],
+                                                                            "other": []
+                                                                          }
+                                                                        }
+                                                                      ],
+                                                                      "variableIndex": "kb"
+                                                                    }
+                                                                  },
+                                                                  {
+                                                                    "position": {
+                                                                      "x": 16630,
+                                                                      "y": 285
+                                                                    },
+                                                                    "id": "85edc50c-82da-4b4e-88fb-b396ec9e024c",
+                                                                    "name": "IF nessun nome -> la casella e' aperta? (Add a reply)",
+                                                                    "type": "ifElse",
+                                                                    "config": {
+                                                                      "apposition": "and",
+                                                                      "children": [
+                                                                        {
+                                                                          "position": {
+                                                                            "x": 16632,
+                                                                            "y": 285
+                                                                          },
+                                                                          "id": "c52d49d4-381a-46c9-bab5-bf9e7b647565",
+                                                                          "name": "c'e' 'Add a reply'?",
+                                                                          "type": "getEle",
+                                                                          "config": {
+                                                                            "filterCollection": [
+                                                                              [
+                                                                                {
+                                                                                  "content": "dd a reply",
+                                                                                  "filterType": "contain",
+                                                                                  "type": "text"
+                                                                                }
+                                                                              ]
+                                                                            ],
+                                                                            "serialType": "fixedValue",
+                                                                            "serial": 1,
+                                                                            "hiddenChildren": false,
+                                                                            "searchTime": 1500,
+                                                                            "type": "text",
+                                                                            "variable": "rispostaAperta",
+                                                                            "error": false
+                                                                          }
+                                                                        },
+                                                                        {
+                                                                          "position": {
+                                                                            "x": 16634,
+                                                                            "y": 285
+                                                                          },
+                                                                          "id": "5012764f-e015-4090-af0a-89411f5907e1",
+                                                                          "name": "casella aperta senza nome?",
+                                                                          "type": "script",
+                                                                          "config": {
+                                                                            "injectVariables": [
+                                                                              "rispostaAperta"
+                                                                            ],
+                                                                            "script": "async function main({ rispostaAperta }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { via: ok(rispostaAperta) ? 'V' : 'C' }; }",
+                                                                            "type": "js",
+                                                                            "variableMap": [
+                                                                              {
+                                                                                "value": "via",
+                                                                                "variable": "via"
+                                                                              }
+                                                                            ]
+                                                                          }
+                                                                        }
+                                                                      ],
+                                                                      "conditionList": [
+                                                                        {
+                                                                          "probability": 50,
+                                                                          "relation": "equal",
+                                                                          "useVariable": "trovato",
+                                                                          "result": "0"
+                                                                        }
+                                                                      ],
+                                                                      "other": []
+                                                                    }
+                                                                  }
+                                                                ],
+                                                                "conditionList": [
+                                                                  {
+                                                                    "probability": 50,
+                                                                    "relation": "equal",
+                                                                    "useVariable": "via",
+                                                                    "result": "C"
+                                                                  }
+                                                                ],
+                                                                "other": []
+                                                              }
+                                                            },
+                                                            {
+                                                              "position": {
                                                                 "x": 17400,
                                                                 "y": 285
                                                               },
@@ -1752,9 +2121,13 @@
                                                                     "type": "script",
                                                                     "config": {
                                                                       "injectVariables": [],
-                                                                      "script": "async function main() { return { tA: '0', tB: '0', tC: '0', scritto: '0', verificato: '0', posted: '0', postOk: '0' }; }",
+                                                                      "script": "async function main() { return { tR: '0', tA: '0', tB: '0', tC: '0', scritto: '0', verificato: '0', posted: '0', postOk: '0' }; }",
                                                                       "type": "js",
                                                                       "variableMap": [
+                                                                        {
+                                                                          "value": "tR",
+                                                                          "variable": "tR"
+                                                                        },
                                                                         {
                                                                           "value": "tA",
                                                                           "variable": "tA"
@@ -1788,55 +2161,150 @@
                                                                   },
                                                                   {
                                                                     "position": {
-                                                                      "x": 10600,
+                                                                      "x": 10592,
                                                                       "y": 285
                                                                     },
+                                                                    "id": "8b9fa536-7b01-4d27-910c-8db01c32687b",
+                                                                    "name": "IF nome da 'Replying to' -> scrivi nella casella vuota",
+                                                                    "type": "ifElse",
                                                                     "config": {
-                                                                      "content": [
-                                                                        "${finalText}"
-                                                                      ],
-                                                                      "filterType": "contain",
-                                                                      "filters": [
+                                                                      "apposition": "and",
+                                                                      "children": [
                                                                         {
-                                                                          "content": "TextView",
-                                                                          "type": "class"
+                                                                          "position": {
+                                                                            "x": 10594,
+                                                                            "y": 285
+                                                                          },
+                                                                          "config": {
+                                                                            "content": [
+                                                                              "${finalText}"
+                                                                            ],
+                                                                            "filterType": "contain",
+                                                                            "filters": [
+                                                                              {
+                                                                                "content": "dd a reply",
+                                                                                "type": "text"
+                                                                              }
+                                                                            ],
+                                                                            "hiddenChildren": true,
+                                                                            "inputType": "taskOrder",
+                                                                            "searchTime": 3500,
+                                                                            "serial": 1,
+                                                                            "serialType": "fixedValue",
+                                                                            "variable": "tR"
+                                                                          },
+                                                                          "id": "5168b243-ba24-4e5c-991b-84269639ef54",
+                                                                          "name": "input (casella senza @: Add a reply)",
+                                                                          "type": "inputContent"
                                                                         },
                                                                         {
-                                                                          "content": "@",
-                                                                          "type": "text"
+                                                                          "position": {
+                                                                            "x": 10596,
+                                                                            "y": 285
+                                                                          },
+                                                                          "id": "6c0fe1f8-75ec-434e-bc03-f465447bbdff",
+                                                                          "name": "scritto?",
+                                                                          "type": "script",
+                                                                          "config": {
+                                                                            "injectVariables": [
+                                                                              "tR"
+                                                                            ],
+                                                                            "script": "async function main({ tR }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { scritto: ok(tR) ? '1' : '0' }; }",
+                                                                            "type": "js",
+                                                                            "variableMap": [
+                                                                              {
+                                                                                "value": "scritto",
+                                                                                "variable": "scritto"
+                                                                              }
+                                                                            ]
+                                                                          }
                                                                         }
                                                                       ],
-                                                                      "hiddenChildren": true,
-                                                                      "inputType": "taskOrder",
-                                                                      "searchTime": 3500,
-                                                                      "serial": 1,
-                                                                      "serialType": "fixedValue",
-                                                                      "variable": "tA"
-                                                                    },
-                                                                    "id": "8ec1795d-1ff3-454e-a052-97c9fc4dd2a8",
-                                                                    "name": "input",
-                                                                    "type": "inputContent"
+                                                                      "conditionList": [
+                                                                        {
+                                                                          "probability": 50,
+                                                                          "relation": "equal",
+                                                                          "useVariable": "via",
+                                                                          "result": "R"
+                                                                        }
+                                                                      ],
+                                                                      "other": []
+                                                                    }
                                                                   },
                                                                   {
                                                                     "position": {
-                                                                      "x": 10610,
+                                                                      "x": 10598,
                                                                       "y": 285
                                                                     },
-                                                                    "id": "317716ad-663e-4274-8a76-dc84f2c94c5b",
-                                                                    "name": "scritto?",
-                                                                    "type": "script",
+                                                                    "id": "b9ee81d4-cb9b-450e-b950-2877052e25ee",
+                                                                    "name": "IF non ancora scritto -> casella con la @",
+                                                                    "type": "ifElse",
                                                                     "config": {
-                                                                      "injectVariables": [
-                                                                        "tA"
-                                                                      ],
-                                                                      "script": "async function main({ tA }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { scritto: ok(tA) ? '1' : '0' }; }",
-                                                                      "type": "js",
-                                                                      "variableMap": [
+                                                                      "apposition": "and",
+                                                                      "children": [
                                                                         {
-                                                                          "value": "scritto",
-                                                                          "variable": "scritto"
+                                                                          "position": {
+                                                                            "x": 10600,
+                                                                            "y": 285
+                                                                          },
+                                                                          "config": {
+                                                                            "content": [
+                                                                              "${finalText}"
+                                                                            ],
+                                                                            "filterType": "contain",
+                                                                            "filters": [
+                                                                              {
+                                                                                "content": "TextView",
+                                                                                "type": "class"
+                                                                              },
+                                                                              {
+                                                                                "content": "@",
+                                                                                "type": "text"
+                                                                              }
+                                                                            ],
+                                                                            "hiddenChildren": true,
+                                                                            "inputType": "taskOrder",
+                                                                            "searchTime": 3500,
+                                                                            "serial": 1,
+                                                                            "serialType": "fixedValue",
+                                                                            "variable": "tA"
+                                                                          },
+                                                                          "id": "8ec1795d-1ff3-454e-a052-97c9fc4dd2a8",
+                                                                          "name": "input",
+                                                                          "type": "inputContent"
+                                                                        },
+                                                                        {
+                                                                          "position": {
+                                                                            "x": 10610,
+                                                                            "y": 285
+                                                                          },
+                                                                          "id": "317716ad-663e-4274-8a76-dc84f2c94c5b",
+                                                                          "name": "scritto?",
+                                                                          "type": "script",
+                                                                          "config": {
+                                                                            "injectVariables": [
+                                                                              "tA"
+                                                                            ],
+                                                                            "script": "async function main({ tA }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { scritto: ok(tA) ? '1' : '0' }; }",
+                                                                            "type": "js",
+                                                                            "variableMap": [
+                                                                              {
+                                                                                "value": "scritto",
+                                                                                "variable": "scritto"
+                                                                              }
+                                                                            ]
+                                                                          }
                                                                         }
-                                                                      ]
+                                                                      ],
+                                                                      "conditionList": [
+                                                                        {
+                                                                          "probability": 50,
+                                                                          "relation": "equal",
+                                                                          "useVariable": "scritto",
+                                                                          "result": "0"
+                                                                        }
+                                                                      ],
+                                                                      "other": []
                                                                     }
                                                                   },
                                                                   {
@@ -2354,14 +2822,15 @@
                             "conditionList": [
                               {
                                 "probability": 50,
-                                "relation": "notExist",
-                                "useVariable": "noCom"
+                                "relation": "equal",
+                                "useVariable": "ciSono",
+                                "result": "1"
                               }
                             ],
                             "other": []
                           },
                           "id": "714be356-d99b-47d3-96af-0d8487cf4093",
-                          "name": "IF ci sono commenti",
+                          "name": "IF c'e' almeno un Reply (commenti di Instagram)",
                           "type": "ifElse"
                         },
                         {
@@ -2373,6 +2842,30 @@
                           "id": "e272b347-5a10-4780-b2d8-cac58a82cbab",
                           "name": "back",
                           "type": "goBack"
+                        },
+                        {
+                          "position": {
+                            "x": 13790,
+                            "y": 285
+                          },
+                          "id": "349c8030-329a-449d-9ceb-69ebe1ea0e07",
+                          "name": "azzera: commenti ancora aperti?",
+                          "type": "script",
+                          "config": {
+                            "injectVariables": [],
+                            "script": "async function main() { return { sheetStill: '', ancoraAperti: '0' }; }",
+                            "type": "js",
+                            "variableMap": [
+                              {
+                                "value": "sheetStill",
+                                "variable": "sheetStill"
+                              },
+                              {
+                                "value": "ancoraAperti",
+                                "variable": "ancoraAperti"
+                              }
+                            ]
+                          }
                         },
                         {
                           "position": {
@@ -2394,19 +2887,48 @@
                                   "filterType": "contain",
                                   "type": "text"
                                 }
+                              ],
+                              [
+                                {
+                                  "content": "dd a reply",
+                                  "filterType": "contain",
+                                  "type": "text"
+                                }
                               ]
                             ],
                             "serialType": "fixedValue",
                             "serial": 1,
-                            "hiddenChildren": true,
+                            "hiddenChildren": false,
                             "searchTime": 1200,
                             "type": "text",
                             "variable": "sheetStill",
                             "error": false
                           },
                           "id": "58ab9567-80e3-40c8-9a76-903a06230ec1",
-                          "name": "probe",
+                          "name": "la casella dei commenti si vede ancora?",
                           "type": "getEle"
+                        },
+                        {
+                          "position": {
+                            "x": 13810,
+                            "y": 285
+                          },
+                          "id": "7c18e082-c253-4bd6-a47f-9dfc4a8700be",
+                          "name": "commenti ancora aperti?",
+                          "type": "script",
+                          "config": {
+                            "injectVariables": [
+                              "sheetStill"
+                            ],
+                            "script": "async function main({ sheetStill }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { ancoraAperti: ok(sheetStill) ? '1' : '0' }; }",
+                            "type": "js",
+                            "variableMap": [
+                              {
+                                "value": "ancoraAperti",
+                                "variable": "ancoraAperti"
+                              }
+                            ]
+                          }
                         },
                         {
                           "position": {
@@ -2430,14 +2952,15 @@
                             "conditionList": [
                               {
                                 "probability": 50,
-                                "relation": "exist",
-                                "useVariable": "sheetStill"
+                                "relation": "equal",
+                                "useVariable": "ancoraAperti",
+                                "result": "1"
                               }
                             ],
                             "other": []
                           },
                           "id": "78678d4d-488d-4604-a0a3-b21fccdabf17",
-                          "name": "IF sheet ancora aperta",
+                          "name": "IF commenti ancora aperti -> indietro",
                           "type": "ifElse"
                         }
                       ],

@@ -63,7 +63,7 @@ RUMORE = re.compile(
     r"visualizza traduzione|übersetzung anzeigen|author|autore|autor|"
     r"liked by creator|view \d+ more repl(y|ies)|hide replies|hide|nascondi|ausblenden|"
     r"for you|per te|für dich|comments|commenti|kommentare|view|visualizza|ansehen|"
-    r"\d+ comments from .*|add a comment.*|aggiungi un commento.*|kommentar hinzufügen.*|"
+    r"\d+ comments? from .*|add a comment.*|aggiungi un commento.*|kommentar hinzufügen.*|"
     r"\d+[.,]?\d*\s?[kKmM]?|\d+\s?(s|m|h|d|w|y|min|sec|hr|std|tag|tage|wo)\.?|\d{1,2}:\d{2})$",
     re.IGNORECASE,
 )
@@ -127,7 +127,7 @@ def dati_account(account):
         stato[account] = {
             "memoria": memoria, "credito": 100 - quota(), "ultima": None, "nomi": {},
             "attesa": None, "esito": None, "stallo": 0, "spostamento": 0, "ai_ko_fino": 0.0,
-            "nuovi_post": 0, "risposte_post": 0, "ultimo_pick": 0.0, "tentativi": {},
+            "nuovi_post": 0, "risposte_post": 0, "ultimo_pick": 0.0, "tentativi": {}, "saltati_post": [],
             # sfasamento tra nomi e Reply visto sulla prima schermata dei post e dopo gli scroll
             "schermo": "inizio", "da_osservare": False, "visti": {"inizio": [], "scroll": []},
         }
@@ -182,7 +182,11 @@ def persona(account):
 
 
 NOME_IG = re.compile(r"[a-z0-9._]{2,30}")
-COMPOSER = re.compile(r"^(add a comment|aggiungi un commento|kommentar hinzuf)", re.IGNORECASE)
+# la casella in fondo alla lista: "Add a comment..." oppure, dopo un Reply, "Add a reply..."
+COMPOSER = re.compile(r"^(add a comment|add a reply|aggiungi un commento|aggiungi una risposta|"
+                      r"kommentar hinzuf|antwort hinzuf)", re.IGNORECASE)
+# la riga sopra la casella dopo un Reply: "Replying to nome" (anche quando Instagram non mette la @)
+RISPONDI_A = re.compile(r"^replying to @?([a-z0-9._]{2,30})[^a-z0-9 ]*$", re.IGNORECASE)
 META = re.compile(r"(modell|commento|risposta|hector|mandami|incolla|sono pronto|non posso|"
                   r"as an ai|language model)", re.IGNORECASE)
 
@@ -200,7 +204,9 @@ def commenti_da_elenco(elenco):
     """Il telefono manda i testi a schermo uno per riga, dall'alto in basso.
     Di solito Instagram mostra come testo solo i nomi: il commento N e' quello
     dell'N-esimo nome, che corrisponde all'N-esimo pulsante Reply.
-    Se tra i testi ci sono anche i "Reply", ogni "Reply" chiude un commento."""
+    Se tra i testi ci sono anche i "Reply" in mezzo ai nomi, ogni "Reply" chiude un commento.
+    I "Reply" tutti in fondo, dopo l'ultimo nome (GeeLark li mette li' quando la lettura
+    supera la casella), non dicono di chi sono: si contano solo i nomi."""
     righe = []
     for riga in elenco.splitlines():
         riga = re.sub(r"\s+", " ", riga).strip()
@@ -210,7 +216,9 @@ def commenti_da_elenco(elenco):
             righe.append(riga)
 
     commenti = []
-    if any(e_reply(r) for r in righe):
+    pos_reply = [i for i, r in enumerate(righe) if e_reply(r)]
+    pos_nomi = [i for i, r in enumerate(righe) if e_nome(r)]
+    if pos_reply and pos_nomi and pos_reply[0] < pos_nomi[-1]:
         pezzi = []
         numero = 0
         for riga in righe:
@@ -226,7 +234,7 @@ def commenti_da_elenco(elenco):
                 pezzi.append(riga)
         return commenti
 
-    nomi = [r for r in righe if e_nome(r)]
+    nomi = [righe[i] for i in pos_nomi]
     return [{"numero": n, "utente": nome_utente(u), "commento": ""} for n, u in enumerate(nomi, start=1)]
 
 
@@ -474,9 +482,25 @@ def eredita_memoria(telefono):
         log(telefono, f"memoria di \"{nome}\" (stesso account Instagram) passata a questo telefono")
 
 
+def descrivi_tastiera(tastiera):
+    """La tastiera attiva sul telefono (il flusso prova a mettere quella di GeeLark)."""
+    t = tastiera.strip()
+    if not t or t.lower() == "null":
+        return "tastiera: non letta"
+    if "gee" in t.lower():
+        return "tastiera: GeeRunner (quella di GeeLark), ok"
+    if "google" in t.lower() or "latin" in t.lower():
+        return f"tastiera: Gboard, NON quella di GeeLark ({t}): il passo 'tastiera GeeLark' non ha funzionato"
+    return f"tastiera: {t} (non e' quella di GeeLark)"
+
+
 def ciao(codici, testo):
     """Inizio del task: il telefono manda il suo codice e il testo in alto nel profilo.
-    Risponde OK se sa come si chiama il telefono e qual e' il suo account, se no STOP."""
+    Risponde OK se sa come si chiama il telefono e qual e' il suo account, se no STOP.
+    Il flusso v9.11 manda anche la tastiera attiva (riga "ime=")."""
+    righe = str(testo or "").splitlines()
+    tastiera = next((r.strip()[4:] for r in righe if r.strip().startswith("ime=")), None)
+    testo = "\n".join(r for r in righe if not r.strip().startswith("ime="))
     io = nome_dal_profilo(testo)
     telefono = nome_telefono(codici, io, aggiorna=True)
     descrizione = f"codice {', '.join(codici) or 'non letto'}" + (f", Instagram @{io}" if io else "")
@@ -497,6 +521,8 @@ def ciao(codici, testo):
             f"a se stessa. Scrivi in telefoni.txt una riga cosi': @nomeinstagram = {telefono}")
         return "STOP|account instagram sconosciuto"
     log(telefono, f"=== telefono {telefono} (Instagram @{', @'.join(sorted(propri))}): comincio ===")
+    if tastiera is not None:
+        log(telefono, descrivi_tastiera(tastiera))
     return f"OK|{telefono}"
 
 
@@ -589,6 +615,20 @@ def rimborsa(dati):
     dati["credito"] = min(dati["credito"] + 100, 200)
 
 
+def passa_il_turno(account, dati):
+    """A chi era stato scelto non si e' potuto rispondere: il suo turno passa a un commento
+    dello stesso post che il 40% aveva saltato (se e' ancora a schermo), cosi' le risposte
+    del post restano il 40%. Se non ce n'e', lo prende il prossimo commento nuovo."""
+    a_schermo = set(dati["nomi"].values())
+    for utente in list(dati["saltati_post"]):
+        if utente in a_schermo and deciso(dati, utente) == "skip":
+            dati["saltati_post"].remove(utente)
+            ricorda(account, utente, "si", "turno passato da un commento senza risposta")
+            log(account, f"il suo turno passa a @{utente}")
+            return
+    rimborsa(dati)
+
+
 def scegli(account, elenco, nuovo=None):
     """Sceglie il commento e dice al telefono quale Reply premere. La risposta di
     commentbot si chiede dopo, quando la casella e' aperta e si sa a chi rispondere."""
@@ -623,7 +663,8 @@ def _prepara(account, elenco, nuovo=None):
         # primo sguardo a un post: la lista parte dall'inizio e il 40% si conta da capo,
         # cosi' il primo commento nuovo di ogni post riceve sempre una risposta
         log(account, "--- commenti di un post nuovo ---")
-        dati.update(ultima=None, stallo=0, nuovi_post=0, risposte_post=0, tentativi={}, credito=100 - quota())
+        dati.update(ultima=None, stallo=0, nuovi_post=0, risposte_post=0, tentativi={}, credito=100 - quota(),
+                    saltati_post=[], correzioni={})
         dati["schermo"], dati["da_osservare"] = "inizio", True
         dati["spostamento"] = maggioranza(dati["visti"]["inizio"], 0)
     elif dati["esito"] != "PICK" and firma != dati["ultima"] and dati["ultima"]:
@@ -679,6 +720,7 @@ def _prepara(account, elenco, nuovo=None):
                 scelti += 1
             else:
                 esito = "skip"
+                dati["saltati_post"].append(utente)
             ricorda(account, utente, esito, c["commento"])
         else:
             gia += 1
@@ -731,9 +773,20 @@ def impara_spostamento(account, dati, premuto, reale):
     return spostamento
 
 
-def conferma(account, utente_casella):
+def conferma(account, utente_casella, via=""):
     """Il telefono ha premuto Reply e dice di chi e' la casella aperta.
-    Si risponde a quella persona (la risposta e' generica), salvo eccezioni."""
+    Si risponde a quella persona (la risposta e' generica), salvo eccezioni.
+    via = come il telefono ha letto il nome:
+      T  dalla "@nome" che Instagram mette nella casella (il caso normale)
+      R  dalla riga "Replying to nome": Instagram non ha messo la @ (la persona non
+         permette le menzioni), si risponde lo stesso sotto il suo commento, senza @
+      V  la casella e' aperta ("Add a reply...") ma non dice di chi: non si rischia
+      C  la casella non si e' aperta
+    vuoto = telefono vecchio: T se c'e' un nome, se no C."""
+    via = str(via or "").strip().upper()[:1]
+    rispondi_a = RISPONDI_A.match(re.sub(r"\s+", " ", str(utente_casella or "")).strip())
+    if rispondi_a:
+        utente_casella, via = rispondi_a.group(1), "R"
     with lock:
         dati = dati_account(account)
         attesa = dati["attesa"]
@@ -741,10 +794,18 @@ def conferma(account, utente_casella):
             log(account, "conferma senza scelta in attesa -> NO_MATCH")
             return "NO_MATCH"
         scelto = attesa["utente"]
-        reale = nome_utente(utente_casella)
+        reale = "" if via == "V" else nome_utente(utente_casella)
+        if via == "V":
+            # il Reply e' andato, ma senza @ e senza "Replying to" non si sa di chi e' la casella:
+            # meglio non rispondere che rispondere alla persona sbagliata
+            non_riuscito(account, dati, scelto, "la casella si e' aperta ma non dice a chi risponde "
+                                                "(niente @ e niente \"Replying to\")", subito=True)
+            return "NO_MATCH"
         visto = dati["spostamento"] if reale == scelto else None
         if reale and reale != scelto:
             visto = impara_spostamento(account, dati, attesa["premuto"], reale)
+        if reale:
+            dati.setdefault("correzioni", {}).clear()  # il conto dei Reply ora e' confermato (o rifatto)
         if visto is not None and dati["da_osservare"]:
             dati["visti"][dati["schermo"]].append(visto)
             dati["da_osservare"] = False
@@ -792,23 +853,33 @@ def conferma(account, utente_casella):
         # segnato subito: anche se la conferma finale si perde non gli risponde una seconda volta
         ricorda(account, reale, "in_corso", risposta)
         attesa["reale"], attesa["risposta"] = reale, risposta
+    if via == "R":
+        # nella casella non c'e' la @ e non si puo' mettere: la risposta va sotto il suo commento
+        log(account, f"rispondo a @{reale} senza @ (Instagram non la mette, letto da \"Replying to\"): "
+                     f"\"{risposta}\" ({time.time() - inizio:.1f}s)")
+        return risposta
     log(account, f"rispondo a @{reale}: \"{risposta}\" ({time.time() - inizio:.1f}s)")
     return f"@{reale} {risposta}"
 
 
-def non_riuscito(account, dati, scelto, motivo, casella_vuota=False):
+def non_riuscito(account, dati, scelto, motivo, casella_vuota=False, subito=False):
     """Il Reply non e' andato: si riprova la stessa persona (lo sfasamento ora e'
-    corretto), dopo 2 tentativi la si salta e il suo posto passa al prossimo commento nuovo."""
+    corretto). Dopo 2 tentativi (o subito, se riprovare non serve) la si salta e il suo
+    turno passa a un altro commento dello stesso post."""
     tentativi = dati["tentativi"].get(scelto, 0)
-    if tentativi < 2:
+    correzioni = dati.setdefault("correzioni", {})
+    if tentativi < 2 and not subito:
         dati["tentativi"][scelto] = tentativi + 1
         if casella_vuota and dati["spostamento"] > -2:
             dati["spostamento"] -= 1  # premuto un Reply oltre l'ultimo a schermo
+            correzioni[scelto] = correzioni.get(scelto, 0) + 1
         log(account, f"{motivo} -> riprovo @{scelto}")
     else:
-        log(account, f"{motivo} -> salto @{scelto}, il prossimo commento nuovo prende il suo posto")
+        log(account, f"{motivo} -> salto @{scelto}")
+        # le correzioni fatte per lui non sono servite: non devono sbagliare i prossimi Reply
+        dati["spostamento"] += correzioni.pop(scelto, 0)
         ricorda(account, scelto, "fallito", motivo)
-        rimborsa(dati)
+        passa_il_turno(account, dati)
     dati["attesa"] = None
 
 
@@ -857,7 +928,7 @@ class Gestore(BaseHTTPRequestHandler):
                     self.rispondi(scegli(account, elenco, {"1": True, "0": False}.get(nuovo)))
                 elif url.path == "/confirm":
                     casella = (parametri.get("u") or [""])[0] or re.sub(r"^u=", "", corpo.strip())
-                    self.rispondi(conferma(account, casella))
+                    self.rispondi(conferma(account, casella, (parametri.get("via") or [""])[0]))
                 else:
                     self.rispondi(fatto(account))
             elif url.path == "/azzera" and dal_pc:
