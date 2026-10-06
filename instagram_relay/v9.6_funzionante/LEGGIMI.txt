@@ -4,5 +4,7 @@ Per tornare a questa versione:
 1. copia relay.py nella cartella del relay sul PC
 2. apri relay.py e rimetti la chiave di commentbot al posto di INCOLLA_QUI_API_SERVER_KEY_DI_COMMENTBOT
 3. in GeeLark importa IG_POST_v9_6.json
+4. solo se hai gia' usato la v9.7: nella cartella memoria rinomina
+   Melina_Berner_Frankfurt.importato in Melina_Berner_Frankfurt.txt
 
 In questa versione il nome dell'account e' fisso: "Melina Berner Frankfurt".

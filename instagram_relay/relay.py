@@ -4,6 +4,8 @@
 #  Il relay decide a chi rispondere (2 commenti nuovi ogni 5 = 40%), chiede
 #  la risposta al bot Hermes "commentbot" e dice al telefono QUALE "Reply"
 #  premere. Gira sul tuo PC, ngrok lo rende raggiungibile dal cloud.
+#  Ogni telefono (elisa, melina francoforte, ...) ha la sua memoria e
+#  commentbot riceve il nome del telefono insieme al commento.
 # ==========================================================
 
 # ---------- 1) COMPILA QUI (solo questa parte) ----------
@@ -15,6 +17,11 @@ URL_API = "http://127.0.0.1:8643/p/commentbot/v1/chat/completions"
 CHIAVE_API = "INCOLLA_QUI_API_SERVER_KEY_DI_COMMENTBOT"
 MODELLO = "commentbot"
 
+# La chiave API (token) di GeeLark: con questa il relay capisce da solo come si
+# chiama ogni telefono (elisa, melina francoforte, ...). Se la lasci vuota, i
+# nomi dei telefoni li scrivi tu nel file telefoni.txt.
+GEELARK_TOKEN = ""
+
 PORTA = 8787                 # la stessa porta che dai a ngrok
 PERCENTUALE_RISPOSTE = 0.40  # 0.40 = risponde a 2 commenti nuovi ogni 5 (conteggio fisso, non a sorte)
 GIORNI_MEMORIA = 7           # una persona gia' decisa (risposta o saltata) non viene riconsiderata
@@ -22,9 +29,10 @@ GIORNI_MEMORIA = 7           # una persona gia' decisa (risposta o saltata) non 
                              # commento. Se Melina pubblica meno di un post ogni 2 giorni metti 14.
 TIMEOUT_AI = 25              # secondi massimi di attesa per commentbot
 
-# Lo stile delle risposte lo decide commentbot. Se vuoi aggiungere istruzioni
-# per un account specifico crea il file persona_<nome account>.txt nella
-# cartella del relay e scrivile li'.
+# Lo stile delle risposte lo decide commentbot, che riceve "Telefono: <nome>"
+# insieme a ogni commento. Se vuoi aggiungere istruzioni per un telefono crea il
+# file persona_<nome telefono>.txt nella cartella del relay (per esempio
+# persona_elisa.txt, oppure persona_melina_francoforte.txt) e scrivile li'.
 PERSONA = ""
 
 # ---------- 2) DA QUI IN GIU' NON TOCCARE NIENTE ----------
@@ -34,6 +42,7 @@ import re
 import threading
 import time
 import urllib.request
+import uuid
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, unquote, urlparse
@@ -41,6 +50,10 @@ from urllib.parse import parse_qs, unquote, urlparse
 CARTELLA = Path(__file__).resolve().parent
 CARTELLA_MEMORIA = CARTELLA / "memoria"
 CARTELLA_MEMORIA.mkdir(exist_ok=True)
+
+# fino alla v9.6 il flusso mandava sempre questo nome: la sua memoria passa al telefono
+# che ha lo stesso account Instagram (melinabernerr)
+ACCOUNT_VECCHIO = "Melina Berner Frankfurt"
 
 PAROLE_REPLY = {"reply", "rispondi", "antworten", "responder", "répondre", "repondre"}
 RUMORE = re.compile(
@@ -148,15 +161,21 @@ def azzera(account):
         righe = ["\t".join(["@" + u, e, u, time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(t)), ""])
                  for u, (e, t) in tenuti.items()]
         file.write_text("".join(r + "\n" for r in righe), encoding="utf-8")
-        stato.pop(account, None)
+        dimentica_stato(account)
     log(account, f"memoria azzerata: tenute {len(tenuti)} persone con risposta, "
                  f"dimenticate {len(memoria) - len(tenuti)} decisioni")
     return len(tenuti), len(memoria) - len(tenuti)
 
 
+def dimentica_stato(account):
+    """Lo stato in memoria si ricarica dal file (stesso file = stesso telefono)."""
+    for nome in [n for n in stato if slug(n).lower() == slug(account).lower()]:
+        stato.pop(nome)
+
+
 def persona(account):
     file = CARTELLA / f"persona_{slug(account)}.txt"
-    return file.read_text(encoding="utf-8").strip() if file.exists() else PERSONA
+    return file.read_text(encoding="utf-8-sig").strip() if file.exists() else PERSONA
 
 
 NOME_IG = re.compile(r"[a-z0-9._]{2,30}")
@@ -208,10 +227,292 @@ def commenti_da_elenco(elenco):
     return [{"numero": n, "utente": nome_utente(u), "commento": ""} for n, u in enumerate(nomi, start=1)]
 
 
-def e_proprio(account, utente):
-    """Il commento e' dell'account stesso (es. "Melina Berner" -> melinabernerr)."""
+def parole_del_nome(account, utente):
+    """Il nome Instagram contiene le parole del nome (es. "Melina Berner" -> melinabernerr)."""
     parole = [p for p in re.findall(r"[a-z]+", account.lower()) if len(p) >= 4][:2]
     return bool(parole) and all(p in utente for p in parole)
+
+
+def e_proprio(account, utente):
+    """Il commento e' dell'account stesso: il nome Instagram letto in alto nel profilo del
+    telefono (o scritto in telefoni.txt). Per i flussi vecchi, le parole del nome dell'account."""
+    propri = io_di(account)
+    return utente in propri if propri else parole_del_nome(account, utente)
+
+
+# ---------- TELEFONI: come si chiama il telefono e qual e' il suo account Instagram ----------
+# Il flusso legge il codice del telefono (getprop ro.serialno) e lo manda al relay.
+# Il nome del telefono si trova nel file telefoni.txt oppure, con la chiave API,
+# chiedendolo a GeeLark (il codice e' lo stesso che GeeLark chiama "device ID").
+
+INTESTAZIONE_TELEFONI = """\
+# TELEFONI: il relay deve sapere come si chiama ogni telefono (elisa, melina francoforte, ...)
+# per dirlo a commentbot e per tenere una memoria separata per ogni telefono.
+# Con la chiave API di GeeLark (GEELARK_TOKEN in relay.py) li trova da solo: qui non serve scrivere niente.
+# Senza chiave scrivi una riga per telefono, in uno di questi due modi:
+#   codice del telefono = nome del telefono
+#   @nome instagram = nome del telefono
+# Quando arriva un telefono che non conosce il relay aggiunge qui sotto il suo codice:
+# scrivi il nome dopo il segno = e salva il file (non serve riavviare il relay).
+"""
+SEGNI_PROFILO = re.compile(r"\b(posts?|followers?|following|beitr[aä]ge?|abonnenten|abonniert|gefolgt|"
+                           r"seguiti|seguaci|publicaciones|seguidores|seguidos)\b", re.IGNORECASE)
+
+lock_telefoni = threading.Lock()
+lock_geelark = threading.Lock()
+cache_telefoni = {"file": None, "quando": None, "dati": ({}, {})}
+cache_instagram = {"file": None, "dati": {}}
+telefoni_geelark = {}  # codice del telefono -> nome in GeeLark (dall'API)
+stato_geelark = {"codici": {}, "ultimo": 0.0, "pausa_fino": 0.0}
+
+
+def file_telefoni():
+    return CARTELLA / "telefoni.txt"
+
+
+def stesso_nome(a, b):
+    return re.sub(r"\s+", " ", str(a)).strip().casefold() == re.sub(r"\s+", " ", str(b)).strip().casefold()
+
+
+def codici_telefono(testo):
+    """I codici del telefono letti con getprop (di solito due volte lo stesso)."""
+    codici = []
+    for c in re.split(r"[,;\s]+", str(testo or "").strip().lower()):
+        if re.fullmatch(r"[a-z0-9._-]{4,64}", c) and c not in ("unknown", "null", "none", "undefined") \
+                and c not in codici:
+            codici.append(c)
+    return codici
+
+
+def leggi_telefoni():
+    """telefoni.txt -> ({codice: nome}, {nome instagram: nome}). Si rilegge quando cambia."""
+    file = file_telefoni()
+    try:
+        quando = file.stat().st_mtime
+    except OSError:
+        return {}, {}
+    with lock_telefoni:
+        if cache_telefoni["file"] != file or cache_telefoni["quando"] != quando:
+            codici, instagram = {}, {}
+            for riga in file.read_text(encoding="utf-8-sig").splitlines():
+                riga = riga.split("#", 1)[0]
+                if "=" not in riga:
+                    continue
+                chiave, nome = riga.split("=", 1)
+                chiave, nome = chiave.strip(), re.sub(r"\s+", " ", nome).strip()
+                if not chiave or not nome:
+                    continue
+                if chiave.startswith("@"):
+                    if nome_utente(chiave):
+                        instagram[nome_utente(chiave)] = nome
+                else:
+                    for c in codici_telefono(chiave):
+                        codici[c] = nome
+            cache_telefoni.update(file=file, quando=quando, dati=(codici, instagram))
+        return cache_telefoni["dati"]
+
+
+def prepara_file_telefoni():
+    if not file_telefoni().exists():
+        file_telefoni().write_text(INTESTAZIONE_TELEFONI, encoding="utf-8")
+
+
+def segna_sconosciuto(codici, io):
+    """Aggiunge il telefono sconosciuto a telefoni.txt: l'utente deve solo scrivere il nome."""
+    prepara_file_telefoni()
+    chiave = codici[0] if codici else (f"@{io}" if io else "")
+    testo = file_telefoni().read_text(encoding="utf-8-sig")
+    if not chiave or chiave in testo.lower():
+        return
+    with open(file_telefoni(), "a", encoding="utf-8") as f:
+        f.write(("" if testo.endswith("\n") else "\n")
+                + f"# telefono nuovo visto il {time.strftime('%d/%m alle %H:%M')}"
+                + (f" (il suo Instagram e' @{io})" if io else "")
+                + ": scrivi il suo nome dopo il segno =\n" + f"{chiave} = \n")
+
+
+def geelark(percorso, dati):
+    """Una chiamata all'API di GeeLark (il token si prende nel programma GeeLark, pagina API)."""
+    richiesta = urllib.request.Request("https://openapi.geelark.com/open/v1/" + percorso,
+                                       data=json.dumps(dati).encode("utf-8"), headers={
+                                           "Content-Type": "application/json",
+                                           "traceId": str(uuid.uuid4()).upper(),
+                                           "Authorization": f"Bearer {GEELARK_TOKEN.strip()}",
+                                       })
+    with urllib.request.urlopen(richiesta, timeout=20) as r:
+        risposta = json.loads(r.read().decode("utf-8"))
+    if risposta.get("code") != 0:
+        raise RuntimeError(f"errore {risposta.get('code')}: {risposta.get('msg')}")
+    return risposta.get("data") or {}
+
+
+def aggiorna_da_geelark(codici=(), dopo=20):
+    """Chiede a GeeLark i nomi dei telefoni e i loro codici (al massimo ogni `dopo` secondi)."""
+    if not GEELARK_TOKEN.strip():
+        return
+    with lock_geelark:
+        adesso = time.time()
+        if adesso < stato_geelark["pausa_fino"] or adesso - stato_geelark["ultimo"] < dopo:
+            return
+        stato_geelark["ultimo"] = adesso
+        try:
+            elenco, pagina = [], 1
+            while True:
+                dati = geelark("phone/list", {"page": pagina, "pageSize": 100})
+                pezzo = dati.get("items") or []
+                elenco += pezzo
+                if not pezzo or len(elenco) >= int(dati.get("total") or 0) or pagina >= 50:
+                    break
+                pagina += 1
+            for giro in range(2):
+                nuovi = {}
+                for telefono in elenco:
+                    pid, nome = str(telefono.get("id") or ""), str(telefono.get("serialName") or "").strip()
+                    if not pid or not nome:
+                        continue
+                    if pid not in stato_geelark["codici"]:
+                        stato_geelark["codici"][pid] = codici_telefono(
+                            geelark("phone/serialNum/get", {"id": pid}).get("serialNum"))
+                    for c in stato_geelark["codici"][pid]:
+                        nuovi[c] = nome
+                if giro or not codici or any(c in nuovi for c in codici):
+                    break
+                stato_geelark["codici"].clear()  # dopo "nuovo telefono con un clic" il codice cambia
+            with lock_telefoni:
+                telefoni_geelark.clear()
+                telefoni_geelark.update(nuovi)
+        except Exception as e:
+            stato_geelark["pausa_fino"] = adesso + 600
+            log("GeeLark", f"non riesco a leggere i nomi dei telefoni con l'API ({e}): riprovo tra 10 minuti")
+
+
+def nome_telefono(codici, io="", aggiorna=False):
+    """Il nome del telefono (come in GeeLark) dal suo codice; "" se non si sa."""
+    dal_file, per_instagram = leggi_telefoni()
+    for c in codici:
+        if dal_file.get(c):
+            return dal_file[c]
+    if io and per_instagram.get(io):
+        return per_instagram[io]
+
+    def da_geelark():
+        with lock_telefoni:
+            return next((telefoni_geelark[c] for c in codici if c in telefoni_geelark), "")
+    nome = "" if aggiorna else da_geelark()
+    if not nome and codici:
+        aggiorna_da_geelark(codici, dopo=20 if aggiorna else 300)
+        nome = da_geelark()
+    return nome
+
+
+def carica_instagram():
+    """I nomi Instagram letti in alto nel profilo di ogni telefono: {telefono: {nomi}}."""
+    file = CARTELLA_MEMORIA / "account_instagram.txt"
+    if cache_instagram["file"] != file:
+        dati = {}
+        if file.exists():
+            for riga in file.read_text(encoding="utf-8").splitlines():
+                parti = riga.split("\t")
+                if len(parti) >= 2 and nome_utente(parti[1]):
+                    dati.setdefault(parti[0], set()).add(nome_utente(parti[1]))
+        cache_instagram.update(file=file, dati=dati)
+    return cache_instagram["dati"]
+
+
+def io_di(telefono):
+    """I nomi Instagram dell'account del telefono (dal profilo o da telefoni.txt)."""
+    _, per_instagram = leggi_telefoni()
+    nomi = {u for t, insieme in list(carica_instagram().items()) if stesso_nome(t, telefono) for u in insieme}
+    return nomi | {u for u, t in per_instagram.items() if stesso_nome(t, telefono)}
+
+
+def impara_io(telefono, io):
+    if io in io_di(telefono):
+        return
+    noti = carica_instagram()
+    noti[telefono] = noti.get(telefono, set()) | {io}  # insieme nuovo: chi lo sta leggendo non si confonde
+    with open(CARTELLA_MEMORIA / "account_instagram.txt", "a", encoding="utf-8") as f:
+        f.write(f"{telefono}\t{io}\n")
+    log(telefono, f"il suo account Instagram e' @{io}: ai commenti di @{io} non risponde mai")
+
+
+def nome_dal_profilo(testo):
+    """Il nome Instagram scritto in alto nella pagina del profilo ("" se non si legge)."""
+    righe = [re.sub(r"\s+", " ", r).strip() for r in str(testo or "").splitlines()]
+    alto = next((r[4:].strip().lstrip("@") for r in righe if r.startswith("top=")), "")
+    if e_nome(alto):
+        return alto
+    altre = [r for r in righe if r and not r.startswith("top=")]
+    # senza "post", "follower"... non e' la pagina del profilo: meglio non indovinare
+    if not any(SEGNI_PROFILO.search(r) for r in altre):
+        return ""
+    return next((r for r in altre if e_nome(r) and not SEGNI_PROFILO.fullmatch(r)), "")
+
+
+def eredita_memoria(telefono):
+    """La memoria segue l'account Instagram: se lo stesso account aveva un altro nome
+    (telefono rinominato in GeeLark, oppure "Melina Berner Frankfurt" della v9.6) la sua
+    memoria passa a questo telefono, cosi' non risponde due volte alla stessa persona."""
+    propri = io_di(telefono)
+    vecchi = [nome for nome, insieme in list(carica_instagram().items()) if insieme & propri]
+    if any(parole_del_nome(ACCOUNT_VECCHIO, u) for u in propri):
+        vecchi.append(ACCOUNT_VECCHIO)
+    nuovo = CARTELLA_MEMORIA / f"{slug(telefono)}.txt"
+    for nome in vecchi:
+        vecchio = CARTELLA_MEMORIA / f"{slug(nome)}.txt"
+        if slug(nome).lower() == slug(telefono).lower() or not vecchio.exists():
+            continue
+        righe = vecchio.read_text(encoding="utf-8").splitlines()
+        if nuovo.exists():
+            righe += nuovo.read_text(encoding="utf-8").splitlines()
+        # in ordine di data: l'ultima riga (la decisione piu' recente) vince
+        righe.sort(key=lambda r: (r.split("\t") + [""] * 4)[3])
+        nuovo.write_text("".join(r + "\n" for r in righe if r.strip()), encoding="utf-8")
+        vecchio.replace(vecchio.with_name(vecchio.stem + ".importato"))
+        dimentica_stato(telefono)
+        log(telefono, f"memoria di \"{nome}\" (stesso account Instagram) passata a questo telefono")
+
+
+def ciao(codici, testo):
+    """Inizio del task: il telefono manda il suo codice e il testo in alto nel profilo.
+    Risponde OK se sa come si chiama il telefono e qual e' il suo account, se no STOP."""
+    io = nome_dal_profilo(testo)
+    telefono = nome_telefono(codici, io, aggiorna=True)
+    descrizione = f"codice {', '.join(codici) or 'non letto'}" + (f", Instagram @{io}" if io else "")
+    if not telefono:
+        segna_sconosciuto(codici, io)
+        log("?", f"telefono sconosciuto ({descrizione}): non so come si chiama -> STOP. "
+            + ("Controlla la chiave API di GeeLark in relay.py oppure scrivi" if GEELARK_TOKEN.strip()
+               else "Scrivi") + " il suo nome in telefoni.txt e riavvia il task")
+        return "STOP|telefono sconosciuto"
+    with lock:
+        if io:
+            impara_io(telefono, io)
+        eredita_memoria(telefono)
+        dati_account(telefono)
+        propri = io_di(telefono)
+    if not propri:
+        log(telefono, f"non so qual e' il suo account Instagram ({descrizione}) -> STOP, cosi' non risponde "
+            f"a se stessa. Scrivi in telefoni.txt una riga cosi': @nomeinstagram = {telefono}")
+        return "STOP|account instagram sconosciuto"
+    log(telefono, f"=== telefono {telefono} (Instagram @{', @'.join(sorted(propri))}): comincio ===")
+    return f"OK|{telefono}"
+
+
+def chi_e(parametri):
+    """Il nome del telefono che fa la richiesta ("" = non si sa: il telefono si ferma).
+    Il flusso v9.7 manda il codice del telefono (dev), quelli vecchi il nome dell'account (acc)."""
+    if "dev" not in parametri:
+        return (parametri.get("acc") or [ACCOUNT_VECCHIO])[0] or ACCOUNT_VECCHIO
+    codici = codici_telefono(parametri["dev"][0])
+    telefono = nome_telefono(codici) if codici else ""
+    if not telefono:
+        log("?", f"richiesta da un telefono sconosciuto (codice {', '.join(codici) or 'non letto'}) -> mi fermo")
+        return ""
+    if not io_di(telefono):
+        log(telefono, "non so qual e' il suo account Instagram -> mi fermo (vedi telefoni.txt)")
+        return ""
+    return telefono
 
 
 def pulisci(testo):
@@ -244,9 +545,11 @@ def pulisci_risposta(testo):
 
 def chiedi_risposta(account, c):
     extra = persona(account)
+    propri = sorted(io_di(account))
     commento = c["commento"] or "(il testo non si legge: probabilmente un cuore ❤️ o un complimento)"
     messaggio = (
-        f"Modella: {account}\n"
+        f"Telefono: {account}\n"
+        + (f"Account Instagram: @{', @'.join(propri)}\n" if propri else "")
         + (f"Istruzioni: {extra}\n" if extra else "")
         + f"Commento di @{c['utente']} sotto un suo post: {commento}\n\n"
         "Scrivi SOLO la risposta da pubblicare sotto questo commento, come la scriverebbe lei: "
@@ -530,32 +833,35 @@ class Gestore(BaseHTTPRequestHandler):
 
     def gestisci(self):
         url = urlparse(self.path)
-        parametri = parse_qs(url.query)
-        account = (parametri.get("acc") or ["Melina Berner Frankfurt"])[0]
+        parametri = parse_qs(url.query, keep_blank_values=True)
         lunghezza = int(self.headers.get("Content-Length") or 0)
         corpo = self.rfile.read(lunghezza).decode("utf-8", errors="replace") if lunghezza else ""
+        # /azzera e /telefoni solo dal browser del PC, non da internet tramite ngrok
+        dal_pc = self.client_address[0] == "127.0.0.1" and not self.headers.get("X-Forwarded-For")
+        account = "?"
         try:
-            if url.path == "/pick":
-                elenco = unquote(corpo)
-                (CARTELLA / "ultima_schermata.txt").write_text(elenco, encoding="utf-8")
-                if not elenco.strip():
-                    log(account, "il telefono non ha mandato nessun testo")
-                nuovo = (parametri.get("nuovo") or [""])[0]
-                self.rispondi(scegli(account, elenco, {"1": True, "0": False}.get(nuovo)))
-            elif url.path == "/confirm":
-                casella = (parametri.get("u") or [""])[0] or re.sub(r"^u=", "", corpo.strip())
-                self.rispondi(conferma(account, casella))
-            elif url.path == "/ack":
-                self.rispondi(fatto(account))
-            elif url.path == "/azzera":
-                # solo dal browser del PC, non da internet tramite ngrok
-                if self.client_address[0] != "127.0.0.1" or self.headers.get("X-Forwarded-For"):
-                    self.rispondi("RELAY_OK")
+            if url.path == "/ciao":
+                self.rispondi(ciao(codici_telefono((parametri.get("dev") or [""])[0]), unquote(corpo)))
+            elif url.path in ("/pick", "/confirm", "/ack"):
+                account = chi_e(parametri)
+                if not account:
+                    self.rispondi({"/pick": "END", "/confirm": "NO_MATCH", "/ack": "ACK_OK"}[url.path])
+                elif url.path == "/pick":
+                    elenco = unquote(corpo)
+                    (CARTELLA / f"ultima_schermata_{slug(account)}.txt").write_text(elenco, encoding="utf-8")
+                    if not elenco.strip():
+                        log(account, "il telefono non ha mandato nessun testo")
+                    nuovo = (parametri.get("nuovo") or [""])[0]
+                    self.rispondi(scegli(account, elenco, {"1": True, "0": False}.get(nuovo)))
+                elif url.path == "/confirm":
+                    casella = (parametri.get("u") or [""])[0] or re.sub(r"^u=", "", corpo.strip())
+                    self.rispondi(conferma(account, casella))
                 else:
-                    tenuti, dimenticati = azzera(account)
-                    self.rispondi(f"Memoria azzerata per {account}: dimenticate {dimenticati} decisioni, "
-                                  f"tenute {tenuti} persone che hanno gia' una risposta. "
-                                  "Ora puoi rifare il test.")
+                    self.rispondi(fatto(account))
+            elif url.path == "/azzera" and dal_pc:
+                self.rispondi(pagina_azzera((parametri.get("acc") or [""])[0].strip()))
+            elif url.path == "/telefoni" and dal_pc:
+                self.rispondi(pagina_telefoni())
             else:
                 self.rispondi("RELAY_OK")
         except Exception as e:
@@ -569,6 +875,51 @@ class Gestore(BaseHTTPRequestHandler):
         pass
 
 
+def pagina_azzera(nome):
+    if not nome:
+        nomi = sorted(f.stem for f in CARTELLA_MEMORIA.glob("*.txt") if f.name != "account_instagram.txt")
+        return ("Scrivi anche il nome del telefono, per esempio:\n"
+                "http://127.0.0.1:8787/azzera?acc=elisa\n\n"
+                f"Telefoni con una memoria: {', '.join(nomi) or 'nessuno'}")
+    tenuti, dimenticati = azzera(nome)
+    return (f"Memoria azzerata per {nome}: dimenticate {dimenticati} decisioni, "
+            f"tenute {tenuti} persone che hanno gia' una risposta. Ora puoi rifare il test.")
+
+
+def pagina_telefoni():
+    dal_file, per_instagram = leggi_telefoni()
+    with lock_telefoni:
+        da_geelark = dict(telefoni_geelark)
+    nomi = {}
+    for nome in list(dal_file.values()) + list(da_geelark.values()) + list(per_instagram.values()) \
+            + list(carica_instagram()):
+        nomi.setdefault(nome.casefold(), nome)
+    righe = ["TELEFONI CHE IL RELAY CONOSCE", ""]
+    for nome in sorted(nomi.values(), key=str.casefold):
+        codici = sorted({c for c, n in list(dal_file.items()) + list(da_geelark.items()) if stesso_nome(n, nome)})
+        propri = sorted(io_di(nome))
+        righe.append(f"{nome}:  Instagram {', '.join('@' + u for u in propri) or '? (non ancora letto)'}"
+                     f"  -  codice {', '.join(codici) or '?'}")
+    if len(righe) == 2:
+        righe.append("nessuno per ora")
+    righe += ["", "Nomi presi da GeeLark con la chiave API" if GEELARK_TOKEN.strip()
+              else "Chiave API di GeeLark non messa: i nomi vengono solo da telefoni.txt"]
+    return "\n".join(righe)
+
+
+def mostra_telefoni_geelark():
+    aggiorna_da_geelark(dopo=0)
+    with lock_telefoni:
+        nomi = sorted(set(telefoni_geelark.values()), key=str.casefold)
+    if nomi:
+        log("GeeLark", f"chiave API ok, {len(nomi)} telefoni: {', '.join(nomi)}")
+
+
 if __name__ == "__main__":
+    prepara_file_telefoni()
     print(f"Relay acceso sulla porta {PORTA}. Lascia questa finestra aperta.")
+    if GEELARK_TOKEN.strip():
+        threading.Thread(target=mostra_telefoni_geelark, daemon=True).start()
+    else:
+        print("Chiave API di GeeLark non messa: i nomi dei telefoni li leggo da telefoni.txt")
     ThreadingHTTPServer(("0.0.0.0", PORTA), Gestore).serve_forever()

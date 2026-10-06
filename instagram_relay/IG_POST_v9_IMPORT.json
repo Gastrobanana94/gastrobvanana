@@ -1,6 +1,6 @@
 {
-  "title": "IG POST v9.6",
-  "desc": "v9.6: legge i nomi a schermo e li manda al relay (commentbot via ngrok); il relay sceglie 2 commenti nuovi ogni 5 (40%) e ricorda chi ha gia' visto; la persona della risposta si legge dalla casella di scrittura; tastiera GeeLark forzata; i post con solo commenti di Facebook si saltano subito.",
+  "title": "IG POST v9.7",
+  "desc": "v9.7: all'inizio il telefono dice al relay chi e' (codice del telefono + nome Instagram in alto nel profilo); il relay trova il nome del telefono (elisa, melina francoforte, ...) e lo manda a commentbot con ogni commento, con una memoria separata per ogni telefono. Se il relay non conosce il telefono il task si ferma subito. Per il resto come la v9.6.",
   "content": {
     "startParamMap": [],
     "contents": [
@@ -43,6 +43,43 @@
           "timeout": 120000,
           "variable": "imeOut",
           "error": false
+        }
+      },
+      {
+        "position": {
+          "x": 19550,
+          "y": 285
+        },
+        "id": "b80c24f4-ceec-4585-aabe-13477cd11cc8",
+        "name": "codice telefono",
+        "type": "executeADB",
+        "config": {
+          "content": "sh -c 'echo \"$(getprop ro.serialno),$(getprop ro.boot.serialno)\"'",
+          "timeout": 120000,
+          "variable": "devRaw",
+          "error": false
+        }
+      },
+      {
+        "position": {
+          "x": 19600,
+          "y": 285
+        },
+        "id": "cedb1fc0-caac-47f3-9b46-53c93f9e67b2",
+        "name": "pulisci codice",
+        "type": "script",
+        "config": {
+          "injectVariables": [
+            "devRaw"
+          ],
+          "script": "async function main({ devRaw }) { return { dev: String(devRaw||'').toLowerCase().replace(/[^a-z0-9,._-]/g,'').slice(0,100) }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "dev",
+              "variable": "dev"
+            }
+          ]
         }
       },
       {
@@ -147,6 +184,274 @@
         "id": "13005726-80bf-4965-a7b2-9a6abeb606c6",
         "name": "wait",
         "type": "waitTime"
+      },
+      {
+        "position": {
+          "x": 21450,
+          "y": 285
+        },
+        "id": "ffc01e8d-ab80-43f1-88f2-317a024a7e59",
+        "name": "reset profilo",
+        "type": "script",
+        "config": {
+          "injectVariables": [],
+          "script": "async function main() { return { profilo: '', tp: '', ioTop: '', stop: '0' }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "profilo",
+              "variable": "profilo"
+            },
+            {
+              "value": "tp",
+              "variable": "tp"
+            },
+            {
+              "value": "ioTop",
+              "variable": "ioTop"
+            },
+            {
+              "value": "stop",
+              "variable": "stop"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 21455,
+          "y": 285
+        },
+        "id": "b92142cd-38f9-4d4f-bac1-7130abea2359",
+        "name": "IF profilo aperto -> leggi il nome in alto",
+        "type": "ifElse",
+        "config": {
+          "apposition": "and",
+          "children": [
+            {
+              "position": {
+                "x": 21460,
+                "y": 285
+              },
+              "id": "7a3780ce-444d-4287-9f42-ff6809af2402",
+              "name": "nome Instagram in alto",
+              "type": "getEle",
+              "config": {
+                "filterCollection": [
+                  [
+                    {
+                      "content": "action_bar_large_title",
+                      "filterType": "contain",
+                      "type": "id"
+                    }
+                  ],
+                  [
+                    {
+                      "content": "action_bar_title",
+                      "filterType": "contain",
+                      "type": "id"
+                    }
+                  ]
+                ],
+                "serialType": "fixedValue",
+                "serial": 1,
+                "hiddenChildren": false,
+                "searchTime": 2500,
+                "type": "text",
+                "variable": "ioTop",
+                "error": false
+              }
+            },
+            {
+              "position": {
+                "x": 21470,
+                "y": 285
+              },
+              "id": "4ec93c13-5947-47f4-87fc-c3fc11e4baf6",
+              "name": "leggi testi del profilo",
+              "type": "forTimes",
+              "config": {
+                "serialType": "randomInterval",
+                "minTimes": 8,
+                "maxTimes": 8,
+                "variableIndex": "kp",
+                "hiddenChildren": false,
+                "children": [
+                  {
+                    "position": {
+                      "x": 21480,
+                      "y": 285
+                    },
+                    "id": "9e505b85-6404-4ad2-b1dd-e12fe05d73b0",
+                    "name": "testo profilo kp",
+                    "type": "getEle",
+                    "config": {
+                      "filterCollection": [
+                        [
+                          {
+                            "content": "TextView",
+                            "filterType": "contain",
+                            "type": "class"
+                          }
+                        ]
+                      ],
+                      "serialType": "fixedValue",
+                      "serial": "${kp}",
+                      "hiddenChildren": false,
+                      "searchTime": 300,
+                      "type": "text",
+                      "variable": "tp",
+                      "error": false
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 21490,
+                      "y": 285
+                    },
+                    "id": "1e6f3906-7a0b-45e9-a57c-c0174abc31ab",
+                    "name": "aggiungi al profilo",
+                    "type": "script",
+                    "config": {
+                      "injectVariables": [
+                        "profilo",
+                        "tp"
+                      ],
+                      "script": "async function main({ profilo, tp }) { const x=String(tp||'').replace(/\\s+/g,' ').trim(); return { profilo: x ? (String(profilo||'') + '\\n' + x) : String(profilo||''), tp: '' }; }",
+                      "type": "js",
+                      "variableMap": [
+                        {
+                          "value": "profilo",
+                          "variable": "profilo"
+                        },
+                        {
+                          "value": "tp",
+                          "variable": "tp"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "conditionList": [
+            {
+              "probability": 50,
+              "relation": "exist",
+              "useVariable": "onProf"
+            }
+          ],
+          "other": []
+        }
+      },
+      {
+        "position": {
+          "x": 21500,
+          "y": 285
+        },
+        "id": "557da8f2-8822-486e-a68f-5dc3b231c0e1",
+        "name": "codifica profilo",
+        "type": "script",
+        "config": {
+          "injectVariables": [
+            "ioTop",
+            "profilo"
+          ],
+          "script": "async function main({ ioTop, profilo }) { const s='top=' + String(ioTop||'').trim() + '\\n' + String(profilo||''); const e=encodeURIComponent(s).replace(/['()!*]/g, c => '%' + c.charCodeAt(0).toString(16).toUpperCase()); return { profEnc: e }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "profEnc",
+              "variable": "profEnc"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 21550,
+          "y": 285
+        },
+        "id": "6311158a-449b-4d8a-aabf-9868c825b15f",
+        "name": "saluta il relay",
+        "type": "executeADB",
+        "config": {
+          "content": "sh -c 'curl -sk --max-time 40 -H \"ngrok-skip-browser-warning: 1\" --data-binary \"${profEnc}\" \"https://paying-cake-engulf.ngrok-free.dev/ciao?dev=${dev}\"'",
+          "timeout": 120000,
+          "variable": "ciaoResp",
+          "error": false
+        }
+      },
+      {
+        "position": {
+          "x": 21600,
+          "y": 285
+        },
+        "id": "d5dcccc4-f52e-42a2-81b4-e0320c1f8bac",
+        "name": "telefono riconosciuto?",
+        "type": "script",
+        "config": {
+          "injectVariables": [
+            "ciaoResp"
+          ],
+          "script": "async function main({ ciaoResp }) { return { stop: /^STOP/.test(String(ciaoResp||'').trim()) ? '1' : '0' }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "stop",
+              "variable": "stop"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 21650,
+          "y": 285
+        },
+        "id": "41c3584a-923b-4f86-b70b-c89747e627b8",
+        "name": "IF telefono sconosciuto -> fine (guarda la finestra del relay)",
+        "type": "ifElse",
+        "config": {
+          "apposition": "and",
+          "children": [
+            {
+              "position": {
+                "x": 23800,
+                "y": 285
+              },
+              "config": {
+                "content": "input keyevent 3",
+                "timeout": 120000,
+                "variable": "homeOut",
+                "error": false
+              },
+              "id": "a0a64b96-0236-40c6-9a6d-40473110190c",
+              "name": "HOME",
+              "type": "executeADB"
+            },
+            {
+              "position": {
+                "x": 24200,
+                "y": 285
+              },
+              "config": {},
+              "id": "863c7e03-d3d9-45d8-9a83-a7f7c8369420",
+              "name": "End task",
+              "type": "endTask"
+            }
+          ],
+          "conditionList": [
+            {
+              "probability": 50,
+              "relation": "equal",
+              "useVariable": "stop",
+              "result": "1"
+            }
+          ],
+          "other": []
+        }
       },
       {
         "position": {
@@ -778,7 +1083,7 @@
                                             "name": "manda al relay",
                                             "type": "executeADB",
                                             "config": {
-                                              "content": "sh -c 'curl -sk --max-time 40 -H \"ngrok-skip-browser-warning: 1\" --data-binary \"${accEnc}\" \"https://paying-cake-engulf.ngrok-free.dev/pick?acc=Melina%20Berner%20Frankfurt&nuovo=${nuovo}\"'",
+                                              "content": "sh -c 'curl -sk --max-time 40 -H \"ngrok-skip-browser-warning: 1\" --data-binary \"${accEnc}\" \"https://paying-cake-engulf.ngrok-free.dev/pick?dev=${dev}&nuovo=${nuovo}\"'",
                                               "timeout": 120000,
                                               "variable": "curlResp",
                                               "error": false
@@ -979,7 +1284,7 @@
                                                     "y": 285
                                                   },
                                                   "config": {
-                                                    "content": "sh -c 'curl -sk -H \"ngrok-skip-browser-warning: 1\" --max-time 40 --data-binary \"u=${pfUser}\" \"https://paying-cake-engulf.ngrok-free.dev/confirm?acc=Melina%20Berner%20Frankfurt&via=${via}&u=${pfUser}\"'",
+                                                    "content": "sh -c 'curl -sk -H \"ngrok-skip-browser-warning: 1\" --max-time 40 --data-binary \"u=${pfUser}\" \"https://paying-cake-engulf.ngrok-free.dev/confirm?dev=${dev}&via=${via}&u=${pfUser}\"'",
                                                     "timeout": 120000,
                                                     "variable": "confResp",
                                                     "error": false
@@ -1280,7 +1585,7 @@
                                                                       "y": 285
                                                                     },
                                                                     "config": {
-                                                                      "content": "sh -c 'curl -sk -H \"ngrok-skip-browser-warning: 1\" --max-time 20 \"https://paying-cake-engulf.ngrok-free.dev/ack?acc=Melina%20Berner%20Frankfurt\"'",
+                                                                      "content": "sh -c 'curl -sk -H \"ngrok-skip-browser-warning: 1\" --max-time 20 \"https://paying-cake-engulf.ngrok-free.dev/ack?dev=${dev}\"'",
                                                                       "timeout": 120000,
                                                                       "variable": "ackOut",
                                                                       "error": false
