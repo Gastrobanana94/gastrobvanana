@@ -90,51 +90,105 @@ def persona(account):
     return file.read_text(encoding="utf-8").strip() if file.exists() else PERSONA
 
 
+NOME_IG = re.compile(r"[a-z0-9._]{2,30}")
+COMPOSER = re.compile(r"^(add a comment|aggiungi un commento|kommentar hinzuf)", re.IGNORECASE)
+META = re.compile(r"(modell|commento|risposta|hector|mandami|incolla|sono pronto|non posso|"
+                  r"as an ai|language model)", re.IGNORECASE)
+
+
 def e_reply(valore):
     valore = valore.lower()
     return len(valore) < 60 and any(valore == p or valore.startswith(p + " ") for p in PAROLE_REPLY)
 
 
+def e_nome(valore):
+    return bool(NOME_IG.fullmatch(valore)) and not valore.isdigit() and not RUMORE.match(valore)
+
+
+def chiave(*parti):
+    return hashlib.sha1("|".join(parti).lower().encode("utf-8")).hexdigest()[:16]
+
+
 def commenti_da_elenco(elenco):
     """Il telefono manda i testi a schermo uno per riga, dall'alto in basso.
-    Ogni "Reply" chiude un commento: il commento N e' quello del N-esimo Reply."""
-    commenti = []
-    pezzi = []
-    numero = 0
+    Se tra i testi c'e' "Reply", ogni "Reply" chiude un commento (nome + testo).
+    Altrimenti Instagram ha mostrato solo i nomi: il commento N e' quello
+    dell'N-esimo nome, che corrisponde all'N-esimo pulsante Reply."""
+    righe = []
     for riga in elenco.splitlines():
         riga = re.sub(r"\s+", " ", riga).strip()
-        if not riga:
-            continue
-        if e_reply(riga):
-            numero += 1
-            if pezzi:
-                testo = " | ".join(pezzi)
-                commenti.append({
-                    "numero": numero,
-                    "testo": testo,
-                    "chiave": hashlib.sha1(testo.lower().encode("utf-8")).hexdigest()[:16],
-                })
-            pezzi = []
-        elif not RUMORE.match(riga) and riga not in pezzi:
-            pezzi.append(riga)
+        if COMPOSER.match(riga):
+            break
+        if riga:
+            righe.append(riga)
+
+    commenti = []
+    if any(e_reply(r) for r in righe):
+        pezzi = []
+        numero = 0
+        for riga in righe:
+            if e_reply(riga):
+                numero += 1
+                if pezzi:
+                    utente = next((p for p in pezzi if e_nome(p)), "")
+                    corpo = " ".join(p for p in pezzi if p != utente)
+                    commenti.append({"numero": numero, "utente": utente, "commento": corpo,
+                                     "chiave": chiave(*pezzi)})
+                pezzi = []
+            elif not RUMORE.match(riga) and riga not in pezzi:
+                pezzi.append(riga)
+        return commenti
+
+    oggi = time.strftime("%Y-%m-%d")
+    nomi = [r for r in righe if e_nome(r)]
+    for numero, utente in enumerate(nomi, start=1):
+        commenti.append({"numero": numero, "utente": utente, "commento": "",
+                         "chiave": chiave(utente, oggi)})
     return commenti
 
 
-def chiedi_a_commentbot(account, candidati):
-    elenco = "\n".join(f"[{i}] {c['testo']}" for i, c in enumerate(candidati, start=1))
+def e_proprio(account, utente):
+    """Il commento e' dell'account stesso (es. "Melina Berner" -> melinabernerr)."""
+    parole = [p for p in re.findall(r"[a-z]+", account.lower()) if len(p) >= 4][:2]
+    return bool(parole) and all(p in utente for p in parole)
+
+
+def pulisci(testo):
+    return re.sub(r"\s+", " ", str(testo or "")).replace("|", "/").strip()
+
+
+def pulisci_risposta(testo):
+    """Tiene solo il testo da pubblicare, anche se commentbot aggiunge altro."""
+    testo = str(testo or "").strip()
+    trovato = re.search(r"\{.*\}", testo, re.DOTALL)
+    if trovato:
+        try:
+            dati = json.loads(trovato.group(0))
+            testo = str(dati.get("risposta") or dati.get("reply") or dati.get("text") or "")
+        except ValueError:
+            pass
+    righe = [r.strip() for r in testo.replace("```", "").splitlines() if r.strip()]
+    righe = [r for r in righe if not r.endswith(":")]
+    testo = righe[0] if righe else ""
+    testo = re.sub(r"^(risposta|reply|antwort)\s*:\s*", "", testo, flags=re.IGNORECASE)
+    testo = pulisci(testo.strip(" \"'«»“”„"))
+    if len(testo) > 200:
+        taglio = max(testo.rfind(s, 0, 200) for s in ".!?")
+        testo = testo[:taglio + 1] if taglio > 40 else testo[:200]
+    if META.search(testo):
+        return ""
+    return testo
+
+
+def chiedi_risposta(account, c):
     extra = persona(account)
+    commento = c["commento"] or "(il testo non si legge: probabilmente un cuore ❤️ o un complimento)"
     messaggio = (
-        f"Modella / account Instagram: {account}\n"
-        + (f"Istruzioni per questo account: {extra}\n" if extra else "")
-        + "\nQuesti sono commenti sotto un suo post, letti dallo schermo dell'app "
-        "(ogni riga contiene il nome utente e il testo del commento, a volte con "
-        "pezzi di interfaccia). Scegline UNO a cui rispondere come farebbe lei. "
-        "Salta i commenti scritti da lei stessa, lo spam, quelli offensivi e "
-        "quelli incomprensibili.\n\n"
-        f"{elenco}\n\n"
-        'Rispondi SOLO con questo JSON, senza altro testo: {"scelta": numero, '
-        '"utente": "nome utente esatto del commento scelto, senza @", '
-        '"risposta": "testo da pubblicare"} oppure {"scelta": 0} se nessuno va bene.'
+        f"Modella: {account}\n"
+        + (f"Istruzioni: {extra}\n" if extra else "")
+        + f"Commento di @{c['utente']} sotto un suo post: {commento}\n\n"
+        "Scrivi SOLO la risposta da pubblicare sotto questo commento, come la scriverebbe lei: "
+        "breve (massimo 1-2 frasi), senza virgolette, senza @nome e senza altro testo."
     )
     corpo = json.dumps({
         "model": MODELLO,
@@ -147,13 +201,11 @@ def chiedi_a_commentbot(account, candidati):
     })
     with urllib.request.urlopen(richiesta, timeout=TIMEOUT_AI) as r:
         risposta = json.loads(r.read().decode("utf-8"))
-    contenuto = risposta["choices"][0]["message"]["content"]
-    trovato = re.search(r"\{.*\}", contenuto, re.DOTALL)
-    return json.loads(trovato.group(0) if trovato else contenuto)
-
-
-def pulisci(testo):
-    return re.sub(r"\s+", " ", str(testo or "")).replace("|", "/").strip()
+    grezzo = risposta["choices"][0]["message"]["content"]
+    pulito = pulisci_risposta(grezzo)
+    if not pulito:
+        log(account, "risposta di commentbot scartata:", repr(str(grezzo)[:200]))
+    return pulito
 
 
 def nome_utente(testo):
@@ -173,41 +225,38 @@ def scegli(account, elenco):
 
         candidati = []
         for c in commenti:
+            if not c["utente"] or e_proprio(account, c["utente"]):
+                continue
             esito = dati["memoria"].get(c["chiave"])
             if esito is None:
                 esito = "si" if random.random() < PERCENTUALE_RISPOSTE else "skip"
-                ricorda(account, c["chiave"], esito, testo=c["testo"])
+                ricorda(account, c["chiave"], esito, c["utente"], c["commento"])
             if esito == "si":
                 candidati.append(c)
 
+    solo_nomi = bool(commenti) and not any(c["commento"] for c in commenti)
     log(account, f"{len(commenti)} commenti a schermo, {len(candidati)} da valutare"
-        + (" (nessun pulsante Reply riconosciuto)" if not commenti else ""))
+        + (" (letti solo i nomi)" if solo_nomi else "")
+        + (" (nessun commento riconosciuto)" if not commenti else ""))
     if not candidati:
         return "NO_MATCH"
 
+    c = random.choice(candidati)
     try:
-        scelta = chiedi_a_commentbot(account, candidati)
+        risposta = chiedi_risposta(account, c)
     except Exception as e:
         log(account, "commentbot non ha risposto:", e)
         return "NO_MATCH"
-
-    indice = int(scelta.get("scelta") or 0)
-    if not 1 <= indice <= len(candidati):
+    if not risposta:
         with lock:
-            for c in candidati:
-                ricorda(account, c["chiave"], "scartato_ai", testo=c["testo"])
-        log(account, f"nessun commento adatto ({time.time() - inizio:.1f}s)")
+            ricorda(account, c["chiave"], "scartato_ai", c["utente"], c["commento"])
         return "NO_MATCH"
 
-    c = candidati[indice - 1]
-    utente = nome_utente(scelta.get("utente"))
-    risposta = pulisci(scelta.get("risposta"))
-    if not utente or not risposta:
-        return "NO_MATCH"
+    utente = nome_utente(c["utente"])
     with lock:
         dati["attesa"] = {"chiave": c["chiave"], "utente": utente,
                           "risposta": risposta, "quando": time.time()}
-    log(account, f"scelto @{utente} -> \"{risposta}\" ({time.time() - inizio:.1f}s)")
+    log(account, f"scelto @{utente} (Reply n.{c['numero']}) -> \"{risposta}\" ({time.time() - inizio:.1f}s)")
     return f"PICK|{c['numero']}|0|0|{utente}|{risposta}"
 
 

@@ -1,6 +1,6 @@
 {
-  "title": "IG POST v9.2",
-  "desc": "v9.2: legge i testi a schermo uno per uno (For Loop Times + Get element data con ordine k) e li manda al relay; il relay (commentbot via ngrok) sceglie quale Reply cliccare; controllo del nome, 40% e memoria nel relay.",
+  "title": "IG POST v9.3",
+  "desc": "v9.3: legge i nomi a schermo uno per uno (For Loop Times + Get element data, si ferma a 'Add a comment'); il relay (commentbot via ngrok) sceglie il commento N e la risposta; click sul N-esimo Reply; controllo del nome, 40% e memoria nel relay.",
   "content": {
     "startParamMap": [],
     "contents": [
@@ -597,7 +597,7 @@
                                                             "t",
                                                             "miss"
                                                           ],
-                                                          "script": "async function main({ acc, t, miss }) { const x=String(t||'').replace(/\\s+/g,' ').trim(); const m = x ? 0 : (parseInt(miss,10)||0) + 1; return { acc: x ? (String(acc||'') + '\\n' + x) : String(acc||''), t: '', miss: String(m), leggi: m >= 4 ? '0' : '1' }; }",
+                                                          "script": "async function main({ acc, t, miss }) { const x=String(t||'').replace(/\\s+/g,' ').trim(); const fine=/^(add a comment|aggiungi un commento|kommentar hinzuf)/i.test(x); const m = x ? 0 : (parseInt(miss,10)||0) + 1; return { acc: x ? (String(acc||'') + '\\n' + x) : String(acc||''), t: '', miss: String(m), leggi: (fine || m >= 4) ? '0' : '1' }; }",
                                                           "type": "js",
                                                           "variableMap": [
                                                             {
@@ -671,7 +671,7 @@
                                               "injectVariables": [
                                                 "curlResp"
                                               ],
-                                              "script": "async function main({ curlResp }) { const r=String(curlResp||'').replace(/\\s+/g,' ').trim(); const no={ goPost:'0', goOn:'1', pickN:'0', tapX:'0', tapY:'0', useTap:'0', ocrAuthor:'', theReply:'' }; if(/^END/.test(r)) return Object.assign(no,{ goOn:'0' }); const p=r.split('|'); if(p[0]!=='PICK'||p.length<6) return no; const x=parseInt(p[2],10)||0, y=parseInt(p[3],10)||0; return { goPost:'1', goOn:'1', pickN: x>0?'0':p[1], tapX:String(x), tapY:String(y), useTap: x>0?'1':'0', ocrAuthor:p[4], theReply:p.slice(5).join('|') }; }",
+                                              "script": "async function main({ curlResp }) { const r=String(curlResp||'').replace(/\\s+/g,' ').trim(); const no={ goPost:'0', goOn:'1', pickN:0, tapX:'0', tapY:'0', useTap:'0', ocrAuthor:'', theReply:'' }; if(/^END/.test(r)) return Object.assign(no,{ goOn:'0' }); const p=r.split('|'); if(p[0]!=='PICK'||p.length<6) return no; const n=parseInt(p[1],10)||0; if(n<1) return no; return { goPost:'1', goOn:'1', pickN:n, tapX:'0', tapY:'0', useTap:'0', ocrAuthor:p[4], theReply:p.slice(5).join('|') }; }",
                                               "type": "js",
                                               "variableMap": [
                                                 {
