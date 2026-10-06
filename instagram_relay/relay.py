@@ -118,9 +118,13 @@ def commenti_a_schermo(xml_testo):
         if n["id"].endswith("layout_comment_thread_edittext") or any(p in etichetta for p in PAROLE_COMPOSER):
             fondo = min(fondo, n["bb"][1])
 
+    def e_reply(valore):
+        valore = valore.lower()
+        return len(valore) < 60 and any(valore == p or valore.startswith(p + " ") for p in PAROLE_REPLY)
+
     pulsanti = []
     for n in nodi:
-        if n["testo"].lower() in PAROLE_REPLY or n["desc"].lower() in PAROLE_REPLY:
+        if e_reply(n["testo"]) or e_reply(n["desc"]):
             x1, y1, x2, y2 = n["bb"]
             if y2 <= fondo and not any(abs(p[1] - y1) < 15 and abs(p[0] - x1) < 40 for p in pulsanti):
                 pulsanti.append(n["bb"])
@@ -214,7 +218,8 @@ def scegli(account, xml_testo):
             if esito == "si":
                 candidati.append(c)
 
-    log(account, f"{len(commenti)} commenti a schermo, {len(candidati)} da valutare")
+    log(account, f"{len(commenti)} commenti a schermo, {len(candidati)} da valutare"
+        + (" (nessun pulsante Reply riconosciuto)" if not commenti else ""))
     if not candidati:
         return "NO_MATCH"
 
@@ -288,6 +293,7 @@ class Gestore(BaseHTTPRequestHandler):
         corpo = self.rfile.read(lunghezza).decode("utf-8", errors="replace") if lunghezza else ""
         try:
             if url.path == "/pick":
+                (CARTELLA / "ultima_schermata.xml").write_text(corpo, encoding="utf-8")
                 if "<hierarchy" not in corpo:
                     log(account, "il telefono non ha mandato la schermata (dump vuoto)")
                     self.rispondi("NO_MATCH")
