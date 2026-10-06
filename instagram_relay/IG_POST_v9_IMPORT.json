@@ -1,6 +1,6 @@
 {
-  "title": "IG POST v9.8",
-  "desc": "v9.8: Instagram si chiude e si riapre da zero all'inizio (riparte sempre dalla home) e se il profilo non si apre si preme Indietro e si riprova. Per il resto come la v9.7: il telefono dice al relay chi e' (codice + nome Instagram in alto nel profilo) e commentbot riceve il nome del telefono.",
+  "title": "IG POST v9.9",
+  "desc": "v9.9: Instagram riparte da zero; il profilo si apre solo col pulsante \"Profile\" in basso (se non si apre, Indietro e riprova) e prima di fare qualsiasi cosa controlla che ci sia \"Edit profile\": se non e' il proprio profilo il task finisce senza toccare niente. Il telefono dice al relay chi e' (codice + nome Instagram) e commentbot riceve il nome del telefono.",
   "content": {
     "startParamMap": [],
     "contents": [
@@ -176,7 +176,7 @@
             [
               {
                 "content": "Profile",
-                "filterType": "contain",
+                "filterType": "equal",
                 "type": "desc"
               }
             ]
@@ -291,7 +291,7 @@
                   [
                     {
                       "content": "Profile",
-                      "filterType": "contain",
+                      "filterType": "equal",
                       "type": "desc"
                     }
                   ]
@@ -324,6 +324,87 @@
         "id": "13005726-80bf-4965-a7b2-9a6abeb606c6",
         "name": "wait",
         "type": "waitTime"
+      },
+      {
+        "position": {
+          "x": 21420,
+          "y": 285
+        },
+        "id": "d010883f-d51a-421c-9b46-b22cea49343e",
+        "name": "c'e' Edit profile? (solo sul proprio profilo)",
+        "type": "getEle",
+        "config": {
+          "filterCollection": [
+            [
+              {
+                "content": "Edit profile",
+                "filterType": "equal",
+                "type": "text"
+              }
+            ],
+            [
+              {
+                "content": "Edit Profile",
+                "filterType": "equal",
+                "type": "text"
+              }
+            ]
+          ],
+          "serialType": "fixedValue",
+          "serial": 1,
+          "hiddenChildren": false,
+          "searchTime": 3000,
+          "type": "text",
+          "variable": "mioProfilo",
+          "error": false
+        }
+      },
+      {
+        "position": {
+          "x": 21430,
+          "y": 285
+        },
+        "id": "16bcf502-a339-47fc-96e1-135daafc4f45",
+        "name": "IF non e' il mio profilo -> fine (non tocca niente)",
+        "type": "ifElse",
+        "config": {
+          "apposition": "and",
+          "other": [],
+          "conditionList": [
+            {
+              "probability": 50,
+              "relation": "notExist",
+              "useVariable": "mioProfilo"
+            }
+          ],
+          "children": [
+            {
+              "position": {
+                "x": 23800,
+                "y": 285
+              },
+              "config": {
+                "content": "input keyevent 3",
+                "timeout": 120000,
+                "variable": "homeOut",
+                "error": false
+              },
+              "id": "c3913836-a1a4-4d61-8e6a-0fe136513854",
+              "name": "HOME",
+              "type": "executeADB"
+            },
+            {
+              "position": {
+                "x": 24200,
+                "y": 285
+              },
+              "config": {},
+              "id": "9647ffd4-e08f-49aa-ade9-ebe86a4e98d7",
+              "name": "End task",
+              "type": "endTask"
+            }
+          ]
+        }
       },
       {
         "position": {
@@ -363,7 +444,7 @@
           "y": 285
         },
         "id": "b92142cd-38f9-4d4f-bac1-7130abea2359",
-        "name": "IF profilo aperto -> leggi il nome in alto",
+        "name": "IF mio profilo -> leggi il nome in alto",
         "type": "ifElse",
         "config": {
           "apposition": "and",
@@ -479,7 +560,7 @@
             {
               "probability": 50,
               "relation": "exist",
-              "useVariable": "onProf"
+              "useVariable": "mioProfilo"
             }
           ],
           "other": []
