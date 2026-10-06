@@ -1,6 +1,6 @@
 # IG TRIAL REEL — pubblica trial reels da GeeLark
 
-File da importare in GeeLark: `IG_TRIAL_REEL_IMPORT.json` (flusso "IG TRIAL REEL v1").
+File da importare in GeeLark: `IG_TRIAL_REEL_IMPORT.json` (flusso "IG TRIAL REEL v2").
 Non serve né il relay né ngrok: fa tutto GeeLark, anche col PC spento.
 
 ## Un task = un trial reel
@@ -34,7 +34,14 @@ Chiama i video `01.mp4 … 10.mp4` (con lo zero) e lascia almeno 15 minuti tra d
 
 Non tocca mai: etichetta AI, interruttore Trial, audio, copertina, tag, posizione, "Stop sharing all reels".
 
+## Versioni
+
+- v1: prima versione.
+- v2 (prova del 7 ottobre su Frankfurt): dopo la descrizione non preme più "indietro" per chiudere la tastiera
+  (con la tastiera già chiusa tornava al video e lo scroll apriva il montaggio); prima di ogni scroll controlla
+  di essere ancora sulla pagina finale, altrimenti si ferma con `[Pagina finale]`.
+
 ## Errori (si vedono nel task di GeeLark)
 
-`[Video]` `[Profilo]` `[Menu]` `[Trial reels]` `[Sicurezza]` `[Galleria]` `[Editor]` `[Descrizione]` `[Facebook]` `[Share]`:
+`[Video]` `[Profilo]` `[Menu]` `[Trial reels]` `[Sicurezza]` `[Galleria]` `[Editor]` `[Descrizione]` `[Pagina finale]` `[Facebook]` `[Share]`:
 il testo dice cosa non ha trovato, e c'è lo screenshot del momento.
