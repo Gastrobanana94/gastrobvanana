@@ -51,8 +51,8 @@ CARTELLA = Path(__file__).resolve().parent
 CARTELLA_MEMORIA = CARTELLA / "memoria"
 CARTELLA_MEMORIA.mkdir(exist_ok=True)
 
-# fino alla v9.6 il flusso mandava sempre questo nome: la sua memoria passa al telefono
-# che ha lo stesso account Instagram (melinabernerr)
+# fino alla v9.6 il flusso mandava sempre questo nome (acc=...). In GeeLark il telefono di
+# Francoforte si chiama proprio cosi': la sua memoria resta la stessa.
 ACCOUNT_VECCHIO = "Melina Berner Frankfurt"
 
 PAROLE_REPLY = {"reply", "rispondi", "antworten", "responder", "répondre", "repondre"}
@@ -77,7 +77,8 @@ def log(*parti):
 
 
 def slug(account):
-    return re.sub(r"[^A-Za-z0-9._-]+", "_", account).strip("_") or "account"
+    # le lettere accentate restano (Melina Berner Zürich -> Melina_Berner_Zürich)
+    return re.sub(r"[^\w.-]+", "_", account).strip("_") or "account"
 
 
 def quota():
@@ -451,12 +452,10 @@ def nome_dal_profilo(testo):
 
 def eredita_memoria(telefono):
     """La memoria segue l'account Instagram: se lo stesso account aveva un altro nome
-    (telefono rinominato in GeeLark, oppure "Melina Berner Frankfurt" della v9.6) la sua
-    memoria passa a questo telefono, cosi' non risponde due volte alla stessa persona."""
+    (telefono rinominato in GeeLark) la sua memoria passa a questo telefono, cosi' non
+    risponde due volte alla stessa persona."""
     propri = io_di(telefono)
     vecchi = [nome for nome, insieme in list(carica_instagram().items()) if insieme & propri]
-    if any(parole_del_nome(ACCOUNT_VECCHIO, u) for u in propri):
-        vecchi.append(ACCOUNT_VECCHIO)
     nuovo = CARTELLA_MEMORIA / f"{slug(telefono)}.txt"
     for nome in vecchi:
         vecchio = CARTELLA_MEMORIA / f"{slug(nome)}.txt"
