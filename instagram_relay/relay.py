@@ -1,8 +1,8 @@
 # ==========================================================
 #  RELAY INSTAGRAM - risponde ai commenti leggendo il TESTO
-#  Il telefono GeeLark manda l'elenco di cosa c'e' a schermo
-#  (uiautomator dump), il relay sceglie il commento con
-#  il bot Hermes "commentbot" e dice al telefono DOVE cliccare "Reply".
+#  Il telefono GeeLark legge i testi a schermo con i nodi RPA
+#  (For Loop Elements + Get element data), il relay sceglie il commento con
+#  il bot Hermes "commentbot" e dice al telefono QUALE "Reply" cliccare.
 #  Gira sul tuo PC, ngrok lo rende raggiungibile dal cloud.
 # ==========================================================
 
@@ -33,22 +33,21 @@ import re
 import threading
 import time
 import urllib.request
-import xml.etree.ElementTree as ET
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import parse_qs, urlparse
+from urllib.parse import parse_qs, unquote, urlparse
 
 CARTELLA = Path(__file__).resolve().parent
 CARTELLA_MEMORIA = CARTELLA / "memoria"
 CARTELLA_MEMORIA.mkdir(exist_ok=True)
 
 PAROLE_REPLY = {"reply", "rispondi", "antworten", "responder", "répondre", "repondre"}
-PAROLE_COMPOSER = ("add a comment", "aggiungi un commento", "kommentar hinzufügen",
-                   "kommentieren", "reply to", "rispondi a", "antworten an")
 RUMORE = re.compile(
     r"^(like|mi piace|gefällt mir|reply|rispondi|antworten|see translation|"
     r"visualizza traduzione|übersetzung anzeigen|author|autore|autor|"
-    r"liked by creator|view \d+ more repl(y|ies)|hide replies|"
+    r"liked by creator|view \d+ more repl(y|ies)|hide replies|hide|nascondi|ausblenden|"
+    r"for you|per te|für dich|comments|commenti|kommentare|view|visualizza|ansehen|"
+    r"\d+ comments from .*|add a comment.*|aggiungi un commento.*|kommentar hinzufügen.*|"
     r"\d+[.,]?\d*\s?[kKmM]?|\d+\s?(s|m|h|d|w|y|min|sec|hr|std|tag|tage|wo)\.?)$",
     re.IGNORECASE,
 )
@@ -91,70 +90,33 @@ def persona(account):
     return file.read_text(encoding="utf-8").strip() if file.exists() else PERSONA
 
 
-def leggi_bounds(b):
-    n = [int(x) for x in re.findall(r"-?\d+", b or "")]
-    return tuple(n) if len(n) == 4 else None
+def e_reply(valore):
+    valore = valore.lower()
+    return len(valore) < 60 and any(valore == p or valore.startswith(p + " ") for p in PAROLE_REPLY)
 
 
-def commenti_a_schermo(xml_testo):
-    """Raggruppa il testo a schermo in commenti, ognuno col suo pulsante Reply."""
-    radice = ET.fromstring(xml_testo)
-    nodi = []
-    for n in radice.iter("node"):
-        bb = leggi_bounds(n.get("bounds"))
-        if not bb or bb[2] <= bb[0] or bb[3] <= bb[1]:
-            continue
-        nodi.append({
-            "testo": (n.get("text") or "").strip(),
-            "desc": (n.get("content-desc") or "").strip(),
-            "id": n.get("resource-id") or "",
-            "bb": bb,
-        })
-
-    # dove inizia la casella "Add a comment": sotto di li' non c'e' lista
-    fondo = 10 ** 6
-    for n in nodi:
-        etichetta = (n["testo"] + " " + n["desc"]).lower()
-        if n["id"].endswith("layout_comment_thread_edittext") or any(p in etichetta for p in PAROLE_COMPOSER):
-            fondo = min(fondo, n["bb"][1])
-
-    def e_reply(valore):
-        valore = valore.lower()
-        return len(valore) < 60 and any(valore == p or valore.startswith(p + " ") for p in PAROLE_REPLY)
-
-    pulsanti = []
-    for n in nodi:
-        if e_reply(n["testo"]) or e_reply(n["desc"]):
-            x1, y1, x2, y2 = n["bb"]
-            if y2 <= fondo and not any(abs(p[1] - y1) < 15 and abs(p[0] - x1) < 40 for p in pulsanti):
-                pulsanti.append(n["bb"])
-    pulsanti.sort(key=lambda b: b[1])
-
+def commenti_da_elenco(elenco):
+    """Il telefono manda i testi a schermo uno per riga, dall'alto in basso.
+    Ogni "Reply" chiude un commento: il commento N e' quello del N-esimo Reply."""
     commenti = []
-    sopra = None
-    for numero, (x1, y1, x2, y2) in enumerate(pulsanti, start=1):
-        inizio = sopra if sopra is not None else y1 - 500
-        pezzi = []
-        for n in nodi:
-            nx1, ny1, nx2, ny2 = n["bb"]
-            centro_y = (ny1 + ny2) / 2
-            if ny2 - ny1 > 500 or not (inizio < centro_y < y1 + 5):
-                continue
-            for valore in (n["testo"], n["desc"]):
-                valore = re.sub(r"\s+", " ", valore).strip()
-                if valore and not RUMORE.match(valore) and valore not in pezzi:
-                    pezzi.append(valore)
-        sopra = y2
-        if not pezzi:
+    pezzi = []
+    numero = 0
+    for riga in elenco.splitlines():
+        riga = re.sub(r"\s+", " ", riga).strip()
+        if not riga:
             continue
-        testo = " | ".join(pezzi)
-        commenti.append({
-            "numero": numero,
-            "x": (x1 + x2) // 2,
-            "y": (y1 + y2) // 2,
-            "testo": testo,
-            "chiave": hashlib.sha1(testo.lower().encode("utf-8")).hexdigest()[:16],
-        })
+        if e_reply(riga):
+            numero += 1
+            if pezzi:
+                testo = " | ".join(pezzi)
+                commenti.append({
+                    "numero": numero,
+                    "testo": testo,
+                    "chiave": hashlib.sha1(testo.lower().encode("utf-8")).hexdigest()[:16],
+                })
+            pezzi = []
+        elif not RUMORE.match(riga) and riga not in pezzi:
+            pezzi.append(riga)
     return commenti
 
 
@@ -198,9 +160,9 @@ def nome_utente(testo):
     return re.sub(r"[^a-z0-9._]", "", str(testo or "").lower().lstrip("@"))
 
 
-def scegli(account, xml_testo):
+def scegli(account, elenco):
     inizio = time.time()
-    commenti = commenti_a_schermo(xml_testo)
+    commenti = commenti_da_elenco(elenco)
     with lock:
         dati = dati_account(account)
         firma = tuple(c["chiave"] for c in commenti)
@@ -246,7 +208,7 @@ def scegli(account, xml_testo):
         dati["attesa"] = {"chiave": c["chiave"], "utente": utente,
                           "risposta": risposta, "quando": time.time()}
     log(account, f"scelto @{utente} -> \"{risposta}\" ({time.time() - inizio:.1f}s)")
-    return f"PICK|{c['numero']}|{c['x']}|{c['y']}|{utente}|{risposta}"
+    return f"PICK|{c['numero']}|0|0|{utente}|{risposta}"
 
 
 def conferma(account, utente_casella):
@@ -293,13 +255,13 @@ class Gestore(BaseHTTPRequestHandler):
         corpo = self.rfile.read(lunghezza).decode("utf-8", errors="replace") if lunghezza else ""
         try:
             if url.path == "/pick":
-                (CARTELLA / "ultima_schermata.xml").write_text(corpo, encoding="utf-8")
-                if "<hierarchy" not in corpo:
-                    log(account, "il telefono non ha mandato la schermata (dump vuoto):",
-                        corpo.strip()[:400] or "nessun messaggio")
+                elenco = unquote(corpo)
+                (CARTELLA / "ultima_schermata.txt").write_text(elenco, encoding="utf-8")
+                if not elenco.strip():
+                    log(account, "il telefono non ha mandato nessun testo")
                     self.rispondi("NO_MATCH")
                 else:
-                    self.rispondi(scegli(account, corpo))
+                    self.rispondi(scegli(account, elenco))
             elif url.path == "/confirm":
                 self.rispondi(conferma(account, corpo))
             elif url.path == "/ack":

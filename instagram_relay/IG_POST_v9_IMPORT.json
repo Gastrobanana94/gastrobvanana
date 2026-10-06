@@ -1,6 +1,6 @@
 {
-  "title": "IG POST v8.1",
-  "desc": "v8: legge il TESTO dello schermo (uiautomator dump) invece degli screenshot; il relay su ngrok sceglie il commento con il bot Hermes commentbot e restituisce le coordinate esatte del suo Reply; blocco se il nome nella casella non coincide; 40% e memoria nel relay; END ferma lo scroll a fine commenti.",
+  "title": "IG POST v9",
+  "desc": "v9: legge i commenti con i nodi GeeLark (For Loop Elements + Get element data); il relay (commentbot via ngrok) sceglie quale Reply cliccare; click con ordine da variabile; controllo del nome, 40% e memoria nel relay; END ferma lo scroll a fine commenti.",
   "content": {
     "startParamMap": [],
     "contents": [
@@ -491,18 +491,132 @@
                                         "children": [
                                           {
                                             "position": {
+                                              "x": 9000,
+                                              "y": 285
+                                            },
+                                            "id": "ef64e54b-815f-4191-99cc-bbc401568a61",
+                                            "name": "reset elenco",
+                                            "type": "script",
+                                            "config": {
+                                              "injectVariables": [],
+                                              "script": "async function main() { return { acc: '', t: '' }; }",
+                                              "type": "js",
+                                              "variableMap": [
+                                                {
+                                                  "value": "acc",
+                                                  "variable": "acc"
+                                                },
+                                                {
+                                                  "value": "t",
+                                                  "variable": "t"
+                                                }
+                                              ]
+                                            }
+                                          },
+                                          {
+                                            "position": {
+                                              "x": 9200,
+                                              "y": 285
+                                            },
+                                            "id": "a652e90d-184b-4cf9-bc6e-78a8cd29cd71",
+                                            "name": "leggi testi a schermo",
+                                            "type": "forElements",
+                                            "config": {
+                                              "filterCollection": [
+                                                [
+                                                  {
+                                                    "content": "com.instagram.android:id/",
+                                                    "filterType": "contain",
+                                                    "type": "id"
+                                                  }
+                                                ]
+                                              ],
+                                              "hiddenChildren": false,
+                                              "variable": "el",
+                                              "variableIndex": "elPos",
+                                              "error": false,
+                                              "children": [
+                                                {
+                                                  "position": {
+                                                    "x": 9300,
+                                                    "y": 285
+                                                  },
+                                                  "id": "bd2e0ce7-5f29-4d38-bd11-8ee7d141111f",
+                                                  "name": "testo elemento",
+                                                  "type": "getEle",
+                                                  "config": {
+                                                    "saveItemName": "el",
+                                                    "type": "text",
+                                                    "variable": "t",
+                                                    "error": false
+                                                  }
+                                                },
+                                                {
+                                                  "position": {
+                                                    "x": 9400,
+                                                    "y": 285
+                                                  },
+                                                  "id": "fee6cc4b-1daf-41f1-b41c-3c1932f8df9e",
+                                                  "name": "aggiungi all'elenco",
+                                                  "type": "script",
+                                                  "config": {
+                                                    "injectVariables": [
+                                                      "acc",
+                                                      "t"
+                                                    ],
+                                                    "script": "async function main({ acc, t }) { const x=String(t||'').replace(/\\s+/g,' ').trim(); return { acc: x ? (String(acc||'') + '\\n' + x) : String(acc||''), t: '' }; }",
+                                                    "type": "js",
+                                                    "variableMap": [
+                                                      {
+                                                        "value": "acc",
+                                                        "variable": "acc"
+                                                      },
+                                                      {
+                                                        "value": "t",
+                                                        "variable": "t"
+                                                      }
+                                                    ]
+                                                  }
+                                                }
+                                              ]
+                                            }
+                                          },
+                                          {
+                                            "position": {
+                                              "x": 9600,
+                                              "y": 285
+                                            },
+                                            "id": "26c48293-c63a-4af1-955c-3aa972b3d303",
+                                            "name": "codifica elenco",
+                                            "type": "script",
+                                            "config": {
+                                              "injectVariables": [
+                                                "acc"
+                                              ],
+                                              "script": "async function main({ acc }) { const e=encodeURIComponent(String(acc||'')).replace(/['()!*]/g, c => '%' + c.charCodeAt(0).toString(16).toUpperCase()); return { accEnc: e }; }",
+                                              "type": "js",
+                                              "variableMap": [
+                                                {
+                                                  "value": "accEnc",
+                                                  "variable": "accEnc"
+                                                }
+                                              ]
+                                            }
+                                          },
+                                          {
+                                            "position": {
                                               "x": 9800,
                                               "y": 285
                                             },
+                                            "id": "a06a095c-2ab8-43c2-9105-e90f660bad92",
+                                            "name": "manda al relay",
+                                            "type": "executeADB",
                                             "config": {
-                                              "content": "sh -c 'rm -f /sdcard/u.xml /data/local/tmp/u.xml; F=/sdcard/u.xml; E=$(uiautomator dump $F 2>&1); if [ ! -s $F ]; then F=/data/local/tmp/u.xml; E2=$(uiautomator dump --compressed $F 2>&1); fi; if [ -s $F ]; then curl -sk --max-time 30 -H \"ngrok-skip-browser-warning: 1\" -H \"Content-Type: text/xml\" --data-binary @$F \"https://paying-cake-engulf.ngrok-free.dev/pick?acc=Melina%20Berner%20Frankfurt\"; else curl -sk --max-time 30 -H \"ngrok-skip-browser-warning: 1\" --data-binary \"DUMPERR 1: $E || 2: $E2\" \"https://paying-cake-engulf.ngrok-free.dev/pick?acc=Melina%20Berner%20Frankfurt\"; fi'",
+                                              "content": "sh -c 'curl -sk --max-time 40 -H \"ngrok-skip-browser-warning: 1\" --data-binary \"${accEnc}\" \"https://paying-cake-engulf.ngrok-free.dev/pick?acc=Melina%20Berner%20Frankfurt\"'",
                                               "timeout": 120000,
                                               "variable": "curlResp",
                                               "error": false
-                                            },
-                                            "id": "ef8e2cb6-6f3f-4934-bb76-760c5b35f412",
-                                            "name": "dump testo + relay",
-                                            "type": "executeADB"
+                                            }
                                           },
                                           {
                                             "position": {
@@ -564,441 +678,32 @@
                                               "children": [
                                                 {
                                                   "position": {
-                                                    "x": 1000,
+                                                    "x": 1400,
                                                     "y": 285
                                                   },
-                                                  "id": "eec5fe50-79b3-4b88-8a21-b529266fe272",
-                                                  "name": "IF tap Reply esatto",
-                                                  "type": "ifElse",
+                                                  "id": "2286cff9-3615-4148-a741-fceb3177545d",
+                                                  "name": "click Reply scelto",
+                                                  "type": "click",
                                                   "config": {
-                                                    "apposition": "and",
-                                                    "other": [],
-                                                    "conditionList": [
-                                                      {
-                                                        "probability": 50,
-                                                        "relation": "equal",
-                                                        "useVariable": "useTap",
-                                                        "result": "1"
-                                                      }
-                                                    ],
-                                                    "children": [
-                                                      {
-                                                        "position": {
-                                                          "x": 1000,
-                                                          "y": 285
-                                                        },
-                                                        "id": "016804e8-e3e0-41be-ba1e-22df4c7d0f64",
-                                                        "name": "tap Reply",
-                                                        "type": "executeADB",
-                                                        "config": {
-                                                          "content": "input tap ${tapX} ${tapY}",
-                                                          "timeout": 120000,
-                                                          "variable": "repTap",
-                                                          "error": false
+                                                    "filterCollection": [
+                                                      [
+                                                        {
+                                                          "content": "Reply",
+                                                          "filterType": "equal",
+                                                          "type": "text"
                                                         }
-                                                      }
-                                                    ]
+                                                      ]
+                                                    ],
+                                                    "serialType": "fixedValue",
+                                                    "serial": "${pickN}",
+                                                    "hiddenChildren": false,
+                                                    "searchTime": 3000,
+                                                    "randomDistance": 0,
+                                                    "useOffset": false,
+                                                    "doubleClick": false,
+                                                    "variable": "repHit",
+                                                    "error": false
                                                   }
-                                                },
-                                                {
-                                                  "position": {
-                                                    "x": 1800,
-                                                    "y": 285
-                                                  },
-                                                  "config": {
-                                                    "apposition": "and",
-                                                    "children": [
-                                                      {
-                                                        "position": {
-                                                          "x": 1400,
-                                                          "y": 285
-                                                        },
-                                                        "config": {
-                                                          "filterCollection": [
-                                                            [
-                                                              {
-                                                                "content": "Reply",
-                                                                "filterType": "equal",
-                                                                "type": "text"
-                                                              }
-                                                            ]
-                                                          ],
-                                                          "hiddenChildren": true,
-                                                          "randomDistance": 0,
-                                                          "searchTime": 3000,
-                                                          "useOffset": false,
-                                                          "serialType": "fixedValue",
-                                                          "serial": 1,
-                                                          "variable": "repHit"
-                                                        },
-                                                        "id": "e6db827c-bc1a-47c5-8573-3d3ce7e4796b",
-                                                        "name": "click Reply 1",
-                                                        "type": "click"
-                                                      }
-                                                    ],
-                                                    "conditionList": [
-                                                      {
-                                                        "probability": 50,
-                                                        "relation": "equal",
-                                                        "useVariable": "pickN",
-                                                        "result": "1"
-                                                      }
-                                                    ],
-                                                    "other": []
-                                                  },
-                                                  "id": "753545b5-5d98-4d74-8179-fdabe2b3aeaf",
-                                                  "name": "IF pickN=1",
-                                                  "type": "ifElse"
-                                                },
-                                                {
-                                                  "position": {
-                                                    "x": 2600,
-                                                    "y": 285
-                                                  },
-                                                  "config": {
-                                                    "apposition": "and",
-                                                    "children": [
-                                                      {
-                                                        "position": {
-                                                          "x": 2200,
-                                                          "y": 285
-                                                        },
-                                                        "config": {
-                                                          "filterCollection": [
-                                                            [
-                                                              {
-                                                                "content": "Reply",
-                                                                "filterType": "equal",
-                                                                "type": "text"
-                                                              }
-                                                            ]
-                                                          ],
-                                                          "hiddenChildren": true,
-                                                          "randomDistance": 0,
-                                                          "searchTime": 3000,
-                                                          "useOffset": false,
-                                                          "serialType": "fixedValue",
-                                                          "serial": 2,
-                                                          "variable": "repHit"
-                                                        },
-                                                        "id": "290a8f93-2b82-4e91-ba82-91dc5a9234d1",
-                                                        "name": "click Reply 2",
-                                                        "type": "click"
-                                                      }
-                                                    ],
-                                                    "conditionList": [
-                                                      {
-                                                        "probability": 50,
-                                                        "relation": "equal",
-                                                        "useVariable": "pickN",
-                                                        "result": "2"
-                                                      }
-                                                    ],
-                                                    "other": []
-                                                  },
-                                                  "id": "295e3125-c4f9-4295-89e9-a92bf9835ba2",
-                                                  "name": "IF pickN=2",
-                                                  "type": "ifElse"
-                                                },
-                                                {
-                                                  "position": {
-                                                    "x": 3400,
-                                                    "y": 285
-                                                  },
-                                                  "config": {
-                                                    "apposition": "and",
-                                                    "children": [
-                                                      {
-                                                        "position": {
-                                                          "x": 3000,
-                                                          "y": 285
-                                                        },
-                                                        "config": {
-                                                          "filterCollection": [
-                                                            [
-                                                              {
-                                                                "content": "Reply",
-                                                                "filterType": "equal",
-                                                                "type": "text"
-                                                              }
-                                                            ]
-                                                          ],
-                                                          "hiddenChildren": true,
-                                                          "randomDistance": 0,
-                                                          "searchTime": 3000,
-                                                          "useOffset": false,
-                                                          "serialType": "fixedValue",
-                                                          "serial": 3,
-                                                          "variable": "repHit"
-                                                        },
-                                                        "id": "4ee43485-3c49-4c1e-a39b-a9483c6b4803",
-                                                        "name": "click Reply 3",
-                                                        "type": "click"
-                                                      }
-                                                    ],
-                                                    "conditionList": [
-                                                      {
-                                                        "probability": 50,
-                                                        "relation": "equal",
-                                                        "useVariable": "pickN",
-                                                        "result": "3"
-                                                      }
-                                                    ],
-                                                    "other": []
-                                                  },
-                                                  "id": "af6e53e0-0f92-4bdf-9032-431b77c0a029",
-                                                  "name": "IF pickN=3",
-                                                  "type": "ifElse"
-                                                },
-                                                {
-                                                  "position": {
-                                                    "x": 4200,
-                                                    "y": 285
-                                                  },
-                                                  "config": {
-                                                    "apposition": "and",
-                                                    "children": [
-                                                      {
-                                                        "position": {
-                                                          "x": 3800,
-                                                          "y": 285
-                                                        },
-                                                        "config": {
-                                                          "filterCollection": [
-                                                            [
-                                                              {
-                                                                "content": "Reply",
-                                                                "filterType": "equal",
-                                                                "type": "text"
-                                                              }
-                                                            ]
-                                                          ],
-                                                          "hiddenChildren": true,
-                                                          "randomDistance": 0,
-                                                          "searchTime": 3000,
-                                                          "useOffset": false,
-                                                          "serialType": "fixedValue",
-                                                          "serial": 4,
-                                                          "variable": "repHit"
-                                                        },
-                                                        "id": "d8795731-8618-4373-a4be-b0d498c1b1e2",
-                                                        "name": "click Reply 4",
-                                                        "type": "click"
-                                                      }
-                                                    ],
-                                                    "conditionList": [
-                                                      {
-                                                        "probability": 50,
-                                                        "relation": "equal",
-                                                        "useVariable": "pickN",
-                                                        "result": "4"
-                                                      }
-                                                    ],
-                                                    "other": []
-                                                  },
-                                                  "id": "813020ee-bbd4-4662-b69b-e47f5b9f047e",
-                                                  "name": "IF pickN=4",
-                                                  "type": "ifElse"
-                                                },
-                                                {
-                                                  "position": {
-                                                    "x": 5000,
-                                                    "y": 285
-                                                  },
-                                                  "config": {
-                                                    "apposition": "and",
-                                                    "children": [
-                                                      {
-                                                        "position": {
-                                                          "x": 4600,
-                                                          "y": 285
-                                                        },
-                                                        "config": {
-                                                          "filterCollection": [
-                                                            [
-                                                              {
-                                                                "content": "Reply",
-                                                                "filterType": "equal",
-                                                                "type": "text"
-                                                              }
-                                                            ]
-                                                          ],
-                                                          "hiddenChildren": true,
-                                                          "randomDistance": 0,
-                                                          "searchTime": 3000,
-                                                          "useOffset": false,
-                                                          "serialType": "fixedValue",
-                                                          "serial": 5,
-                                                          "variable": "repHit"
-                                                        },
-                                                        "id": "5c2c3131-0d81-476f-a2b2-4d44503d2283",
-                                                        "name": "click Reply 5",
-                                                        "type": "click"
-                                                      }
-                                                    ],
-                                                    "conditionList": [
-                                                      {
-                                                        "probability": 50,
-                                                        "relation": "equal",
-                                                        "useVariable": "pickN",
-                                                        "result": "5"
-                                                      }
-                                                    ],
-                                                    "other": []
-                                                  },
-                                                  "id": "8ea703ae-691b-474c-a428-2caf129e54e9",
-                                                  "name": "IF pickN=5",
-                                                  "type": "ifElse"
-                                                },
-                                                {
-                                                  "position": {
-                                                    "x": 5800,
-                                                    "y": 285
-                                                  },
-                                                  "config": {
-                                                    "apposition": "and",
-                                                    "children": [
-                                                      {
-                                                        "position": {
-                                                          "x": 5400,
-                                                          "y": 285
-                                                        },
-                                                        "config": {
-                                                          "filterCollection": [
-                                                            [
-                                                              {
-                                                                "content": "Reply",
-                                                                "filterType": "equal",
-                                                                "type": "text"
-                                                              }
-                                                            ]
-                                                          ],
-                                                          "hiddenChildren": true,
-                                                          "randomDistance": 0,
-                                                          "searchTime": 3000,
-                                                          "useOffset": false,
-                                                          "serialType": "fixedValue",
-                                                          "serial": 6,
-                                                          "variable": "repHit"
-                                                        },
-                                                        "id": "f6a65e8d-73bf-4c42-8328-400a6c75c64e",
-                                                        "name": "click Reply 6",
-                                                        "type": "click"
-                                                      }
-                                                    ],
-                                                    "conditionList": [
-                                                      {
-                                                        "probability": 50,
-                                                        "relation": "equal",
-                                                        "useVariable": "pickN",
-                                                        "result": "6"
-                                                      }
-                                                    ],
-                                                    "other": []
-                                                  },
-                                                  "id": "b21ef6b2-aabe-49fe-9dd0-445a2ccd796e",
-                                                  "name": "IF pickN=6",
-                                                  "type": "ifElse"
-                                                },
-                                                {
-                                                  "position": {
-                                                    "x": 6600,
-                                                    "y": 285
-                                                  },
-                                                  "config": {
-                                                    "apposition": "and",
-                                                    "children": [
-                                                      {
-                                                        "position": {
-                                                          "x": 6200,
-                                                          "y": 285
-                                                        },
-                                                        "config": {
-                                                          "filterCollection": [
-                                                            [
-                                                              {
-                                                                "content": "Reply",
-                                                                "filterType": "equal",
-                                                                "type": "text"
-                                                              }
-                                                            ]
-                                                          ],
-                                                          "hiddenChildren": true,
-                                                          "randomDistance": 0,
-                                                          "searchTime": 3000,
-                                                          "useOffset": false,
-                                                          "serialType": "fixedValue",
-                                                          "serial": 7,
-                                                          "variable": "repHit"
-                                                        },
-                                                        "id": "fce80d0c-683d-4408-8fe9-e940099bd518",
-                                                        "name": "click Reply 7",
-                                                        "type": "click"
-                                                      }
-                                                    ],
-                                                    "conditionList": [
-                                                      {
-                                                        "probability": 50,
-                                                        "relation": "equal",
-                                                        "useVariable": "pickN",
-                                                        "result": "7"
-                                                      }
-                                                    ],
-                                                    "other": []
-                                                  },
-                                                  "id": "ef261284-428c-47ec-b6ba-75cfc55cdb3b",
-                                                  "name": "IF pickN=7",
-                                                  "type": "ifElse"
-                                                },
-                                                {
-                                                  "position": {
-                                                    "x": 7400,
-                                                    "y": 285
-                                                  },
-                                                  "config": {
-                                                    "apposition": "and",
-                                                    "children": [
-                                                      {
-                                                        "position": {
-                                                          "x": 7000,
-                                                          "y": 285
-                                                        },
-                                                        "config": {
-                                                          "filterCollection": [
-                                                            [
-                                                              {
-                                                                "content": "Reply",
-                                                                "filterType": "equal",
-                                                                "type": "text"
-                                                              }
-                                                            ]
-                                                          ],
-                                                          "hiddenChildren": true,
-                                                          "randomDistance": 0,
-                                                          "searchTime": 3000,
-                                                          "useOffset": false,
-                                                          "serialType": "fixedValue",
-                                                          "serial": 8,
-                                                          "variable": "repHit"
-                                                        },
-                                                        "id": "e359cb63-49d8-40bd-872f-d305d1869a73",
-                                                        "name": "click Reply 8",
-                                                        "type": "click"
-                                                      }
-                                                    ],
-                                                    "conditionList": [
-                                                      {
-                                                        "probability": 50,
-                                                        "relation": "equal",
-                                                        "useVariable": "pickN",
-                                                        "result": "8"
-                                                      }
-                                                    ],
-                                                    "other": []
-                                                  },
-                                                  "id": "b3657f13-54ce-4755-a27e-e81594a9f1bf",
-                                                  "name": "IF pickN=8",
-                                                  "type": "ifElse"
                                                 },
                                                 {
                                                   "position": {
