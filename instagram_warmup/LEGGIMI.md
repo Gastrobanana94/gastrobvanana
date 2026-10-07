@@ -1,9 +1,9 @@
 # IG WARMUP — giro di riscaldamento su Instagram (GeeLark)
 
 File da importare in GeeLark:
-- `IG_WARMUP_IMPORT.json`: il warm-up (flusso "IG WARMUP v9.6"). **Per ora non importarlo**: pesa 351 KB e GeeLark non
-  fa partire flussi sopra i 256 KB (vedi sotto);
-- `IG_TEST_NOTA_STORIA_IMPORT.json`: **prova veloce** (flusso "IG TEST NOTA + STORIA v3.1", 229 KB): apre Instagram, pubblica
+- `IG_WARMUP_IMPORT.json`: il warm-up (flusso "IG WARMUP v10", 239 KB): **un solo flusso** che fa il giro, poi la nota,
+  poi la storia, poi chiude Instagram;
+- `IG_TEST_NOTA_STORIA_IMPORT.json`: **prova veloce** (flusso "IG TEST NOTA + STORIA v3.2", 150 KB): apre Instagram, pubblica
   **prima la nota** e **poi la storia** con musica e caption, e basta (pochi minuti). Parametri: Storia (la foto) e Lingua.
   Fa la nota anche se ne è già stata fatta una nelle ultime 24 ore.
 
@@ -12,8 +12,10 @@ Fa tutto GeeLark, anche col PC spento.
 ## Limite di GeeLark: 256 KB per flusso
 
 Un flusso sopra i 256 KB (262.144 byte) si importa, ma quando lo lanci resta fermo su "Start execution" e non fa niente
-(scoperto il 7 ottobre: la prova v3 da 264.651 byte non partiva, la v2 da 259.256 sì). Le liste di note e caption
-dentro il flusso pesano 107 KB, quindi c'è poco spazio per il resto.
+(scoperto il 7 ottobre: la prova v3 da 264.651 byte non partiva, la v2 da 259.256 sì). Per starci, dalla v10:
+le liste di note e caption sono dentro il flusso **compresse** (metà del peso; il flusso le ricostruisce identiche,
+stesso ordine di prima su ogni telefono) e i controlli "sono ancora in Instagram? vedo la barra in basso?" si fanno una
+volta sola prima di ogni pezzo del giro.
 
 ## Note e caption: liste di CommentBot (niente AI, niente chiavi)
 
@@ -33,15 +35,22 @@ la lingua del telefono; se non capisce niente usa il tedesco. Nel riepilogo del 
 
 ## Parametri del task
 
-- **Minuti**: quanto dura il giro (già impostato a 30).
+- **Minuti**: quanto dura tutto (già impostato a 30): il giro finisce un paio di minuti prima per lasciare tempo a nota
+  e storia.
 - **Storia**: la foto o il video da pubblicare nella storia. Se lo lasci vuoto, quel giro non pubblica storie.
 - **Lingua**: **lasciala vuota** (decide dal proxy, per note e caption). Scrivi `it` o `de` solo per forzare le liste su
   un telefono con il proxy di un altro paese: quello che scrivi vince sul proxy.
 
-## Cosa fa (ordine a caso, circa 30 minuti)
+## Cosa fa (circa 30 minuti)
 
-All'inizio chiude e riapre Instagram (si parte puliti), poi fa questi pezzi **in ordine a caso**.
-Le storie di altri e la pubblicazione della storia vengono sempre prima della home, perché servono la home in cima.
+1. Chiude e riapre Instagram (si parte puliti).
+2. **Il giro**, pezzi **in ordine a caso** (le storie di altri sempre prima della home, perché servono la home in cima):
+   storie di altri, home, reels (due blocchi), notifiche, DM.
+3. **La nota** (se sono passate 24 ore): Instagram chiuso e riaperto (home in cima), poi la nota.
+4. **La storia** (se nel task c'è il file).
+5. Torna alla home del telefono e **chiude Instagram**.
+
+I pezzi:
 
 - **Storie di altri** (1-3 min): mai la sua; ogni tanto tocca a destra per saltare.
 - **Home** (2-4 min): scorre solo verso il basso, non tocca mai "Home" (la ricaricherebbe). Ogni tanto 1 like (massimo 2)
@@ -68,8 +77,8 @@ Le storie di altri e la pubblicazione della storia vengono sempre prima della ho
   Nei DM tocca **la tua foto** (quella con la bolla sopra e la scritta "Your note" sotto); se c'è già una nota attiva
   sceglie "Leave a new note".
 
-Alla fine torna alla home del telefono. Nel log c'è il **riepilogo** (ordine, like, commenti, profili, salvati, repost,
-storia, nota).
+Alla fine torna alla home del telefono e chiude Instagram. Nel log c'è il **riepilogo** (ordine, like, commenti,
+profili, salvati, repost, nota, storia).
 
 ## Errori (il resto del giro è comunque fatto)
 
@@ -79,17 +88,16 @@ storia, nota).
 
 ## La "spia" nel log
 
-In alcuni momenti (DM, nota aperta, canzone in ascolto, caption scritta, storia non pubblicata) il flusso scrive nel log
+Nella prova veloce, in alcuni momenti (DM, nota aperta, canzone in ascolto, caption scritta, storia non pubblicata), e
+nel warm-up solo quando la storia non viene pubblicata, il flusso scrive nel log
 i bottoni di Instagram che ci sono sullo schermo (nome, posizione) e se la tastiera è aperta. Non tocca niente: serve a
 capire subito cosa è cambiato se qualcosa non va. Nel log è il nodo "spia (...)": il testo è dopo "spiaOut".
 
 ## Attenzione
 
 - Un task di warm-up e un task trial reel **non devono girare insieme sullo stesso telefono**: lascia spazio tra i due.
-- Prima prova: il flusso **IG TEST NOTA + STORIA** (v3) con una foto, e guarda il telefono. Negli screenshot "nota prima di
-  condividere", "caption scritta" e "storia prima di pubblicare" controlla nota, foto e caption, poi mandami il log
-  (tutto, con le righe della spia).
-  Dopo, un warm-up con **Minuti 10**.
+- La prova veloce (v3.1) è andata bene il 7 ottobre alle 23:15: nota, musica, caption e "Your stories".
+  Prossima prova: il warm-up v10 con **Minuti 10** e una foto, poi mandami il log.
 
 ## Versioni
 
@@ -117,3 +125,7 @@ capire subito cosa è cambiato se qualcosa non va. Nel log è il nodo "spia (...
   già la storia, se ne accorge (vede la home) e non tocca altro.
 - prova v3.1: la v3 non partiva (264 KB, sopra il limite di 256 KB di GeeLark). Stessa prova, ma 229 KB: liste scritte
   in modo più compatto, un solo blocco "esci dall'editor". Fa esattamente le stesse cose della v3.
+- v10 / prova v3.2: **un solo flusso**: prima il giro (ordine a caso), poi la nota, poi la storia (dopo aver riaperto
+  Instagram, come nella prova riuscita), poi chiude Instagram. 239 KB: liste compresse (stesse frasi, stesso ordine),
+  controlli di navigazione una volta per pezzo, spia solo se la storia non va. Se la storia non va scarta la bozza e
+  chiude Instagram (prima tornava alla home). Gli errori finali sono un solo passo.
