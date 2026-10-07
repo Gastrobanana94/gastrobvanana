@@ -1,8 +1,8 @@
 # IG WARMUP — giro di riscaldamento su Instagram (GeeLark)
 
 File da importare in GeeLark:
-- `IG_WARMUP_IMPORT.json`: il warm-up (flusso "IG WARMUP v9.5");
-- `IG_TEST_NOTA_STORIA_IMPORT.json`: **prova veloce** (flusso "IG TEST NOTA + STORIA v2"): apre Instagram, pubblica
+- `IG_WARMUP_IMPORT.json`: il warm-up (flusso "IG WARMUP v9.6");
+- `IG_TEST_NOTA_STORIA_IMPORT.json`: **prova veloce** (flusso "IG TEST NOTA + STORIA v3"): apre Instagram, pubblica
   **prima la nota** e **poi la storia** con musica e caption, e basta (pochi minuti). Parametri: Storia (la foto) e Lingua.
   Fa la nota anche se ne è già stata fatta una nelle ultime 24 ore.
 
@@ -52,8 +52,8 @@ Le storie di altri e la pubblicazione della storia vengono sempre prima della ho
   3. musica: canzone **a caso tra le prime 8 di "For you"** (toccarla la fa solo sentire) → la **freccia "→"** nella
      barra in basso per sceglierla → "Done";
   4. in "Add a caption..." una **caption dalla lista** (italiana o tedesca come le note);
-  5. chiude la casella della caption con **"indietro"** (mentre è aperta copre "Your stories"; se Instagram chiede di
-     scartare la storia tocca "Keep", mai "Discard");
+  5. conferma la caption con la **freccia blu** a destra della casella (mentre è aperta copre "Your stories"). Non preme
+     "indietro" (aprirebbe "Discard edits?"); se quella finestra compare tocca "Keep editing", mai "Discard" o "Save draft";
   6. **"Your stories"** (mai "Close Friends"). Se per sbaglio tocca una parola della caption (si apre il correttore) lo
      chiude e riprova una volta.
 - **Nota**: **una ogni 24 ore** (il telefono si ricorda quando l'ha fatta; un'ora di margine), presa dalla **lista di
@@ -67,7 +67,7 @@ storia, nota).
 ## Errori (il resto del giro è comunque fatto)
 
 - `[Storia]`: storia non pubblicata (il file non è arrivato, "Add to story" non si apre, l'ultima foto non è quella del task,
-  l'editor non si apre, non trova "Your stories", la casella della caption non si chiude). C'è lo screenshot del momento.
+  l'editor non si apre, non trova "Your stories", la freccia blu non conferma la caption). C'è lo screenshot del momento.
 - `[Nota]`: nota non pubblicata (nei DM non trova la tua foto con "Your note", non trova dove scrivere o "Share").
 
 ## La "spia" nel log
@@ -79,7 +79,7 @@ capire subito cosa è cambiato se qualcosa non va. Nel log è il nodo "spia (...
 ## Attenzione
 
 - Un task di warm-up e un task trial reel **non devono girare insieme sullo stesso telefono**: lascia spazio tra i due.
-- Prima prova: il flusso **IG TEST NOTA + STORIA** (v2) con una foto, e guarda il telefono. Negli screenshot "nota prima di
+- Prima prova: il flusso **IG TEST NOTA + STORIA** (v3) con una foto, e guarda il telefono. Negli screenshot "nota prima di
   condividere", "caption scritta" e "storia prima di pubblicare" controlla nota, foto e caption, poi mandami il log
   (tutto, con le righe della spia).
   Dopo, un warm-up con **Minuti 10**.
@@ -105,3 +105,6 @@ capire subito cosa è cambiato se qualcosa non va. Nel log è il nodo "spia (...
     (si apriva il correttore); ora prima la chiude con "indietro", poi tocca "Your stories";
   - se la storia non viene pubblicata esce davvero dall'editor (prima poteva restarci);
   - "spia" nel log.
+- v9.6 / prova v3 (prova v2 del 7 ottobre sera: nota pubblicata, storia ferma sulla caption): la caption si conferma
+  con la **freccia blu**; "indietro" con la caption aperta apriva "Discard edits?". Se la freccia blu pubblicasse
+  già la storia, se ne accorge (vede la home) e non tocca altro.
