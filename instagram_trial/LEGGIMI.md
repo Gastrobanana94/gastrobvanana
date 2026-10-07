@@ -1,31 +1,33 @@
 # IG TRIAL REEL — pubblica trial reels da GeeLark
 
-File da importare in GeeLark: `IG_TRIAL_REEL_IMPORT.json` (flusso "IG TRIAL REEL v3").
+File da importare in GeeLark: `IG_TRIAL_REEL_IMPORT.json` (flusso "IG TRIAL REEL v4").
 Non serve né il relay né ngrok: fa tutto GeeLark, anche col PC spento.
 
-## Un task = warm-up + un trial reel
+## Un task = giro di 3-5 minuti + un trial reel
 
 Nella pagina "Create task" ci sono:
 
 - **Publish time**: quando parte.
 - **Caption**: la descrizione (niente hashtag).
 - **Video**: il video (uno solo).
-- **SoloProva**: se è acceso fa tutto ma **non preme Share** (e il warm-up dura 1 minuto invece di 7-10).
+- **SoloProva**: se è acceso fa tutto ma **non preme Share** (e il giro dura 1 minuto invece di 3-5).
 
-Un task dura circa **11-14 minuti** (warm-up 7-10 + pubblicazione 3-4).
+Un task dura circa **6,5-8,5 minuti** (giro 3-5 + pubblicazione 3-4).
 
 Per 10 trial reel su un telefono: **Add** il telefono → 10 task (uno per video) → **Upload in order**
-(il 1° video al task 1, il 2° al task 2…) → **Bulk schedule** con **intervallo 25 minuti** → **Edit table**
+(il 1° video al task 1, il 2° al task 2…) → **Bulk schedule** con **intervallo 15 minuti** → **Edit table**
 per le descrizioni → **Save**.
-Con 25 minuti tra un task e l'altro restano 10-15 minuti di pausa con Instagram chiuso.
-10 trial reel ≈ **4 ore** per telefono (i telefoni diversi vanno in parallelo).
+Bulk schedule scrive solo gli orari di partenza (es. 10:00, 10:15, 10:30…): con 15 minuti tra un task e
+l'altro restano 6,5-8,5 minuti di pausa con Instagram chiuso.
+10 trial reel ≈ **2 ore e 20** per telefono (i telefoni diversi vanno in parallelo).
 Chiama i video `01.mp4 … 10.mp4` (con lo zero).
 
 ## Cosa fa
 
 1. Tastiera GeeRunner, permessi a Instagram, svuota la cartella **Download** del telefono e ci mette il video del task.
 2. Trova dov'è il video e chiede ad Android se è il video più recente del telefono.
-3. Apre Instagram, va sui **Reels** e li guarda scorrendo per **7-10 minuti** (warm-up; ogni reel 4-14 secondi, niente like).
+3. Apre Instagram e fa un giro di **3-5 minuti** (a caso): guarda le **storie di altri** (mai la propria), scorre la
+   **home** e guarda i **reels** (niente like, niente messaggi).
 4. Profilo → menu (tre righe) → **Account type and tools** → **Trial reels** → **Create trial reel**
    (se esce il pop-up di spiegazione lo chiude).
 5. Galleria: se il video del task è il più recente prende il primo; altrimenti apre il suo album (**Download**),
@@ -49,6 +51,7 @@ Non tocca mai: etichetta AI, interruttore Trial, audio, copertina, tag, posizion
 - v2 (prova del 7 ottobre su Frankfurt): dopo la descrizione non preme più "indietro" per chiudere la tastiera
   (con la tastiera già chiusa tornava al video e lo scroll apriva il montaggio); prima di ogni scroll controlla
   di essere ancora sulla pagina finale, altrimenti si ferma con `[Pagina finale]`.
+- v4: giro di 3-5 minuti diviso tra storie di altri, home e reels (al posto dei 7-10 minuti di soli reels).
 - v3: warm-up sui Reels 7-10 minuti; il controllo "il video è arrivato?" non usa più `${...}` (GeeLark lo
   cancellava e il controllo leggeva sempre vuoto); scelta del video: il più recente secondo Android, altrimenti
   il suo album Download (scorrendo la lista degli album); se non trova l'album scrive nel log cosa vede.
