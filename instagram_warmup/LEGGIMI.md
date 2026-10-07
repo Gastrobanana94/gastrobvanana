@@ -1,6 +1,6 @@
 # IG WARMUP — giro di riscaldamento su Instagram (GeeLark)
 
-File da importare in GeeLark: `IG_WARMUP_IMPORT.json` (flusso "IG WARMUP v9.2").
+File da importare in GeeLark: `IG_WARMUP_IMPORT.json` (flusso "IG WARMUP v9.3").
 Fa tutto GeeLark, anche col PC spento.
 
 ## La nota: lista di CommentBot (niente AI, niente chiavi)
@@ -11,12 +11,19 @@ nessuna chiave, nessun relay, nessun PC acceso.
 Ogni telefono le usa in un **ordine suo** e **non ne ripete nessuna** finché non le ha usate tutte (quasi 3 anni con una al giorno).
 Per cambiarle: si modificano i due file `.txt` e si rifà il flusso.
 
+**Italiana o tedesca la decide da solo, dal proxy del telefono**: chiede a internet da che paese esce (ip-api.com) e
+- 🇮🇹 Italia (o San Marino, Vaticano) → lista **italiana**;
+- 🇩🇪 Germania, 🇦🇹 Austria, 🇨🇭 Svizzera (o Liechtenstein) → lista **tedesca**.
+Se quel controllo non risponde guarda il fuso orario del telefono (Roma → italiano; Berlino, Vienna, Zurigo → tedesco) e poi
+la lingua del telefono; se non capisce niente usa il tedesco. Nel riepilogo del log c'è scritto quale lista ha usato e perché.
+
 ## Parametri del task
 
 - **Minuti**: quanto dura il giro (già impostato a 30).
 - **Storia**: la foto o il video da pubblicare nella storia. Se lo lasci vuoto, quel giro non pubblica storie.
 - **EmojiStoria**: le emoji tra cui sceglie 1-2 a caso per la caption della storia (già impostate: 😂 🙈 😏 🤭 🥰 😍).
-- **NoteLang**: da quale lista prende la nota: `de` tedesco, qualsiasi altra cosa italiano (già impostato `de`).
+- **NoteLang**: **lascialo vuoto** (decide dal proxy). Scrivi `it` o `de` solo per forzare una lista su un telefono
+  con il proxy di un altro paese: quello che scrivi vince sul proxy.
 
 ## Cosa fa (ordine a caso, circa 30 minuti)
 
@@ -40,7 +47,7 @@ Le storie di altri e la pubblicazione della storia vengono sempre prima della ho
   4. 1-2 emoji in "Add a caption...";
   5. **"Your stories"** (mai "Close Friends").
 - **Nota**: **una ogni 24 ore** (il telefono si ricorda quando l'ha fatta; un'ora di margine), presa dalla **lista di
-  CommentBot** nella lingua di NoteLang, mai la stessa due volte sullo stesso telefono.
+  CommentBot** italiana o tedesca secondo il paese del proxy (o NoteLang), mai la stessa due volte sullo stesso telefono.
 
 Alla fine torna alla home del telefono. Nel log c'è il **riepilogo** (ordine, like, commenti, profili, salvati, repost,
 storia, nota).
@@ -68,3 +75,4 @@ storia, nota).
   "Errori e problemi" su Telegram, che dentro GeeLark non serve. Se la nota viene troppo lunga, un secondo tentativo.
 - v9.2: niente più AI nel flusso: la nota viene dalla lista di CommentBot (999 italiane, 997 tedesche; tolte 4 con il sole e
   l'emoji della pioggia). Ogni telefono la gira in un ordine suo (dal suo android_id) senza ripetere.
+- v9.3: la lista (italiana o tedesca) la sceglie dal paese del proxy del telefono; NoteLang vuoto = automatico.
