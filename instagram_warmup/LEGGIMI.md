@@ -1,17 +1,24 @@
 # IG WARMUP — giro di riscaldamento su Instagram (GeeLark)
 
-File da importare in GeeLark: `IG_WARMUP_IMPORT.json` (flusso "IG WARMUP v9.3").
+File da importare in GeeLark:
+- `IG_WARMUP_IMPORT.json`: il warm-up (flusso "IG WARMUP v9.4");
+- `IG_TEST_NOTA_STORIA_IMPORT.json`: **prova veloce** (flusso "IG TEST NOTA + STORIA v1"): apre Instagram, pubblica
+  **prima la nota** e **poi la storia** con musica e caption, e basta (pochi minuti). Parametri: Storia (la foto) e Lingua.
+  Fa la nota anche se ne è già stata fatta una nelle ultime 24 ore.
+
 Fa tutto GeeLark, anche col PC spento.
 
-## La nota: lista di CommentBot (niente AI, niente chiavi)
+## Note e caption: liste di CommentBot (niente AI, niente chiavi)
 
 Le note le ha scritte **CommentBot**: 999 in italiano (`note_it.txt`) e 997 in tedesco (`note_de.txt`), una per riga,
 già controllate (massimo 60 caratteri, niente link, @ o hashtag, niente doppioni). Sono **dentro il flusso**: non serve
 nessuna chiave, nessun relay, nessun PC acceso.
 Ogni telefono le usa in un **ordine suo** e **non ne ripete nessuna** finché non le ha usate tutte (quasi 3 anni con una al giorno).
-Per cambiarle: si modificano i due file `.txt` e si rifà il flusso.
+Le **caption delle storie** funzionano uguale: 1000 in italiano (`caption_storie_it.txt`) e 1000 in tedesco
+(`caption_storie_de.txt`), dentro il flusso, mai ripetute sullo stesso telefono (alcune sono solo emoji).
+Per cambiarle: si modificano i file `.txt` e si rifà il flusso.
 
-**Italiana o tedesca la decide da solo, dal proxy del telefono**: chiede a internet da che paese esce (ip-api.com) e
+**Italiane o tedesche (note e caption) lo decide da solo, dal proxy del telefono**: chiede a internet da che paese esce (ip-api.com) e
 - 🇮🇹 Italia (o San Marino, Vaticano) → lista **italiana**;
 - 🇩🇪 Germania, 🇦🇹 Austria, 🇨🇭 Svizzera (o Liechtenstein) → lista **tedesca**.
 Se quel controllo non risponde guarda il fuso orario del telefono (Roma → italiano; Berlino, Vienna, Zurigo → tedesco) e poi
@@ -21,9 +28,8 @@ la lingua del telefono; se non capisce niente usa il tedesco. Nel riepilogo del 
 
 - **Minuti**: quanto dura il giro (già impostato a 30).
 - **Storia**: la foto o il video da pubblicare nella storia. Se lo lasci vuoto, quel giro non pubblica storie.
-- **EmojiStoria**: le emoji tra cui sceglie 1-2 a caso per la caption della storia (già impostate: 😂 🙈 😏 🤭 🥰 😍).
-- **NoteLang**: **lascialo vuoto** (decide dal proxy). Scrivi `it` o `de` solo per forzare una lista su un telefono
-  con il proxy di un altro paese: quello che scrivi vince sul proxy.
+- **Lingua**: **lasciala vuota** (decide dal proxy, per note e caption). Scrivi `it` o `de` solo per forzare le liste su
+  un telefono con il proxy di un altro paese: quello che scrivi vince sul proxy.
 
 ## Cosa fa (ordine a caso, circa 30 minuti)
 
@@ -44,10 +50,10 @@ Le storie di altri e la pubblicazione della storia vengono sempre prima della ho
   1. tocca il "+" piccolo sulla sua foto in alto a sinistra;
   2. controlla con Android che l'ultima foto aggiunta sia quella del task e la tocca (subito dopo la fotocamera);
   3. musica: canzone **a caso tra le prime 8 di "For you"** → "Done";
-  4. 1-2 emoji in "Add a caption...";
+  4. in "Add a caption..." una **caption dalla lista** (italiana o tedesca come le note);
   5. **"Your stories"** (mai "Close Friends").
 - **Nota**: **una ogni 24 ore** (il telefono si ricorda quando l'ha fatta; un'ora di margine), presa dalla **lista di
-  CommentBot** italiana o tedesca secondo il paese del proxy (o NoteLang), mai la stessa due volte sullo stesso telefono.
+  CommentBot** italiana o tedesca secondo il paese del proxy (o Lingua), mai la stessa due volte sullo stesso telefono.
 
 Alla fine torna alla home del telefono. Nel log c'è il **riepilogo** (ordine, like, commenti, profili, salvati, repost,
 storia, nota).
@@ -61,8 +67,9 @@ storia, nota).
 ## Attenzione
 
 - Un task di warm-up e un task trial reel **non devono girare insieme sullo stesso telefono**: lascia spazio tra i due.
-- Prima prova: un task con **Minuti 10** e una foto, e guarda il telefono. Controlla nello screenshot
-  "storia prima di pubblicare" che la foto sia quella giusta, poi mandami il log.
+- Prima prova: il flusso **IG TEST NOTA + STORIA** con una foto, e guarda il telefono. Negli screenshot "nota prima di
+  condividere" e "storia prima di pubblicare" controlla nota, foto e caption, poi mandami il log.
+  Dopo, un warm-up con **Minuti 10**.
 
 ## Versioni
 
@@ -76,3 +83,5 @@ storia, nota).
 - v9.2: niente più AI nel flusso: la nota viene dalla lista di CommentBot (999 italiane, 997 tedesche; tolte 4 con il sole e
   l'emoji della pioggia). Ogni telefono la gira in un ordine suo (dal suo android_id) senza ripetere.
 - v9.3: la lista (italiana o tedesca) la sceglie dal paese del proxy del telefono; NoteLang vuoto = automatico.
+- v9.4: caption delle storie dalla lista di CommentBot (non più emoji), stessa lingua delle note; NoteLang diventa
+  **Lingua** e il parametro EmojiStoria non c'è più. Nuovo flusso di prova "IG TEST NOTA + STORIA v1".
