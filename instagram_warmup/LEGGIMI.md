@@ -1,12 +1,19 @@
 # IG WARMUP — giro di riscaldamento su Instagram (GeeLark)
 
 File da importare in GeeLark:
-- `IG_WARMUP_IMPORT.json`: il warm-up (flusso "IG WARMUP v9.6");
-- `IG_TEST_NOTA_STORIA_IMPORT.json`: **prova veloce** (flusso "IG TEST NOTA + STORIA v3"): apre Instagram, pubblica
+- `IG_WARMUP_IMPORT.json`: il warm-up (flusso "IG WARMUP v9.6"). **Per ora non importarlo**: pesa 351 KB e GeeLark non
+  fa partire flussi sopra i 256 KB (vedi sotto);
+- `IG_TEST_NOTA_STORIA_IMPORT.json`: **prova veloce** (flusso "IG TEST NOTA + STORIA v3.1", 229 KB): apre Instagram, pubblica
   **prima la nota** e **poi la storia** con musica e caption, e basta (pochi minuti). Parametri: Storia (la foto) e Lingua.
   Fa la nota anche se ne è già stata fatta una nelle ultime 24 ore.
 
 Fa tutto GeeLark, anche col PC spento.
+
+## Limite di GeeLark: 256 KB per flusso
+
+Un flusso sopra i 256 KB (262.144 byte) si importa, ma quando lo lanci resta fermo su "Start execution" e non fa niente
+(scoperto il 7 ottobre: la prova v3 da 264.651 byte non partiva, la v2 da 259.256 sì). Le liste di note e caption
+dentro il flusso pesano 107 KB, quindi c'è poco spazio per il resto.
 
 ## Note e caption: liste di CommentBot (niente AI, niente chiavi)
 
@@ -108,3 +115,5 @@ capire subito cosa è cambiato se qualcosa non va. Nel log è il nodo "spia (...
 - v9.6 / prova v3 (prova v2 del 7 ottobre sera: nota pubblicata, storia ferma sulla caption): la caption si conferma
   con la **freccia blu**; "indietro" con la caption aperta apriva "Discard edits?". Se la freccia blu pubblicasse
   già la storia, se ne accorge (vede la home) e non tocca altro.
+- prova v3.1: la v3 non partiva (264 KB, sopra il limite di 256 KB di GeeLark). Stessa prova, ma 229 KB: liste scritte
+  in modo più compatto, un solo blocco "esci dall'editor". Fa esattamente le stesse cose della v3.
