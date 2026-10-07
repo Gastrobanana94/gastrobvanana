@@ -1,8 +1,8 @@
 # IG WARMUP — giro di riscaldamento su Instagram (GeeLark)
 
 File da importare in GeeLark:
-- `IG_WARMUP_IMPORT.json`: il warm-up (flusso "IG WARMUP v9.4");
-- `IG_TEST_NOTA_STORIA_IMPORT.json`: **prova veloce** (flusso "IG TEST NOTA + STORIA v1"): apre Instagram, pubblica
+- `IG_WARMUP_IMPORT.json`: il warm-up (flusso "IG WARMUP v9.5");
+- `IG_TEST_NOTA_STORIA_IMPORT.json`: **prova veloce** (flusso "IG TEST NOTA + STORIA v2"): apre Instagram, pubblica
   **prima la nota** e **poi la storia** con musica e caption, e basta (pochi minuti). Parametri: Storia (la foto) e Lingua.
   Fa la nota anche se ne è già stata fatta una nelle ultime 24 ore.
 
@@ -49,11 +49,17 @@ Le storie di altri e la pubblicazione della storia vengono sempre prima della ho
 - **Storia** (se c'è il file):
   1. tocca il "+" piccolo sulla sua foto in alto a sinistra;
   2. controlla con Android che l'ultima foto aggiunta sia quella del task e la tocca (subito dopo la fotocamera);
-  3. musica: canzone **a caso tra le prime 8 di "For you"** → "Done";
+  3. musica: canzone **a caso tra le prime 8 di "For you"** (toccarla la fa solo sentire) → la **freccia "→"** nella
+     barra in basso per sceglierla → "Done";
   4. in "Add a caption..." una **caption dalla lista** (italiana o tedesca come le note);
-  5. **"Your stories"** (mai "Close Friends").
+  5. chiude la casella della caption con **"indietro"** (mentre è aperta copre "Your stories"; se Instagram chiede di
+     scartare la storia tocca "Keep", mai "Discard");
+  6. **"Your stories"** (mai "Close Friends"). Se per sbaglio tocca una parola della caption (si apre il correttore) lo
+     chiude e riprova una volta.
 - **Nota**: **una ogni 24 ore** (il telefono si ricorda quando l'ha fatta; un'ora di margine), presa dalla **lista di
   CommentBot** italiana o tedesca secondo il paese del proxy (o Lingua), mai la stessa due volte sullo stesso telefono.
+  Nei DM tocca **la tua foto** (quella con la bolla sopra e la scritta "Your note" sotto); se c'è già una nota attiva
+  sceglie "Leave a new note".
 
 Alla fine torna alla home del telefono. Nel log c'è il **riepilogo** (ordine, like, commenti, profili, salvati, repost,
 storia, nota).
@@ -61,14 +67,21 @@ storia, nota).
 ## Errori (il resto del giro è comunque fatto)
 
 - `[Storia]`: storia non pubblicata (il file non è arrivato, "Add to story" non si apre, l'ultima foto non è quella del task,
-  l'editor non si apre, non trova "Your stories"). C'è lo screenshot del momento.
-- `[Nota]`: nota non pubblicata (nei DM non trova il tasto per la nuova nota o "Share").
+  l'editor non si apre, non trova "Your stories", la casella della caption non si chiude). C'è lo screenshot del momento.
+- `[Nota]`: nota non pubblicata (nei DM non trova la tua foto con "Your note", non trova dove scrivere o "Share").
+
+## La "spia" nel log
+
+In alcuni momenti (DM, nota aperta, canzone in ascolto, caption scritta, storia non pubblicata) il flusso scrive nel log
+i bottoni di Instagram che ci sono sullo schermo (nome, posizione) e se la tastiera è aperta. Non tocca niente: serve a
+capire subito cosa è cambiato se qualcosa non va. Nel log è il nodo "spia (...)": il testo è dopo "spiaOut".
 
 ## Attenzione
 
 - Un task di warm-up e un task trial reel **non devono girare insieme sullo stesso telefono**: lascia spazio tra i due.
-- Prima prova: il flusso **IG TEST NOTA + STORIA** con una foto, e guarda il telefono. Negli screenshot "nota prima di
-  condividere" e "storia prima di pubblicare" controlla nota, foto e caption, poi mandami il log.
+- Prima prova: il flusso **IG TEST NOTA + STORIA** (v2) con una foto, e guarda il telefono. Negli screenshot "nota prima di
+  condividere", "caption scritta" e "storia prima di pubblicare" controlla nota, foto e caption, poi mandami il log
+  (tutto, con le righe della spia).
   Dopo, un warm-up con **Minuti 10**.
 
 ## Versioni
@@ -85,3 +98,10 @@ storia, nota).
 - v9.3: la lista (italiana o tedesca) la sceglie dal paese del proxy del telefono; NoteLang vuoto = automatico.
 - v9.4: caption delle storie dalla lista di CommentBot (non più emoji), stessa lingua delle note; NoteLang diventa
   **Lingua** e il parametro EmojiStoria non c'è più. Nuovo flusso di prova "IG TEST NOTA + STORIA v1".
+- v9.5 / prova v2 (prova del 7 ottobre 21:38 su un telefono tedesco, fallita su nota e storia):
+  - nota: Instagram ha cambiato i DM, il vecchio tasto non c'è più; ora tocca la tua foto sopra "Your note";
+  - musica: toccare la canzone la faceva solo sentire; ora tocca anche la freccia "→" in basso e poi "Done";
+  - caption: dopo averla scritta la casella restava aperta sopra "Your stories" e il tocco finiva su una parola
+    (si apriva il correttore); ora prima la chiude con "indietro", poi tocca "Your stories";
+  - se la storia non viene pubblicata esce davvero dall'editor (prima poteva restarci);
+  - "spia" nel log.
