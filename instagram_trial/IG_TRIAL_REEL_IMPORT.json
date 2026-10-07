@@ -1,12 +1,12 @@
 {
-  "title": "IG TRIAL REEL v6",
-  "desc": "Giro di 3-5 minuti (storie di altri con qualche tocco a destra, home senza ricaricare, reels con 1-2 like e una volta i commenti, che chiude sempre; in prova 1), poi pubblica 1 trial reel: profilo -> menu -> Account type and tools -> Trial reels -> Create trial reel -> primo video della galleria (l'ultimo aggiunto per Android) -> Next -> descrizione -> Facebook spento solo per questo reel -> Share. Si ferma senza pubblicare se non vede 'This is a trial reel', se il primo video non e' quello del task o se non riesce a spegnere Facebook. Se il profilo non si apre riavvia Instagram e riprova. Etichetta AI e altre opzioni: non le tocca. SoloProva acceso: fa tutto ma non preme Share.",
+  "title": "IG TRIAL REEL v7",
+  "desc": "Giro di 3-5 minuti (storie di altri con qualche tocco a destra, home senza ricaricare, reels con 1-2 like e una volta i commenti, che chiude sempre e mai come ultima cosa; in prova 1), poi pubblica 1 trial reel: profilo -> menu -> Account type and tools -> Trial reels -> Create trial reel -> primo video della galleria (l'ultimo aggiunto per Android) -> Next -> descrizione -> Facebook spento solo per questo reel -> Share. Si ferma senza pubblicare se non vede 'This is a trial reel', se il primo video non e' quello del task o se non riesce a spegnere Facebook. Se il profilo non si apre riavvia Instagram e riprova. Etichetta AI e altre opzioni: non le tocca. SoloProva acceso: fa tutto ma non preme Share.",
   "content": {
     "startParamMap": [
       {
         "contentable": true,
         "createFrom": "",
-        "id": "15f08b90-4f4b-4fb1-8ae4-97b562dbb0c7",
+        "id": "23f65fec-f548-4ab8-85ff-baef8932d916",
         "isNotRequired": true,
         "key": "Caption",
         "length": 2200,
@@ -15,7 +15,7 @@
       },
       {
         "createFrom": "",
-        "id": "9f39900b-703a-46e9-929a-3ad4b3194efd",
+        "id": "031bfd8c-9339-48ed-b356-50126f8fcb8c",
         "isNotRequired": false,
         "key": "Video",
         "restrict": {
@@ -26,7 +26,7 @@
       },
       {
         "createFrom": "",
-        "id": "6aa751bd-6854-4dab-bf80-b9b5e97052b6",
+        "id": "f5c4adca-9697-4d10-8e9b-b32165e8175a",
         "isNotRequired": false,
         "key": "SoloProva",
         "type": "boolean",
@@ -39,7 +39,7 @@
           "x": 533,
           "y": 285
         },
-        "id": "cb60fd69-0a15-47b7-b3cf-5885f2c124cf",
+        "id": "a1ba423e-6d9f-4a86-bea3-f83b3111af9d",
         "name": "prepara: Solo prova? c'e' una descrizione?",
         "type": "script",
         "config": {
@@ -74,7 +74,7 @@
           "x": 1333,
           "y": 285
         },
-        "id": "dda9eb65-87ec-4c9f-a2c2-cbbb842459a3",
+        "id": "a0c35a0d-8f6e-4f18-9c6e-2d23da30fa23",
         "name": "IF lo script non ha letto SoloProva -> decide GeeLark",
         "type": "ifElse",
         "config": {
@@ -85,7 +85,7 @@
                 "x": 1133,
                 "y": 285
               },
-              "id": "a80c980c-4d9e-4354-868e-95e75d0c46ba",
+              "id": "29526e32-ea84-41d6-bc4a-0e59b8adab6f",
               "name": "IF SoloProva acceso",
               "type": "ifElse",
               "config": {
@@ -96,7 +96,7 @@
                       "x": 733,
                       "y": 285
                     },
-                    "id": "74557f36-9435-440b-ae04-a3620f1ba30d",
+                    "id": "00551284-42b7-4442-9217-337a0391ada3",
                     "name": "e' una prova",
                     "type": "script",
                     "config": {
@@ -125,7 +125,7 @@
                       "x": 933,
                       "y": 285
                     },
-                    "id": "ae6f06dd-c3dd-46de-b24e-88ebf362a3a7",
+                    "id": "f9ee181a-f74c-45ea-8ecf-36573b54904d",
                     "name": "non e' una prova",
                     "type": "script",
                     "config": {
@@ -160,7 +160,7 @@
           "x": 1933,
           "y": 285
         },
-        "id": "bce756eb-3326-47f3-9a6f-db9a6bb105a5",
+        "id": "c507e39d-5661-4891-8640-3c3ed7cba5b9",
         "name": "IF lo script non ha letto la descrizione -> decide GeeLark",
         "type": "ifElse",
         "config": {
@@ -171,7 +171,7 @@
                 "x": 1733,
                 "y": 285
               },
-              "id": "cb5723eb-70d3-449d-a6bc-a60e74a33c02",
+              "id": "f4a39542-2f2e-4e41-aa6f-cd8c0f41bf16",
               "name": "IF c'e' una descrizione",
               "type": "ifElse",
               "config": {
@@ -182,7 +182,7 @@
                       "x": 1533,
                       "y": 285
                     },
-                    "id": "23fa4e33-f1c9-4142-9094-b3c6e74c9b86",
+                    "id": "bb8e29f0-69e0-499c-a2dd-c511ae7f3f29",
                     "name": "c'e' una descrizione",
                     "type": "script",
                     "config": {
@@ -225,7 +225,7 @@
           "x": 2133,
           "y": 285
         },
-        "id": "c5ccee2e-ea04-493e-ad9a-13ba09e2fb24",
+        "id": "d2c87b7a-9357-4285-90e0-5a6a9957a6f6",
         "name": "tastiera GeeLark",
         "type": "executeADB",
         "config": {
@@ -240,7 +240,7 @@
           "x": 2333,
           "y": 285
         },
-        "id": "ec1a91ff-9557-440b-8d36-8f795647958e",
+        "id": "6bfeaffd-6740-403c-bcf3-7382e2de4162",
         "name": "permessi a Instagram (foto, video, fotocamera)",
         "type": "executeADB",
         "config": {
@@ -255,7 +255,7 @@
           "x": 2533,
           "y": 285
         },
-        "id": "4ed5b871-f6b4-442d-b53a-99f8a28a5922",
+        "id": "8ff3f9e9-3b10-471a-b585-727cf655de10",
         "name": "chiudi Instagram",
         "type": "executeADB",
         "config": {
@@ -270,7 +270,7 @@
           "x": 2733,
           "y": 285
         },
-        "id": "e0d990e2-b96c-474c-b1d8-f72d00b9fafe",
+        "id": "6cad9e0d-2ca2-495c-a66b-bdf6e64b5aaa",
         "name": "svuota la cartella Download",
         "type": "executeADB",
         "config": {
@@ -285,7 +285,7 @@
           "x": 2933,
           "y": 285
         },
-        "id": "20f4e4b6-e854-48db-8152-30cdef3f4a1a",
+        "id": "df2552c1-f012-4902-b11f-55b90444f66d",
         "name": "segnaposto: da qui in poi arriva solo il video del task",
         "type": "executeADB",
         "config": {
@@ -300,7 +300,7 @@
           "x": 3133,
           "y": 285
         },
-        "id": "25413710-8b73-4827-9ea2-b321473118cf",
+        "id": "f0ece018-9c88-4e47-bb24-d9f6d77e75e7",
         "name": "carica il video del task sul telefono",
         "type": "uploadFile",
         "config": {
@@ -314,7 +314,7 @@
           "x": 3333,
           "y": 285
         },
-        "id": "7fb25da3-95d4-44e7-9a04-a8087b97b9a1",
+        "id": "3b671f51-afd3-47a4-8bee-19f27540acf7",
         "name": "azzera: video arrivato?",
         "type": "script",
         "config": {
@@ -350,7 +350,7 @@
           "x": 4533,
           "y": 285
         },
-        "id": "e88c44f4-c6b9-474b-9df8-925706675a51",
+        "id": "3b49ea6d-f91f-43a3-a61b-df363ce9cdd4",
         "name": "aspetta il video del task (fino a 1 minuto)",
         "type": "forTimes",
         "config": {
@@ -364,7 +364,7 @@
                 "x": 4333,
                 "y": 285
               },
-              "id": "ee142404-8750-4a23-8401-d8954af7f936",
+              "id": "d2b60c7c-1595-4f1c-b3d8-22529774f893",
               "name": "IF video non ancora arrivato",
               "type": "ifElse",
               "config": {
@@ -375,7 +375,7 @@
                       "x": 3533,
                       "y": 285
                     },
-                    "id": "a0532ea0-fd66-479b-a3a1-e703e4eed748",
+                    "id": "e07e745f-8b7c-4a32-b411-979a354106e6",
                     "name": "dov'e' il video del task?",
                     "type": "executeADB",
                     "config": {
@@ -390,7 +390,7 @@
                       "x": 3733,
                       "y": 285
                     },
-                    "id": "4ab5647a-4767-41d9-a8d1-98db2c3fa495",
+                    "id": "d318243d-2af6-4d5b-ab07-5167efc522f4",
                     "name": "video arrivato? (percorso e album)",
                     "type": "script",
                     "config": {
@@ -424,7 +424,7 @@
                       "x": 4133,
                       "y": 285
                     },
-                    "id": "3510ddac-5028-4565-9bfb-a6fc51e4b855",
+                    "id": "d3dd3118-6921-47ef-9d75-429bb4af1687",
                     "name": "IF non ancora -> aspetta 5 secondi",
                     "type": "ifElse",
                     "config": {
@@ -435,7 +435,7 @@
                             "x": 3933,
                             "y": 285
                           },
-                          "id": "ce699a6b-ac10-480f-9a67-532b4f3cb7f5",
+                          "id": "e76f17d8-918b-4a2e-a485-76d25e967085",
                           "name": "wait",
                           "type": "waitTime",
                           "config": {
@@ -476,7 +476,7 @@
           "x": 5133,
           "y": 285
         },
-        "id": "52cc05a0-9aed-4661-a609-4221ef99c37f",
+        "id": "5f6e13d9-101f-49c1-abdb-9d5d6258e0e0",
         "name": "IF il video non e' arrivato e non e' una prova -> errore",
         "type": "ifElse",
         "config": {
@@ -487,7 +487,7 @@
                 "x": 4733,
                 "y": 285
               },
-              "id": "b84e16a3-9be8-4304-b501-982ca084ce68",
+              "id": "5a60c170-67c0-49cf-bf20-5bf3a7508c1c",
               "name": "errore: [Video] Il video del task non e' arrivato sul telefono (cart",
               "type": "throwException",
               "config": {
@@ -499,7 +499,7 @@
                 "x": 4933,
                 "y": 285
               },
-              "id": "c4e54a03-aecd-4b08-b669-b25aa7112678",
+              "id": "f3f90eb4-7ca6-4273-b416-fb23f6488436",
               "name": "End task (dopo l'errore)",
               "type": "endTask",
               "config": {}
@@ -527,7 +527,7 @@
           "x": 5333,
           "y": 285
         },
-        "id": "9d79f8db-967c-4764-957b-d1f2c2e70528",
+        "id": "d2289bf2-7302-4157-9013-13dfc8bcbe86",
         "name": "la galleria vede il video nuovo",
         "type": "executeADB",
         "config": {
@@ -542,7 +542,7 @@
           "x": 5533,
           "y": 285
         },
-        "id": "09298e86-8511-4ecf-b8b3-d68e12c256ce",
+        "id": "be3336ca-acb9-4138-af1e-88673e1889ba",
         "name": "wait",
         "type": "waitTime",
         "config": {
@@ -556,7 +556,7 @@
           "x": 5733,
           "y": 285
         },
-        "id": "a102730a-0fcd-47d5-9a33-72e36dffec16",
+        "id": "a03601a0-9ca3-4fa1-8869-0a2059a803a9",
         "name": "apri Instagram",
         "type": "openApp",
         "config": {
@@ -568,7 +568,7 @@
           "x": 5933,
           "y": 285
         },
-        "id": "70e47365-9dfd-422c-8d6d-d33f006b6b93",
+        "id": "4e9b15b9-21e0-43b8-8a4f-7554ee76a72b",
         "name": "aspetta che Instagram si apra",
         "type": "waitTime",
         "config": {
@@ -582,7 +582,7 @@
           "x": 6133,
           "y": 285
         },
-        "id": "fb2f58a0-9ea0-43aa-804c-a36897e5275b",
+        "id": "9ddf1ee6-16ae-4d86-b85b-188a87efafd4",
         "name": "pop-up 'Not now'",
         "type": "click",
         "config": {
@@ -616,7 +616,7 @@
           "x": 6333,
           "y": 285
         },
-        "id": "f71331cb-f547-4ff0-94b2-37c463d37eae",
+        "id": "8e7b7328-db16-4160-8f89-c8afddb9d1a5",
         "name": "giro: quanto dura (3-5 minuti: storie, home, reels)",
         "type": "script",
         "config": {
@@ -686,7 +686,7 @@
           "x": 6533,
           "y": 285
         },
-        "id": "3ea68676-43b8-46f7-8c52-a09d46620ff7",
+        "id": "6149d9f1-c175-4c76-bb81-6c0b94553017",
         "name": "larghezza dello schermo",
         "type": "mathOperation",
         "config": {
@@ -699,7 +699,7 @@
           "x": 6733,
           "y": 285
         },
-        "id": "0404e775-62d8-4ca0-8977-d5239ec960bd",
+        "id": "4603d475-b32e-49b3-9a03-6b50315e343b",
         "name": "posizioni: seconda storia in alto, lato destro delle storie",
         "type": "script",
         "config": {
@@ -733,7 +733,7 @@
           "x": 6933,
           "y": 285
         },
-        "id": "86fef2e0-18d6-457b-b4de-619eeb60692b",
+        "id": "2a451aa4-9a13-4351-80b2-10028df9f678",
         "name": "azzera: storie",
         "type": "script",
         "config": {
@@ -765,7 +765,7 @@
           "x": 7133,
           "y": 285
         },
-        "id": "ae982804-00c8-486b-9728-2ce0a1e300fc",
+        "id": "bde02441-5ffc-4472-81f5-5ffa317dc282",
         "name": "apri la storia di un altro",
         "type": "click",
         "config": {
@@ -807,7 +807,7 @@
           "x": 7333,
           "y": 285
         },
-        "id": "1f30220c-55d2-4949-942c-aea92e63de4d",
+        "id": "b73cea07-5a7e-4a28-8b6b-afa9c3a8f315",
         "name": "storia toccata?",
         "type": "script",
         "config": {
@@ -829,7 +829,7 @@
           "x": 7733,
           "y": 285
         },
-        "id": "2400b2c8-d438-452a-88e4-b7a4960c4c27",
+        "id": "352bac9d-81e3-4b8d-a0cd-cfba6f886a8c",
         "name": "IF non trovata -> tocca la seconda storia in alto (posizione)",
         "type": "ifElse",
         "config": {
@@ -840,7 +840,7 @@
                 "x": 7533,
                 "y": 285
               },
-              "id": "d65874ec-71be-42a8-b251-d2a9ad96ba2d",
+              "id": "d19f4099-cd7b-4b70-b2c8-5cf29d57e259",
               "name": "tocca la seconda storia (posizione)",
               "type": "clickXY",
               "config": {
@@ -867,7 +867,7 @@
           "x": 7933,
           "y": 285
         },
-        "id": "7a1eaaad-4fec-4e5c-93a9-92d105bd96c1",
+        "id": "377ba347-90a1-46bb-bd61-fba5fd2ab477",
         "name": "wait",
         "type": "waitTime",
         "config": {
@@ -881,7 +881,7 @@
           "x": 8133,
           "y": 285
         },
-        "id": "989b0bdf-99cf-4eca-a1b1-b599fb5c54a6",
+        "id": "5a6865ed-ca0b-4318-a54d-77a47105a0fe",
         "name": "si vede ancora la barra in basso? (se si', le storie non sono aperte)",
         "type": "getEle",
         "config": {
@@ -915,7 +915,7 @@
           "x": 8333,
           "y": 285
         },
-        "id": "812d8a0e-3ef1-4d98-b46e-e052ead985d4",
+        "id": "f9a6c489-8c32-4c85-87c0-712a7d74dbd9",
         "name": "storie aperte?",
         "type": "script",
         "config": {
@@ -937,7 +937,7 @@
           "x": 10133,
           "y": 285
         },
-        "id": "954fce60-1044-4423-bf3c-199acbc491ee",
+        "id": "1714c1d1-7dfc-493f-9b98-d77003890bbb",
         "name": "guarda le storie (vanno avanti da sole)",
         "type": "forTimes",
         "config": {
@@ -951,7 +951,7 @@
                 "x": 9933,
                 "y": 285
               },
-              "id": "d0f7464b-12c0-45b2-9f77-91df14db4cb7",
+              "id": "f500b5bb-bb8a-491f-94fe-614855f306b5",
               "name": "IF storie non finite",
               "type": "ifElse",
               "config": {
@@ -962,7 +962,7 @@
                       "x": 8533,
                       "y": 285
                     },
-                    "id": "305333b6-1a68-4c63-af63-4c8db6d4f28b",
+                    "id": "744d1bbb-246f-48c7-8d46-2ec60f65b8d2",
                     "name": "guarda la storia",
                     "type": "waitTime",
                     "config": {
@@ -976,7 +976,7 @@
                       "x": 8733,
                       "y": 285
                     },
-                    "id": "6e7b28f4-7268-4218-b278-5da4c36b8eef",
+                    "id": "7ab05197-f64e-4adc-b396-fb885e70a540",
                     "name": "azzera: barra",
                     "type": "script",
                     "config": {
@@ -996,7 +996,7 @@
                       "x": 8933,
                       "y": 285
                     },
-                    "id": "681db42d-95b2-4490-8b4a-b96313719a20",
+                    "id": "849f219f-ae62-49c2-a07d-12a939c36a75",
                     "name": "le storie sono finite? (si vede la barra)",
                     "type": "getEle",
                     "config": {
@@ -1030,7 +1030,7 @@
                       "x": 9133,
                       "y": 285
                     },
-                    "id": "d26fa4f5-74bc-4cf0-afa3-4668e006a82c",
+                    "id": "9063a18d-e811-4d58-a989-cae9eb01216f",
                     "name": "storie: ancora?",
                     "type": "script",
                     "config": {
@@ -1056,7 +1056,7 @@
                       "x": 9733,
                       "y": 285
                     },
-                    "id": "4a68844d-0331-4c11-ab31-bff483c8107e",
+                    "id": "18c25132-1d44-41a9-8f98-982f495ba550",
                     "name": "IF storie ancora aperte",
                     "type": "ifElse",
                     "config": {
@@ -1067,7 +1067,7 @@
                             "x": 9533,
                             "y": 285
                           },
-                          "id": "9ba8c137-ec46-4221-8d46-0e35f42d05c1",
+                          "id": "9ada959e-27d3-4acc-a513-0666ed7a2f9b",
                           "name": "IF a caso (1 su 3) -> tocca a destra",
                           "type": "ifElse",
                           "config": {
@@ -1078,7 +1078,7 @@
                                   "x": 9333,
                                   "y": 285
                                 },
-                                "id": "ca76a818-3b9e-4520-b429-54b1158bac03",
+                                "id": "caf8e4f5-b369-4868-8fb4-49a7a0ac260a",
                                 "name": "tocca a destra (salta alla storia dopo)",
                                 "type": "clickXY",
                                 "config": {
@@ -1131,7 +1131,7 @@
           "x": 11533,
           "y": 285
         },
-        "id": "a8563dcf-69e4-4ff0-9134-e32de8f43309",
+        "id": "55e3128e-6f7e-4c82-a0d0-0d1c128e6374",
         "name": "esci dalle storie (indietro solo se la barra non si vede)",
         "type": "forTimes",
         "config": {
@@ -1145,7 +1145,7 @@
                 "x": 10333,
                 "y": 285
               },
-              "id": "065abe83-5d22-4492-95b3-799cb9134e83",
+              "id": "7e5c84cf-14a1-4e4b-b3f8-e1f986492805",
               "name": "azzera: barra",
               "type": "script",
               "config": {
@@ -1165,7 +1165,7 @@
                 "x": 10533,
                 "y": 285
               },
-              "id": "a2a29ba4-27f7-4a4e-ab17-15c3f8ca3b4d",
+              "id": "17fa165b-bd25-4bd6-b7cb-bcccd8072f97",
               "name": "si vede la barra in basso?",
               "type": "getEle",
               "config": {
@@ -1199,7 +1199,7 @@
                 "x": 10733,
                 "y": 285
               },
-              "id": "bcf928b3-00e2-411c-a5dd-3a7d3da8a759",
+              "id": "d754b080-26ba-4ad9-b6a3-2543ac1ed84f",
               "name": "serve indietro?",
               "type": "script",
               "config": {
@@ -1221,7 +1221,7 @@
                 "x": 11333,
                 "y": 285
               },
-              "id": "746a6958-fd0d-48c2-a800-3446500bb5bf",
+              "id": "434789d1-a6c1-4647-bdee-58fc8b3cc90d",
               "name": "IF barra non vista -> indietro",
               "type": "ifElse",
               "config": {
@@ -1232,7 +1232,7 @@
                       "x": 10933,
                       "y": 285
                     },
-                    "id": "e7631d21-0716-4baf-900d-76ee39e5fd5f",
+                    "id": "b5bfec71-26ad-4420-9319-1cb986745cf5",
                     "name": "indietro",
                     "type": "executeADB",
                     "config": {
@@ -1247,7 +1247,7 @@
                       "x": 11133,
                       "y": 285
                     },
-                    "id": "b4ddfeb7-2e33-425a-9bc0-6c4e4ae6fb87",
+                    "id": "37083496-09c2-48a8-8939-e7ceea74bf52",
                     "name": "wait",
                     "type": "waitTime",
                     "config": {
@@ -1276,7 +1276,7 @@
           "x": 11733,
           "y": 285
         },
-        "id": "ce0c38b9-2e94-41f9-90e9-5aa208fa1df3",
+        "id": "ad1c2272-6298-4ea9-ac4e-37b6d0f06101",
         "name": "azzera: quale app e' davanti?",
         "type": "script",
         "config": {
@@ -1304,7 +1304,7 @@
           "x": 11933,
           "y": 285
         },
-        "id": "94b027dd-18fc-4f9d-a1e6-3890b4db42f1",
+        "id": "04464c33-62ed-433b-8d93-f8f99ba09b8c",
         "name": "Android: quale app e' davanti?",
         "type": "executeADB",
         "config": {
@@ -1319,7 +1319,7 @@
           "x": 12133,
           "y": 285
         },
-        "id": "6218cc1b-4984-4afe-96bf-ea717d83a776",
+        "id": "24fc8dd4-6fae-4315-a988-e117e4c436e0",
         "name": "si vede la barra in basso di Instagram?",
         "type": "getEle",
         "config": {
@@ -1353,7 +1353,7 @@
           "x": 12333,
           "y": 285
         },
-        "id": "1a8b92aa-022e-40b6-92ac-d0f3431181b9",
+        "id": "c64f2ced-b9cd-4ee6-a100-95a2d556d046",
         "name": "sono ancora in Instagram?",
         "type": "script",
         "config": {
@@ -1376,7 +1376,7 @@
           "x": 13133,
           "y": 285
         },
-        "id": "a63d7683-14ec-4c8f-9ea7-d5798caa7171",
+        "id": "dcfd99a6-c3b4-4096-a9d5-879099e3d050",
         "name": "IF uscito da Instagram (storie) -> riaprilo",
         "type": "ifElse",
         "config": {
@@ -1387,7 +1387,7 @@
                 "x": 12533,
                 "y": 285
               },
-              "id": "7316fdee-cf26-4ed6-8008-cb8cb7616a81",
+              "id": "6716a53b-1630-42d0-b0df-d589cea63330",
               "name": "riapri Instagram",
               "type": "openApp",
               "config": {
@@ -1399,7 +1399,7 @@
                 "x": 12733,
                 "y": 285
               },
-              "id": "fe692347-1a81-4419-a6cc-0c6373f1e489",
+              "id": "28c9e55d-316c-4d44-86d8-8c9a6564422c",
               "name": "aspetta che Instagram si apra",
               "type": "waitTime",
               "config": {
@@ -1413,7 +1413,7 @@
                 "x": 12933,
                 "y": 285
               },
-              "id": "10d2bbb2-591a-4cfc-a12d-26aab1e4b4b2",
+              "id": "4f06f1dc-80d6-4ad4-92d2-e7d6fc8af0d2",
               "name": "pop-up 'Not now'",
               "type": "click",
               "config": {
@@ -1459,7 +1459,7 @@
           "x": 13333,
           "y": 285
         },
-        "id": "b3fb3878-374a-41ec-850b-e0e236e7382c",
+        "id": "b84ae351-f443-41ad-9f3c-e27355274314",
         "name": "wait",
         "type": "waitTime",
         "config": {
@@ -1473,7 +1473,7 @@
           "x": 13533,
           "y": 285
         },
-        "id": "04989634-174e-44c5-a277-22e47d76fd60",
+        "id": "63ed505a-f0e2-497f-9fa8-10680b15febc",
         "name": "home: si parte",
         "type": "script",
         "config": {
@@ -1493,7 +1493,7 @@
           "x": 14733,
           "y": 285
         },
-        "id": "41aa6229-04e0-4e27-9cce-118752127dfc",
+        "id": "6017e48d-7b5d-4262-b1ea-721b125e3aec",
         "name": "scorri la home",
         "type": "forTimes",
         "config": {
@@ -1507,7 +1507,7 @@
                 "x": 14533,
                 "y": 285
               },
-              "id": "f417a12b-1145-493a-bd35-e521c65fb82a",
+              "id": "fab13fec-c39c-4f2b-84f8-e9f6913d0658",
               "name": "IF home non finita",
               "type": "ifElse",
               "config": {
@@ -1518,7 +1518,7 @@
                       "x": 13733,
                       "y": 285
                     },
-                    "id": "56464f9c-ffb3-47bd-aa83-755933a5e07c",
+                    "id": "07590255-aa02-44b6-b511-13d7f56fa3db",
                     "name": "guarda il post",
                     "type": "waitTime",
                     "config": {
@@ -1532,7 +1532,7 @@
                       "x": 13933,
                       "y": 285
                     },
-                    "id": "48c56239-cafa-4645-90bf-a16509052716",
+                    "id": "1af09998-3ef9-48f7-a0a1-9b2f70baf9ad",
                     "name": "pop-up 'Not now'",
                     "type": "click",
                     "config": {
@@ -1566,7 +1566,7 @@
                       "x": 14133,
                       "y": 285
                     },
-                    "id": "b53f884d-28d7-4288-9137-fa12be6bc9b7",
+                    "id": "8b0f0f5c-e520-4a8a-ab5d-914bce058c06",
                     "name": "scorri la home",
                     "type": "executeADB",
                     "config": {
@@ -1581,7 +1581,7 @@
                       "x": 14333,
                       "y": 285
                     },
-                    "id": "4428afc0-0c27-4af0-9ee9-17512f335cb0",
+                    "id": "b895600e-c553-467d-9d37-2d9a592f5ba3",
                     "name": "home: ancora?",
                     "type": "script",
                     "config": {
@@ -1622,7 +1622,7 @@
           "x": 14933,
           "y": 285
         },
-        "id": "24950345-4f23-48c9-9fcb-06d555ae5c9f",
+        "id": "9bfc6491-bbbf-4df2-bb4f-ef05345d4393",
         "name": "azzera: Reels",
         "type": "script",
         "config": {
@@ -1650,7 +1650,7 @@
           "x": 15133,
           "y": 285
         },
-        "id": "2f4017fa-cabb-4a3a-b212-3e921002ee37",
+        "id": "6df73d1e-22e0-4f59-90f8-b06b656e0342",
         "name": "tocca Reels (in basso)",
         "type": "click",
         "config": {
@@ -1685,7 +1685,7 @@
           "x": 15333,
           "y": 285
         },
-        "id": "e24a9c17-f742-4b6b-9d91-0261bf3da509",
+        "id": "f11673ca-2131-461e-8194-843575962ac5",
         "name": "Reels aperti?",
         "type": "script",
         "config": {
@@ -1707,7 +1707,7 @@
           "x": 15533,
           "y": 285
         },
-        "id": "1a4593e7-f4f7-4db3-a9cb-9492376d9ac7",
+        "id": "20e961d0-7f51-417c-b4f0-a107cee6a358",
         "name": "wait",
         "type": "waitTime",
         "config": {
@@ -1721,7 +1721,7 @@
           "x": 22533,
           "y": 285
         },
-        "id": "0442236a-c93a-4ad8-a477-a057a752a630",
+        "id": "544c4d62-abd4-4872-b967-51dc23e82ac4",
         "name": "guarda e scorri i reels",
         "type": "forTimes",
         "config": {
@@ -1735,7 +1735,7 @@
                 "x": 22333,
                 "y": 285
               },
-              "id": "6180faab-0693-42ef-83a4-b989b30328f1",
+              "id": "f24acb79-06ec-4757-ae7b-58dedc0e9fe3",
               "name": "IF reels non finiti",
               "type": "ifElse",
               "config": {
@@ -1746,7 +1746,7 @@
                       "x": 15733,
                       "y": 285
                     },
-                    "id": "e651122b-a50b-4552-9f46-fa2260ffbb06",
+                    "id": "edaffb08-b452-4faa-8d73-0d4cadbeafd0",
                     "name": "guarda il reel",
                     "type": "waitTime",
                     "config": {
@@ -1760,7 +1760,7 @@
                       "x": 16933,
                       "y": 285
                     },
-                    "id": "6d2a38b3-daa8-4ee8-9e66-9c4d3e21443d",
+                    "id": "d5a32c0c-04dd-43fe-bd50-a2a71387d8d0",
                     "name": "IF ancora like da mettere",
                     "type": "ifElse",
                     "config": {
@@ -1771,7 +1771,7 @@
                             "x": 16733,
                             "y": 285
                           },
-                          "id": "48d4a927-e928-4ca6-a2fd-c1d298231946",
+                          "id": "1b904a9c-32c8-4ec3-9a9e-d28738a802bb",
                           "name": "IF a caso (30%) -> like",
                           "type": "ifElse",
                           "config": {
@@ -1782,7 +1782,7 @@
                                   "x": 15933,
                                   "y": 285
                                 },
-                                "id": "3b11fef9-14d8-4fe0-adb4-12ed00c91e15",
+                                "id": "fed59631-3c34-4ee4-abe5-9c0b0bd5d46d",
                                 "name": "azzera: like",
                                 "type": "script",
                                 "config": {
@@ -1802,7 +1802,7 @@
                                   "x": 16133,
                                   "y": 285
                                 },
-                                "id": "a492db5d-feea-4f9f-9252-238cf2262108",
+                                "id": "e81cfce3-fd46-4432-a4a6-ca947f5b25bd",
                                 "name": "metti like (cuore 'Like')",
                                 "type": "click",
                                 "config": {
@@ -1842,7 +1842,7 @@
                                   "x": 16333,
                                   "y": 285
                                 },
-                                "id": "af292a1e-6cec-483a-aa24-ce7731a96372",
+                                "id": "63a4af9b-93b3-4f97-98f0-458602ec4cd3",
                                 "name": "like messo?",
                                 "type": "script",
                                 "config": {
@@ -1870,7 +1870,7 @@
                                   "x": 16533,
                                   "y": 285
                                 },
-                                "id": "39c65ab5-b1c5-44d8-a443-7f7272193c89",
+                                "id": "1ffe012d-9356-4aef-b29b-c71e36a8c331",
                                 "name": "wait",
                                 "type": "waitTime",
                                 "config": {
@@ -1912,7 +1912,7 @@
                       "x": 17133,
                       "y": 285
                     },
-                    "id": "668a8240-aae9-4f23-8741-6f2a31dda005",
+                    "id": "1e8289be-a112-4e43-bb2b-9817548515df",
                     "name": "commenti adesso?",
                     "type": "script",
                     "config": {
@@ -1937,7 +1937,7 @@
                       "x": 21533,
                       "y": 285
                     },
-                    "id": "02918d8a-f9a1-4f96-8f5b-ab18cb404d49",
+                    "id": "3a30ee4d-8b83-4ce1-bbf5-4e2f77e0de32",
                     "name": "IF e' il reel scelto -> guarda i commenti",
                     "type": "ifElse",
                     "config": {
@@ -1948,7 +1948,7 @@
                             "x": 17333,
                             "y": 285
                           },
-                          "id": "eb730720-a588-42d4-9982-30a50025f6c4",
+                          "id": "79a5f986-3574-4340-82eb-17e309864fc4",
                           "name": "azzera: commenti",
                           "type": "script",
                           "config": {
@@ -1980,7 +1980,7 @@
                             "x": 17533,
                             "y": 285
                           },
-                          "id": "ff24650a-b47c-46f8-a82f-63fdda0591a1",
+                          "id": "891ff971-5586-412c-8bd8-fec48aac663f",
                           "name": "apri i commenti del reel",
                           "type": "click",
                           "config": {
@@ -2015,7 +2015,7 @@
                             "x": 17733,
                             "y": 285
                           },
-                          "id": "45d53fea-5e82-4373-bd56-808e568a89b5",
+                          "id": "8fd50333-30dd-4589-89a3-d5ea8b15dec7",
                           "name": "commenti toccati?",
                           "type": "script",
                           "config": {
@@ -2037,7 +2037,7 @@
                             "x": 21333,
                             "y": 285
                           },
-                          "id": "22434ecf-bd3d-4426-aa37-b6de8c18f3a7",
+                          "id": "99074c49-5ba2-4409-95d6-dac122854561",
                           "name": "IF commenti toccati -> leggili e chiudi",
                           "type": "ifElse",
                           "config": {
@@ -2048,7 +2048,7 @@
                                   "x": 17933,
                                   "y": 285
                                 },
-                                "id": "771478c5-6cb6-4671-8414-e7f64295475a",
+                                "id": "fa4e5734-7579-4a35-a6bd-aadf183c2fb7",
                                 "name": "wait",
                                 "type": "waitTime",
                                 "config": {
@@ -2062,7 +2062,7 @@
                                   "x": 18133,
                                   "y": 285
                                 },
-                                "id": "d5b3e728-6b2b-46b7-b7a1-5e5e037199ff",
+                                "id": "16a932c4-6380-409a-b098-9708e69d2d0b",
                                 "name": "solo per il log: la casella dei commenti",
                                 "type": "getEle",
                                 "config": {
@@ -2089,7 +2089,7 @@
                                   "x": 18333,
                                   "y": 285
                                 },
-                                "id": "4072ec6e-fd6b-48f5-85f5-9a178dc55a51",
+                                "id": "030aab0d-a062-4a63-bf7b-afc0aa92a6de",
                                 "name": "solo per il log: cosa vede GeeLark nei commenti",
                                 "type": "script",
                                 "config": {
@@ -2111,7 +2111,7 @@
                                   "x": 18933,
                                   "y": 285
                                 },
-                                "id": "4c0d4e98-dc51-402e-858e-7704c202918a",
+                                "id": "8978d860-a48d-4810-9da7-0cb6cc0eee3c",
                                 "name": "scorri i commenti",
                                 "type": "forTimes",
                                 "config": {
@@ -2125,7 +2125,7 @@
                                         "x": 18533,
                                         "y": 285
                                       },
-                                      "id": "078f1b17-cbfa-485c-99d0-428733a7a085",
+                                      "id": "bc510544-89cc-4594-b374-31797387ae82",
                                       "name": "leggi i commenti",
                                       "type": "waitTime",
                                       "config": {
@@ -2139,7 +2139,7 @@
                                         "x": 18733,
                                         "y": 285
                                       },
-                                      "id": "ddefe6fb-9ab8-44c2-894e-c598b3b7f209",
+                                      "id": "9c0bd887-5f42-4356-9dc3-8ef1345da79a",
                                       "name": "scorri i commenti",
                                       "type": "executeADB",
                                       "config": {
@@ -2157,7 +2157,7 @@
                                   "x": 19133,
                                   "y": 285
                                 },
-                                "id": "13d3ead1-188f-4970-9670-116a9d9eae7a",
+                                "id": "8f33b1d2-6b04-4268-af4c-d25ec737fe97",
                                 "name": "wait",
                                 "type": "waitTime",
                                 "config": {
@@ -2171,7 +2171,7 @@
                                   "x": 19333,
                                   "y": 285
                                 },
-                                "id": "35221f5a-daa9-4a64-a8ff-86f4e6d64a11",
+                                "id": "58ed0e20-8d96-4ede-9f75-50b0a86366e3",
                                 "name": "chiudi i commenti (indietro)",
                                 "type": "executeADB",
                                 "config": {
@@ -2186,7 +2186,7 @@
                                   "x": 19533,
                                   "y": 285
                                 },
-                                "id": "ff519065-52d1-4413-b70a-e94d3c6bb1f7",
+                                "id": "7e21800b-1f4f-492c-9e9f-cf19f1cb8bdd",
                                 "name": "wait",
                                 "type": "waitTime",
                                 "config": {
@@ -2200,7 +2200,7 @@
                                   "x": 19733,
                                   "y": 285
                                 },
-                                "id": "5b84ddef-626a-44ca-aae8-d611016f737b",
+                                "id": "9b8b5b61-a734-4a32-8dea-57f4242e4c5a",
                                 "name": "azzera: quale app e' davanti?",
                                 "type": "script",
                                 "config": {
@@ -2228,7 +2228,7 @@
                                   "x": 19933,
                                   "y": 285
                                 },
-                                "id": "b67adfe8-61f6-4751-9ebd-08c0fdb22c94",
+                                "id": "68ae7124-3db2-4588-be66-131a6b6986b7",
                                 "name": "Android: quale app e' davanti?",
                                 "type": "executeADB",
                                 "config": {
@@ -2243,7 +2243,7 @@
                                   "x": 20133,
                                   "y": 285
                                 },
-                                "id": "18f307b2-ed10-4072-92d3-67faa462a6bb",
+                                "id": "f482b9d3-b52c-423b-ab02-4bdf9fbceee3",
                                 "name": "si vede la barra in basso di Instagram?",
                                 "type": "getEle",
                                 "config": {
@@ -2277,7 +2277,7 @@
                                   "x": 20333,
                                   "y": 285
                                 },
-                                "id": "8e5f65af-241b-49fb-9292-cd579b9464c5",
+                                "id": "12063c25-b319-4ab0-8010-eb22ce88776d",
                                 "name": "sono ancora in Instagram?",
                                 "type": "script",
                                 "config": {
@@ -2300,7 +2300,7 @@
                                   "x": 21133,
                                   "y": 285
                                 },
-                                "id": "2f349b63-124a-4293-93d1-15c69e0d4526",
+                                "id": "1d5a1822-b686-4d03-9a97-841b44109b4e",
                                 "name": "IF uscito da Instagram (commenti) -> riaprilo",
                                 "type": "ifElse",
                                 "config": {
@@ -2311,7 +2311,7 @@
                                         "x": 20533,
                                         "y": 285
                                       },
-                                      "id": "b1be526d-7a0f-483b-8bb7-bc3cb4fef150",
+                                      "id": "a32f3dd8-24c8-44de-b0fc-45ae8e51f20d",
                                       "name": "riapri Instagram",
                                       "type": "openApp",
                                       "config": {
@@ -2323,7 +2323,7 @@
                                         "x": 20733,
                                         "y": 285
                                       },
-                                      "id": "cd083df7-cecd-4499-90fd-e3b4c9a81f5b",
+                                      "id": "43359f3a-89a1-4e00-8a32-85ed61109c8b",
                                       "name": "aspetta che Instagram si apra",
                                       "type": "waitTime",
                                       "config": {
@@ -2337,7 +2337,7 @@
                                         "x": 20933,
                                         "y": 285
                                       },
-                                      "id": "da6b7916-3623-4f2a-ba81-0a19ca61da17",
+                                      "id": "63146448-46aa-4bda-969b-bb4919ccfaa0",
                                       "name": "pop-up 'Not now'",
                                       "type": "click",
                                       "config": {
@@ -2407,7 +2407,7 @@
                       "x": 21733,
                       "y": 285
                     },
-                    "id": "3d398668-dd95-43db-b4de-bb6e9644cb71",
+                    "id": "06a6d737-64e9-4db0-a0ac-a4bcb982d501",
                     "name": "pop-up 'Not now'",
                     "type": "click",
                     "config": {
@@ -2441,7 +2441,7 @@
                       "x": 21933,
                       "y": 285
                     },
-                    "id": "e02db753-fc8d-496c-b1ec-be92e6b2df17",
+                    "id": "56f7216f-b671-4714-9b50-670a1834ad41",
                     "name": "reel dopo",
                     "type": "executeADB",
                     "config": {
@@ -2456,17 +2456,19 @@
                       "x": 22133,
                       "y": 285
                     },
-                    "id": "b4c4b60b-a83a-4e4c-8338-70cb42289687",
-                    "name": "reels: ancora?",
+                    "id": "4edd8572-c9e9-4c76-a295-612be797116d",
+                    "name": "reels: ancora? (dopo i commenti almeno altri 2 reel)",
                     "type": "script",
                     "config": {
                       "injectVariables": [
                         "fineReels",
                         "maxReels",
                         "tOk",
-                        "kr"
+                        "kr",
+                        "commFatti",
+                        "commAt"
                       ],
-                      "script": "async function main({ fineReels, maxReels, tOk, kr }) { const n=parseInt(kr,10)||0; const tempo=String(tOk)==='1' ? Date.now() < Number(fineReels) : n < (Number(maxReels)||8); return { ancoraR: tempo ? '1' : '0' }; }",
+                      "script": "async function main({ fineReels, maxReels, tOk, kr, commFatti, commAt }) { const n=parseInt(kr,10)||0; const tempo=String(tOk)==='1' ? Date.now() < Number(fineReels) : n < (Number(maxReels)||8); const dopoComm = String(commFatti)==='1' && n < (parseInt(commAt,10)||0) + 2; return { ancoraR: (tempo || dopoComm) ? '1' : '0' }; }",
                       "type": "js",
                       "variableMap": [
                         {
@@ -2497,7 +2499,7 @@
           "x": 22733,
           "y": 285
         },
-        "id": "1ac932a1-dbe3-4d74-a02f-75dc7994023f",
+        "id": "8fabd4f5-6df8-49af-bda4-5bf3c2c499cc",
         "name": "wait",
         "type": "waitTime",
         "config": {
@@ -2511,7 +2513,7 @@
           "x": 22933,
           "y": 285
         },
-        "id": "213c33b7-26d9-4f18-be7a-3b1e5e84b68e",
+        "id": "8dc0fdf7-95ac-40c5-b24e-40d01e3a0bd1",
         "name": "pop-up 'Not now'",
         "type": "click",
         "config": {
@@ -2545,7 +2547,7 @@
           "x": 23133,
           "y": 285
         },
-        "id": "a49f1735-f291-4f97-b0ce-e61ae7083947",
+        "id": "5d38cc6f-f90c-48fd-9e7b-6354368d2f9c",
         "name": "azzera: profilo",
         "type": "script",
         "config": {
@@ -2569,7 +2571,7 @@
           "x": 23333,
           "y": 285
         },
-        "id": "b725da0e-601e-45b1-b677-0a112d575c24",
+        "id": "f1f05f03-4fad-4eb4-b960-33d5805b15aa",
         "name": "tocca Profilo (in basso a destra)",
         "type": "click",
         "config": {
@@ -2604,7 +2606,7 @@
           "x": 23533,
           "y": 285
         },
-        "id": "266ff324-ec95-4e32-97bb-f4524c176826",
+        "id": "d39a9cc1-b172-45b9-aac3-7971e2e4aa7f",
         "name": "profilo toccato?",
         "type": "script",
         "config": {
@@ -2626,7 +2628,7 @@
           "x": 24933,
           "y": 285
         },
-        "id": "a08f24e4-c81d-4ea5-9810-f9d5ba3a2260",
+        "id": "b81ea253-50ad-4b5d-ad15-908dd8269be8",
         "name": "IF profilo non toccato -> indietro e riprova",
         "type": "ifElse",
         "config": {
@@ -2637,7 +2639,7 @@
                 "x": 23733,
                 "y": 285
               },
-              "id": "70c6d75c-42f9-45ae-8493-39d0a7d2f91d",
+              "id": "dbf5cfb2-d175-4f54-af9d-8da7af0a04e0",
               "name": "indietro",
               "type": "executeADB",
               "config": {
@@ -2652,7 +2654,7 @@
                 "x": 23933,
                 "y": 285
               },
-              "id": "8598f008-00cc-4298-9ab4-c6b5f82fbdbb",
+              "id": "151e55a8-f932-4bac-be92-768d33553c80",
               "name": "wait",
               "type": "waitTime",
               "config": {
@@ -2666,7 +2668,7 @@
                 "x": 24133,
                 "y": 285
               },
-              "id": "eb71f052-bf27-46c9-a647-31537b36ea03",
+              "id": "826f943e-14cc-4a2b-87ee-bdd8eb1e9431",
               "name": "pop-up 'Not now'",
               "type": "click",
               "config": {
@@ -2700,7 +2702,7 @@
                 "x": 24333,
                 "y": 285
               },
-              "id": "8bb5124b-5dd0-44f7-965f-5e80fca646dd",
+              "id": "741f8952-741d-400f-bca4-fca0ddd9a960",
               "name": "azzera: profilo",
               "type": "script",
               "config": {
@@ -2724,7 +2726,7 @@
                 "x": 24533,
                 "y": 285
               },
-              "id": "743949ee-a99d-4abe-94e8-28b9978624c2",
+              "id": "c4fbc901-e952-4187-a071-29b7b4e64ee8",
               "name": "tocca Profilo (in basso a destra)",
               "type": "click",
               "config": {
@@ -2759,7 +2761,7 @@
                 "x": 24733,
                 "y": 285
               },
-              "id": "9383bfce-09be-42f6-82a0-648a5b792416",
+              "id": "6cc6ee8d-1e43-43fd-9a7b-3fafb784a399",
               "name": "profilo toccato?",
               "type": "script",
               "config": {
@@ -2793,7 +2795,7 @@
           "x": 25133,
           "y": 285
         },
-        "id": "771a6949-59ef-422c-83bf-41b9767b74b8",
+        "id": "bfdc10ba-8e2d-45f0-b574-17b6ce274cc9",
         "name": "wait",
         "type": "waitTime",
         "config": {
@@ -2807,7 +2809,7 @@
           "x": 25333,
           "y": 285
         },
-        "id": "1c9994e5-faea-4c39-a7ce-df4d8209444d",
+        "id": "ba4c9fdb-cf2c-4641-90b0-5df9cdd5a981",
         "name": "azzera: e' il mio profilo?",
         "type": "script",
         "config": {
@@ -2831,7 +2833,7 @@
           "x": 25533,
           "y": 285
         },
-        "id": "5295ae90-8adf-4aea-8027-03b4292f647a",
+        "id": "e03babda-f2a6-434a-a35e-51141291a62d",
         "name": "c'e' 'Edit profile'?",
         "type": "getEle",
         "config": {
@@ -2865,7 +2867,7 @@
           "x": 25733,
           "y": 285
         },
-        "id": "9db25f37-6086-4825-a425-a9687ebc4065",
+        "id": "92b9a0cf-665e-45f2-91b7-9ea35f1f1b95",
         "name": "e' il mio profilo?",
         "type": "script",
         "config": {
@@ -2887,7 +2889,7 @@
           "x": 28533,
           "y": 285
         },
-        "id": "b5c0e27f-afd9-4c3e-b79a-66f4bffaef24",
+        "id": "50d836f0-8be1-45b3-9156-f82145d4a124",
         "name": "IF non sono sul profilo -> riavvia Instagram e riprova",
         "type": "ifElse",
         "config": {
@@ -2898,7 +2900,7 @@
                 "x": 25933,
                 "y": 285
               },
-              "id": "ad66a4f3-e327-45ff-b327-dd04593e8e4e",
+              "id": "cc39466a-5b67-47aa-8b87-6355287c1969",
               "name": "screenshot: profilo non aperto (riavvio Instagram)",
               "type": "screenshotPage",
               "config": {
@@ -2912,7 +2914,7 @@
                 "x": 26133,
                 "y": 285
               },
-              "id": "1db101bf-d672-4abf-8da9-b4fdde4dbd84",
+              "id": "5e62e5a9-84d8-4edb-a699-3b7a3afdf0f5",
               "name": "chiudi Instagram",
               "type": "executeADB",
               "config": {
@@ -2927,7 +2929,7 @@
                 "x": 26333,
                 "y": 285
               },
-              "id": "eb58fe4d-39c5-4dc4-b9e9-27ea50ddcaa3",
+              "id": "ca411b1f-b03a-4e9a-be06-6a16cb938ba5",
               "name": "wait",
               "type": "waitTime",
               "config": {
@@ -2941,7 +2943,7 @@
                 "x": 26533,
                 "y": 285
               },
-              "id": "6488533c-cd7e-4a84-af92-de36fc5a6af1",
+              "id": "086ba9ac-b286-4aaa-bb3a-66d17ea9d84d",
               "name": "riapri Instagram",
               "type": "openApp",
               "config": {
@@ -2953,7 +2955,7 @@
                 "x": 26733,
                 "y": 285
               },
-              "id": "569ea640-574e-448d-818e-909636e4c4dd",
+              "id": "6e7feaf2-e45c-48ec-97bb-e09bc6d6f5c4",
               "name": "aspetta che Instagram si apra",
               "type": "waitTime",
               "config": {
@@ -2967,7 +2969,7 @@
                 "x": 26933,
                 "y": 285
               },
-              "id": "a1b6dfb5-2142-450f-956b-cf449af3402c",
+              "id": "5f0f7837-ed72-4dc7-915d-c8a34ea3eedf",
               "name": "pop-up 'Not now'",
               "type": "click",
               "config": {
@@ -3001,7 +3003,7 @@
                 "x": 27133,
                 "y": 285
               },
-              "id": "b3411d25-ffef-4336-b89b-98bcc2e312ed",
+              "id": "00dc1ec7-24a5-4718-9190-1a7aa89c7111",
               "name": "azzera: profilo",
               "type": "script",
               "config": {
@@ -3025,7 +3027,7 @@
                 "x": 27333,
                 "y": 285
               },
-              "id": "3a9acf0f-2eb3-443d-bc74-92c735608e10",
+              "id": "182d30a4-4c4d-419b-9956-fa4d63a2fb98",
               "name": "tocca Profilo (in basso a destra)",
               "type": "click",
               "config": {
@@ -3060,7 +3062,7 @@
                 "x": 27533,
                 "y": 285
               },
-              "id": "fc1b133d-b705-47f5-9235-de5ebd5bef0a",
+              "id": "f05b8cee-3587-4ac6-a444-565b0f6e043d",
               "name": "profilo toccato?",
               "type": "script",
               "config": {
@@ -3082,7 +3084,7 @@
                 "x": 27733,
                 "y": 285
               },
-              "id": "b1ed6cd2-6474-4a75-b759-65bb51737594",
+              "id": "f5f7ae79-1636-4967-9ab7-23e63809424b",
               "name": "wait",
               "type": "waitTime",
               "config": {
@@ -3096,7 +3098,7 @@
                 "x": 27933,
                 "y": 285
               },
-              "id": "d648c49f-5290-4fa9-9212-ef11a86d6642",
+              "id": "98ec2e6c-8ae1-4205-81d6-f6f50a14ec2b",
               "name": "azzera: e' il mio profilo?",
               "type": "script",
               "config": {
@@ -3116,7 +3118,7 @@
                 "x": 28133,
                 "y": 285
               },
-              "id": "230d5be3-0bde-480d-a6da-f07a433032e9",
+              "id": "93012fe0-aef4-40a9-9a55-e1fcae41ece9",
               "name": "c'e' 'Edit profile'?",
               "type": "getEle",
               "config": {
@@ -3150,7 +3152,7 @@
                 "x": 28333,
                 "y": 285
               },
-              "id": "46900870-1acc-4895-8af4-065d78d0a3cd",
+              "id": "d742da2d-6152-43ac-a5f1-9ca084a18be9",
               "name": "e' il mio profilo?",
               "type": "script",
               "config": {
@@ -3184,7 +3186,7 @@
           "x": 29333,
           "y": 285
         },
-        "id": "f7d9187d-782e-4952-80ac-81c412b45efa",
+        "id": "f938842f-4a55-4b14-8b8d-7d54c32c8e45",
         "name": "IF non sono sul profilo -> errore",
         "type": "ifElse",
         "config": {
@@ -3195,7 +3197,7 @@
                 "x": 28733,
                 "y": 285
               },
-              "id": "1cd993b6-a89d-424a-a00b-2ecb3e4333da",
+              "id": "92d37830-7af9-414c-9b01-89c96f562531",
               "name": "screenshot dell'errore",
               "type": "screenshotPage",
               "config": {
@@ -3207,7 +3209,7 @@
                 "x": 28933,
                 "y": 285
               },
-              "id": "9cd28de5-608a-4999-9649-0b5f4c5d51a2",
+              "id": "9084ca78-574c-4f15-bbb0-10c507a94d34",
               "name": "errore: [Profilo] Non riesco ad aprire il profilo dell'account (non ",
               "type": "throwException",
               "config": {
@@ -3219,7 +3221,7 @@
                 "x": 29133,
                 "y": 285
               },
-              "id": "9ac322f8-d992-4842-b133-6e7c495de8b9",
+              "id": "5e2ffce0-8c1f-4711-8796-3ba27bb642fc",
               "name": "End task (dopo l'errore)",
               "type": "endTask",
               "config": {}
@@ -3241,7 +3243,7 @@
           "x": 29533,
           "y": 285
         },
-        "id": "90274c90-153a-46ff-a82e-caa5429f0dfa",
+        "id": "c45ecbb5-73f9-4e64-b034-e497d9344170",
         "name": "azzera: menu",
         "type": "script",
         "config": {
@@ -3269,7 +3271,7 @@
           "x": 29733,
           "y": 285
         },
-        "id": "855986b3-3005-4af7-99d0-4ad9471f9dec",
+        "id": "2e4169f2-176f-407e-914b-5b5964291964",
         "name": "tocca il menu (tre righe in alto a destra)",
         "type": "click",
         "config": {
@@ -3311,7 +3313,7 @@
           "x": 29933,
           "y": 285
         },
-        "id": "0438c345-0e65-4a81-b2bb-5eb2f9a4bb9f",
+        "id": "a1c3d512-ef39-430b-a287-9e621d3ed228",
         "name": "wait",
         "type": "waitTime",
         "config": {
@@ -3325,7 +3327,7 @@
           "x": 30133,
           "y": 285
         },
-        "id": "5b3e48b2-dfce-4973-9209-4a1eef0683a3",
+        "id": "7dae572c-41af-41fc-9c67-b7cbc20b01cc",
         "name": "si e' aperto 'Settings and activity'?",
         "type": "getEle",
         "config": {
@@ -3366,7 +3368,7 @@
           "x": 30333,
           "y": 285
         },
-        "id": "28e097b8-d600-4365-83bc-c66c880de31e",
+        "id": "96f4be6b-153b-4c41-abfd-13f3986e6306",
         "name": "menu aperto?",
         "type": "script",
         "config": {
@@ -3388,7 +3390,7 @@
           "x": 32133,
           "y": 285
         },
-        "id": "f483d475-9268-4f15-ba4f-bbfe4fd416ed",
+        "id": "7370c479-232d-43a8-8bf7-678111bee84f",
         "name": "IF menu non aperto -> tocca l'angolo in alto a destra",
         "type": "ifElse",
         "config": {
@@ -3399,7 +3401,7 @@
                 "x": 30533,
                 "y": 285
               },
-              "id": "860752d6-589f-426d-8742-26d13264b8c8",
+              "id": "a91a4c87-9edd-4575-ae94-0c1103f6fced",
               "name": "larghezza dello schermo",
               "type": "mathOperation",
               "config": {
@@ -3412,7 +3414,7 @@
                 "x": 30733,
                 "y": 285
               },
-              "id": "d9e6f8f6-656f-43b0-837a-0f2cc66e9aa3",
+              "id": "fca1f627-04fd-487a-94b6-2526b8185454",
               "name": "altezza della barra in alto",
               "type": "mathOperation",
               "config": {
@@ -3425,7 +3427,7 @@
                 "x": 30933,
                 "y": 285
               },
-              "id": "172018ea-29f2-462b-851c-849aa2c37c34",
+              "id": "da013c1e-1189-492d-a1f9-d5080f3dc77b",
               "name": "posizione delle tre righe",
               "type": "script",
               "config": {
@@ -3452,7 +3454,7 @@
                 "x": 31133,
                 "y": 285
               },
-              "id": "e552956d-d00f-4ef8-b823-3259c1598eb6",
+              "id": "b5017d38-d3db-49f5-931c-9c2e4e0487fe",
               "name": "tocca le tre righe (posizione)",
               "type": "clickXY",
               "config": {
@@ -3467,7 +3469,7 @@
                 "x": 31333,
                 "y": 285
               },
-              "id": "40baa216-84f4-48fc-b3b4-d053206e7c1c",
+              "id": "dba8bad3-c322-45c4-a53f-e99b797927b5",
               "name": "wait",
               "type": "waitTime",
               "config": {
@@ -3481,7 +3483,7 @@
                 "x": 31533,
                 "y": 285
               },
-              "id": "daf1c2fe-52d3-4dc5-96dc-6dfea2673503",
+              "id": "e5d59a5e-93e0-44a4-8f27-bd1f9ef2024a",
               "name": "azzera: menu aperto?",
               "type": "script",
               "config": {
@@ -3501,7 +3503,7 @@
                 "x": 31733,
                 "y": 285
               },
-              "id": "76aba885-f3ac-41ad-a296-813637e102e6",
+              "id": "7ae91d40-8eeb-45b8-bf8a-40bbb934c045",
               "name": "si e' aperto 'Settings and activity'?",
               "type": "getEle",
               "config": {
@@ -3542,7 +3544,7 @@
                 "x": 31933,
                 "y": 285
               },
-              "id": "1782114b-264b-40ef-a71e-1e92a738d6fe",
+              "id": "af42be5a-0833-467a-ab62-713afc155447",
               "name": "menu aperto?",
               "type": "script",
               "config": {
@@ -3576,7 +3578,7 @@
           "x": 32933,
           "y": 285
         },
-        "id": "0a41e1ca-122a-4019-b584-a56005b14962",
+        "id": "23fff999-1a38-4459-9e9e-0279b9e6bac8",
         "name": "IF menu non aperto -> errore",
         "type": "ifElse",
         "config": {
@@ -3587,7 +3589,7 @@
                 "x": 32333,
                 "y": 285
               },
-              "id": "3186404a-1987-41f4-aad0-fab2325ef4c1",
+              "id": "83e98bb3-d735-4a75-b3b3-f3d78e38b645",
               "name": "screenshot dell'errore",
               "type": "screenshotPage",
               "config": {
@@ -3599,7 +3601,7 @@
                 "x": 32533,
                 "y": 285
               },
-              "id": "be4060f3-f88c-489c-b7c4-dfa45d9d800c",
+              "id": "23b8dc83-2d39-493c-9b47-ddc5c275c035",
               "name": "errore: [Menu] Dal profilo non si apre 'Settings and activity' (menu",
               "type": "throwException",
               "config": {
@@ -3611,7 +3613,7 @@
                 "x": 32733,
                 "y": 285
               },
-              "id": "8e9517d9-a73d-48d3-9584-1c09c14b8a19",
+              "id": "fa69de48-8e42-4b2c-88be-f4b72b86a5d2",
               "name": "End task (dopo l'errore)",
               "type": "endTask",
               "config": {}
@@ -3633,7 +3635,7 @@
           "x": 33133,
           "y": 285
         },
-        "id": "d44e85d8-8241-4a32-84a5-984283baaa3f",
+        "id": "ac48a7a5-2fbb-4b52-871a-cb9c3ec5c82d",
         "name": "azzera: Account type and tools",
         "type": "script",
         "config": {
@@ -3657,7 +3659,7 @@
           "x": 34533,
           "y": 285
         },
-        "id": "4f2cfd84-b817-4a9a-881e-fde4dbbf8b80",
+        "id": "78b4894e-665b-4953-9194-5bffcd3b06e8",
         "name": "cerca 'Account type and tools' (scorre giu' se serve)",
         "type": "forTimes",
         "config": {
@@ -3671,7 +3673,7 @@
                 "x": 34333,
                 "y": 285
               },
-              "id": "287f3d7a-2c81-4a26-8e8a-0ad2a384e4d5",
+              "id": "32116ac9-5962-414a-8b33-54e9402daf31",
               "name": "IF 'Account type and tools' non ancora toccato",
               "type": "ifElse",
               "config": {
@@ -3682,7 +3684,7 @@
                       "x": 33333,
                       "y": 285
                     },
-                    "id": "7c2b5ffb-17be-4bab-8a8f-fdc930ca9987",
+                    "id": "ecd471b5-a472-4605-ada2-aacec8c93986",
                     "name": "tocca 'Account type and tools'",
                     "type": "click",
                     "config": {
@@ -3710,7 +3712,7 @@
                       "x": 33533,
                       "y": 285
                     },
-                    "id": "3dcbfb94-eae5-4f4c-8db3-ce184713b94b",
+                    "id": "46766c60-ada5-4990-adb5-63a037a063a8",
                     "name": "toccato?",
                     "type": "script",
                     "config": {
@@ -3732,7 +3734,7 @@
                       "x": 34133,
                       "y": 285
                     },
-                    "id": "d0147502-334f-4d4a-a5cd-0fd1e43ecfbb",
+                    "id": "8576d5fd-dade-4def-89cc-c19d125d59c7",
                     "name": "IF non visto -> scorri giu'",
                     "type": "ifElse",
                     "config": {
@@ -3743,7 +3745,7 @@
                             "x": 33733,
                             "y": 285
                           },
-                          "id": "81aa8c3e-b400-4123-a942-3ca2107a0fd8",
+                          "id": "924804bc-e6e2-4d31-acc1-d7548ab571cf",
                           "name": "scorri giu'",
                           "type": "executeADB",
                           "config": {
@@ -3758,7 +3760,7 @@
                             "x": 33933,
                             "y": 285
                           },
-                          "id": "daa7625e-a058-46a6-b4da-55e9478169a9",
+                          "id": "5e8b7a5e-196b-430d-8817-1b615048f160",
                           "name": "wait",
                           "type": "waitTime",
                           "config": {
@@ -3799,7 +3801,7 @@
           "x": 35333,
           "y": 285
         },
-        "id": "68fbcc60-050d-4af1-a2d8-a20d1fa4b955",
+        "id": "fe443d3e-0323-4095-87f4-57f10803c566",
         "name": "IF non trovato -> errore",
         "type": "ifElse",
         "config": {
@@ -3810,7 +3812,7 @@
                 "x": 34733,
                 "y": 285
               },
-              "id": "3d49578b-9da1-4d62-83c9-a6be1910d216",
+              "id": "8ce54cd2-ab68-4615-92ad-009c6b169c7b",
               "name": "screenshot dell'errore",
               "type": "screenshotPage",
               "config": {
@@ -3822,7 +3824,7 @@
                 "x": 34933,
                 "y": 285
               },
-              "id": "b1ffe7d4-25f8-4af5-91bd-17461959fc05",
+              "id": "e8b163bc-953a-416f-9537-376026e27600",
               "name": "errore: [Menu] Non trovo 'Account type and tools' in 'Settings and a",
               "type": "throwException",
               "config": {
@@ -3834,7 +3836,7 @@
                 "x": 35133,
                 "y": 285
               },
-              "id": "1218a33e-03da-40b8-8aef-893b9f0ffe07",
+              "id": "8b1f504d-2858-4fda-89d4-015985e621c1",
               "name": "End task (dopo l'errore)",
               "type": "endTask",
               "config": {}
@@ -3856,7 +3858,7 @@
           "x": 35533,
           "y": 285
         },
-        "id": "ba822790-df7b-46ce-9680-ea4de429fda4",
+        "id": "c89ef37d-0d6b-4ec6-b858-cc09de1d75c4",
         "name": "wait",
         "type": "waitTime",
         "config": {
@@ -3870,7 +3872,7 @@
           "x": 35733,
           "y": 285
         },
-        "id": "ae5bd239-cf01-4e97-b641-9a0a4147c1f3",
+        "id": "a3e0cfbf-60cb-459e-a04f-caa43f66dea8",
         "name": "azzera: Trial reels",
         "type": "script",
         "config": {
@@ -3894,7 +3896,7 @@
           "x": 37133,
           "y": 285
         },
-        "id": "9ce7cf4f-c325-40a7-9760-f7dbf0e6794e",
+        "id": "9ca599f4-97b1-43b7-8429-4a70ad37fdc7",
         "name": "cerca 'Trial reels' (scorre giu' se serve)",
         "type": "forTimes",
         "config": {
@@ -3908,7 +3910,7 @@
                 "x": 36933,
                 "y": 285
               },
-              "id": "d538d982-149d-4bf3-9c35-5ce358d28c28",
+              "id": "20d49c5c-9f99-4e60-a910-af80c770463e",
               "name": "IF 'Trial reels' non ancora toccato",
               "type": "ifElse",
               "config": {
@@ -3919,7 +3921,7 @@
                       "x": 35933,
                       "y": 285
                     },
-                    "id": "dc1b3c33-be99-41db-b417-0465bf860f6a",
+                    "id": "22eeb997-245f-405c-8f92-837ac05ba225",
                     "name": "tocca 'Trial reels'",
                     "type": "click",
                     "config": {
@@ -3947,7 +3949,7 @@
                       "x": 36133,
                       "y": 285
                     },
-                    "id": "6379c0a5-c887-4aa1-a020-3b32078b7e5a",
+                    "id": "250fb45b-bdc0-4ec4-bac9-113e4f3dd144",
                     "name": "toccato?",
                     "type": "script",
                     "config": {
@@ -3969,7 +3971,7 @@
                       "x": 36733,
                       "y": 285
                     },
-                    "id": "0a23f885-dc52-4ff9-b1e7-e02c4e783ef7",
+                    "id": "0a6d7e4e-fe7a-46fb-825b-4ef936d49688",
                     "name": "IF non visto -> scorri giu'",
                     "type": "ifElse",
                     "config": {
@@ -3980,7 +3982,7 @@
                             "x": 36333,
                             "y": 285
                           },
-                          "id": "39349a73-dd53-485a-90b7-f57fd21e72ec",
+                          "id": "474fe214-c990-4639-9d4a-fa6c8ad9b837",
                           "name": "scorri giu'",
                           "type": "executeADB",
                           "config": {
@@ -3995,7 +3997,7 @@
                             "x": 36533,
                             "y": 285
                           },
-                          "id": "e459d672-bd53-4e2f-baf4-c9cd337a4833",
+                          "id": "fa2fcebf-8261-43f7-b0f7-14f5c7e1f1f5",
                           "name": "wait",
                           "type": "waitTime",
                           "config": {
@@ -4036,7 +4038,7 @@
           "x": 37933,
           "y": 285
         },
-        "id": "3b85d4f6-8d36-444c-8ed2-d4ebfe0c569c",
+        "id": "ceb21b13-e8de-489c-bcc4-3d8666e8044c",
         "name": "IF non trovato -> errore",
         "type": "ifElse",
         "config": {
@@ -4047,7 +4049,7 @@
                 "x": 37333,
                 "y": 285
               },
-              "id": "43fa235c-e5ab-40a9-97fa-9042bc58e09d",
+              "id": "a88e2ae8-6cea-4336-9e28-9099f59994b3",
               "name": "screenshot dell'errore",
               "type": "screenshotPage",
               "config": {
@@ -4059,7 +4061,7 @@
                 "x": 37533,
                 "y": 285
               },
-              "id": "474e6dc0-1eb1-460e-b9f8-c2416bf9a69d",
+              "id": "5bbbc3e4-b800-4193-8855-2a41699ab0d0",
               "name": "errore: [Trial reels] Non trovo 'Trial reels' in 'Account type and t",
               "type": "throwException",
               "config": {
@@ -4071,7 +4073,7 @@
                 "x": 37733,
                 "y": 285
               },
-              "id": "ba3310c5-d2c8-4b03-959a-e0cd99be2bfc",
+              "id": "3e078f7b-f1ed-4297-a850-729771153b04",
               "name": "End task (dopo l'errore)",
               "type": "endTask",
               "config": {}
@@ -4093,7 +4095,7 @@
           "x": 38133,
           "y": 285
         },
-        "id": "f8702c36-bc59-4bc0-b6fc-f2c04527c2dd",
+        "id": "85ee0000-4ac0-4771-b2bb-192b4c154549",
         "name": "aspetta la pagina Trial reels",
         "type": "waitTime",
         "config": {
@@ -4107,7 +4109,7 @@
           "x": 38333,
           "y": 285
         },
-        "id": "573fbb0a-72fc-4c5b-9093-c93b53a0371f",
+        "id": "6a09d4c5-b2f5-4e9f-8e33-6fbacd7ec070",
         "name": "azzera: galleria aperta?",
         "type": "script",
         "config": {
@@ -4135,7 +4137,7 @@
           "x": 41133,
           "y": 285
         },
-        "id": "9c870b9c-77b7-4dc2-aebb-c78fd7ca2aac",
+        "id": "c6a64577-3259-406d-a79d-a184ebbd5387",
         "name": "apri la galleria del trial reel (3 tentativi)",
         "type": "forTimes",
         "config": {
@@ -4149,7 +4151,7 @@
                 "x": 40933,
                 "y": 285
               },
-              "id": "056066b6-c7cb-4aa3-be64-0c51974bf87d",
+              "id": "483cca59-6502-451c-873f-85e984505740",
               "name": "IF galleria non ancora aperta",
               "type": "ifElse",
               "config": {
@@ -4160,7 +4162,7 @@
                       "x": 38533,
                       "y": 285
                     },
-                    "id": "469e863a-7016-4011-80ae-f7c26f9c1366",
+                    "id": "e92c1431-1c31-4ca6-8bd4-2ef6456f3503",
                     "name": "numero del tentativo",
                     "type": "script",
                     "config": {
@@ -4182,7 +4184,7 @@
                       "x": 39133,
                       "y": 285
                     },
-                    "id": "bbf4f17c-55e4-464f-8dde-543f903d9338",
+                    "id": "93e90004-1c35-47b2-9a07-fe5ee4c57b9b",
                     "name": "IF 2o tentativo -> chiudi il pop-up di spiegazione",
                     "type": "ifElse",
                     "config": {
@@ -4193,7 +4195,7 @@
                             "x": 38733,
                             "y": 285
                           },
-                          "id": "ee1db94b-8e9a-4ed2-8081-1dc5e317b361",
+                          "id": "63ff5f0b-976a-4754-bfd1-868fde8f75ba",
                           "name": "chiudi il pop-up (OK / Got it / Continue...)",
                           "type": "click",
                           "config": {
@@ -4269,7 +4271,7 @@
                             "x": 38933,
                             "y": 285
                           },
-                          "id": "f7bac5c0-53ee-47e8-a6ea-b7168b614edc",
+                          "id": "e2b8ff8a-1b9f-4979-bf2f-f4c9084f0d74",
                           "name": "wait",
                           "type": "waitTime",
                           "config": {
@@ -4295,7 +4297,7 @@
                       "x": 39733,
                       "y": 285
                     },
-                    "id": "7febdf7d-3060-4de5-9ab3-d688fa8771c4",
+                    "id": "36690212-90d1-460b-8d30-9fae41b46675",
                     "name": "IF 3o tentativo -> indietro (chiude il pop-up)",
                     "type": "ifElse",
                     "config": {
@@ -4306,7 +4308,7 @@
                             "x": 39333,
                             "y": 285
                           },
-                          "id": "be4970bf-8a66-4f95-b995-515a6590bb07",
+                          "id": "01b887cf-7810-4ea1-852f-b78813ec6fc9",
                           "name": "indietro",
                           "type": "executeADB",
                           "config": {
@@ -4321,7 +4323,7 @@
                             "x": 39533,
                             "y": 285
                           },
-                          "id": "f55edc6a-d55a-497a-a221-ca4379b98c09",
+                          "id": "a94f0ff0-4c7c-4bcc-aa05-53e673b04eff",
                           "name": "wait",
                           "type": "waitTime",
                           "config": {
@@ -4347,7 +4349,7 @@
                       "x": 39933,
                       "y": 285
                     },
-                    "id": "fdc8e63f-9382-4bab-9166-621b7b38db28",
+                    "id": "8fed7885-56c3-404f-8eba-4a9fbfb07966",
                     "name": "tocca 'Create trial reel'",
                     "type": "click",
                     "config": {
@@ -4396,7 +4398,7 @@
                       "x": 40133,
                       "y": 285
                     },
-                    "id": "f2645291-3360-4ed7-933c-5d910bda6cfc",
+                    "id": "bd2ddf74-c3cf-4033-93af-71f9f5227989",
                     "name": "wait",
                     "type": "waitTime",
                     "config": {
@@ -4410,7 +4412,7 @@
                       "x": 40333,
                       "y": 285
                     },
-                    "id": "423df743-4df8-4d4d-b5a7-ef28261827c1",
+                    "id": "d9926058-b661-4368-a925-924976d78326",
                     "name": "azzera: galleria?",
                     "type": "script",
                     "config": {
@@ -4430,7 +4432,7 @@
                       "x": 40533,
                       "y": 285
                     },
-                    "id": "bc76c396-34e1-4159-855c-05974f05b785",
+                    "id": "54abf513-080d-4a1f-8498-23295658b4a3",
                     "name": "si e' aperta la galleria 'New reel'?",
                     "type": "getEle",
                     "config": {
@@ -4471,7 +4473,7 @@
                       "x": 40733,
                       "y": 285
                     },
-                    "id": "f7e85250-a435-425d-8780-1fd0769cba69",
+                    "id": "84c7fa40-08e6-44c4-9518-0b9686c0b52f",
                     "name": "galleria aperta?",
                     "type": "script",
                     "config": {
@@ -4509,7 +4511,7 @@
           "x": 41933,
           "y": 285
         },
-        "id": "2334fb47-d906-43fd-9dd0-def0cff121c7",
+        "id": "8dec00f8-dd8a-4b11-83de-ee2e6c1acc4f",
         "name": "IF galleria non aperta -> errore",
         "type": "ifElse",
         "config": {
@@ -4520,7 +4522,7 @@
                 "x": 41333,
                 "y": 285
               },
-              "id": "50b926ba-e304-4e88-ac0f-695ea2aa5335",
+              "id": "26671d62-bbfe-4188-8cf3-0745c8268ca3",
               "name": "screenshot dell'errore",
               "type": "screenshotPage",
               "config": {
@@ -4532,7 +4534,7 @@
                 "x": 41533,
                 "y": 285
               },
-              "id": "7d57646e-90a6-4a6c-baed-32b0d1b76281",
+              "id": "3e538cbb-3cd9-4234-8cfa-3ccbd15eb724",
               "name": "errore: [Trial reels] Toccando 'Create trial reel' non si apre la ga",
               "type": "throwException",
               "config": {
@@ -4544,7 +4546,7 @@
                 "x": 41733,
                 "y": 285
               },
-              "id": "0e4f17f4-79a8-4aa0-9523-a66c7d807a6a",
+              "id": "86b90f80-4371-408b-bf03-f5717c94558f",
               "name": "End task (dopo l'errore)",
               "type": "endTask",
               "config": {}
@@ -4566,7 +4568,7 @@
           "x": 42133,
           "y": 285
         },
-        "id": "9d3339bb-59f6-4825-a955-143d00a1ba51",
+        "id": "dd1e13b7-b809-443b-b293-c4af68a7234f",
         "name": "azzera: e' un trial? (galleria)",
         "type": "script",
         "config": {
@@ -4590,7 +4592,7 @@
           "x": 42333,
           "y": 285
         },
-        "id": "02a137fd-56e7-425a-b7f2-068ae68f798b",
+        "id": "4a1515f9-7472-4d91-be54-b12a5e624512",
         "name": "c'e' 'This is a trial reel'? (galleria)",
         "type": "getEle",
         "config": {
@@ -4617,7 +4619,7 @@
           "x": 42533,
           "y": 285
         },
-        "id": "8cd5b72b-500e-406c-9f96-da5d436b653d",
+        "id": "65959df7-36e3-49c7-b4cb-b1d1e0e00343",
         "name": "e' un trial?",
         "type": "script",
         "config": {
@@ -4639,7 +4641,7 @@
           "x": 43333,
           "y": 285
         },
-        "id": "a60a30c3-de45-4da1-985a-b10fdde7cafb",
+        "id": "08216d99-c6ac-4f02-9910-98ab70181210",
         "name": "IF non e' un trial -> errore (sicurezza)",
         "type": "ifElse",
         "config": {
@@ -4650,7 +4652,7 @@
                 "x": 42733,
                 "y": 285
               },
-              "id": "26c7ab41-7fb5-4bb4-9a9d-761167488bc4",
+              "id": "bd6de87f-32fe-496c-99c7-be62ac226390",
               "name": "screenshot dell'errore",
               "type": "screenshotPage",
               "config": {
@@ -4662,7 +4664,7 @@
                 "x": 42933,
                 "y": 285
               },
-              "id": "430d3957-72cf-4078-8bae-ff8966de8f87",
+              "id": "e73a9556-96d8-4846-996d-c63fec5fc030",
               "name": "errore: [Sicurezza] Nella galleria non vedo 'This is a trial reel': ",
               "type": "throwException",
               "config": {
@@ -4674,7 +4676,7 @@
                 "x": 43133,
                 "y": 285
               },
-              "id": "1a22a13d-262b-4b05-b948-06f11726227e",
+              "id": "3020ec55-339d-4374-a769-8a4304eb7c70",
               "name": "End task (dopo l'errore)",
               "type": "endTask",
               "config": {}
@@ -4696,7 +4698,7 @@
           "x": 43533,
           "y": 285
         },
-        "id": "dcb90531-c934-4cc3-ae12-adfd50e39ac2",
+        "id": "70bd33bc-405d-4e28-874f-27d9690d3d27",
         "name": "azzera: e' l'ultimo video aggiunto?",
         "type": "script",
         "config": {
@@ -4720,7 +4722,7 @@
           "x": 43733,
           "y": 285
         },
-        "id": "673d6b1c-4ebc-4fcb-adf6-f1bb63fb80f5",
+        "id": "9a292fe3-11ef-4f62-a069-f52bcb2a3448",
         "name": "Android: qual e' l'ultimo video aggiunto?",
         "type": "executeADB",
         "config": {
@@ -4735,7 +4737,7 @@
           "x": 43933,
           "y": 285
         },
-        "id": "9917606a-d54f-43b9-8e54-819398834407",
+        "id": "be48049d-edcc-4287-ae39-958aa84ffb25",
         "name": "il video del task e' l'ultimo aggiunto? (stesso nome per Android)",
         "type": "script",
         "config": {
@@ -4758,7 +4760,7 @@
           "x": 44733,
           "y": 285
         },
-        "id": "8f8f6140-126d-4fc6-b86c-52760110b720",
+        "id": "72384392-f84b-42ea-a811-0687bb380a93",
         "name": "IF non e' l'ultimo video aggiunto -> errore",
         "type": "ifElse",
         "config": {
@@ -4769,7 +4771,7 @@
                 "x": 44133,
                 "y": 285
               },
-              "id": "5956c079-9549-4df4-aa10-5da3bfc0cd5a",
+              "id": "2dc8acfc-418f-41bc-b915-023e51bbeda6",
               "name": "screenshot dell'errore",
               "type": "screenshotPage",
               "config": {
@@ -4781,7 +4783,7 @@
                 "x": 44333,
                 "y": 285
               },
-              "id": "186e95a8-a9eb-431d-ba82-efa72baa3ee9",
+              "id": "2c4692fb-325f-4fa2-8365-d2ec33372902",
               "name": "errore: [Galleria] Per Android l'ultimo video aggiunto non e' quello",
               "type": "throwException",
               "config": {
@@ -4793,7 +4795,7 @@
                 "x": 44533,
                 "y": 285
               },
-              "id": "cc078113-9680-46bc-a9fb-db7dbd175eb5",
+              "id": "07f319f7-2874-47af-9313-7fb80c180d22",
               "name": "End task (dopo l'errore)",
               "type": "endTask",
               "config": {}
@@ -4815,7 +4817,7 @@
           "x": 44933,
           "y": 285
         },
-        "id": "241ebaa2-8699-410d-ad08-64d4e29a0a90",
+        "id": "25054e34-51d6-45a7-bfb3-898cbff9f03c",
         "name": "wait",
         "type": "waitTime",
         "config": {
@@ -4829,7 +4831,7 @@
           "x": 45133,
           "y": 285
         },
-        "id": "d05e3188-8bea-4f60-9ec1-fa574937dd8a",
+        "id": "4ec5ba0f-2604-42f6-b6f1-5a5dc953ab30",
         "name": "azzera: video scelto?",
         "type": "script",
         "config": {
@@ -4857,7 +4859,7 @@
           "x": 45333,
           "y": 285
         },
-        "id": "6ee4be75-17ba-4dc4-bb9e-183cd41bc806",
+        "id": "b82e348b-d53e-44e5-8ea8-57e8ef91c660",
         "name": "tocca il primo video (quello del task)",
         "type": "click",
         "config": {
@@ -4892,7 +4894,7 @@
           "x": 45533,
           "y": 285
         },
-        "id": "345f0322-0aec-462b-a0f6-c216c8d7a537",
+        "id": "e7657a00-f532-4aa3-9a96-5dc55a335577",
         "name": "aspetta l'editor",
         "type": "waitTime",
         "config": {
@@ -4906,7 +4908,7 @@
           "x": 45733,
           "y": 285
         },
-        "id": "5f2bfd27-522b-4605-9933-29600956f17b",
+        "id": "b2e34c50-9402-4ae8-bce0-72c8623aba79",
         "name": "si e' aperto l'editor? (tasto Next)",
         "type": "getEle",
         "config": {
@@ -4952,7 +4954,7 @@
           "x": 45933,
           "y": 285
         },
-        "id": "25f54c97-0907-4075-919b-dc55ceca9845",
+        "id": "9e474578-ee55-4e01-909a-ae9b3fa52a9f",
         "name": "editor aperto?",
         "type": "script",
         "config": {
@@ -4974,7 +4976,7 @@
           "x": 47133,
           "y": 285
         },
-        "id": "ac368e3d-0973-4da3-9d18-da0d77a8e978",
+        "id": "62868fe0-84d0-4bbf-9970-f80ae1da079f",
         "name": "IF editor non aperto -> tocca di nuovo il video",
         "type": "ifElse",
         "config": {
@@ -4985,7 +4987,7 @@
                 "x": 46133,
                 "y": 285
               },
-              "id": "63176c52-3af8-4017-bee1-e5fae7d1f873",
+              "id": "89d58248-5011-49ff-bec9-71899c594408",
               "name": "tocca il primo video (quello del task)",
               "type": "click",
               "config": {
@@ -5020,7 +5022,7 @@
                 "x": 46333,
                 "y": 285
               },
-              "id": "42c5592d-8445-485d-b145-e8fd21419637",
+              "id": "6d15fc27-80dc-4fdb-8699-38a6a29c1b8f",
               "name": "aspetta l'editor",
               "type": "waitTime",
               "config": {
@@ -5034,7 +5036,7 @@
                 "x": 46533,
                 "y": 285
               },
-              "id": "6d1d0654-4cd5-416e-bfea-4c6507165a74",
+              "id": "70fb0dd8-7a98-4996-829c-c28a2790e908",
               "name": "azzera: editor?",
               "type": "script",
               "config": {
@@ -5054,7 +5056,7 @@
                 "x": 46733,
                 "y": 285
               },
-              "id": "de0d29d7-99e1-4118-9305-94534d893937",
+              "id": "2f568cff-1a0f-495c-b535-a3571abd3816",
               "name": "si e' aperto l'editor? (tasto Next)",
               "type": "getEle",
               "config": {
@@ -5100,7 +5102,7 @@
                 "x": 46933,
                 "y": 285
               },
-              "id": "8f191319-1729-44d8-bdb1-1f7ddb8fa2a5",
+              "id": "bcef841d-43dd-47be-9d2b-5fac64ec22a5",
               "name": "editor aperto?",
               "type": "script",
               "config": {
@@ -5134,7 +5136,7 @@
           "x": 47933,
           "y": 285
         },
-        "id": "4fe7ea1e-756e-44d7-b016-16762c2a21c3",
+        "id": "ff516ff2-c3ea-4b2a-a4ae-9cc5e711c9a7",
         "name": "IF editor non aperto -> errore",
         "type": "ifElse",
         "config": {
@@ -5145,7 +5147,7 @@
                 "x": 47333,
                 "y": 285
               },
-              "id": "fdcd01a5-46ae-4162-8a4d-e658e43f9e62",
+              "id": "54ad6301-8275-47db-bc31-526f1e5b20a2",
               "name": "screenshot dell'errore",
               "type": "screenshotPage",
               "config": {
@@ -5157,7 +5159,7 @@
                 "x": 47533,
                 "y": 285
               },
-              "id": "bf6e9cbb-2ca2-49e0-a92d-2ec7549bd39d",
+              "id": "86f903a1-89b1-4986-b511-e5a33fd4efe2",
               "name": "errore: [Galleria] Non riesco ad aprire il video nell'editor.",
               "type": "throwException",
               "config": {
@@ -5169,7 +5171,7 @@
                 "x": 47733,
                 "y": 285
               },
-              "id": "f28fa2b5-6b94-4e2e-9802-8715042654a2",
+              "id": "d11f9062-b01c-4fc8-9330-331329b5e747",
               "name": "End task (dopo l'errore)",
               "type": "endTask",
               "config": {}
@@ -5191,7 +5193,7 @@
           "x": 48133,
           "y": 285
         },
-        "id": "9e185681-d6b3-4ee9-87a4-ba854015bd48",
+        "id": "2aedea7c-65dc-413c-a627-ab36f1237d60",
         "name": "pop-up 'Create a sticker' -> Not now",
         "type": "click",
         "config": {
@@ -5218,7 +5220,7 @@
           "x": 48333,
           "y": 285
         },
-        "id": "be555660-32c2-4e1c-89a2-f3b6ade6a14b",
+        "id": "dcf99206-172a-4a01-bd5c-a2ce0a107c63",
         "name": "wait",
         "type": "waitTime",
         "config": {
@@ -5232,7 +5234,7 @@
           "x": 48533,
           "y": 285
         },
-        "id": "ede2c346-e5ef-489f-a171-3142a5400858",
+        "id": "5937d3dc-3650-4fbd-8c32-b8e4a76f3bea",
         "name": "azzera: Next",
         "type": "script",
         "config": {
@@ -5256,7 +5258,7 @@
           "x": 48733,
           "y": 285
         },
-        "id": "2bc6532c-8367-40df-bafc-a9e2c489161f",
+        "id": "2a7561f1-bb0f-48bd-9852-f9fb420d9982",
         "name": "tocca Next",
         "type": "click",
         "config": {
@@ -5303,7 +5305,7 @@
           "x": 48933,
           "y": 285
         },
-        "id": "a09d8def-fa88-489f-838b-d1e4fc22ffd7",
+        "id": "bc77be82-688a-4cee-8c38-4f0a51399741",
         "name": "Next toccato?",
         "type": "script",
         "config": {
@@ -5325,7 +5327,7 @@
           "x": 49733,
           "y": 285
         },
-        "id": "a34d5231-b85e-4beb-ab44-4f43e24df958",
+        "id": "27a549dc-6668-4f29-9f8c-cf8bbc85263f",
         "name": "IF Next non toccato -> errore",
         "type": "ifElse",
         "config": {
@@ -5336,7 +5338,7 @@
                 "x": 49133,
                 "y": 285
               },
-              "id": "85e74d22-23f3-487e-bcb1-b9e74c3e43d6",
+              "id": "efa6014f-1cd1-47d0-830a-00d27258c9d0",
               "name": "screenshot dell'errore",
               "type": "screenshotPage",
               "config": {
@@ -5348,7 +5350,7 @@
                 "x": 49333,
                 "y": 285
               },
-              "id": "eb1e422d-1cab-4ca9-89c3-5a447618c75a",
+              "id": "47486aff-1621-4b04-a710-3a514bd24277",
               "name": "errore: [Editor] Non riesco a toccare 'Next'.",
               "type": "throwException",
               "config": {
@@ -5360,7 +5362,7 @@
                 "x": 49533,
                 "y": 285
               },
-              "id": "01a4652d-b034-45fd-987a-32fcf2bc1f4d",
+              "id": "1d30e133-744a-487d-94d2-e61573919781",
               "name": "End task (dopo l'errore)",
               "type": "endTask",
               "config": {}
@@ -5382,7 +5384,7 @@
           "x": 49933,
           "y": 285
         },
-        "id": "9b5ab470-c941-4d0d-b48a-08ad8cd53e2f",
+        "id": "13f8ec2f-8d87-48c4-9360-1a3b885513d4",
         "name": "aspetta la pagina finale",
         "type": "waitTime",
         "config": {
@@ -5396,7 +5398,7 @@
           "x": 50133,
           "y": 285
         },
-        "id": "f7a881d3-4d1d-465a-98c3-3ec1aa27a588",
+        "id": "b30fdd3b-e1ca-4653-9bc9-4dd4198ef53f",
         "name": "azzera: avviso download",
         "type": "script",
         "config": {
@@ -5420,7 +5422,7 @@
           "x": 50333,
           "y": 285
         },
-        "id": "fe5c7c53-7a4d-4fdf-a0aa-46e9e28e51fe",
+        "id": "66f757c8-9d73-4713-9939-954a7939d20a",
         "name": "avviso 'Others can now download and share'?",
         "type": "getEle",
         "config": {
@@ -5447,7 +5449,7 @@
           "x": 50533,
           "y": 285
         },
-        "id": "471462b8-9153-4233-82a6-253613a5c78d",
+        "id": "eded9a43-8559-4ab1-b864-92e97de66365",
         "name": "avviso?",
         "type": "script",
         "config": {
@@ -5469,7 +5471,7 @@
           "x": 51133,
           "y": 285
         },
-        "id": "5a2be2a5-e4ee-4b59-8cd2-7827d1565be0",
+        "id": "6a2622af-7128-4c49-87fc-971620ec158a",
         "name": "IF avviso -> Continue",
         "type": "ifElse",
         "config": {
@@ -5480,7 +5482,7 @@
                 "x": 50733,
                 "y": 285
               },
-              "id": "f9dd994d-922b-4356-93eb-0168030283f8",
+              "id": "7595e539-c615-4b79-81dc-95d353df1b6e",
               "name": "tocca Continue",
               "type": "click",
               "config": {
@@ -5519,7 +5521,7 @@
                 "x": 50933,
                 "y": 285
               },
-              "id": "7337e90a-7f0c-4a27-8370-7818d2ce4dac",
+              "id": "1a5f8785-278a-49e6-8a99-cc5536a0a67a",
               "name": "wait",
               "type": "waitTime",
               "config": {
@@ -5545,7 +5547,7 @@
           "x": 51333,
           "y": 285
         },
-        "id": "bd041890-d1c1-453d-aed4-8af813cafa4e",
+        "id": "730e6dd9-6249-463f-a6de-b7a6db4e9ba2",
         "name": "azzera: e' un trial? (pagina finale)",
         "type": "script",
         "config": {
@@ -5569,7 +5571,7 @@
           "x": 51533,
           "y": 285
         },
-        "id": "b1cb5276-56e6-47a9-8707-1c0ab4dda3c7",
+        "id": "49b0c4a9-7d4b-47bf-978d-5db5f40b968e",
         "name": "c'e' 'This is a trial reel'? (pagina finale)",
         "type": "getEle",
         "config": {
@@ -5596,7 +5598,7 @@
           "x": 51733,
           "y": 285
         },
-        "id": "9d437839-c213-4476-a349-4ad2f6cdae89",
+        "id": "03e43a9d-72b3-4d84-ac57-feaf7f9fa0d4",
         "name": "e' un trial?",
         "type": "script",
         "config": {
@@ -5618,7 +5620,7 @@
           "x": 52533,
           "y": 285
         },
-        "id": "34c1f6cf-ed6e-46da-98dc-6a780963c83b",
+        "id": "02326d85-7b4f-458f-bf7e-afec07312432",
         "name": "IF non e' un trial -> errore (sicurezza)",
         "type": "ifElse",
         "config": {
@@ -5629,7 +5631,7 @@
                 "x": 51933,
                 "y": 285
               },
-              "id": "e098c499-6bf8-4aa3-9713-d8a2c643cdae",
+              "id": "2477e9de-e250-462c-ae5a-a6b8382d76bc",
               "name": "screenshot dell'errore",
               "type": "screenshotPage",
               "config": {
@@ -5641,7 +5643,7 @@
                 "x": 52133,
                 "y": 285
               },
-              "id": "b7813f98-6ca3-4bf9-a93b-7cdd899e4fcb",
+              "id": "10db5853-eb08-4d1f-8d85-8472f2f95e28",
               "name": "errore: [Sicurezza] Nella pagina finale non vedo 'This is a trial re",
               "type": "throwException",
               "config": {
@@ -5653,7 +5655,7 @@
                 "x": 52333,
                 "y": 285
               },
-              "id": "364416cd-bd69-4c8d-be0e-8069a4786a69",
+              "id": "6d49a0d9-18bd-4904-8d7a-2e4cc6bb4109",
               "name": "End task (dopo l'errore)",
               "type": "endTask",
               "config": {}
@@ -5675,7 +5677,7 @@
           "x": 55333,
           "y": 285
         },
-        "id": "f36813de-b8f7-45e2-ab7c-f21e0a50c568",
+        "id": "891fdbfa-fbfb-453d-8838-e717887e9b9c",
         "name": "IF c'e' una descrizione -> scrivila",
         "type": "ifElse",
         "config": {
@@ -5686,7 +5688,7 @@
                 "x": 52733,
                 "y": 285
               },
-              "id": "9bee476e-bb94-4128-ac4a-1907ddd7844c",
+              "id": "c4f7a99a-4183-4037-b579-221d531e3143",
               "name": "azzera: descrizione",
               "type": "script",
               "config": {
@@ -5710,7 +5712,7 @@
                 "x": 52933,
                 "y": 285
               },
-              "id": "ed6f05ed-0958-4e25-beff-7f9387c1dd03",
+              "id": "b109f4bc-ae34-488a-bcb1-6b328caa8576",
               "name": "scrivi la descrizione",
               "type": "inputContent",
               "config": {
@@ -5737,7 +5739,7 @@
                 "x": 53133,
                 "y": 285
               },
-              "id": "86663e72-d7c8-49cc-a737-74b1b2f84929",
+              "id": "ddb42a6e-a9be-4b62-a7cd-9c09dcb3e769",
               "name": "descrizione scritta?",
               "type": "script",
               "config": {
@@ -5759,7 +5761,7 @@
                 "x": 53733,
                 "y": 285
               },
-              "id": "3192f104-8b7e-42b7-aac5-d0b8ed746add",
+              "id": "186ea12f-e4d8-4f6c-a35e-413967b8961b",
               "name": "IF non scritta -> prova nella casella di testo",
               "type": "ifElse",
               "config": {
@@ -5770,7 +5772,7 @@
                       "x": 53333,
                       "y": 285
                     },
-                    "id": "2f5eb870-0d8a-44d0-92eb-83ffadd7d623",
+                    "id": "f5e67463-fd9f-469b-844c-cb91ca26a4d3",
                     "name": "scrivi la descrizione (casella di testo)",
                     "type": "inputContent",
                     "config": {
@@ -5797,7 +5799,7 @@
                       "x": 53533,
                       "y": 285
                     },
-                    "id": "5a447665-746f-4549-8030-8f9694d3f29e",
+                    "id": "aa742b91-2f3e-446a-b60d-8b8e4e8a96fa",
                     "name": "descrizione scritta?",
                     "type": "script",
                     "config": {
@@ -5831,7 +5833,7 @@
                 "x": 54533,
                 "y": 285
               },
-              "id": "517d344c-f9de-4576-ac0c-22cb8f51ef0b",
+              "id": "c11da247-8b2b-4e5d-baf6-d360d8e57fad",
               "name": "IF non scritta -> errore",
               "type": "ifElse",
               "config": {
@@ -5842,7 +5844,7 @@
                       "x": 53933,
                       "y": 285
                     },
-                    "id": "352ad3e1-fecd-4905-b8a6-e51337ff5570",
+                    "id": "b8b8c309-2617-4466-895c-95b64b485d02",
                     "name": "screenshot dell'errore",
                     "type": "screenshotPage",
                     "config": {
@@ -5854,7 +5856,7 @@
                       "x": 54133,
                       "y": 285
                     },
-                    "id": "57b8c375-0c5c-4a81-a40c-aa625ae46d10",
+                    "id": "2506a51d-7ed0-4083-aeca-70e98aa473dc",
                     "name": "errore: [Descrizione] Non riesco a scrivere la descrizione.",
                     "type": "throwException",
                     "config": {
@@ -5866,7 +5868,7 @@
                       "x": 54333,
                       "y": 285
                     },
-                    "id": "94191587-1579-4ddb-8aa2-d67f19fb452d",
+                    "id": "649d052d-c8fa-4e82-add1-90a453df630e",
                     "name": "End task (dopo l'errore)",
                     "type": "endTask",
                     "config": {}
@@ -5888,7 +5890,7 @@
                 "x": 54733,
                 "y": 285
               },
-              "id": "b4f60ce9-0b45-40a8-bd8a-7a83f7327c67",
+              "id": "83c8ea97-597d-496b-8fda-6adcac1606f8",
               "name": "wait",
               "type": "waitTime",
               "config": {
@@ -5902,7 +5904,7 @@
                 "x": 54933,
                 "y": 285
               },
-              "id": "3a849f8c-0fd7-4480-9c60-7f6472696af4",
+              "id": "9e8234a4-f9f9-42c0-a075-1bd3db6b010c",
               "name": "tocca OK (fine descrizione), se c'e'",
               "type": "click",
               "config": {
@@ -5950,7 +5952,7 @@
                 "x": 55133,
                 "y": 285
               },
-              "id": "c64a7a62-79fa-41dc-9cee-533a93e627c1",
+              "id": "61978c72-9f90-41c2-9ff5-2a8dabe4c64f",
               "name": "wait",
               "type": "waitTime",
               "config": {
@@ -5976,7 +5978,7 @@
           "x": 55533,
           "y": 285
         },
-        "id": "4f50e6a1-b6db-43c1-bdc2-b8f228244fe7",
+        "id": "d71a0ce8-b771-4a5c-99a2-d164656c5441",
         "name": "screenshot: descrizione",
         "type": "screenshotPage",
         "config": {
@@ -5990,7 +5992,7 @@
           "x": 55733,
           "y": 285
         },
-        "id": "77b962de-d889-43c8-8a2a-d28b707485bf",
+        "id": "6eb5310e-540e-4cfb-8003-846ce8179d7b",
         "name": "azzera: fondo della pagina",
         "type": "script",
         "config": {
@@ -6014,7 +6016,7 @@
           "x": 58533,
           "y": 285
         },
-        "id": "05bb60db-52cb-46c4-b9d8-63aaebaebac7",
+        "id": "03326714-e942-4dfb-9249-dd48d27db445",
         "name": "scorri giu' fino a 'Share to' (al massimo 5 volte)",
         "type": "forTimes",
         "config": {
@@ -6028,7 +6030,7 @@
                 "x": 58333,
                 "y": 285
               },
-              "id": "1d7356d4-4ed4-4cb1-815d-e0f0eb05f523",
+              "id": "cfa5a6da-11e6-41a1-b2fd-09ea824b0bd6",
               "name": "IF fondo non ancora visto",
               "type": "ifElse",
               "config": {
@@ -6039,7 +6041,7 @@
                       "x": 55933,
                       "y": 285
                     },
-                    "id": "9cfe4488-7cce-4785-9187-4b7ceb7b0a62",
+                    "id": "29d7f6df-3954-4246-9244-6f9a505bc727",
                     "name": "azzera: pagina finale?",
                     "type": "script",
                     "config": {
@@ -6063,7 +6065,7 @@
                       "x": 56133,
                       "y": 285
                     },
-                    "id": "a70c6c31-8b92-40ff-90d4-ccaa9d8243cc",
+                    "id": "d56e07f3-36a1-4880-be0e-bbd45be37a95",
                     "name": "sono ancora sulla pagina finale?",
                     "type": "getEle",
                     "config": {
@@ -6132,7 +6134,7 @@
                       "x": 56333,
                       "y": 285
                     },
-                    "id": "028c69ba-d49c-448a-a866-cc164a04657e",
+                    "id": "7e2521d2-0643-491a-a676-4d88c6d62406",
                     "name": "pagina finale?",
                     "type": "script",
                     "config": {
@@ -6154,7 +6156,7 @@
                       "x": 57133,
                       "y": 285
                     },
-                    "id": "968503e3-c77e-44ef-9d75-b3d74d0aff6c",
+                    "id": "73541848-b621-4901-9e74-c26800da0ca5",
                     "name": "IF non sono piu' sulla pagina finale -> errore (non scorro)",
                     "type": "ifElse",
                     "config": {
@@ -6165,7 +6167,7 @@
                             "x": 56533,
                             "y": 285
                           },
-                          "id": "a456be0f-14c4-4e6c-96b9-0b28f2e5884a",
+                          "id": "6b049c56-3749-4216-aa48-eee4f6754e18",
                           "name": "screenshot dell'errore",
                           "type": "screenshotPage",
                           "config": {
@@ -6177,7 +6179,7 @@
                             "x": 56733,
                             "y": 285
                           },
-                          "id": "73023192-9115-4229-a124-23f45f1f17b1",
+                          "id": "4d07d214-1219-412a-a32b-2b651e5a2d93",
                           "name": "errore: [Pagina finale] Non sono piu' sulla pagina con Share: non sc",
                           "type": "throwException",
                           "config": {
@@ -6189,7 +6191,7 @@
                             "x": 56933,
                             "y": 285
                           },
-                          "id": "9de0f21f-dedc-48a5-b218-cdb7b416948f",
+                          "id": "a83556e9-d004-4a97-9bd5-6b1e42bfe958",
                           "name": "End task (dopo l'errore)",
                           "type": "endTask",
                           "config": {}
@@ -6211,7 +6213,7 @@
                       "x": 57333,
                       "y": 285
                     },
-                    "id": "5902cc2f-5d47-464f-8175-941684741891",
+                    "id": "cc866782-c1a4-4d94-8915-b06df3c1ef20",
                     "name": "scorri giu'",
                     "type": "executeADB",
                     "config": {
@@ -6226,7 +6228,7 @@
                       "x": 57533,
                       "y": 285
                     },
-                    "id": "578d4ede-e968-4ad0-a18f-6cb1d5b909b5",
+                    "id": "3b3af4bb-ad35-4e2b-b9a2-a7eb8af2da63",
                     "name": "wait",
                     "type": "waitTime",
                     "config": {
@@ -6240,7 +6242,7 @@
                       "x": 57733,
                       "y": 285
                     },
-                    "id": "0783e5e6-4f6c-4b30-85ec-feb0bac44475",
+                    "id": "60659f50-f042-4d6c-bd61-b1ad640bc5d2",
                     "name": "azzera: fondo?",
                     "type": "script",
                     "config": {
@@ -6260,7 +6262,7 @@
                       "x": 57933,
                       "y": 285
                     },
-                    "id": "07bb0ec0-2f35-4493-82b8-7b206154f8dc",
+                    "id": "0ace086b-3fe7-41a5-908e-5fd5d86c1e34",
                     "name": "si vede il fondo? (More options / Your story)",
                     "type": "getEle",
                     "config": {
@@ -6294,7 +6296,7 @@
                       "x": 58133,
                       "y": 285
                     },
-                    "id": "4f8c8cae-7d2a-47f9-ad7d-62e383bfa943",
+                    "id": "ee280056-b977-4812-8220-166361636ec2",
                     "name": "fondo visto?",
                     "type": "script",
                     "config": {
@@ -6331,7 +6333,7 @@
           "x": 58733,
           "y": 285
         },
-        "id": "cbebfc2a-3543-42cd-86ac-9924cd3a3e7f",
+        "id": "532d297f-ba01-43e6-bd8e-712b83721901",
         "name": "azzera: Facebook",
         "type": "script",
         "config": {
@@ -6359,7 +6361,7 @@
           "x": 58933,
           "y": 285
         },
-        "id": "52a8c06d-7cd7-4838-80c5-885c736d9c4f",
+        "id": "c4618df2-d93e-4259-b6bf-f2d16e16f16e",
         "name": "c'e' la riga di Facebook in 'Share to'?",
         "type": "getEle",
         "config": {
@@ -6407,7 +6409,7 @@
           "x": 59133,
           "y": 285
         },
-        "id": "d3736ddf-0509-4b97-b1aa-734be1804c40",
+        "id": "3089e3ab-2fe6-4877-a5b5-282ee3b2c98d",
         "name": "c'e' Facebook?",
         "type": "script",
         "config": {
@@ -6429,7 +6431,7 @@
           "x": 59933,
           "y": 285
         },
-        "id": "9507ca8f-ffd3-47f6-bbb2-247e7877db22",
+        "id": "70efa869-271c-4491-8d03-6f42fa70eb61",
         "name": "IF niente Facebook e non vedo il fondo -> errore",
         "type": "ifElse",
         "config": {
@@ -6440,7 +6442,7 @@
                 "x": 59333,
                 "y": 285
               },
-              "id": "04d75d27-a12f-4178-8aee-623ca0613d11",
+              "id": "59fb9000-409e-4e29-a3cb-a6daae3a8cb8",
               "name": "screenshot dell'errore",
               "type": "screenshotPage",
               "config": {
@@ -6452,7 +6454,7 @@
                 "x": 59533,
                 "y": 285
               },
-              "id": "e2798da7-a2e4-4fdb-a451-6be06f91c9ee",
+              "id": "b49ed973-ff74-49d2-9933-0d2727ef7d79",
               "name": "errore: [Facebook] Non trovo la parte 'Share to' per spegnere Facebo",
               "type": "throwException",
               "config": {
@@ -6464,7 +6466,7 @@
                 "x": 59733,
                 "y": 285
               },
-              "id": "597fad95-c41d-4dba-806f-317b17b6c526",
+              "id": "971c71b0-d536-4025-a3c0-22ce5e50a54c",
               "name": "End task (dopo l'errore)",
               "type": "endTask",
               "config": {}
@@ -6492,7 +6494,7 @@
           "x": 63533,
           "y": 285
         },
-        "id": "33ee3913-a773-49ce-948e-7e3b206fb853",
+        "id": "e71752d9-d872-4359-a495-6206aade1208",
         "name": "IF c'e' Facebook -> spegnilo solo per questo reel",
         "type": "ifElse",
         "config": {
@@ -6503,7 +6505,7 @@
                 "x": 60133,
                 "y": 285
               },
-              "id": "aac41b17-1458-4d1a-8e38-c70d83f01173",
+              "id": "bb236ed5-7017-4da1-865a-941fd3214aa5",
               "name": "larghezza dello schermo",
               "type": "mathOperation",
               "config": {
@@ -6516,7 +6518,7 @@
                 "x": 60333,
                 "y": 285
               },
-              "id": "19ce89e8-3c0a-48e7-b814-e9c1faf468ee",
+              "id": "b23acb7d-5b99-47fb-8868-0f0f3438a85d",
               "name": "posizione dell'interruttore di Facebook",
               "type": "script",
               "config": {
@@ -6543,7 +6545,7 @@
                 "x": 62533,
                 "y": 285
               },
-              "id": "cd8a773f-206f-484c-b761-14348d6e59be",
+              "id": "90434cf7-04e1-47c6-970b-99191f6884f4",
               "name": "spegni Facebook (al massimo 2 tocchi)",
               "type": "forTimes",
               "config": {
@@ -6557,7 +6559,7 @@
                       "x": 62333,
                       "y": 285
                     },
-                    "id": "6b5537c3-1fdd-447d-8007-92c564e1da01",
+                    "id": "58739d9b-acf5-46e6-8664-4169317af398",
                     "name": "IF Facebook non ancora spento",
                     "type": "ifElse",
                     "config": {
@@ -6568,7 +6570,7 @@
                             "x": 60533,
                             "y": 285
                           },
-                          "id": "0149bbe4-5625-461b-ab93-03c201f09d9b",
+                          "id": "ba9983e0-8703-44aa-88d6-ad8eba3817b1",
                           "name": "tocca l'interruttore di Facebook",
                           "type": "clickXY",
                           "config": {
@@ -6583,7 +6585,7 @@
                             "x": 60733,
                             "y": 285
                           },
-                          "id": "b24bede8-815e-4a12-b37a-ea100407c771",
+                          "id": "69370e33-4eb8-4324-8a87-6aa3071c7a3b",
                           "name": "wait",
                           "type": "waitTime",
                           "config": {
@@ -6597,7 +6599,7 @@
                             "x": 60933,
                             "y": 285
                           },
-                          "id": "4474b7c9-3bdb-4696-8617-0965bef1b1b1",
+                          "id": "e57d2b54-5060-48c4-97d8-1c0b342d3c53",
                           "name": "azzera: pop-up Facebook",
                           "type": "script",
                           "config": {
@@ -6625,7 +6627,7 @@
                             "x": 61133,
                             "y": 285
                           },
-                          "id": "c1c4cbda-f9e0-4cc3-bb44-e25f1d14a846",
+                          "id": "d7a110b6-2303-41f6-8b47-4da5bf578cc1",
                           "name": "e' uscito 'Stop sharing on Facebook?'",
                           "type": "getEle",
                           "config": {
@@ -6659,7 +6661,7 @@
                             "x": 61333,
                             "y": 285
                           },
-                          "id": "a56763fe-bbfc-48d8-b448-874370b9d4ea",
+                          "id": "892a7510-f6ed-4314-abfb-56facfc0e7ee",
                           "name": "pop-up uscito?",
                           "type": "script",
                           "config": {
@@ -6681,7 +6683,7 @@
                             "x": 62133,
                             "y": 285
                           },
-                          "id": "dd1c779f-2099-4a2f-be31-04dd90f1d3fe",
+                          "id": "33765f1f-e130-4b4b-a3f1-8d6311df07e6",
                           "name": "IF pop-up -> 'Don't share this reel'",
                           "type": "ifElse",
                           "config": {
@@ -6692,7 +6694,7 @@
                                   "x": 61533,
                                   "y": 285
                                 },
-                                "id": "793362ee-47b9-4b6e-8bc6-de8028203c33",
+                                "id": "23bade53-e48d-46a5-bdb8-53a34c5ff40f",
                                 "name": "tocca 'Don't share this reel' (solo questo reel)",
                                 "type": "click",
                                 "config": {
@@ -6727,7 +6729,7 @@
                                   "x": 61733,
                                   "y": 285
                                 },
-                                "id": "baa8b8fd-da84-4835-8048-5aa68e914125",
+                                "id": "7416962e-d499-4832-a3e6-3056a58a8631",
                                 "name": "Facebook spento?",
                                 "type": "script",
                                 "config": {
@@ -6749,7 +6751,7 @@
                                   "x": 61933,
                                   "y": 285
                                 },
-                                "id": "85f7b8ac-64b3-4b8d-b3a3-05a004a6a3f2",
+                                "id": "60550567-ae31-41d6-9176-cf5a8010b1eb",
                                 "name": "wait",
                                 "type": "waitTime",
                                 "config": {
@@ -6790,7 +6792,7 @@
                 "x": 63333,
                 "y": 285
               },
-              "id": "7004ce5b-2bfc-4d01-9af3-f878ae98f0ee",
+              "id": "0fb7f6f9-64cb-4935-aa32-21427617f533",
               "name": "IF Facebook non spento -> errore",
               "type": "ifElse",
               "config": {
@@ -6801,7 +6803,7 @@
                       "x": 62733,
                       "y": 285
                     },
-                    "id": "b2b5cbe7-b1a7-4836-ad0f-fdb554136fb5",
+                    "id": "c04c759a-ef2e-46e2-9a64-c627cdfeae11",
                     "name": "screenshot dell'errore",
                     "type": "screenshotPage",
                     "config": {
@@ -6813,7 +6815,7 @@
                       "x": 62933,
                       "y": 285
                     },
-                    "id": "016ea17b-bcf5-44d0-849a-d8fce4956599",
+                    "id": "71133ec0-e170-4550-8e8e-ca9c0d055576",
                     "name": "errore: [Facebook] Non riesco a spegnere la condivisione su Facebook",
                     "type": "throwException",
                     "config": {
@@ -6825,7 +6827,7 @@
                       "x": 63133,
                       "y": 285
                     },
-                    "id": "090fd359-dd82-4db9-9cf0-071a3ab4cb06",
+                    "id": "da39fbda-d70f-4a83-a3e9-69608639b039",
                     "name": "End task (dopo l'errore)",
                     "type": "endTask",
                     "config": {}
@@ -6859,7 +6861,7 @@
           "x": 63733,
           "y": 285
         },
-        "id": "d1c52254-a6af-44a1-ad79-bd94cc5fc891",
+        "id": "003a33bf-de7c-4a4e-ab08-b47ad2364f4a",
         "name": "si puo' pubblicare? (trial e Facebook a posto)",
         "type": "script",
         "config": {
@@ -6884,7 +6886,7 @@
           "x": 69733,
           "y": 285
         },
-        "id": "0d79c50d-b156-4ba7-a25b-4434a78d9de3",
+        "id": "1214c65d-045c-49c6-a0cf-f662b4766791",
         "name": "IF Solo prova -> non pubblico (ELSE: Share)",
         "type": "ifElse",
         "config": {
@@ -6895,7 +6897,7 @@
                 "x": 68933,
                 "y": 285
               },
-              "id": "cce014ac-bb16-49e6-bd92-2ef5a5c35a29",
+              "id": "84bd4545-eb88-4eea-8a37-50ed90eea2b8",
               "name": "SOLO PROVA: pagina finale, non pubblico",
               "type": "screenshotPage",
               "config": {
@@ -6907,7 +6909,7 @@
                 "x": 69133,
                 "y": 285
               },
-              "id": "fe8711cd-6f93-4aa7-9502-f8247b4e0e5b",
+              "id": "b6f19f63-a10c-4923-89c8-93351e493946",
               "name": "chiudi Instagram senza pubblicare",
               "type": "executeADB",
               "config": {
@@ -6922,7 +6924,7 @@
                 "x": 69333,
                 "y": 285
               },
-              "id": "23d1fcc0-c529-438d-bcb0-96f32d030b2d",
+              "id": "a84001f7-2e79-470f-b3c2-dd2b0f836983",
               "name": "HOME",
               "type": "executeADB",
               "config": {
@@ -6937,7 +6939,7 @@
                 "x": 69533,
                 "y": 285
               },
-              "id": "26de5e7d-ffcb-4f50-8fe9-add7b0647847",
+              "id": "165fcf94-f2eb-4ce6-bb85-ee43fffad5de",
               "name": "End task",
               "type": "endTask",
               "config": {}
@@ -6957,7 +6959,7 @@
                 "x": 64533,
                 "y": 285
               },
-              "id": "2a34cdbb-a249-4cca-896a-604710fd607a",
+              "id": "0f2585a6-f106-4a79-aa09-8fcbc2bf7ff8",
               "name": "IF controlli non passati -> errore",
               "type": "ifElse",
               "config": {
@@ -6968,7 +6970,7 @@
                       "x": 63933,
                       "y": 285
                     },
-                    "id": "7aff6caf-7f17-4020-ad44-8372f64b7406",
+                    "id": "1face173-17e9-4915-81f2-146d7c23c74e",
                     "name": "screenshot dell'errore",
                     "type": "screenshotPage",
                     "config": {
@@ -6980,7 +6982,7 @@
                       "x": 64133,
                       "y": 285
                     },
-                    "id": "93514d8c-52fe-420a-905b-eb999fbe741e",
+                    "id": "5c54ff75-8dad-41b7-bafb-43d5433c7d39",
                     "name": "errore: [Sicurezza] Controlli non passati (trial o Facebook): non pu",
                     "type": "throwException",
                     "config": {
@@ -6992,7 +6994,7 @@
                       "x": 64333,
                       "y": 285
                     },
-                    "id": "008e0fde-4df8-47b2-bc74-cf1362ebea65",
+                    "id": "42e0c214-e0cf-4e8e-8d39-1985e24501cb",
                     "name": "End task (dopo l'errore)",
                     "type": "endTask",
                     "config": {}
@@ -7014,7 +7016,7 @@
                 "x": 64733,
                 "y": 285
               },
-              "id": "ddaa36bf-6189-4df9-bb30-4a401add3195",
+              "id": "8ea30178-1468-448e-9f9b-55fb602d373a",
               "name": "screenshot: prima di Share",
               "type": "screenshotPage",
               "config": {
@@ -7028,7 +7030,7 @@
                 "x": 64933,
                 "y": 285
               },
-              "id": "edf01105-c805-4bdc-8f08-89e4b67f0ba7",
+              "id": "bed34e28-2051-4db1-811c-3136ebdf86d9",
               "name": "azzera: Share",
               "type": "script",
               "config": {
@@ -7052,7 +7054,7 @@
                 "x": 65133,
                 "y": 285
               },
-              "id": "674c7cd5-413b-4cd6-ac56-fb88ca234f9b",
+              "id": "a7f639be-320c-4145-a5ce-569a0dc4a078",
               "name": "tocca Share",
               "type": "click",
               "config": {
@@ -7087,7 +7089,7 @@
                 "x": 65333,
                 "y": 285
               },
-              "id": "50a96347-f57a-4c46-a4cb-b05ebcdce546",
+              "id": "77da7022-7fd3-4c23-8687-0b9309ca1359",
               "name": "Share toccato?",
               "type": "script",
               "config": {
@@ -7109,7 +7111,7 @@
                 "x": 66133,
                 "y": 285
               },
-              "id": "e14f43a9-6451-4bef-9dd3-9ac3939984d9",
+              "id": "9b361d30-9a96-47d8-b29e-e970f0eb86d7",
               "name": "IF Share non toccato -> errore",
               "type": "ifElse",
               "config": {
@@ -7120,7 +7122,7 @@
                       "x": 65533,
                       "y": 285
                     },
-                    "id": "49429a0e-6cd7-465b-b99a-a702d394de85",
+                    "id": "19a3f270-12b1-41e3-b065-618a7669fcb4",
                     "name": "screenshot dell'errore",
                     "type": "screenshotPage",
                     "config": {
@@ -7132,7 +7134,7 @@
                       "x": 65733,
                       "y": 285
                     },
-                    "id": "2445055f-3431-4e7b-a550-d206bdb76e93",
+                    "id": "597476fb-ba0c-40a1-8962-afda20abda89",
                     "name": "errore: [Share] Non riesco a toccare 'Share'.",
                     "type": "throwException",
                     "config": {
@@ -7144,7 +7146,7 @@
                       "x": 65933,
                       "y": 285
                     },
-                    "id": "e194d439-4a04-461f-9b4c-f5679659a316",
+                    "id": "66ddfb7a-63df-4933-9e5c-73ffb03baba4",
                     "name": "End task (dopo l'errore)",
                     "type": "endTask",
                     "config": {}
@@ -7166,7 +7168,7 @@
                 "x": 66333,
                 "y": 285
               },
-              "id": "ddc40527-bb69-405d-9157-4401b1eb6eba",
+              "id": "b13c6daa-3bcd-4ea8-8ab7-54cad851cc27",
               "name": "wait",
               "type": "waitTime",
               "config": {
@@ -7180,7 +7182,7 @@
                 "x": 66533,
                 "y": 285
               },
-              "id": "d6044018-fcec-46c2-a17f-cce277ce08fe",
+              "id": "f5dd274c-7a3f-4765-a43f-d557e813867a",
               "name": "azzera: avviso dopo Share",
               "type": "script",
               "config": {
@@ -7204,7 +7206,7 @@
                 "x": 66733,
                 "y": 285
               },
-              "id": "6069277b-37ac-4a83-b06a-c4cb0b54af88",
+              "id": "8c1c60d3-f498-4ad1-9e67-a80205e9b19b",
               "name": "avviso 'About Reels' / audio originale?",
               "type": "getEle",
               "config": {
@@ -7238,7 +7240,7 @@
                 "x": 66933,
                 "y": 285
               },
-              "id": "4cdb4d09-f245-424c-b5e0-0eeb03537bf9",
+              "id": "c33b13c0-7601-41d1-8f1a-626566e9838b",
               "name": "avviso?",
               "type": "script",
               "config": {
@@ -7260,7 +7262,7 @@
                 "x": 67533,
                 "y": 285
               },
-              "id": "833ef622-ce09-4936-9355-7c2f44881782",
+              "id": "2e711e15-4944-45b4-ac77-600431937e3c",
               "name": "IF avviso -> Share",
               "type": "ifElse",
               "config": {
@@ -7271,7 +7273,7 @@
                       "x": 67133,
                       "y": 285
                     },
-                    "id": "6bcc246a-5425-4785-ad93-d38ca66c0244",
+                    "id": "c576bba1-53cb-4b8e-aac5-32a88fc308f7",
                     "name": "tocca Share nell'avviso",
                     "type": "click",
                     "config": {
@@ -7317,7 +7319,7 @@
                       "x": 67333,
                       "y": 285
                     },
-                    "id": "c88f1952-7b67-41ce-8e0a-203e4234b98f",
+                    "id": "36380ac1-0ab2-44cf-a133-0918f7922336",
                     "name": "wait",
                     "type": "waitTime",
                     "config": {
@@ -7343,7 +7345,7 @@
                 "x": 67733,
                 "y": 285
               },
-              "id": "9374dced-a9b1-4c08-81ed-0d18959dff59",
+              "id": "90f4ee09-3856-4294-9aff-1be0a5f038ce",
               "name": "aspetta il caricamento",
               "type": "waitTime",
               "config": {
@@ -7357,7 +7359,7 @@
                 "x": 67933,
                 "y": 285
               },
-              "id": "54b0cebd-7718-4d8b-aa93-75ada3501d15",
+              "id": "afa5530d-ca51-42be-afe0-ab3bf9b01f51",
               "name": "screenshot: dopo Share",
               "type": "screenshotPage",
               "config": {
@@ -7371,7 +7373,7 @@
                 "x": 68133,
                 "y": 285
               },
-              "id": "002890e6-2e99-49ac-aed8-c86966b191d6",
+              "id": "60e2c037-afb4-422d-98e9-052e5f2cd4be",
               "name": "aspetta che finisca di caricare",
               "type": "waitTime",
               "config": {
@@ -7385,7 +7387,7 @@
                 "x": 68333,
                 "y": 285
               },
-              "id": "90587b7e-8ce9-4ecc-998a-26e2de0ef645",
+              "id": "5db3e700-ebb8-4449-bbad-ca35da5afb9b",
               "name": "screenshot: fine",
               "type": "screenshotPage",
               "config": {
@@ -7397,7 +7399,7 @@
                 "x": 68533,
                 "y": 285
               },
-              "id": "c9030a55-35ee-491d-b9ec-023923553329",
+              "id": "a094f366-9039-4056-9e3f-133e40d1a730",
               "name": "HOME",
               "type": "executeADB",
               "config": {
@@ -7412,7 +7414,7 @@
                 "x": 68733,
                 "y": 285
               },
-              "id": "90b476c5-8480-4fb9-88eb-2b8df086c081",
+              "id": "66a5ec17-7926-4e09-b245-0d5777ae6d1c",
               "name": "End task",
               "type": "endTask",
               "config": {}

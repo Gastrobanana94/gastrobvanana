@@ -1,6 +1,6 @@
 # IG TRIAL REEL — pubblica trial reels da GeeLark
 
-File da importare in GeeLark: `IG_TRIAL_REEL_IMPORT.json` (flusso "IG TRIAL REEL v6").
+File da importare in GeeLark: `IG_TRIAL_REEL_IMPORT.json` (flusso "IG TRIAL REEL v7").
 Non serve né il relay né ngrok: fa tutto GeeLark, anche col PC spento.
 
 ## Un task = giro di 3-5 minuti + un trial reel
@@ -30,7 +30,8 @@ Chiama i video `01.mp4 … 10.mp4` (con lo zero).
    - **storie di altri** (mai la propria): ogni tanto tocca a destra per saltare alla storia dopo;
    - **home**: scorre solo verso il basso, non la ricarica mai;
    - **reels**: ogni tanto mette **1 o 2 like** (mai togliere un like già messo) e su un reel apre i **commenti**,
-     li scorre e li chiude sempre con "indietro" (non scrive niente).
+     li scorre e li chiude sempre con "indietro" (non scrive niente); dopo guarda sempre almeno altri 2 reel,
+     così i commenti non sono mai l'ultima cosa prima di pubblicare. Alle storie niente like.
    Se un "indietro" fa chiudere Instagram (es. le storie finiscono da sole proprio in quel momento), se ne accorge e lo riapre.
 4. Profilo → menu (tre righe) → **Account type and tools** → **Trial reels** → **Create trial reel**
    (se esce il pop-up di spiegazione lo chiude).
@@ -71,6 +72,8 @@ Nel giro non scrive commenti o messaggi e non toglie like.
   vedeva niente dentro, quindi il flusso non l'ha chiusa e il tocco su "Profilo" è finito sul tasto GIF. Ora dopo i
   commenti preme sempre "indietro" e controlla di essere ancora in Instagram; se il profilo non si apre riavvia
   Instagram e riprova. Nel log scrive cosa vede nella casella dei commenti (per capire com'è fatta la lista).
+- v7: dopo i commenti guarda sempre almeno altri 2 reel (anche se il tempo del giro è finito): i commenti non sono
+  mai l'ultima cosa prima del profilo e della pubblicazione.
 
 ## Errori (si vedono nel task di GeeLark)
 
