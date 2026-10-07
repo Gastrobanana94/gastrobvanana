@@ -1,6 +1,6 @@
 # IG TRIAL REEL — pubblica trial reels da GeeLark
 
-File da importare in GeeLark: `IG_TRIAL_REEL_IMPORT.json` (flusso "IG TRIAL REEL v5").
+File da importare in GeeLark: `IG_TRIAL_REEL_IMPORT.json` (flusso "IG TRIAL REEL v6").
 Non serve né il relay né ngrok: fa tutto GeeLark, anche col PC spento.
 
 ## Un task = giro di 3-5 minuti + un trial reel
@@ -30,10 +30,11 @@ Chiama i video `01.mp4 … 10.mp4` (con lo zero).
    - **storie di altri** (mai la propria): ogni tanto tocca a destra per saltare alla storia dopo;
    - **home**: scorre solo verso il basso, non la ricarica mai;
    - **reels**: ogni tanto mette **1 o 2 like** (mai togliere un like già messo) e su un reel apre i **commenti**,
-     li scorre e li chiude (non scrive niente).
-   Se le storie finiscono da sole proprio mentre preme "indietro" e Instagram si chiude, se ne accorge e lo riapre.
+     li scorre e li chiude sempre con "indietro" (non scrive niente).
+   Se un "indietro" fa chiudere Instagram (es. le storie finiscono da sole proprio in quel momento), se ne accorge e lo riapre.
 4. Profilo → menu (tre righe) → **Account type and tools** → **Trial reels** → **Create trial reel**
    (se esce il pop-up di spiegazione lo chiude).
+   Se il profilo non si apre (es. è rimasto aperto qualcosa del giro), chiude e riapre Instagram e riprova una volta.
 5. Galleria: chiede ad Android qual è **l'ultimo video aggiunto**; se ha lo stesso nome del video del task tocca il
    **primo video** (GeeLark lo carica all'inizio del task, quindi è l'ultimo arrivato) → **Next**.
    Non apre album e non scorre la galleria. La data di scatto non conta (i metadati dei video sono a caso).
@@ -66,6 +67,10 @@ Nel giro non scrive commenti o messaggi e non toglie like.
   solo l'ultimo video aggiunto (stesso nome del video del task) e tocca il primo: niente album, niente scroll.
   Giro: tocchi a destra nelle storie, 1-2 like e i commenti di un reel, niente tocco su "Home" (ricaricava la pagina);
   se Instagram si chiude mentre esce dalle storie lo riapre.
+- v6 (prova del 7 ottobre 03:10 su Frankfurt, fallita al profilo): la lista dei commenti si è aperta ma GeeLark non
+  vedeva niente dentro, quindi il flusso non l'ha chiusa e il tocco su "Profilo" è finito sul tasto GIF. Ora dopo i
+  commenti preme sempre "indietro" e controlla di essere ancora in Instagram; se il profilo non si apre riavvia
+  Instagram e riprova. Nel log scrive cosa vede nella casella dei commenti (per capire com'è fatta la lista).
 
 ## Errori (si vedono nel task di GeeLark)
 
