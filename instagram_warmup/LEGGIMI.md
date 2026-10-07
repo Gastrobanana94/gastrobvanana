@@ -1,11 +1,12 @@
 # IG WARMUP — giro di riscaldamento su Instagram (GeeLark)
 
-File da importare in GeeLark: `IG_WARMUP_IMPORT.json` (flusso "IG WARMUP v9").
+File da importare in GeeLark: `IG_WARMUP_IMPORT.json` (flusso "IG WARMUP v9.1").
 Fa tutto GeeLark, anche col PC spento.
 
 ## Dopo l'import: la chiave DeepSeek (una volta sola)
 
-La Nota la scrive l'AI (DeepSeek). Nel file **non c'è nessuna chiave**: apri il flusso in GeeLark, apri il nodo
+La Nota la scrive **CommentBot** (il suo testo, mandato a DeepSeek, con in fondo la richiesta della nota).
+Nel file **non c'è nessuna chiave**: apri il flusso in GeeLark, apri il nodo
 **"AI: scrive la nota"** e al posto di `INCOLLA_QUI_LA_CHIAVE_DEEPSEEK` incolla la tua chiave **nuova**.
 Senza chiave il giro si fa tutto lo stesso, ma la nota no e il task finisce con `[Nota]`.
 
@@ -37,7 +38,8 @@ Le storie di altri e la pubblicazione della storia vengono sempre prima della ho
   3. musica: canzone **a caso tra le prime 8 di "For you"** → "Done";
   4. 1-2 emoji in "Add a caption...";
   5. **"Your stories"** (mai "Close Friends").
-- **Nota**: **una ogni 24 ore** (il telefono si ricorda quando l'ha fatta; un'ora di margine).
+- **Nota**: **una ogni 24 ore** (il telefono si ricorda quando l'ha fatta; un'ora di margine), scritta da **CommentBot**:
+  una riga, massimo 60 caratteri; se la prima volta viene troppo lunga gliela fa riscrivere.
 
 Alla fine torna alla home del telefono. Nel log c'è il **riepilogo** (ordine, like, commenti, profili, salvati, repost,
 storia, nota).
@@ -46,7 +48,8 @@ storia, nota).
 
 - `[Storia]`: storia non pubblicata (il file non è arrivato, "Add to story" non si apre, l'ultima foto non è quella del task,
   l'editor non si apre, non trova "Your stories"). C'è lo screenshot del momento.
-- `[Nota]`: nota non pubblicata (manca la chiave DeepSeek, non trova il tasto per la nuova nota o "Share").
+- `[Nota]`: nota non pubblicata (manca la chiave DeepSeek, CommentBot l'ha scritta troppo lunga due volte, non trova il
+  tasto per la nuova nota o "Share").
 
 ## Attenzione
 
@@ -61,3 +64,5 @@ storia, nota).
   niente follow, niente risposte AI, niente controlli dell'account. Se Instagram si chiude per un "indietro" di troppo lo
   riapre; se resta aperta una schermata senza la barra in basso torna indietro; prima di toccare "Home" o "Reels"
   guarda se c'è già.
+- v9.1: la nota la scrive CommentBot (prima aveva un testo suo). Del testo di CommentBot è tolta solo la parte
+  "Errori e problemi" su Telegram, che dentro GeeLark non serve. Se la nota viene troppo lunga, un secondo tentativo.
