@@ -1,21 +1,22 @@
 # IG WARMUP — giro di riscaldamento su Instagram (GeeLark)
 
-File da importare in GeeLark: `IG_WARMUP_IMPORT.json` (flusso "IG WARMUP v9.1").
+File da importare in GeeLark: `IG_WARMUP_IMPORT.json` (flusso "IG WARMUP v9.2").
 Fa tutto GeeLark, anche col PC spento.
 
-## Dopo l'import: la chiave DeepSeek (una volta sola)
+## La nota: lista di CommentBot (niente AI, niente chiavi)
 
-La Nota la scrive **CommentBot** (il suo testo, mandato a DeepSeek, con in fondo la richiesta della nota).
-Nel file **non c'è nessuna chiave**: apri il flusso in GeeLark, apri il nodo
-**"AI: scrive la nota"** e al posto di `INCOLLA_QUI_LA_CHIAVE_DEEPSEEK` incolla la tua chiave **nuova**.
-Senza chiave il giro si fa tutto lo stesso, ma la nota no e il task finisce con `[Nota]`.
+Le note le ha scritte **CommentBot**: 999 in italiano (`note_it.txt`) e 997 in tedesco (`note_de.txt`), una per riga,
+già controllate (massimo 60 caratteri, niente link, @ o hashtag, niente doppioni). Sono **dentro il flusso**: non serve
+nessuna chiave, nessun relay, nessun PC acceso.
+Ogni telefono le usa in un **ordine suo** e **non ne ripete nessuna** finché non le ha usate tutte (quasi 3 anni con una al giorno).
+Per cambiarle: si modificano i due file `.txt` e si rifà il flusso.
 
 ## Parametri del task
 
 - **Minuti**: quanto dura il giro (già impostato a 30).
 - **Storia**: la foto o il video da pubblicare nella storia. Se lo lasci vuoto, quel giro non pubblica storie.
 - **EmojiStoria**: le emoji tra cui sceglie 1-2 a caso per la caption della storia (già impostate: 😂 🙈 😏 🤭 🥰 😍).
-- **NoteLang**: lingua della nota: `de` tedesco, qualsiasi altra cosa italiano (già impostato `de`).
+- **NoteLang**: da quale lista prende la nota: `de` tedesco, qualsiasi altra cosa italiano (già impostato `de`).
 
 ## Cosa fa (ordine a caso, circa 30 minuti)
 
@@ -38,8 +39,8 @@ Le storie di altri e la pubblicazione della storia vengono sempre prima della ho
   3. musica: canzone **a caso tra le prime 8 di "For you"** → "Done";
   4. 1-2 emoji in "Add a caption...";
   5. **"Your stories"** (mai "Close Friends").
-- **Nota**: **una ogni 24 ore** (il telefono si ricorda quando l'ha fatta; un'ora di margine), scritta da **CommentBot**:
-  una riga, massimo 60 caratteri; se la prima volta viene troppo lunga gliela fa riscrivere.
+- **Nota**: **una ogni 24 ore** (il telefono si ricorda quando l'ha fatta; un'ora di margine), presa dalla **lista di
+  CommentBot** nella lingua di NoteLang, mai la stessa due volte sullo stesso telefono.
 
 Alla fine torna alla home del telefono. Nel log c'è il **riepilogo** (ordine, like, commenti, profili, salvati, repost,
 storia, nota).
@@ -48,8 +49,7 @@ storia, nota).
 
 - `[Storia]`: storia non pubblicata (il file non è arrivato, "Add to story" non si apre, l'ultima foto non è quella del task,
   l'editor non si apre, non trova "Your stories"). C'è lo screenshot del momento.
-- `[Nota]`: nota non pubblicata (manca la chiave DeepSeek, CommentBot l'ha scritta troppo lunga due volte, non trova il
-  tasto per la nuova nota o "Share").
+- `[Nota]`: nota non pubblicata (nei DM non trova il tasto per la nuova nota o "Share").
 
 ## Attenzione
 
@@ -66,3 +66,5 @@ storia, nota).
   guarda se c'è già.
 - v9.1: la nota la scrive CommentBot (prima aveva un testo suo). Del testo di CommentBot è tolta solo la parte
   "Errori e problemi" su Telegram, che dentro GeeLark non serve. Se la nota viene troppo lunga, un secondo tentativo.
+- v9.2: niente più AI nel flusso: la nota viene dalla lista di CommentBot (999 italiane, 997 tedesche; tolte 4 con il sole e
+  l'emoji della pioggia). Ogni telefono la gira in un ordine suo (dal suo android_id) senza ripetere.

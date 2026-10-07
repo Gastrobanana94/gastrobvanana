@@ -19,4 +19,5 @@
 - **MAI l'etichetta AI** ("Add AI label" / `AITags` sempre spento): con l'etichetta i video vanno male subito.
 - **Copertina: la sceglie sempre Instagram** (non caricarla).
 - **Tutto il copywriting lo fa CommentBot** (note, risposte, testi scritti dall'AI): nei flussi si usa il suo testo,
-  non un prompt nuovo. Nel warm-up v9.1 la Nota la scrive già lui.
+  non un prompt nuovo. Nel warm-up la Nota viene da una lista scritta da lui (`instagram_warmup/note_*.txt`):
+  per testi brevi e ripetitivi una lista pronta è meglio dell'AI dentro GeeLark (niente chiavi, niente errori, si rilegge prima).
