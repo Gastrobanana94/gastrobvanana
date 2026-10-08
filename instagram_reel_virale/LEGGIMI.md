@@ -22,27 +22,34 @@ chiude Instagram.
 note: italiane o tedesche dal paese del proxy (o dal campo Lingua), ogni telefono le usa in un ordine suo e non ne
 ripete nessuna finché non le ha usate tutte. Se nel task scrivi una **Caption**, usa quella.
 
-## Adesso: la prova v2 (`IG_REEL_VIRALE_PROVA_IMPORT.json`, "IG REEL VIRALE PROVA v2")
+## Adesso: la prova v3 (`IG_REEL_VIRALE_PROVA_IMPORT.json`, "IG REEL VIRALE PROVA v3")
 
 **Non pubblica niente.** Parametri:
 - **Video**: un video qualsiasi (non viene pubblicato);
 - **Caption**: vuota (prende una caption dalla lista) oppure una tua;
 - **Lingua**: vuota (decide dal proxy).
 
+Nei Reels **non aspetta più GeeLark**: dove sono il cuore e il quadratino della canzone lo chiede ad Android (la "mappa",
+che ha sempre funzionato anche quando GeeLark era cieco) e tocca con ADB in quel punto.
+
 Cosa fa:
-1. carica il video, apre Instagram e controlla che **GeeLark veda lo schermo**: se è "cieco" aspetta 15 secondi e
-   riprova (dopo circa 5 minuti di cecità smette di cercare e chiude);
-2. va sui **Reels** e guarda fino a 20 reel: legge i like; se sono almeno 2K tocca il quadratino della canzone;
-3. nel menu: se è "Original audio" chiude e va avanti; se è una canzone tocca **"Audio"** e guarda in quanti reel è
-   usata: se sono almeno 1.000 la sceglie, altrimenti torna indietro. Dal 12° reel basta una canzone qualsiasi (solo nella
-   prova, per arrivare comunque in fondo);
-4. **"Use audio"** → galleria in basso a sinistra → il video del task (solo se per Android è l'ultimo arrivato) → Next →
-   pagina finale: scrive la caption, scorre fino a Facebook e **si ferma**: niente Share, chiude Instagram.
+1. carica il video, apre Instagram e va sui **Reels**;
+2. guarda i reel come una persona: 25% 1,5-3 secondi, 45% 3,5-7 secondi, 30% 8-14 secondi; scorre **veloce**
+   (147-180 millisecondi, a caso) e ogni tanto mette **like** (2-4 nel giro): tocca il cuore se GeeLark lo vede vuoto,
+   altrimenti **doppio tocco sul video** (il doppio tocco mette il like e non lo toglie mai);
+3. dal 4° reel: se ci sono almeno 2K like (o non si leggono) tocca il **quadratino della canzone**; nel menu tocca
+   **"Audio"** (se GeeLark non vede il menu, tocca per posizione sopra il quadratino); se è "Original audio" chiude;
+4. sulla pagina della canzone guarda in quanti reel è usata (almeno 1.000); se GeeLark non vede la pagina va avanti lo
+   stesso per posizione (solo nella prova);
+5. **"Use audio"** → galleria in basso a sinistra → il video del task → Next → pagina finale: scrive la caption, scorre
+   fino a Facebook e **si ferma**: niente Share, chiude Instagram.
 
-Screenshot e "spia" (i bottoni che Android vede) in ogni punto. Alla fine c'è il **riepilogo**: quante volte GeeLark era
-cieco, i reel guardati (like e motivo), quale canzone ha scelto, fin dove è arrivato, la caption, la riga di Facebook.
+Se GeeLark non trova un bottone, lo tocca per posizione (Reels in basso, "Use audio", galleria, primo video). Screenshot
+e "spia" la prima volta che apre il menu e la pagina della canzone, poi fotocamera, galleria, editor e pagina finale.
+Nel **riepilogo**: like messi, i reel guardati (like e motivo), la canzone scelta, cosa ha toccato per posizione, fin dove
+è arrivato, la caption, la riga di Facebook.
 
-Non tocca mai: like, follow, commenti, "Remix and sequence", "Use on Edits", la registrazione, Share.
+Non tocca mai: follow, commenti, "Remix and sequence", "Use on Edits", la registrazione, Share. Non toglie mai un like.
 
 Provala su **Melina e su Elixa**, poi mandami log e screenshot.
 
@@ -52,3 +59,7 @@ Provala su **Melina e su Elixa**, poi mandami log e screenshot.
   sono testi normali, e dalle 00:44:16 alla fine GeeLark era **cieco**: ogni ricerca rispondeva "nessun elemento" in
   0,01 secondi (normalmente almeno 1 secondo), anche per il cuore e il quadratino che Android vedeva. Inoltre il
   quadratino apre un menu piccolo, non subito la pagina dell'audio. Sistemato nella v2.
+- Prova v2 (Elixa, 9 ottobre 01:13): lentissima e non ha toccato niente. Al 2° reel GeeLark non trovava il cuore che
+  Android vedeva e il flusso lo aspettava (35-40 secondi), dalle 01:15:12 GeeLark era cieco e il flusso aspettava 15
+  secondi a ogni controllo (circa un minuto per reel); niente like; scorrimento lento (280 ms). Sistemato nella v3: posizioni
+  da Android, tocchi con ADB, scorrimento 147-180 ms, like nel giro.
