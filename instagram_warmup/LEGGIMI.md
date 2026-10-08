@@ -1,9 +1,9 @@
 # IG WARMUP — giro di riscaldamento su Instagram (GeeLark)
 
 File da importare in GeeLark:
-- `IG_WARMUP_IMPORT.json`: il warm-up (flusso "IG WARMUP v10.3", 242 KB): **un solo flusso** che fa il giro, poi la nota,
+- `IG_WARMUP_IMPORT.json`: il warm-up (flusso "IG WARMUP v10.4", 243 KB): **un solo flusso** che fa il giro, poi la nota,
   poi la storia, poi chiude Instagram;
-- `IG_TEST_NOTA_STORIA_IMPORT.json`: **prova veloce** (flusso "IG TEST NOTA + STORIA v3.2", 150 KB): apre Instagram, pubblica
+- `IG_TEST_NOTA_STORIA_IMPORT.json`: **prova veloce** (flusso "IG TEST NOTA + STORIA v3.3", 151 KB): apre Instagram, pubblica
   **prima la nota** e **poi la storia** con musica e caption, e basta (pochi minuti). Parametri: Storia (la foto) e Lingua.
   Fa la nota anche se ne è già stata fatta una nelle ultime 24 ore.
 
@@ -14,7 +14,8 @@ Fa tutto GeeLark, anche col PC spento.
 Un flusso troppo grande si importa, ma quando lo lanci resta fermo su "Start execution" e non apre nemmeno Instagram
 (7 ottobre: la prova v3 da 264.651 byte non partiva, la v2 da 259.256 sì; 8 ottobre: il warm-up v10.2 da 250.245 byte e
 550 passi non partiva, la v10.1 da 243.854 byte e 532 passi sì). Il limite dipende anche dal numero di passi, quindi il
-warm-up resta sotto la v10.1 (v10.3: 242.283 byte, 529 passi). Per starci, dalla v10:
+warm-up resta sotto la v10.1 sia nei byte sia nei passi (v10.3: 242.283 byte, 529 passi, è partita; v10.4: 243.090 byte,
+532 passi). Quando si rifà il flusso, il programma scrive byte e passi e avvisa se si va oltre. Per starci, dalla v10:
 le liste di note e caption sono dentro il flusso **compresse** (metà del peso; il flusso le ricostruisce identiche,
 stesso ordine di prima su ogni telefono) e i controlli "sono ancora in Instagram? vedo la barra in basso?" si fanno una
 volta sola prima di ogni pezzo del giro.
@@ -62,10 +63,12 @@ I pezzi:
   - nel giro: **like 0-10**, **commenti 0-10** (li apre, li legge, li chiude), **profili dell'autore 0-8** (griglia e a volte
     un post), **salvati 1-2**, **repost 1-3** (con il tasto repost, non nella storia). Sparsi a caso tra i reel;
   - mai togliere un like, mai "annulla repost", mai commenti o follow;
-  - se per 2 reel di fila non vede i bottoni del reel (cuore, commenti, autore), i reels sono bloccati (una schermata
-    "Suggested" che non si supera, o una finestrella di Instagram rimasta aperta): preme "indietro" e torna su Reels,
-    senza toccare niente in quella schermata. La prima volta scrive la "spia" nel log.
-- **Notifiche**: tocca il cuore in alto a destra, scorre e torna indietro.
+  - se per 2 reel di fila non vede i bottoni del reel (cuore, commenti, autore, o i "..." dei reels nuovi), i reels sono
+    bloccati (una schermata di account suggeriti che non si supera, o una finestrella di Instagram rimasta aperta): preme
+    "indietro", tocca Reels due volte e tira giù per caricare reels nuovi, senza toccare niente in quella schermata.
+    La prima volta scrive la "spia" nel log e fa uno **screenshot** ("screenshot: reels bloccati").
+- **Notifiche**: tocca il cuore in alto a destra, scorre e torna indietro. Se il cuore non si vede (la home era scorsa in
+  giù e Instagram nasconde la barra in alto) scorre un pochino in su per farlo riapparire, poi lo tocca.
 - **DM**: apre la lista e guarda 1-2 chat, **senza scrivere niente** (niente richieste). Tocca solo le chat vere (le righe
   con "·", tipo "Reacted to your story · 3d", tra la riga "Filters" e "Accounts to follow"), sulla parte sinistra:
   **mai** "Accounts to follow", "Follow back", "Requests" o la foto (storia) della persona. Per ogni chat riapre la lista.
@@ -82,7 +85,8 @@ I pezzi:
 - **Nota**: **una ogni 24 ore** (il telefono si ricorda quando l'ha fatta; un'ora di margine), presa dalla **lista di
   CommentBot** italiana o tedesca secondo il paese del proxy (o Lingua), mai la stessa due volte sullo stesso telefono.
   Nei DM tocca **la tua foto** (quella con la bolla sopra e la scritta "Your note" sotto); se c'è già una nota attiva
-  sceglie "Leave a new note".
+  sceglie "Leave a new note". Se non la trova (Instagram ancora in caricamento) riapre i DM, aspetta 9-12 secondi e
+  riprova una volta.
   Con la **v10.2 il conto delle 24 ore è ripartito da zero** (8 ottobre, 20:55; la prima volta con la v10.1 alle 15:50):
   le note fatte prima non contano, quindi al primo giro con la v10.2 ogni telefono mette la nota; poi di nuovo una ogni
   24 ore.
@@ -95,7 +99,8 @@ c'è scritto "nessuna foto nel task (campo Storia vuoto)": senza foto la storia 
 
 - `[Storia]`: storia non pubblicata (il file non è arrivato, "Add to story" non si apre, l'ultima foto non è quella del task,
   l'editor non si apre, non trova "Your stories", la freccia blu non conferma la caption). C'è lo screenshot del momento.
-- `[Nota]`: nota non pubblicata (nei DM non trova la tua foto con "Your note", non trova dove scrivere o "Share").
+- `[Nota]`: nota non pubblicata (nei DM non trova la tua foto con "Your note" nemmeno al secondo tentativo, non trova dove
+  scrivere o "Share").
 
 ## La "spia" nel log
 
@@ -103,6 +108,9 @@ Nella prova veloce, in alcuni momenti (DM, nota aperta, canzone in ascolto, capt
 nel warm-up solo quando qualcosa non va (storia non pubblicata, reels bloccati), il flusso scrive nel log
 i bottoni di Instagram che ci sono sullo schermo (nome, posizione) e se la tastiera è aperta. Non tocca niente: serve a
 capire subito cosa è cambiato se qualcosa non va. Nel log è il nodo "spia (...)": il testo è dopo "spiaOut".
+
+Attenzione quando si legge il log: in "Inject variables" GeeLark scrive i valori **dopo** il passo, non prima. Per
+esempio una variabile che il passo mette a 0 appare già a 0 anche se prima era 1.
 
 ## Attenzione
 
@@ -114,8 +122,16 @@ capire subito cosa è cambiato se qualcosa non va. Nel log è il nodo "spia (...
   dell'account), mai toccati i suggeriti; storia non fatta perché nel task non c'era la foto; nei reels like, salvati e
   repost a 0 per due blocchi (sistemato nella v10.2).
 - Il warm-up v10.2 (8 ottobre sera) non partiva: troppo grande (250 KB, 550 passi). Sistemato nella v10.3.
-  Prossima prova: il warm-up v10.3 con la **foto nel campo Storia**, poi mandami il log. Con la foto, Instagram si apre
-  dopo circa 30 secondi (prima carica la foto sul telefono).
+- Il warm-up v10.3 è partito (8 ottobre):
+  - Melina (Germania, 21:17, Minuti 14): giro, nota e storia fatti, nessun errore; nei reels, dal 5° reel, una
+    schermata di account suggeriti (con 4 tasti "Follow") da cui "indietro" + Reels non usciva subito;
+  - Elixa (Italia, 21:44, Minuti 18): nota non pubblicata. Per circa 4 minuti GeeLark non vedeva niente sullo schermo
+    (ogni ricerca diceva subito "nessun elemento") e la riapertura di Instagram falliva ("too many attempts"), quindi
+    quando è arrivato alla nota Instagram era ancora in caricamento. Inoltre i reels di Elixa hanno i bottoni nuovi
+    (senza il vecchio nome): il flusso li credeva bloccati e premeva "indietro" per niente. Tutto sistemato nella v10.4.
+- Prossima prova: il warm-up v10.4 su tutti e due i telefoni, poi mandami il log. Se su Melina compare
+  "screenshot: reels bloccati", mandami anche quella foto. Con la foto nel campo Storia, Instagram si apre dopo circa
+  30 secondi (prima carica la foto sul telefono).
 
 ## Versioni
 
@@ -171,3 +187,11 @@ capire subito cosa è cambiato se qualcosa non va. Nel log è il nodo "spia (...
     nel riepilogo ora c'è se il cuore è stato trovato e quante chat ha toccato;
   - DM: 1-2 chat per giro (prima 1-3);
   - nomi di alcuni passi più corti.
+- v10.4 / prova v3.3 (prove v10.3 dell'8 ottobre sera, Melina ed Elixa): 243 KB e 532 passi (come la v10.1 che partiva):
+  - nota: se nei DM non trova la tua foto con "Your note", riapre i DM, aspetta 9-12 secondi e riprova (anche nella
+    prova veloce); prima della nota e della storia, dopo aver riaperto Instagram, lo apre anche "come l'icona" (se
+    l'apertura di GeeLark fallisce, Instagram parte lo stesso);
+  - reels bloccati: "indietro", Reels due volte e tira giù per caricare reels nuovi; la prima volta spia e screenshot;
+  - reels: riconosce anche i bottoni nuovi (i "..." dei reels di Elixa), così non li crede più bloccati;
+  - tolto lo scorrimento in più sulla schermata "Suggested" (non serviva: ora ci pensa lo sblocco);
+  - notifiche: se il cuore in alto non si vede (home scorsa in giù) scorre un pochino in su e poi lo tocca.
