@@ -22,7 +22,7 @@ chiude Instagram.
 note: italiane o tedesche dal paese del proxy (o dal campo Lingua), ogni telefono le usa in un ordine suo e non ne
 ripete nessuna finché non le ha usate tutte. Se nel task scrivi una **Caption**, usa quella.
 
-## Adesso: la prova v3 (`IG_REEL_VIRALE_PROVA_IMPORT.json`, "IG REEL VIRALE PROVA v3")
+## Adesso: la prova v4 (`IG_REEL_VIRALE_PROVA_IMPORT.json`, "IG REEL VIRALE PROVA v4")
 
 **Non pubblica niente.** Parametri:
 - **Video**: un video qualsiasi (non viene pubblicato);
@@ -39,14 +39,20 @@ Cosa fa:
    altrimenti **doppio tocco sul video** (il doppio tocco mette il like e non lo toglie mai);
 3. dal 4° reel: se ci sono almeno 2K like (o non si leggono) tocca il **quadratino della canzone**; nel menu tocca
    **"Audio"** (se GeeLark non vede il menu, tocca per posizione sopra il quadratino); se è "Original audio" chiude;
-4. sulla pagina della canzone guarda in quanti reel è usata (almeno 1.000); se GeeLark non vede la pagina va avanti lo
-   stesso per posizione (solo nella prova);
+4. sulla pagina della canzone: è **virale** se ha il bollino **"Trending"** (lo vede Android, anche quando GeeLark non vede
+   la pagina) oppure se è usata in almeno 1.000 reel; se no torna indietro e cerca ancora (dal 12° reel basta una
+   canzone, solo nella prova);
 5. **"Use audio"** → galleria in basso a sinistra → il video del task → Next → pagina finale: scrive la caption, scorre
    fino a Facebook e **si ferma**: niente Share, chiude Instagram.
 
+**Pannello "Level up your videos with Edits" ("Get App")**: prima di toccare qualcosa in fotocamera, galleria, editor e
+pagina finale controlla se c'è (lo cercano sia GeeLark sia Android) e lo chiude **toccando al centro**, sopra il pannello.
+Non tocca mai "Get App". Se per sbaglio si apre il Play Store, preme "indietro", torna a Instagram, chiude il pannello e
+riprova (mai "Install").
+
 Se GeeLark non trova un bottone, lo tocca per posizione (Reels in basso, "Use audio", galleria, primo video). Screenshot
 e "spia" la prima volta che apre il menu e la pagina della canzone, poi fotocamera, galleria, editor e pagina finale.
-Nel **riepilogo**: like messi, i reel guardati (like e motivo), la canzone scelta, cosa ha toccato per posizione, fin dove
+Nel **riepilogo**: like messi, pannelli Edits chiusi, volte nel Play Store, i reel guardati (like e motivo), la canzone scelta, cosa ha toccato per posizione, fin dove
 è arrivato, la caption, la riga di Facebook.
 
 Non tocca mai: follow, commenti, "Remix and sequence", "Use on Edits", la registrazione, Share. Non toglie mai un like.
@@ -63,3 +69,8 @@ Provala su **Melina e su Elixa**, poi mandami log e screenshot.
   Android vedeva e il flusso lo aspettava (35-40 secondi), dalle 01:15:12 GeeLark era cieco e il flusso aspettava 15
   secondi a ogni controllo (circa un minuto per reel); niente like; scorrimento lento (280 ms). Sistemato nella v3: posizioni
   da Android, tocchi con ADB, scorrimento 147-180 ms, like nel giro.
+- Prova v3 (Elixa, 9 ottobre 01:34): reels, like col doppio tocco, quadratino, menu, "Audio" e "Use audio" giusti; galleria,
+  video ed editor giusti. Nell'editor è comparso il pannello di Edits: GeeLark vede Next anche sotto il pannello e il
+  tocco su Next è finito su "Get App" (Play Store). GeeLark non vede la pagina della canzone, Android sì (c'è anche il
+  bollino "Trending"). Sistemato nella v4: chiude il pannello prima di toccare, si protegge dal Play Store, canzone virale
+  dal bollino "Trending".
