@@ -1,7 +1,7 @@
 # IG WARMUP — giro di riscaldamento su Instagram (GeeLark)
 
 File da importare in GeeLark:
-- `IG_WARMUP_IMPORT.json`: il warm-up (flusso "IG WARMUP v10", 239 KB): **un solo flusso** che fa il giro, poi la nota,
+- `IG_WARMUP_IMPORT.json`: il warm-up (flusso "IG WARMUP v10.1", 244 KB): **un solo flusso** che fa il giro, poi la nota,
   poi la storia, poi chiude Instagram;
 - `IG_TEST_NOTA_STORIA_IMPORT.json`: **prova veloce** (flusso "IG TEST NOTA + STORIA v3.2", 150 KB): apre Instagram, pubblica
   **prima la nota** e **poi la storia** con musica e caption, e basta (pochi minuti). Parametri: Storia (la foto) e Lingua.
@@ -60,8 +60,10 @@ I pezzi:
   - nel giro: **like 0-10**, **commenti 0-10** (li apre, li legge, li chiude), **profili dell'autore 0-8** (griglia e a volte
     un post), **salvati 1-2**, **repost 1-3** (con il tasto repost, non nella storia). Sparsi a caso tra i reel;
   - mai togliere un like, mai "annulla repost", mai commenti o follow.
-- **Notifiche**: le apre, scorre e torna indietro.
-- **DM**: apre la lista e guarda 1-3 chat, **senza scrivere niente** (niente richieste).
+- **Notifiche**: tocca il cuore in alto a destra, scorre e torna indietro.
+- **DM**: apre la lista e guarda 1-3 chat, **senza scrivere niente** (niente richieste). Tocca solo le chat vere (le righe
+  con "·", tipo "Reacted to your story · 3d", tra la riga "Filters" e "Accounts to follow"), sulla parte sinistra:
+  **mai** "Accounts to follow", "Follow back", "Requests" o la foto (storia) della persona. Per ogni chat riapre la lista.
 - **Storia** (se c'è il file):
   1. tocca il "+" piccolo sulla sua foto in alto a sinistra;
   2. controlla con Android che l'ultima foto aggiunta sia quella del task e la tocca (subito dopo la fotocamera);
@@ -76,9 +78,11 @@ I pezzi:
   CommentBot** italiana o tedesca secondo il paese del proxy (o Lingua), mai la stessa due volte sullo stesso telefono.
   Nei DM tocca **la tua foto** (quella con la bolla sopra e la scritta "Your note" sotto); se c'è già una nota attiva
   sceglie "Leave a new note".
+  Con la **v10.1 il conto delle 24 ore è ripartito da zero** (8 ottobre, 15:50): le note fatte prima non contano, quindi
+  al primo giro con la v10.1 ogni telefono mette la nota; poi di nuovo una ogni 24 ore.
 
 Alla fine torna alla home del telefono e chiude Instagram. Nel log c'è il **riepilogo** (ordine, like, commenti,
-profili, salvati, repost, nota, storia).
+profili, salvati, repost, notifiche aperte, chat DM aperte, nota, storia).
 
 ## Errori (il resto del giro è comunque fatto)
 
@@ -89,7 +93,7 @@ profili, salvati, repost, nota, storia).
 ## La "spia" nel log
 
 Nella prova veloce, in alcuni momenti (DM, nota aperta, canzone in ascolto, caption scritta, storia non pubblicata), e
-nel warm-up solo quando la storia non viene pubblicata, il flusso scrive nel log
+nel warm-up solo quando qualcosa non va (storia non pubblicata, notifiche o chat che non si aprono), il flusso scrive nel log
 i bottoni di Instagram che ci sono sullo schermo (nome, posizione) e se la tastiera è aperta. Non tocca niente: serve a
 capire subito cosa è cambiato se qualcosa non va. Nel log è il nodo "spia (...)": il testo è dopo "spiaOut".
 
@@ -97,7 +101,9 @@ capire subito cosa è cambiato se qualcosa non va. Nel log è il nodo "spia (...
 
 - Un task di warm-up e un task trial reel **non devono girare insieme sullo stesso telefono**: lascia spazio tra i due.
 - La prova veloce (v3.1) è andata bene il 7 ottobre alle 23:15: nota, musica, caption e "Your stories".
-  Prossima prova: il warm-up v10 con **Minuti 10** e una foto, poi mandami il log.
+- Il warm-up v10 (7 ottobre, Minuti 10) ha fatto giro e storia; nota giusta saltata (fatta 34 minuti prima); DM e
+  notifiche non si aprivano (sistemato nella v10.1).
+  Prossima prova: il warm-up v10.1 con **Minuti 10** e una foto, poi mandami il log.
 
 ## Versioni
 
@@ -129,3 +135,12 @@ capire subito cosa è cambiato se qualcosa non va. Nel log è il nodo "spia (...
   Instagram, come nella prova riuscita), poi chiude Instagram. 239 KB: liste compresse (stesse frasi, stesso ordine),
   controlli di navigazione una volta per pezzo, spia solo se la storia non va. Se la storia non va scarta la bozza e
   chiude Instagram (prima tornava alla home). Gli errori finali sono un solo passo.
+- v10.1 (prova v10 del 7 ottobre sera: storia ok, DM e notifiche non si aprivano):
+  - notifiche: il cuore in alto non ha più il nome "Notifications"; ora lo trova con il suo id ("notification") e controlla
+    che sia quello in alto (lo stesso id c'è sul pallino dei DM in basso); se non lo trova tocca in alto a destra;
+  - DM: le righe delle chat non hanno più il loro id; ora tocca le righe con "·" tra "Filters" e "Accounts to follow"
+    (se non ce ne sono, solo la prima riga sotto "Filters"), mai i suggeriti o "Follow back". Riapre la lista prima di
+    ogni chat e controlla che la chat si sia aperta (casella "Message..." in basso);
+  - nota: il conto delle 24 ore riparte da zero (la nota era stata cancellata a mano: così al prossimo giro la rimette);
+  - nel riepilogo anche notifiche e chat aperte; "spia" nel log se notifiche o chat non si aprono;
+  - tolti 3 controlli doppi alla fine di storie, notifiche e DM (li rifà comunque il pezzo dopo): 244 KB.
