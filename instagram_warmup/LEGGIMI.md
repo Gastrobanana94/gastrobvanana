@@ -1,7 +1,7 @@
 # IG WARMUP — giro di riscaldamento su Instagram (GeeLark)
 
 File da importare in GeeLark:
-- `IG_WARMUP_IMPORT.json`: il warm-up (flusso "IG WARMUP v10.2", 250 KB): **un solo flusso** che fa il giro, poi la nota,
+- `IG_WARMUP_IMPORT.json`: il warm-up (flusso "IG WARMUP v10.3", 242 KB): **un solo flusso** che fa il giro, poi la nota,
   poi la storia, poi chiude Instagram;
 - `IG_TEST_NOTA_STORIA_IMPORT.json`: **prova veloce** (flusso "IG TEST NOTA + STORIA v3.2", 150 KB): apre Instagram, pubblica
   **prima la nota** e **poi la storia** con musica e caption, e basta (pochi minuti). Parametri: Storia (la foto) e Lingua.
@@ -9,10 +9,12 @@ File da importare in GeeLark:
 
 Fa tutto GeeLark, anche col PC spento.
 
-## Limite di GeeLark: 256 KB per flusso
+## Limite di GeeLark: il flusso non deve essere troppo grande
 
-Un flusso sopra i 256 KB (262.144 byte) si importa, ma quando lo lanci resta fermo su "Start execution" e non fa niente
-(scoperto il 7 ottobre: la prova v3 da 264.651 byte non partiva, la v2 da 259.256 sì). Per starci, dalla v10:
+Un flusso troppo grande si importa, ma quando lo lanci resta fermo su "Start execution" e non apre nemmeno Instagram
+(7 ottobre: la prova v3 da 264.651 byte non partiva, la v2 da 259.256 sì; 8 ottobre: il warm-up v10.2 da 250.245 byte e
+550 passi non partiva, la v10.1 da 243.854 byte e 532 passi sì). Il limite dipende anche dal numero di passi, quindi il
+warm-up resta sotto la v10.1 (v10.3: 242.283 byte, 529 passi). Per starci, dalla v10:
 le liste di note e caption sono dentro il flusso **compresse** (metà del peso; il flusso le ricostruisce identiche,
 stesso ordine di prima su ogni telefono) e i controlli "sono ancora in Instagram? vedo la barra in basso?" si fanno una
 volta sola prima di ogni pezzo del giro.
@@ -64,7 +66,7 @@ I pezzi:
     "Suggested" che non si supera, o una finestrella di Instagram rimasta aperta): preme "indietro" e torna su Reels,
     senza toccare niente in quella schermata. La prima volta scrive la "spia" nel log.
 - **Notifiche**: tocca il cuore in alto a destra, scorre e torna indietro.
-- **DM**: apre la lista e guarda 1-3 chat, **senza scrivere niente** (niente richieste). Tocca solo le chat vere (le righe
+- **DM**: apre la lista e guarda 1-2 chat, **senza scrivere niente** (niente richieste). Tocca solo le chat vere (le righe
   con "·", tipo "Reacted to your story · 3d", tra la riga "Filters" e "Accounts to follow"), sulla parte sinistra:
   **mai** "Accounts to follow", "Follow back", "Requests" o la foto (storia) della persona. Per ogni chat riapre la lista.
 - **Storia** (se c'è il file):
@@ -86,7 +88,7 @@ I pezzi:
   24 ore.
 
 Alla fine torna alla home del telefono e chiude Instagram. Nel log c'è il **riepilogo** (ordine, like, commenti,
-profili, salvati, repost, notifiche aperte, chat DM aperte, nota, storia). Se nel task manca la foto, alla voce storia
+profili, salvati, repost, notifiche (1 = cuore trovato, pos = toccato in alto a destra), chat DM toccate, nota, storia). Se nel task manca la foto, alla voce storia
 c'è scritto "nessuna foto nel task (campo Storia vuoto)": senza foto la storia non si fa e non è un errore.
 
 ## Errori (il resto del giro è comunque fatto)
@@ -111,7 +113,9 @@ capire subito cosa è cambiato se qualcosa non va. Nel log è il nodo "spia (...
 - Il warm-up v10.1 (8 ottobre 16:34, Minuti 17): nota pubblicata, notifiche aperte, la chat dei DM aperta (l'unica chat
   dell'account), mai toccati i suggeriti; storia non fatta perché nel task non c'era la foto; nei reels like, salvati e
   repost a 0 per due blocchi (sistemato nella v10.2).
-  Prossima prova: il warm-up v10.2 con la **foto nel campo Storia**, poi mandami il log.
+- Il warm-up v10.2 (8 ottobre sera) non partiva: troppo grande (250 KB, 550 passi). Sistemato nella v10.3.
+  Prossima prova: il warm-up v10.3 con la **foto nel campo Storia**, poi mandami il log. Con la foto, Instagram si apre
+  dopo circa 30 secondi (prima carica la foto sul telefono).
 
 ## Versioni
 
@@ -160,3 +164,10 @@ capire subito cosa è cambiato se qualcosa non va. Nel log è il nodo "spia (...
   - nota: il conto delle 24 ore riparte di nuovo da zero (nota cancellata a mano un'altra volta);
   - riepilogo: "nessuna foto nel task" quando il campo Storia è vuoto;
   - tolte le spie di DM e notifiche (ora funzionano): 250 KB.
+- v10.3 (la v10.2 restava ferma su "Start execution"): stesse cose della v10.2 ma più leggera, 242 KB e 529 passi (sotto
+  la v10.1 che partiva):
+  - reels bloccati: "indietro" e poi tocca Reels (prima rifaceva anche i controlli "sono in Instagram? sono sui reels?");
+  - notifiche e DM: tolti i controlli che servivano solo al riepilogo (titolo "Notifications", casella "Message...");
+    nel riepilogo ora c'è se il cuore è stato trovato e quante chat ha toccato;
+  - DM: 1-2 chat per giro (prima 1-3);
+  - nomi di alcuni passi più corti.
