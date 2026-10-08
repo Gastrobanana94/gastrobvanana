@@ -1,7 +1,7 @@
 # IG WARMUP — giro di riscaldamento su Instagram (GeeLark)
 
 File da importare in GeeLark:
-- `IG_WARMUP_IMPORT.json`: il warm-up (flusso "IG WARMUP v10.1", 244 KB): **un solo flusso** che fa il giro, poi la nota,
+- `IG_WARMUP_IMPORT.json`: il warm-up (flusso "IG WARMUP v10.2", 250 KB): **un solo flusso** che fa il giro, poi la nota,
   poi la storia, poi chiude Instagram;
 - `IG_TEST_NOTA_STORIA_IMPORT.json`: **prova veloce** (flusso "IG TEST NOTA + STORIA v3.2", 150 KB): apre Instagram, pubblica
   **prima la nota** e **poi la storia** con musica e caption, e basta (pochi minuti). Parametri: Storia (la foto) e Lingua.
@@ -59,7 +59,10 @@ I pezzi:
   - quanto guarda ogni reel: 50% 5-10 secondi, 25% 15-25 secondi, 25% 2-3 secondi;
   - nel giro: **like 0-10**, **commenti 0-10** (li apre, li legge, li chiude), **profili dell'autore 0-8** (griglia e a volte
     un post), **salvati 1-2**, **repost 1-3** (con il tasto repost, non nella storia). Sparsi a caso tra i reel;
-  - mai togliere un like, mai "annulla repost", mai commenti o follow.
+  - mai togliere un like, mai "annulla repost", mai commenti o follow;
+  - se per 2 reel di fila non vede i bottoni del reel (cuore, commenti, autore), i reels sono bloccati (una schermata
+    "Suggested" che non si supera, o una finestrella di Instagram rimasta aperta): preme "indietro" e torna su Reels,
+    senza toccare niente in quella schermata. La prima volta scrive la "spia" nel log.
 - **Notifiche**: tocca il cuore in alto a destra, scorre e torna indietro.
 - **DM**: apre la lista e guarda 1-3 chat, **senza scrivere niente** (niente richieste). Tocca solo le chat vere (le righe
   con "·", tipo "Reacted to your story · 3d", tra la riga "Filters" e "Accounts to follow"), sulla parte sinistra:
@@ -78,11 +81,13 @@ I pezzi:
   CommentBot** italiana o tedesca secondo il paese del proxy (o Lingua), mai la stessa due volte sullo stesso telefono.
   Nei DM tocca **la tua foto** (quella con la bolla sopra e la scritta "Your note" sotto); se c'è già una nota attiva
   sceglie "Leave a new note".
-  Con la **v10.1 il conto delle 24 ore è ripartito da zero** (8 ottobre, 15:50): le note fatte prima non contano, quindi
-  al primo giro con la v10.1 ogni telefono mette la nota; poi di nuovo una ogni 24 ore.
+  Con la **v10.2 il conto delle 24 ore è ripartito da zero** (8 ottobre, 20:55; la prima volta con la v10.1 alle 15:50):
+  le note fatte prima non contano, quindi al primo giro con la v10.2 ogni telefono mette la nota; poi di nuovo una ogni
+  24 ore.
 
 Alla fine torna alla home del telefono e chiude Instagram. Nel log c'è il **riepilogo** (ordine, like, commenti,
-profili, salvati, repost, notifiche aperte, chat DM aperte, nota, storia).
+profili, salvati, repost, notifiche aperte, chat DM aperte, nota, storia). Se nel task manca la foto, alla voce storia
+c'è scritto "nessuna foto nel task (campo Storia vuoto)": senza foto la storia non si fa e non è un errore.
 
 ## Errori (il resto del giro è comunque fatto)
 
@@ -93,7 +98,7 @@ profili, salvati, repost, notifiche aperte, chat DM aperte, nota, storia).
 ## La "spia" nel log
 
 Nella prova veloce, in alcuni momenti (DM, nota aperta, canzone in ascolto, caption scritta, storia non pubblicata), e
-nel warm-up solo quando qualcosa non va (storia non pubblicata, notifiche o chat che non si aprono), il flusso scrive nel log
+nel warm-up solo quando qualcosa non va (storia non pubblicata, reels bloccati), il flusso scrive nel log
 i bottoni di Instagram che ci sono sullo schermo (nome, posizione) e se la tastiera è aperta. Non tocca niente: serve a
 capire subito cosa è cambiato se qualcosa non va. Nel log è il nodo "spia (...)": il testo è dopo "spiaOut".
 
@@ -103,7 +108,10 @@ capire subito cosa è cambiato se qualcosa non va. Nel log è il nodo "spia (...
 - La prova veloce (v3.1) è andata bene il 7 ottobre alle 23:15: nota, musica, caption e "Your stories".
 - Il warm-up v10 (7 ottobre, Minuti 10) ha fatto giro e storia; nota giusta saltata (fatta 34 minuti prima); DM e
   notifiche non si aprivano (sistemato nella v10.1).
-  Prossima prova: il warm-up v10.1 con **Minuti 10** e una foto, poi mandami il log.
+- Il warm-up v10.1 (8 ottobre 16:34, Minuti 17): nota pubblicata, notifiche aperte, la chat dei DM aperta (l'unica chat
+  dell'account), mai toccati i suggeriti; storia non fatta perché nel task non c'era la foto; nei reels like, salvati e
+  repost a 0 per due blocchi (sistemato nella v10.2).
+  Prossima prova: il warm-up v10.2 con la **foto nel campo Storia**, poi mandami il log.
 
 ## Versioni
 
@@ -144,3 +152,11 @@ capire subito cosa è cambiato se qualcosa non va. Nel log è il nodo "spia (...
   - nota: il conto delle 24 ore riparte da zero (la nota era stata cancellata a mano: così al prossimo giro la rimette);
   - nel riepilogo anche notifiche e chat aperte; "spia" nel log se notifiche o chat non si aprono;
   - tolti 3 controlli doppi alla fine di storie, notifiche e DM (li rifà comunque il pezzo dopo): 244 KB.
+- v10.2 (prova v10.1 dell'8 ottobre, 16:34):
+  - reels: per circa 3 minuti una schermata "Suggested" che lo scorrimento non superava, e per circa 2,5 minuti una
+    finestrella di Instagram rimasta aperta dopo un profilo: like 0/3, salvati 0/1, repost 0/1. Ora se per 2 reel di fila
+    non vede i bottoni del reel preme "indietro" e torna su Reels (nel simulatore si sblocca in 25-36 secondi invece di
+    2-4 minuti); la prima volta scrive la spia nel log;
+  - nota: il conto delle 24 ore riparte di nuovo da zero (nota cancellata a mano un'altra volta);
+  - riepilogo: "nessuna foto nel task" quando il campo Storia è vuoto;
+  - tolte le spie di DM e notifiche (ora funzionano): 250 KB.
