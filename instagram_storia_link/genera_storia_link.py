@@ -227,7 +227,7 @@ bc.insert(j + 1, js('testo dello sticker (Testo del task o caption della lista)'
 
 # ---------------------------------------------------------------- galleria della storia: terza via (fotocamera)
 # Test 09/10: dopo il '+' su 'Your story' non si apriva 'Add to story' (si apriva altro a tutto schermo,
-# forse la fotocamera o la storia gia' pubblicata). Terza via: home -> swipe a sinistra -> fotocamera ->
+# forse la fotocamera o la storia gia' pubblicata). Terza via: home -> swipe dal bordo sinistro verso destra -> fotocamera ->
 # quadratino della galleria in basso a sinistra. La spia scrive nel log cosa c'e' sullo schermo.
 GAL = [('text', 'Add to story', 'equal'), ('text', 'Recents', 'equal'), ('text', 'Recent', 'equal'),
        ('text', 'Gallery', 'equal')]
@@ -246,11 +246,11 @@ ancora['config']['children'] = [
     attendi(1500, 2500),
     js('swipe verso la fotocamera (posizioni)', ['larghezza', 'alto'],
        "const w=Number(larghezza)||720, h=Number(alto)||w*2; const R=x=>String(Math.round(x)); "
-       "return { sx1: R(w*(0.91+Math.random()*0.05)), sx2: R(w*(0.08+Math.random()*0.12)), "
+       "return { sx1: R(w*(0.03+Math.random()*0.03)), sx2: R(w*(0.80+Math.random()*0.12)), "
        "sy: R(h*(0.45+Math.random()*0.10)), durSw: String(250+Math.floor(Math.random()*150)), "
        "galX: R(w*0.10), galY: R(h*0.885) };",
        ['sx1', 'sx2', 'sy', 'durSw', 'galX', 'galY']),
-    adb('swipe a sinistra dalla home -> fotocamera', 'input swipe ${sx1} ${sy} ${sx2} ${sy} ${durSw}', 'swOut'),
+    adb('swipe da sinistra a destra dalla home -> fotocamera', 'input swipe ${sx1} ${sy} ${sx2} ${sy} ${durSw}', 'swOut'),
     attendi(2500, 3500),
     azzera('azzera: galleria', {'inGal': ''}),
     leggi("si e' aperta 'Add to story'?", GAL, 'inGal', 2000),
