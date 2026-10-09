@@ -123,8 +123,8 @@ def ciclo(nome, n, figli_, indice=None):
 
 
 def errore(msg):
-    return [{'position': P(), 'id': nid(), 'name': 'errore: ' + msg[:60], 'type': 'throwException',
-             'config': {'content': msg}},
+    # niente throwException: nel test del 09/10 GeeLark restava "in esecuzione" dopo l'eccezione
+    return [js('errore: ' + msg[:60], [], 'return { errore: %s };' % json.dumps(msg, ensure_ascii=False), ['errore']),
             {'position': P(), 'id': nid(), 'name': 'End task (dopo l\'errore)', 'type': 'endTask', 'config': {}}]
 
 
@@ -235,10 +235,21 @@ for n in tutti(bc):
     if n.get('name') == "si e' aperta 'Add to story'?":
         n['config']['filterCollection'] = filtri(GAL)
 spia_cmd = trova(top, 'spia: bottoni sullo schermo (storia non pubblicata)')['config']['content']
+SPIA_TESTI = ("sh -c 'uiautomator dump /sdcard/spia.xml >/dev/null 2>&1; "
+              "grep -oE \"(text|content-desc|resource-id)=.[^\\\"]+\" /sdcard/spia.xml | "
+              "sed -E \"s/com.instagram.android:id.//\" | tr \"\\n\" \" \" | cut -c1-2500; echo; echo fine'")
+prima = trova(bc, "IF non si e' aperta -> indietro e tocca 'Your story'")['config']['children']
+prima[0:0] = [
+    adb("spia: testi sullo schermo dopo il '+'", SPIA_TESTI, 'testiPiu'),
+    adb("spia: bottoni sullo schermo dopo il '+'", trova(top, 'spia: bottoni sullo schermo (storia non pubblicata)')['config']['content'], 'bottoniPiu'),
+    js("spia dopo il '+' (cosa c'e' sullo schermo)", ['testiPiu', 'bottoniPiu'], "return { spiaPiu: '1' };", ['spiaPiu']),
+]
 ancora = trova(bc, 'IF ancora no -> niente storia')
 fine_gal = ancora['config']['children']
 ancora['config']['children'] = [
     adb("spia: cosa c'e' sullo schermo (galleria non aperta)", spia_cmd, 'spiaGal'),
+    adb("spia: testi sullo schermo (galleria non aperta)", SPIA_TESTI, 'testiGal'),
+    js("spia (galleria non aperta)", ['spiaGal', 'testiGal'], "return { spiaGalVista: '1' };", ['spiaGalVista']),
     foto("screenshot: dopo 'Your story' niente galleria"),
     adb('indietro', 'input keyevent 4', 'backOut'),
     attendi(1500, 2000),
@@ -412,6 +423,12 @@ if 'storiaErr:link' not in err['script']:
                                           'Guarda gli screenshot.", "storiaErr:condividi"', 1)
 assert 'storiaErr:link' in err['script']
 err['script'] = err['script'].replace("(il resto del giro e' fatto)", "(il warm-up e' fatto)")
+
+# alla fine niente throwException (il task restava "in esecuzione"): l'errore va nel log, poi End task
+fin = trova(top, "IF errore -> il task finisce con l'errore")['config']['children']
+k = [k for k, n in enumerate(fin) if n['type'] == 'throwException'][0]
+fin[k] = js('errore (scritto nel log)', ['errMsg'], "return { errore: String(errMsg||'') };", ['errore'])
+assert not [n for n in tutti(top) if n['type'] == 'throwException']
 
 # ---------------------------------------------------------------- posizioni nel disegno di GeeLark
 x = [200]
