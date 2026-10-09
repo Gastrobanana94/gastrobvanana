@@ -148,7 +148,7 @@ def indice(nome):
 
 
 # ---------------------------------------------------------------- titolo e parametri
-d['title'] = 'IG STORIA LINK v1'
+d['title'] = 'IG STORIA LINK v2'
 d['desc'] = ("Storia con il link. Warm-up prima (MinutiPrima, vuoto = 8-12 minuti: storie, home, notifiche, "
              "reels a 140-190 ms con like/salvati/repost, ordine a caso), poi la storia: foto del task (Storia), "
              "sticker -> LINK -> URL = Link del task -> 'Customize sticker text' = Testo del task o una caption "
@@ -224,6 +224,49 @@ bc.insert(j + 1, js('testo dello sticker (Testo del task o caption della lista)'
                     "const t=String(Testo===undefined||Testo===null?'':Testo).trim(); "
                     "return { testoSticker: t || String(captionStoria||''), testoDaTask: t ? '1' : '0' };",
                     ['testoSticker', 'testoDaTask']))
+
+# ---------------------------------------------------------------- galleria della storia: terza via (fotocamera)
+# Test 09/10: dopo il '+' su 'Your story' non si apriva 'Add to story' (si apriva altro a tutto schermo,
+# forse la fotocamera o la storia gia' pubblicata). Terza via: home -> swipe a destra -> fotocamera ->
+# quadratino della galleria in basso a sinistra. La spia scrive nel log cosa c'e' sullo schermo.
+GAL = [('text', 'Add to story', 'equal'), ('text', 'Recents', 'equal'), ('text', 'Recent', 'equal'),
+       ('text', 'Gallery', 'equal')]
+for n in tutti(bc):
+    if n.get('name') == "si e' aperta 'Add to story'?":
+        n['config']['filterCollection'] = filtri(GAL)
+spia_cmd = trova(top, 'spia: bottoni sullo schermo (storia non pubblicata)')['config']['content']
+ancora = trova(bc, 'IF ancora no -> niente storia')
+fine_gal = ancora['config']['children']
+ancora['config']['children'] = [
+    adb("spia: cosa c'e' sullo schermo (galleria non aperta)", spia_cmd, 'spiaGal'),
+    foto("screenshot: dopo 'Your story' niente galleria"),
+    adb('indietro', 'input keyevent 4', 'backOut'),
+    attendi(1500, 2000),
+    tocca('vai sulla home', [('id', 'com.instagram.android:id/feed_tab', 'equal')], 'cHome', 2000),
+    attendi(1500, 2500),
+    js('swipe verso la fotocamera (posizioni)', ['larghezza', 'alto'],
+       "const w=Number(larghezza)||720, h=Number(alto)||w*2; const R=x=>String(Math.round(x)); "
+       "return { sx1: R(w*(0.03+Math.random()*0.03)), sx2: R(w*(0.80+Math.random()*0.12)), "
+       "sy: R(h*(0.45+Math.random()*0.10)), durSw: String(250+Math.floor(Math.random()*150)), "
+       "galX: R(w*0.10), galY: R(h*0.885) };",
+       ['sx1', 'sx2', 'sy', 'durSw', 'galX', 'galY']),
+    adb('swipe a destra dalla home -> fotocamera', 'input swipe ${sx1} ${sy} ${sx2} ${sy} ${durSw}', 'swOut'),
+    attendi(2500, 3500),
+    azzera('azzera: galleria', {'inGal': ''}),
+    leggi("si e' aperta 'Add to story'?", GAL, 'inGal', 2000),
+    esito('galleria aperta?', 'inGal', 'galOk'),
+    se('IF fotocamera -> tocca la galleria (in basso a sinistra)', [('galOk', '0')], [
+        tocca('tocca il quadratino della galleria', [('id', 'gallery', 'contain'), ('desc', 'allery', 'contain')],
+              'cGalB', 2500),
+        esito('galleria toccata?', 'cGalB', 'galTocco'),
+        se('IF non trovato -> galleria (posizione)', [('galTocco', '0')],
+           [toccaXY('tocca la galleria (posizione)', '${galX}', '${galY}')]),
+        attendi(2500, 3500),
+        leggi("si e' aperta 'Add to story'?", GAL, 'inGal', 3000),
+        esito('galleria aperta?', 'inGal', 'galOk'),
+    ]),
+    se('IF ancora niente galleria -> niente storia', [('galOk', '0')], fine_gal),
+]
 
 ED = [('text', 'Your stories', 'equal'), ('text', 'Add a caption', 'contain'), ('text', 'Close Friends', 'equal')]
 ADD = [('text', 'Add link', 'equal'), ('text', 'URL', 'equal')]
@@ -323,6 +366,10 @@ for nome in ("tocca 'Add a caption...'", 'scrivi la caption', 'screenshot: capti
 while ned[0]['type'] == 'waitTime':
     del ned[0]
 ned.insert(0, attendi(1000, 1600))
+
+# niente caption scritta -> non servono la freccia blu "per nome" ne' il correttore (passi per stare nel limite)
+togli(top, 'IF ancora aperta -> prova la freccia blu per nome')
+togli(top, "IF si e' aperto il correttore -> indietro (lo chiude)")
 
 # ---------------------------------------------------------------- due fasi: prima (+ storia) e dopo
 i_piano = indice('piano del giro (ordine a caso, durata, numeri)')
