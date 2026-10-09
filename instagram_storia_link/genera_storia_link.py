@@ -250,33 +250,29 @@ ancora['config']['children'] = [
     adb("spia: cosa c'e' sullo schermo (galleria non aperta)", spia_cmd, 'spiaGal'),
     adb("spia: testi sullo schermo (galleria non aperta)", SPIA_TESTI, 'testiGal'),
     js("spia (galleria non aperta)", ['spiaGal', 'testiGal'], "return { spiaGalVista: '1' };", ['spiaGalVista']),
-    foto("screenshot: dopo 'Your story' niente galleria"),
-    adb('indietro', 'input keyevent 4', 'backOut'),
-    attendi(1500, 2000),
-    tocca('vai sulla home', [('id', 'com.instagram.android:id/feed_tab', 'equal')], 'cHome', 2000),
-    attendi(1500, 2500),
-    js('swipe verso la fotocamera (posizioni)', ['larghezza', 'alto'],
-       "const w=Number(larghezza)||720, h=Number(alto)||w*2; const R=x=>String(Math.round(x)); "
-       "return { sx1: R(w*(0.03+Math.random()*0.03)), sx2: R(w*(0.80+Math.random()*0.12)), "
-       "sy: R(h*(0.45+Math.random()*0.10)), durSw: String(250+Math.floor(Math.random()*150)), "
-       "galX: R(w*0.10), galY: R(h*0.885) };",
-       ['sx1', 'sx2', 'sy', 'durSw', 'galX', 'galY']),
-    adb('swipe da sinistra a destra dalla home -> fotocamera', 'input swipe ${sx1} ${sy} ${sx2} ${sy} ${durSw}', 'swOut'),
+] + fine_gal
+
+# Screenshot del 09/10 (720x1440): il '+' di 'Your story' e' a (144, ysTua-42), non a ysTua-86 come prima.
+# Se dopo il tocco si apre la fotocamera (niente barra in basso), tocca la galleria in basso a sinistra.
+pp = trova(bc, "posizione del '+' su 'Your story'")['config']
+pp['injectVariables'] = ['ysTua', 'larghezza', 'alto']
+pp['script'] = ("async function main({ ysTua, larghezza, alto }) { const w=Number(larghezza)||720; "
+                "const h=Number(alto)||w*2; const y=Number(ysTua); "
+                "const py = (isFinite(y) && y>0) ? y - w*0.058 : w*0.385; const R=x=>String(Math.round(x)); "
+                "return { piuX: R(w*0.20), piuY: R(py), galX: R(w*0.10), galY: R(h*0.885) }; }")
+pp['variableMap'] = [{'value': v, 'variable': v} for v in ('piuX', 'piuY', 'galX', 'galY')]
+prima_if = trova(bc, "IF non si e' aperta -> indietro e tocca 'Your story'")
+resto = prima_if['config']['children'][3:]          # dopo le 3 spie: barra, indietro, 'Your story', ...
+prima_if['config']['children'] = prima_if['config']['children'][:3] + [
+    tocca('fotocamera: tocca il quadratino della galleria', [('id', 'gallery', 'contain'), ('desc', 'allery', 'contain')],
+          'cGalB', 2500),
+    esito('galleria toccata?', 'cGalB', 'galTocco'),
+    se('IF non trovato -> galleria (posizione, in basso a sinistra)', [('galTocco', '0')],
+       [toccaXY('tocca la galleria (posizione)', '${galX}', '${galY}')]),
     attendi(2500, 3500),
-    azzera('azzera: galleria', {'inGal': ''}),
-    leggi("si e' aperta 'Add to story'?", GAL, 'inGal', 2000),
+    leggi("si e' aperta 'Add to story'?", GAL, 'inGal', 3000),
     esito('galleria aperta?', 'inGal', 'galOk'),
-    se('IF fotocamera -> tocca la galleria (in basso a sinistra)', [('galOk', '0')], [
-        tocca('tocca il quadratino della galleria', [('id', 'gallery', 'contain'), ('desc', 'allery', 'contain')],
-              'cGalB', 2500),
-        esito('galleria toccata?', 'cGalB', 'galTocco'),
-        se('IF non trovato -> galleria (posizione)', [('galTocco', '0')],
-           [toccaXY('tocca la galleria (posizione)', '${galX}', '${galY}')]),
-        attendi(2500, 3500),
-        leggi("si e' aperta 'Add to story'?", GAL, 'inGal', 3000),
-        esito('galleria aperta?', 'inGal', 'galOk'),
-    ]),
-    se('IF ancora niente galleria -> niente storia', [('galOk', '0')], fine_gal),
+    se("IF ancora niente -> indietro e tocca 'Your story'", [('galOk', '0')], resto),
 ]
 
 ED = [('text', 'Your stories', 'equal'), ('text', 'Add a caption', 'contain'), ('text', 'Close Friends', 'equal')]
