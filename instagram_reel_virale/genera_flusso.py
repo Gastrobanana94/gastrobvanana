@@ -8,7 +8,7 @@ import copy, json, os, re, sys, uuid
 
 QUI = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(QUI, 'IG_REEL_VIRALE_IMPORT.json')
-TITOLO = 'IG REEL VIRALE v2'
+TITOLO = 'IG REEL VIRALE v3'
 MAX_BYTE = 240000   # v10.4 (243.090 byte, 532 passi) parte; v10.2 (250.245, 550) no
 MAX_PASSI = 520
 
@@ -202,20 +202,28 @@ inizio += [trova(PROVA, "azzera: GeeLark vede? (la barra in basso)"),
 inizio += [nodo('larghezza dello schermo', 'mathOperation',
                 {'operationStr': '${_SCREEN_WIDTH_} * 1', 'variable': 'larghezza'}),
            trova(WARM, 'misure dello schermo'), trova(WARM, 'posizioni sullo schermo')]
-inizio.append(js('piano del warm-up (13-15 minuti, pezzi in ordine a caso)', ['prova'],
+inizio.append(js('piano del warm-up (Minuti dal task, se vuoto 13-15; pezzi in ordine a caso)', ['prova', 'Minuti'],
                  R + "const now=Date.now(); const tOk=(isFinite(now) && now>1.6e12)?'1':'0'; "
-                 "const pr=String(prova)==='1'; const wu=pr ? r(150,180)*1000 : r(780,900)*1000; "
+                 "const pr=String(prova)==='1'; "
+                 "let m=parseInt(String(Minuti===undefined||Minuti===null?'':Minuti).replace(/[^0-9]/g,''),10); "
+                 "const scelto=(m>=5 && m<=90); "
+                 "const wu=pr ? r(150,180)*1000 : (scelto ? m*60000+r(-20,20)*1000 : r(780,900)*1000); "
                  "const mischia=a=>{ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); "
                  "const t=a[i]; a[i]=a[j]; a[j]=t; } return a; }; "
-                 "let L=['home','reels']; if(Math.random()<0.8) L.push('storie'); if(!pr && Math.random()<0.4) L.push('reels'); "
+                 "let L=['home','reels']; if(Math.random()<0.8) L.push('storie'); if(Math.random()<0.6) L.push('notifiche'); "
+                 "if(!pr && Math.random()<0.4) L.push('reels'); "
                  "L=mischia(L); if(L.indexOf('storie')>=0 && L.indexOf('home')<L.indexOf('storie')){ "
                  "L=L.filter(x=>x!=='home'); L.splice(L.indexOf('storie')+1,0,'home'); } "
+                 "const extra=pr?0:Math.min(3,Math.floor((wu-15*60000)/(7*60000))); "
+                 "for(let e=0;e<extra;e++){ const x=Math.random()<0.5?'home':'reels'; const da=L.indexOf('storie')+1; "
+                 "L.splice(da+Math.floor(Math.random()*(L.length-da+1)),0,x); } "
                  "L=L.filter((x,i)=>i===0||x!==L[i-1]); if(L[L.length-1]!=='reels') L.push('reels'); "
                  "const k=pr?0.25:1; const dur={storie:r(60,150)*1000*k, home:r(90,180)*1000*k}; "
-                 "return { tOk, tInizio: String(now), fineWU: String(now+wu), minutiWU: (wu/60000).toFixed(1), "
+                 "const lungo=wu>20*60000; "
+                 "return { tOk, tInizio: String(now), fineWU: String(now+wu), minutiWU: (wu/60000).toFixed(1)+(scelto?' (dal task)':''), "
                  "ordine: L.join(','), durStorie: String(dur.storie), durHome: String(dur.home), "
-                 "nextLike: String(r(7,8)), nTot: '0', repostTot: '1', salvaTot: String(r(1,2)), "
-                 "likeHomeTot: String(r(0,2)), tentativi: '0', fuori: '0', dove: '' };",
+                 "nextLike: String(r(7,8)), nTot: '0', repostTot: '1', salvaTot: String(lungo?r(2,3):r(1,2)), "
+                 "likeHomeTot: String(lungo?r(1,3):r(0,2)), tentativi: '0', fuori: '0', dove: '' };",
                  ['tOk', 'tInizio', 'fineWU', 'minutiWU', 'ordine', 'durStorie', 'durHome', 'nextLike', 'nTot',
                   'repostTot', 'salvaTot', 'likeHomeTot', 'tentativi', 'fuori', 'dove']))
 
@@ -257,7 +265,7 @@ reels_figli.append(js(
      'repostTot', 'salvaFatti', 'salvaTot', 'cercaN'],
     R + "const i=parseInt(iReel,10)||1; const n=(parseInt(nTot,10)||0)+1; const su=String(suReels)==='1'; "
     "const now=Date.now(); const ok=String(tOk)==='1'; const fm=Number(fineModulo); "
-    "const tempoSu = ok ? now>=fm : i>(parseInt(maxK,10)||40); const ult=String(ultimo)==='1'; "
+    "const tempoSu = (ok ? now>=fm : i>(parseInt(maxK,10)||40)) || i>340; const ult=String(ultimo)==='1'; "
     "const cn=parseInt(cercaN,10)||0; const cerca = ult && tempoSu && cn<50; "
     "const finito = tempoSu && (!ult || cn>=50); const metti = su && n>=(parseInt(nextLike,10)||8); "
     "let est = ok ? (Number(fineWU)-now)/9000 : 30; est=Math.max(1,est); "
@@ -359,7 +367,7 @@ for n in figli(scorri):
                     ['sx1', 'sy1', 'sx2', 'sy2', 'sd']))
 reels_figli.append(scorri)
 
-reels = ciclo('reels: guarda e scorri (nell\'ultimo pezzo poi cerca la canzone)', 250, [
+reels = ciclo('reels: guarda e scorri (nell\'ultimo pezzo poi cerca la canzone)', 400, [
     se('IF canzone non ancora scelta (e pezzo non finito)', [cond('scelto', '0'), cond('finito', '0')],
        reels_figli)], 'iReel')
 
@@ -368,20 +376,21 @@ prossimo = js('prossimo pezzo del giro', ['ordine', 'im', 'fineWU', 'durStorie',
               "const L=String(ordine||'').split(',').filter(Boolean); const i=(parseInt(im,10)||1)-1; "
               "const now=Date.now(); const fine=Number(fineWU); const mod = i<L.length ? L[i] : ''; "
               "const ult = mod!=='' && i===L.length-1; const dopo=L.slice(i+1); "
-              "const riserva = dopo.reduce((s,x)=>s+(x==='storie'?Number(durStorie):x==='home'?Number(durHome):90000),0); "
+              "const riserva = dopo.reduce((s,x)=>s+(x==='storie'?Number(durStorie):x==='home'?Number(durHome):x==='notifiche'?35000:90000),0); "
               "let fm=now, maxK=10; if(mod==='storie'){ fm=now+Number(durStorie); maxK=15; } "
               "else if(mod==='home'){ fm=now+Number(durHome); maxK=25; } "
               "else if(mod==='reels'){ fm = ult ? fine : now+Math.max(60000,(fine-now-riserva)*(0.35+Math.random()*0.3)); maxK=ult?90:40; } "
               "return { modulo: mod, ultimo: ult?'1':'0', fineModulo: String(Math.round(fm)), maxK: String(maxK), "
               "ancoraH: '1', finito: '0' };",
               ['modulo', 'ultimo', 'fineModulo', 'maxK', 'ancoraH', 'finito'])
-giro = ciclo('il giro di warm-up (pezzi in ordine a caso)', 5, [
+giro = ciclo('il giro di warm-up (pezzi in ordine a caso)', 9, [
     azzera('azzera: pezzo', {'modulo': ''}),
     prossimo,
     trova(WARM, "IF c'e' un modulo -> controlla la barra e Instagram"),
     trova(WARM, 'IF storie, home o notifiche -> vai alla home'),
     trova(WARM, 'IF reels -> vai ai Reels'),
     trova(WARM, 'IF modulo = storie di altri'),
+    trova(WARM, 'IF modulo = notifiche'),
     se('IF pezzo = home', [cond('modulo', 'home')], [home]),
     se('IF pezzo = reels', [cond('modulo', 'reels')], [reels])], 'im')
 
@@ -558,13 +567,16 @@ sistema(contenuti)
 params = copy.deepcopy(PROVA['content']['startParamMap'])
 solo = copy.deepcopy([p for p in TRIAL['content']['startParamMap'] if p['key'] == 'SoloProva'][0])
 params.append(solo)
+minuti = copy.deepcopy([p for p in WARM['content']['startParamMap'] if p['key'] == 'Minuti'][0])
+minuti['value'] = '15'
+params.append(minuti)
 for p in params:
     p['id'] = str(uuid.uuid4())
 
 flusso = {
     'title': TITOLO,
-    'desc': ("Reel con la canzone di un reel virale. Warm-up di 13-15 minuti a pezzi in ordine a caso (storie di "
-             "altri, home, reels scorsi veloci 140-190 ms: like ogni 7-8 reel, 1 repost, 1-2 salvati, chiude il pannello "
+    'desc': ("Reel con la canzone di un reel virale. Warm-up (parametro Minuti, vuoto = 13-15) a pezzi in ordine a caso (storie di "
+             "altri, home, notifiche, reels scorsi veloci 140-190 ms: like ogni 7-8 reel, 1 repost, 1-2 salvati, chiude il pannello "
              "'Saved'), poi nei Reels cerca una canzone Trending (o in almeno 1.000 reel) -> 'Use audio' -> il video del "
              "task -> caption -> scorre in fondo e Share (Facebook non si tocca) -> controlla che sia partita -> warm-up "
              "di 3 minuti -> chiude Instagram. Errori prima di Share: si ferma con screenshot. SoloProva: niente Share."),

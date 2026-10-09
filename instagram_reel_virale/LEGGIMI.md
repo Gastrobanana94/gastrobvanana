@@ -22,19 +22,23 @@ chiude Instagram.
 note: italiane o tedesche dal paese del proxy (o dal campo Lingua), ogni telefono le usa in un ordine suo e non ne
 ripete nessuna finché non le ha usate tutte. Se nel task scrivi una **Caption**, usa quella.
 
-## Il flusso vero: `IG_REEL_VIRALE_IMPORT.json` ("IG REEL VIRALE v2")
+## Il flusso vero: `IG_REEL_VIRALE_IMPORT.json` ("IG REEL VIRALE v3")
 
-Pubblica davvero (tranne con **SoloProva**). 197 KB e 497 passi: sotto il limite di GeeLark (il warm-up v10.4, 243 KB e
+Pubblica davvero (tranne con **SoloProva**). 202 KB e 511 passi: sotto il limite di GeeLark (il warm-up v10.4, 243 KB e
 532 passi, parte). Si rifà con `python3 genera_flusso.py` (scrive byte e passi e avvisa se è troppo grande); il programma
 prende i pezzi già provati dalla prova v4, dal trial reel e dal warm-up v10.4.
 
 Parametri: **Video** (il reel), **Caption** (vuota = lista di CommentBot), **Lingua** (vuota = dal proxy),
-**SoloProva** (acceso = fa tutto ma non preme Share).
+**SoloProva** (acceso = fa tutto ma non preme Share), **Minuti** (quanto dura il warm-up prima del reel, da 5 a 90,
+già impostato a 15; con un numero fuori da 5-90 o vuoto fa 13-15 minuti a caso). Oltre i 40 minuti circa il giro nei
+Reels si accorcia da solo (al massimo 340 reel per pezzo).
 
 Un task dura circa **20-25 minuti**:
 1. carica il video (se non arriva: errore `[Video]`), apre Instagram, aspetta che GeeLark ci veda;
-2. **warm-up di 13-15 minuti** (SoloProva: 2,5-3) a **pezzi in ordine a caso**, ogni volta diverso: storie di altri
-   (1-2,5 minuti, 8 volte su 10), home (1,5-3 minuti, scorre solo in giù, 0-2 like), Reels (anche due blocchi).
+2. **warm-up lungo quanto Minuti** (± 20 secondi; SoloProva: 2,5-3) a **pezzi in ordine a caso**, ogni volta diverso:
+   storie di altri (1-2,5 minuti, 8 volte su 10), home (1,5-3 minuti, scorre solo in giù, 0-2 like), notifiche (6 volte
+   su 10), Reels (anche due blocchi). Con un warm-up oltre i 20 minuti aggiunge pezzi di home e Reels in più e fa 2-3
+   salvati e 1-3 like in home.
    Le storie vengono sempre prima della home (servono la home in cima) e l'ultimo pezzo è sempre nei Reels.
    Nei Reels: guarda ogni reel 1,5-14 secondi a caso, scorre **veloce, 140-190 ms a caso**, **like ogni 7-8 reel**,
    **1 repost** e **1-2 salvati** in punti a caso;
@@ -60,6 +64,7 @@ Nel **riepilogo** del log: l'ordine del giro, like/repost/salvati, pannelli "Sav
 canzone, la canzone scelta, la caption, se la pubblicazione è partita, il warm-up dopo.
 
 Versioni:
+- v2 (9 ottobre): pubblicato senza problemi. La v3 aggiunge il parametro Minuti e le notifiche nel giro.
 - v1 (9 ottobre): ha pubblicato bene, ma prima di Share toccava l'interruttore di Facebook (usciva "Stop sharing on
   Facebook?") e dopo il salva restava aperto il pannello "Saved". Sistemato nella v2, che fa anche il giro in ordine a caso.
 
