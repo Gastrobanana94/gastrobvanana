@@ -4,11 +4,11 @@
 #   - IG_REEL_VIRALE_PROVA_IMPORT.json (canzone, Use audio, galleria, editor, pagina finale, liste caption)
 #   - ../instagram_trial/IG_TRIAL_REEL_IMPORT.json (SoloProva, scorri fino a 'Share to', Share)
 #   - ../instagram_warmup/IG_WARMUP_IMPORT.json (repost, salva, like nella home)
-import copy, json, os, sys, uuid
+import copy, json, os, re, sys, uuid
 
 QUI = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(QUI, 'IG_REEL_VIRALE_IMPORT.json')
-TITOLO = 'IG REEL VIRALE v1'
+TITOLO = 'IG REEL VIRALE v2'
 MAX_BYTE = 240000   # v10.4 (243.090 byte, 532 passi) parte; v10.2 (250.245, 550) no
 MAX_PASSI = 520
 
@@ -161,13 +161,13 @@ inizio.append(js('azzera: riepilogo', [], 'return { ' + ', '.join('%s: %s' % (k,
     'editorOk': '0', 'finaleOk': '0', 'capOk': '0', 'capFinale': '', 'daDove': '', 'usaPos': '0',
     'comeUsa': '', 'comeVideo': '', 'galVista': '', 'editsChiusi': '0', 'playStore': '0', 'trending': '',
     'inPlay': '0', 'likeFatti': '0', 'likeHome': '0', 'repostFatti': '0', 'salvaFatti': '0', 'cercaN': '0',
-    'fbStato': '', 'trialStato': '', 'fbTocchi': '0', 'trialTocchi': '0', 'pubOk': '0', 'esito': '',
+    'salviChiusi': '0', 'pubOk': '0', 'esito': '',
     'likeDopo': '0', 'nReel': '0', 'nDopo': '0', 'videoOk': '0'}.items()) + ' };',
     ['ciechi', 'fermo', 'diario', 'scelto', 'reelScelto', 'perche', 'likeNum', 'quantiReel', 'usaOk',
      'galOk', 'comeGal', 'primo', 'videoScelto', 'editorOk', 'finaleOk', 'capOk', 'capFinale', 'daDove',
      'usaPos', 'comeUsa', 'comeVideo', 'galVista', 'editsChiusi', 'playStore', 'trending', 'inPlay',
-     'likeFatti', 'likeHome', 'repostFatti', 'salvaFatti', 'cercaN', 'fbStato', 'trialStato', 'fbTocchi',
-     'trialTocchi', 'pubOk', 'esito', 'likeDopo', 'nReel', 'nDopo', 'videoOk']))
+     'likeFatti', 'likeHome', 'repostFatti', 'salvaFatti', 'cercaN', 'salviChiusi',
+     'pubOk', 'esito', 'likeDopo', 'nReel', 'nDopo', 'videoOk']))
 
 prova_js = js('SoloProva acceso?', ['SoloProva'],
               "const p=String(SoloProva===undefined||SoloProva===null?'':SoloProva).trim().toLowerCase(); "
@@ -196,29 +196,39 @@ inizio += apri_instagram()
 inizio += [trova(PROVA, "azzera: GeeLark vede? (la barra in basso)"),
            trova(PROVA, "GeeLark ci vede? (la barra in basso; se e' cieco aspetta)")]
 
-# tempi: warm-up 13-15 minuti prima di cercare la canzone (SoloProva: 2,5-3 minuti)
-inizio.append(js('tempi del warm-up (13-15 minuti; SoloProva 2,5-3)', ['prova'],
+# piano del warm-up: 13-15 minuti (SoloProva 2,5-3) in pezzi in ordine a caso (storie di altri, home, reels);
+# le storie sempre prima della home (servono la home in cima); l'ultimo pezzo e' sempre nei Reels e alla fine
+# cerca la canzone
+inizio += [nodo('larghezza dello schermo', 'mathOperation',
+                {'operationStr': '${_SCREEN_WIDTH_} * 1', 'variable': 'larghezza'}),
+           trova(WARM, 'misure dello schermo'), trova(WARM, 'posizioni sullo schermo')]
+inizio.append(js('piano del warm-up (13-15 minuti, pezzi in ordine a caso)', ['prova'],
                  R + "const now=Date.now(); const tOk=(isFinite(now) && now>1.6e12)?'1':'0'; "
                  "const pr=String(prova)==='1'; const wu=pr ? r(150,180)*1000 : r(780,900)*1000; "
-                 "const home=pr ? r(30,45)*1000 : r(100,160)*1000; "
-                 "return { tOk, tInizio: String(now), fineWU: String(now+wu), fineHome: String(now+home), "
-                 "minutiWU: (wu/60000).toFixed(1), maxWU: String(Math.round(wu/9000)), "
-                 "maxHome: String(Math.round(home/6000)), nextLike: String(r(7,8)), "
-                 "repostTot: '1', salvaTot: String(r(1,2)), likeHomeTot: '1', ancoraH: '1', tentativi: '0', "
-                 "fuori: '0', finito: '0' };",
-                 ['tOk', 'tInizio', 'fineWU', 'fineHome', 'minutiWU', 'maxWU', 'maxHome', 'nextLike',
-                  'repostTot', 'salvaTot', 'likeHomeTot', 'ancoraH', 'tentativi', 'fuori', 'finito']))
+                 "const mischia=a=>{ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); "
+                 "const t=a[i]; a[i]=a[j]; a[j]=t; } return a; }; "
+                 "let L=['home','reels']; if(Math.random()<0.8) L.push('storie'); if(!pr && Math.random()<0.4) L.push('reels'); "
+                 "L=mischia(L); if(L.indexOf('storie')>=0 && L.indexOf('home')<L.indexOf('storie')){ "
+                 "L=L.filter(x=>x!=='home'); L.splice(L.indexOf('storie')+1,0,'home'); } "
+                 "L=L.filter((x,i)=>i===0||x!==L[i-1]); if(L[L.length-1]!=='reels') L.push('reels'); "
+                 "const k=pr?0.25:1; const dur={storie:r(60,150)*1000*k, home:r(90,180)*1000*k}; "
+                 "return { tOk, tInizio: String(now), fineWU: String(now+wu), minutiWU: (wu/60000).toFixed(1), "
+                 "ordine: L.join(','), durStorie: String(dur.storie), durHome: String(dur.home), "
+                 "nextLike: String(r(7,8)), nTot: '0', repostTot: '1', salvaTot: String(r(1,2)), "
+                 "likeHomeTot: String(r(0,2)), tentativi: '0', fuori: '0', dove: '' };",
+                 ['tOk', 'tInizio', 'fineWU', 'minutiWU', 'ordine', 'durStorie', 'durHome', 'nextLike', 'nTot',
+                  'repostTot', 'salvaTot', 'likeHomeTot', 'tentativi', 'fuori', 'dove']))
 
-# ---------- 3. warm-up: home (scorre solo in giu', al massimo 1 like) ----------
+# ---------- 3. home (scorre solo in giu', 0-2 like in tutto) ----------
 like_home = trova(WARM, "metti like al post (cuore 'Like')")
-home = ciclo('warm-up: scorri la home (solo verso il basso)', 40, [
+home = ciclo('home: scorri (solo verso il basso)', 40, [
     se('IF home non finita', [cond('ancoraH', '1')], [
         copy.deepcopy(NOT_NOW),
-        attendi(2000, 6500, 'guarda il post'),
+        attendi(2000, 7000, 'guarda il post'),
         js('home: like a questo post? e come scorro', ['likeHome', 'likeHomeTot'],
            R + "const l=(parseInt(likeHome,10)||0)<(parseInt(likeHomeTot,10)||0) && Math.random()<0.15; "
            "const x=r(320,400); return { hLike: l?'1':'0', hx1: String(x), hy1: String(r(950,1050)), "
-           "hx2: String(x+r(-20,20)), hy2: String(r(380,480)), hd: String(r(280,420)) };",
+           "hx2: String(x+r(-20,20)), hy2: String(r(380,480)), hd: String(r(250,450)) };",
            ['hLike', 'hx1', 'hy1', 'hx2', 'hy2', 'hd']),
         se('IF like a questo post', [cond('hLike', '1')], [
             azzera('azzera: like', {'cLike': ''}),
@@ -227,13 +237,11 @@ home = ciclo('warm-up: scorri la home (solo verso il basso)', 40, [
                OK + "return { likeHome: String((parseInt(likeHome,10)||0)+(ok(cLike)?1:0)) };", ['likeHome']),
             attendi(800, 1500)]),
         adb('scorri la home', 'input swipe ${hx1} ${hy1} ${hx2} ${hy2} ${hd}', 'swOut'),
-        js('home: ancora?', ['fineHome', 'tOk', 'kh', 'maxHome'],
-           "const n=parseInt(kh,10)||0; const t=String(tOk)==='1' ? Date.now()<Number(fineHome) : "
-           "n<(parseInt(maxHome,10)||20); return { ancoraH: t?'1':'0' };", ['ancoraH'])])], 'kh')
+        js('home: ancora?', ['fineModulo', 'tOk', 'kh', 'maxK'],
+           "const n=parseInt(kh,10)||0; const t=String(tOk)==='1' ? Date.now()<Number(fineModulo) : "
+           "n<(parseInt(maxK,10)||20); return { ancoraH: t?'1':'0' };", ['ancoraH'])])], 'kh')
 
-# ---------- 4. warm-up nei Reels + ricerca della canzone virale ----------
-# un solo giro di reels: prima il warm-up (like ogni 7-8 reel, 1 repost, 1-2 salvati),
-# finito il tempo cerca la canzone come nella prova (dal reel dopo, al massimo 50 reel)
+# ---------- 4. reels: warm-up (like ogni 7-8, 1 repost, 1-2 salvati) e, nell'ultimo pezzo, la canzone ----------
 reels_figli = []
 watch = trova(PROVA, 'IF 25%: guarda poco')
 reels_figli += [watch,
@@ -245,33 +253,61 @@ reels_figli += [watch,
 
 reels_figli.append(js(
     'cosa faccio su questo reel? (like ogni 7-8, repost, salva, cerco la canzone?)',
-    ['iReel', 'suReels', 'nextLike', 'fineWU', 'tOk', 'maxWU', 'repostFatti', 'repostTot', 'salvaFatti',
-     'salvaTot', 'cercaN'],
-    R + "const i=parseInt(iReel,10)||1; const su=String(suReels)==='1'; const now=Date.now(); "
-    "const fine=Number(fineWU); const tempoSu = String(tOk)==='1' ? now>=fine : i>(parseInt(maxWU,10)||90); "
-    "const cn=parseInt(cercaN,10)||0; const cerca = tempoSu && cn<50; const finito = tempoSu && cn>=50; "
-    "const metti = su && i>=(parseInt(nextLike,10)||8); "
-    "let est = String(tOk)==='1' ? (fine-now)/9000 : (parseInt(maxWU,10)||90)-i; est=Math.max(1,est); "
+    ['iReel', 'nTot', 'suReels', 'nextLike', 'fineModulo', 'fineWU', 'ultimo', 'tOk', 'maxK', 'repostFatti',
+     'repostTot', 'salvaFatti', 'salvaTot', 'cercaN'],
+    R + "const i=parseInt(iReel,10)||1; const n=(parseInt(nTot,10)||0)+1; const su=String(suReels)==='1'; "
+    "const now=Date.now(); const ok=String(tOk)==='1'; const fm=Number(fineModulo); "
+    "const tempoSu = ok ? now>=fm : i>(parseInt(maxK,10)||40); const ult=String(ultimo)==='1'; "
+    "const cn=parseInt(cercaN,10)||0; const cerca = ult && tempoSu && cn<50; "
+    "const finito = tempoSu && (!ult || cn>=50); const metti = su && n>=(parseInt(nextLike,10)||8); "
+    "let est = ok ? (Number(fineWU)-now)/9000 : 30; est=Math.max(1,est); "
     "const p=(t,f)=>{ const x=(parseInt(t,10)||0)-(parseInt(f,10)||0); return x<=0?0:Math.min(1,x/est); }; "
-    "let rep = su && !tempoSu && i>=3 && Math.random()<p(repostTot,repostFatti); "
-    "let sal = su && !tempoSu && i>=3 && !rep && Math.random()<p(salvaTot,salvaFatti); "
+    "const rep = su && !tempoSu && i>=3 && Math.random()<p(repostTot,repostFatti); "
+    "const sal = su && !tempoSu && i>=2 && !rep && Math.random()<p(salvaTot,salvaFatti); "
     "return { metti: metti?'1':'0', fRep: rep?'1':'0', fSal: sal?'1':'0', cerca: cerca?'1':'0', "
-    "cercaN: String(cn+(cerca?1:0)), finito: finito?'1':'0', nReel: String(i), "
+    "cercaN: String(cn+(cerca?1:0)), finito: finito?'1':'0', nTot: String(n), nReel: String(n), "
     "dtX: String(r(300,420)), dtY: String(r(520,760)) };",
-    ['metti', 'fRep', 'fSal', 'cerca', 'cercaN', 'finito', 'nReel', 'dtX', 'dtY']))
+    ['metti', 'fRep', 'fSal', 'cerca', 'cercaN', 'finito', 'nTot', 'nReel', 'dtX', 'dtY']))
 
 like_blocco = trova(PROVA, 'IF like -> cuore o doppio tocco')
 for n in figli(like_blocco):
     if n['name'] == 'like fatti +1':
-        n.update(js('like fatti +1 (il prossimo tra 7-8 reel)', ['likeFatti', 'iReel'],
+        n.update(js('like fatti +1 (il prossimo tra 7-8 reel)', ['likeFatti', 'nTot'],
                     R + "return { likeFatti: String((parseInt(likeFatti,10)||0)+1), "
-                    "nextLike: String((parseInt(iReel,10)||1)+r(7,8)) };", ['likeFatti', 'nextLike']))
+                    "nextLike: String((parseInt(nTot,10)||1)+r(7,8)) };", ['likeFatti', 'nextLike']))
 reels_figli.append(like_blocco)
-
 reels_figli.append(trova(WARM, 'IF repost'))
-reels_figli.append(trova(WARM, 'IF salva'))
 
-# la parte della canzone (solo quando il warm-up e' finito)
+# salva; poi chiude il pannello 'Saved / Collect the posts you love' (esce le prime volte):
+# tocca sopra il pannello (la parte scura in alto), se c'e' ancora 'indietro'
+SALVATI = filtri([('text', 'Collect the posts you love', 'contain')], [('text', 'Start a collection', 'equal')],
+                 [('text', 'Save posts in collections', 'contain')], [('text', 'Saved', 'equal')])
+FOGLIO = ("sh -c 'dumpsys activity top 2>/dev/null | grep -E \"[{][0-9a-f]+ V\" | "
+          "grep -cE \"app:id/(bottom_sheet_compose_view|bottom_sheet_container|layout_container_bottom_sheet)\"'")
+
+
+def chiudi_salvati(quando):
+    return [azzera('azzera: pannello Saved? (%s)' % quando, {'salY': '', 'foglioOut': ''}),
+            leggi("c'e' il pannello 'Saved / Start a collection'? (%s)" % quando, SALVATI, 1200, 'salY'),
+            adb("Android: c'e' un pannello aperto? (%s)" % quando, FOGLIO, 'foglioOut'),
+            js('chiudo il pannello Saved? (%s)' % quando, ['salY', 'foglioOut', 'salviChiusi'],
+               OK + "const si=ok(salY) || (parseInt(String(foglioOut||'').trim(),10)||0)>0; "
+               "return { chiudiSal: si?'1':'0', vistoSal: ok(salY)?'1':'0', "
+               "salviChiusi: String((parseInt(salviChiusi,10)||0)+(si?1:0)) };",
+               ['chiudiSal', 'vistoSal', 'salviChiusi'])]
+
+
+salva = trova(WARM, 'IF salva')
+salva['config']['children'] += [attendi(1200, 1800)] + chiudi_salvati('dopo il salva') + [
+    se('IF pannello Saved -> tocca sopra il pannello', [cond('chiudiSal', '1')], [
+        adb('tocca sopra il pannello (in alto, si abbassa)', 'sh -c \'input tap $(( 300 + RANDOM % 120 )) $(( 170 + RANDOM % 90 ))\''),
+        attendi(1200, 1800)] + chiudi_salvati('dopo il tocco') + [
+        se("IF GeeLark lo vede ancora -> indietro", [cond('vistoSal', '1')], [
+            adb('indietro (chiudi il pannello Saved)', 'input keyevent 4', 'backOut'),
+            attendi(1200, 1800)])])]
+reels_figli.append(salva)
+
+# la parte della canzone (solo nell'ultimo pezzo, quando il tempo del warm-up e' finito)
 canzone = []
 for nome in ['azzera: like', 'orologio', 'quanti like? (numero sotto il cuore)']:
     canzone.append(trova(PROVA, nome))
@@ -297,9 +333,16 @@ def ritocca_virale(nodi):
             s = s.replace("const fac = String(facile)==='1'; ", "const fac = false; ")
             s = s.replace("+((fac && !trend && !(n>=1000))?' (dal 12° reel basta una canzone)':'')", "")
             s = s.replace(", facile, likeNum", ", likeNum")
+            s = s.replace("const i=parseInt(iReel,10)||1;", "const i=parseInt(nTot,10)||1;")
+            s = s.replace("likeNum, iReel, diario", "likeNum, nTot, diario")
             n['config']['script'] = s
-            n['config']['injectVariables'] = [v for v in n['config']['injectVariables'] if v != 'facile']
-            assert 'facile' not in s, s
+            n['config']['injectVariables'] = [('nTot' if v == 'iReel' else v)
+                                              for v in n['config']['injectVariables'] if v != 'facile']
+            assert 'facile' not in s and 'parseInt(iReel' not in s, s
+        elif n['type'] == 'script' and 'iReel' in n['config'].get('injectVariables', []):
+            n['config']['script'] = re.sub(r'\biReel\b', 'nTot', n['config']['script'])
+            n['config']['injectVariables'] = [('nTot' if v == 'iReel' else v)
+                                              for v in n['config']['injectVariables']]
         for _, v in sotto(n):
             ritocca_virale(v)
 
@@ -316,11 +359,33 @@ for n in figli(scorri):
                     ['sx1', 'sy1', 'sx2', 'sy2', 'sd']))
 reels_figli.append(scorri)
 
-reels = ciclo('warm-up nei reels, poi cerca la canzone virale (al massimo 50 reel)', 250, [
-    se('IF canzone non ancora scelta (e non ho finito)', [cond('scelto', '0'), cond('finito', '0')],
+reels = ciclo('reels: guarda e scorri (nell\'ultimo pezzo poi cerca la canzone)', 250, [
+    se('IF canzone non ancora scelta (e pezzo non finito)', [cond('scelto', '0'), cond('finito', '0')],
        reels_figli)], 'iReel')
 
-giro = [home] + tocca_reels() + [reels,
+# ---------- il giro: pezzi in ordine a caso ----------
+prossimo = js('prossimo pezzo del giro', ['ordine', 'im', 'fineWU', 'durStorie', 'durHome', 'tOk'],
+              "const L=String(ordine||'').split(',').filter(Boolean); const i=(parseInt(im,10)||1)-1; "
+              "const now=Date.now(); const fine=Number(fineWU); const mod = i<L.length ? L[i] : ''; "
+              "const ult = mod!=='' && i===L.length-1; const dopo=L.slice(i+1); "
+              "const riserva = dopo.reduce((s,x)=>s+(x==='storie'?Number(durStorie):x==='home'?Number(durHome):90000),0); "
+              "let fm=now, maxK=10; if(mod==='storie'){ fm=now+Number(durStorie); maxK=15; } "
+              "else if(mod==='home'){ fm=now+Number(durHome); maxK=25; } "
+              "else if(mod==='reels'){ fm = ult ? fine : now+Math.max(60000,(fine-now-riserva)*(0.35+Math.random()*0.3)); maxK=ult?90:40; } "
+              "return { modulo: mod, ultimo: ult?'1':'0', fineModulo: String(Math.round(fm)), maxK: String(maxK), "
+              "ancoraH: '1', finito: '0' };",
+              ['modulo', 'ultimo', 'fineModulo', 'maxK', 'ancoraH', 'finito'])
+giro = ciclo('il giro di warm-up (pezzi in ordine a caso)', 5, [
+    azzera('azzera: pezzo', {'modulo': ''}),
+    prossimo,
+    trova(WARM, "IF c'e' un modulo -> controlla la barra e Instagram"),
+    trova(WARM, 'IF storie, home o notifiche -> vai alla home'),
+    trova(WARM, 'IF reels -> vai ai Reels'),
+    trova(WARM, 'IF modulo = storie di altri'),
+    se('IF pezzo = home', [cond('modulo', 'home')], [home]),
+    se('IF pezzo = reels', [cond('modulo', 'reels')], [reels])], 'im')
+
+giro = [giro,
         se('IF nessuna canzone virale -> errore', [cond('scelto', '0')],
            errore("[Canzone] Dopo il warm-up non ho trovato una canzone virale (bollino Trending o almeno "
                   "1.000 reel, reel con almeno 2K like) in 50 reel. Non pubblico niente."))]
@@ -353,101 +418,16 @@ cap = [azzera('azzera: caption', {'tCap': '', 'capOk': '0'}),
        attendi(1200, 1800),
        foto('screenshot: caption scritta')]
 
-# ---------- 7. in fondo alla pagina: Facebook acceso, Trial spento ----------
+# ---------- 7. scorre fino in fondo e Share: Facebook NON si tocca (e' gia' acceso) ----------
 fondo = [trova(TRIAL, 'azzera: fondo della pagina'),
          trova(TRIAL, "scorri giu' fino a 'Share to' (al massimo 5 volte)")]
-
-UI = ("sh -c 'f=/sdcard/.ig_ui.xml; rm -f $f; uiautomator dump $f >/dev/null 2>&1; "
-      "if [ -s $f ]; then tr \">\" \"\\n\" < $f | grep -E \"checkable=.true|Facebook|[Tt]rial\" | "
-      "sed -E \"s/.*text=(\\\"[^\\\"]*\\\").*content-desc=(\\\"[^\\\"]*\\\").*checkable=\\\"([a-z]*)\\\" "
-      "checked=\\\"([a-z]*)\\\".*selected=\\\"([a-z]*)\\\" bounds=\\\"[[]([0-9]+),([0-9]+)[]][[]([0-9]+),([0-9]+)[]]\\\".*"
-      "/N|\\1|\\2|\\3|\\4|\\5|\\6|\\7|\\8|\\9/\" | grep \"^N|\" | head -n 30; else echo nodump; fi; "
-      "rm -f $f; echo fine'")
-
-CONTROLLA = (
-    "const righe=String(uiOut||'').split(/\\n/).filter(x=>/^N\\|/.test(x)).map(x=>{ const p=x.split('|'); "
-    "return { t:(p[1]||'').replace(/^\"|\"$/g,''), d:(p[2]||'').replace(/^\"|\"$/g,''), sw:p[3]==='true', "
-    "on:p[4]==='true'||p[5]==='true', x:(+p[6]+ +p[8])/2, y:(+p[7]+ +p[9])/2 }; }); "
-    "let sw=righe.filter(n=>n.sw); const da=sw.length?'android':'geelark'; "
-    "if(!sw.length){ sw=String(tglLista||'').split(';').filter(Boolean).map(s=>{ const q=s.split(':'); "
-    "return { sw:true, on:q[1]==='1', x:(Number(larghezza)||720)-70, y:Number(q[0]) }; }).filter(n=>isFinite(n.y)&&n.y>0); } "
-    "const etich=(re,gy)=>{ const l=righe.filter(n=>!n.sw && (re.test(n.t)||re.test(n.d))).map(n=>n.y); "
-    "if(ok(gy)) l.push(Number(gy)); return l.filter(y=>isFinite(y)&&y>0); }; "
-    "const vicino=(ys,re)=>{ const da=sw.find(s=>re.test(s.t)||re.test(s.d)); if(da) return da; "
-    "let best=null; for(const y of ys) for(const s of sw){ const dy=Math.abs(s.y-y); "
-    "if(dy<=90 && (!best||dy<best.dy)) best=Object.assign({},s,{dy}); } return best; }; "
-    "const FB=etich(/Facebook/, fbRiga); const TR=etich(/^Trial/, trialRiga); "
-    "const fb=vicino(FB,/Facebook/); const tr=TR.length?vicino(TR,/^Trial/):null; const banner=ok(trialBanner); "
-    "const fbOn = fb ? (fb.on?'1':'0') : '?'; const trialOn = tr ? (tr.on?'1':'0') : (banner?'1':'0'); "
-    "const nf=parseInt(fbTocchi,10)||0, nt=parseInt(trialTocchi,10)||0; let azione='ok'; "
-    "if(trialOn==='1' && tr && nt<2) azione='trial'; else if(fbOn==='0' && nf<2) azione='fb'; "
-    "else if(fbOn==='?' || (fbOn==='0') || trialOn==='1') azione='no'; "
-    "return { fbOn, fbOk: fbOn==='1'?'1':'0', trialOn, azione, fatto: (azione==='ok'||azione==='no')?'1':'0', "
-    "fbX: String(Math.round(fb?fb.x:0)), fbY: String(Math.round(fb?fb.y:0)), "
-    "trX: String(Math.round(tr?tr.x:0)), trY: String(Math.round(tr?tr.y:0)), "
-    "fbStato: (fb?(fb.on?'acceso':'spento'):'non trovato')+' ('+da+', '+FB.length+' scritte, '+sw.length+' interruttori)', "
-    "trialStato: tr?(tr.on?'acceso':'spento'):(banner?'banner trial':'non c\\'e\\''), "
-    "fbTocchi: String(nf+(azione==='fb'?1:0)), trialTocchi: String(nt+(azione==='trial'?1:0)) };")
-
-FB_FILTRI = filtri([('text', 'Facebook ·', 'contain')], [('text', 'Facebook •', 'contain')],
-                   [('text', 'Facebook', 'equal')], [('text', 'Facebook', 'contain')],
-                   [('desc', 'Facebook', 'contain')])
-TRIAL_FILTRI = filtri([('text', 'Trial', 'equal')], [('text', 'Trial', 'contain')], [('desc', 'Trial', 'equal')])
-
-# GeeLark: interruttori della pagina (solo se Android non li vede)
-tgl = ciclo('GeeLark: gli interruttori della pagina (se Android non li vede)', 5, [
-    azzera('azzera: interruttore', {'tgl': '', 'tglY': '', 'tglSel': ''}),
-    nodo("c'e' l'interruttore n?", 'waitEle', {
-        'excuteError': 'noProcessing', 'hiddenChildren': True, 'searchTime': 800, 'serial': '${kt}',
-        'serialType': 'fixedValue', 'variable': 'tgl',
-        'filterCollection': filtri([('id', 'com.instagram.android:id/toggle', 'equal')],
-                                   [('class', 'android.widget.Switch', 'equal')])}),
-    se("IF c'e' -> dove e acceso?", [cond('tgl', rel='exist')], [
-        nodo('altezza', 'getEle', {'saveItemName': 'tgl', 'type': 'centerY', 'variable': 'tglY'}),
-        nodo('acceso?', 'getEle', {'saveItemName': 'tgl', 'type': 'selected', 'variable': 'tglSel'}),
-        js('annota', ['tglY', 'tglSel', 'tglLista'],
-           OK + "return { tglLista: String(tglLista||'')+String(tglY)+':'+(ok(tglSel)?'1':'0')+';' };",
-           ['tglLista'])])], 'kt')
-
-controllo = ciclo('controlla Facebook (acceso) e Trial (spento), al massimo 4 volte', 4, [
-    se('IF non ancora finito', [cond('fatto', '0')], [
-        azzera('azzera: interruttori', {'uiOut': '', 'fbRiga': '', 'trialRiga': '', 'trialBanner': '',
-                                         'tglLista': ''}),
-        adb('Android: interruttori della pagina (Facebook, Trial)', UI, 'uiOut'),
-        leggi('riga di Facebook', FB_FILTRI, 1500, 'fbRiga'),
-        leggi('riga Trial', TRIAL_FILTRI, 800, 'trialRiga'),
-        leggi("c'e' 'This is a trial reel'?", filtri([('text', 'This is a trial reel', 'contain')]), 800,
-              'trialBanner'),
-        js('Android vede gli interruttori?', ['uiOut'],
-           "return { swAndroid: /^N\\|[^|]*\\|[^|]*\\|true/m.test(String(uiOut||'')) ? '1' : '0' };",
-           ['swAndroid']),
-        se('IF Android non vede gli interruttori -> GeeLark', [cond('swAndroid', '0')], [tgl]),
-        js('Facebook e Trial: acceso o spento?',
-           ['uiOut', 'tglLista', 'fbRiga', 'trialRiga', 'trialBanner', 'fbTocchi', 'trialTocchi', 'larghezza'],
-           OK + CONTROLLA,
-           ['fbOn', 'fbOk', 'trialOn', 'azione', 'fatto', 'fbX', 'fbY', 'trX', 'trY', 'fbStato', 'trialStato',
-            'fbTocchi', 'trialTocchi']),
-        se('IF Facebook spento -> accendilo', [cond('azione', 'fb')], [
-            adb("tocca l'interruttore di Facebook", 'input tap ${fbX} ${fbY}'),
-            attendi(1800, 2500),
-            tocca("se chiede: 'Always share reels' (Facebook sempre acceso)",
-                  filtri([('text', 'Always share reels', 'contain')], [('text', 'Always share', 'contain')],
-                         [('text', 'Turn on', 'equal')]), 1500),
-            attendi(1200, 1800)]),
-        se('IF Trial acceso -> spegnilo', [cond('azione', 'trial')], [
-            adb("tocca l'interruttore Trial", 'input tap ${trX} ${trY}'),
-            attendi(1800, 2500)])])], 'kc')
-
-controlli = [nodo('larghezza dello schermo', 'mathOperation',
-                  {'operationStr': '${_SCREEN_WIDTH_} * 1', 'variable': 'larghezza'}),
-             azzera('azzera: controlli', {'fatto': '0', 'fbOn': '', 'fbOk': '0', 'trialOn': '', 'azione': ''}),
-             controllo,
-             foto('screenshot: pagina finale in fondo (Facebook e Trial)'),
-             se('IF Facebook non acceso -> errore', [cond('fbOk', '0')],
-                errore("[Facebook] La condivisione su Facebook non e' accesa (o non trovo l'interruttore). "
-                       "Non pubblico niente.")),
-             se('IF Trial acceso -> errore', [cond('trialOn', '1')],
-                errore("[Trial] L'interruttore Trial e' acceso e non riesco a spegnerlo. Non pubblico niente."))]
+# se per sbaglio esce 'Stop sharing on Facebook?' -> 'Cancel' (mai 'Don't share' o 'Stop sharing')
+controlli = [azzera('azzera: avviso Facebook', {'stopFb': ''}),
+             leggi("e' uscito 'Stop sharing on Facebook?'", filtri([('text', 'Stop sharing on Facebook', 'contain')]),
+                   1000, 'stopFb'),
+             se("IF si' -> 'Cancel' (Facebook resta acceso)", [cond('stopFb', rel='exist')], [
+                 tocca("tocca 'Cancel'", filtri([('text', 'Cancel', 'equal')]), 2000),
+                 attendi(1000, 1500)])]
 
 # ---------- 8. Share (o SoloProva) ----------
 FINALE = filtri([('text', 'Save draft', 'equal')], [('text', 'Tag people', 'equal')],
@@ -528,7 +508,7 @@ dopo = tocca_reels() + [
 RIEP_VAR = ['esito', 'prova', 'minutiWU', 'likeHome', 'nReel', 'likeFatti', 'repostFatti', 'salvaFatti',
             'cercaN', 'ciechi', 'editsChiusi', 'playStore', 'diario', 'reelScelto', 'perche', 'usaOk', 'comeUsa',
             'galOk', 'comeGal', 'primo', 'videoScelto', 'comeVideo', 'editorOk', 'finaleOk', 'capOk', 'daDove',
-            'lingua', 'linguaPerche', 'capFinale', 'fbStato', 'fbTocchi', 'trialStato', 'trialTocchi', 'pubOk',
+            'lingua', 'linguaPerche', 'capFinale', 'salviChiusi', 'ordine', 'pubOk',
             'nDopo', 'likeDopo']
 fine = [foto('screenshot: fine', True),
         js('riepilogo', RIEP_VAR,
@@ -542,8 +522,7 @@ fine = [foto('screenshot: fine', True),
            "' | video del task primo ' + s(primo) + ', toccato ' + s(videoScelto) + c(comeVideo) + "
            "' | editor ' + s(editorOk) + ' | pagina finale ' + s(finaleOk) + ' | caption ' + s(capOk) + "
            "' (' + s(daDove) + ', ' + s(lingua) + ' ' + s(linguaPerche) + '): ' + s(capFinale) + "
-           "' | Facebook ' + s(fbStato) + ', tocchi ' + s(fbTocchi) + ' | Trial ' + s(trialStato) + "
-           "', tocchi ' + s(trialTocchi) + ' | pubblicazione partita ' + s(pubOk) + "
+           "' | pannelli Saved chiusi ' + s(salviChiusi) + ' | ordine del giro ' + s(ordine) + ' | pubblicazione partita ' + s(pubOk) + "
            "' | warm-up dopo: reel ' + s(nDopo) + ', like ' + s(likeDopo) }; ",
            ['riepilogo']),
         adb('chiudi Instagram', CHIUDI_IG, 'stopIg'),
@@ -553,6 +532,15 @@ fine = [foto('screenshot: fine', True),
 contenuti = inizio + giro + prepara + cap + fondo + controlli + finale + dopo + fine
 
 # ---------- id nuovi, posizioni, parametri ----------
+def togli_spie(nodi):
+    # la v1 e' andata bene: tolgo le 'spie' (servivano a capire le schermate), restano gli screenshot
+    for n in nodi:
+        for k, v in sotto(n):
+            n['config'][k] = togli_spie(v)
+    return [n for n in nodi if not n['name'].startswith('spia')]
+
+
+contenuti = togli_spie(contenuti)
 conta = [0]
 
 
@@ -575,12 +563,11 @@ for p in params:
 
 flusso = {
     'title': TITOLO,
-    'desc': ("Reel con la canzone di un reel virale. Warm-up di 13-15 minuti (home, poi reels scorsi veloci "
-             "140-190 ms: like ogni 7-8 reel, 1 repost, 1-2 salvati), poi nei Reels cerca una canzone Trending "
-             "(o in almeno 1.000 reel) su un reel con almeno 2K like -> 'Use audio' -> il video del task -> "
-             "caption (del task o dalla lista di CommentBot) -> Facebook acceso, Trial spento -> Share e "
-             "controlla che sia partita -> warm-up di 3 minuti -> chiude Instagram. Se qualcosa va storto prima "
-             "di Share si ferma con errore e screenshot. SoloProva: fa tutto ma non preme Share."),
+    'desc': ("Reel con la canzone di un reel virale. Warm-up di 13-15 minuti a pezzi in ordine a caso (storie di "
+             "altri, home, reels scorsi veloci 140-190 ms: like ogni 7-8 reel, 1 repost, 1-2 salvati, chiude il pannello "
+             "'Saved'), poi nei Reels cerca una canzone Trending (o in almeno 1.000 reel) -> 'Use audio' -> il video del "
+             "task -> caption -> scorre in fondo e Share (Facebook non si tocca) -> controlla che sia partita -> warm-up "
+             "di 3 minuti -> chiude Instagram. Errori prima di Share: si ferma con screenshot. SoloProva: niente Share."),
     'content': {
         'startParamMap': params,
         'contents': contenuti,

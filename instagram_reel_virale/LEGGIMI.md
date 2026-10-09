@@ -22,9 +22,9 @@ chiude Instagram.
 note: italiane o tedesche dal paese del proxy (o dal campo Lingua), ogni telefono le usa in un ordine suo e non ne
 ripete nessuna finché non le ha usate tutte. Se nel task scrivi una **Caption**, usa quella.
 
-## Il flusso vero: `IG_REEL_VIRALE_IMPORT.json` ("IG REEL VIRALE v1")
+## Il flusso vero: `IG_REEL_VIRALE_IMPORT.json` ("IG REEL VIRALE v2")
 
-Pubblica davvero (tranne con **SoloProva**). 188 KB e 468 passi: sotto il limite di GeeLark (il warm-up v10.4, 243 KB e
+Pubblica davvero (tranne con **SoloProva**). 197 KB e 497 passi: sotto il limite di GeeLark (il warm-up v10.4, 243 KB e
 532 passi, parte). Si rifà con `python3 genera_flusso.py` (scrive byte e passi e avvisa se è troppo grande); il programma
 prende i pezzi già provati dalla prova v4, dal trial reel e dal warm-up v10.4.
 
@@ -33,39 +33,35 @@ Parametri: **Video** (il reel), **Caption** (vuota = lista di CommentBot), **Lin
 
 Un task dura circa **20-25 minuti**:
 1. carica il video (se non arriva: errore `[Video]`), apre Instagram, aspetta che GeeLark ci veda;
-2. **warm-up di 13-15 minuti** (SoloProva: 2,5-3): home 1,5-2,5 minuti (scorre solo in giù, al massimo 1 like), poi
-   Reels: guarda ogni reel come nella prova (25% 1,5-3 s, 45% 3,5-7 s, 30% 8-14 s), scorre **veloce, 140-190 ms a caso**,
-   **like ogni 7-8 reel** (cuore se vuoto, altrimenti doppio tocco), **1 repost** e **1-2 salvati** sparsi nel giro;
-3. finito il tempo, sempre nei Reels, **cerca la canzone**: reel con almeno 2K like (o like non leggibili), canzone (non
-   audio originale) con il bollino **Trending** o usata in almeno **1.000 reel**. Continua a mettere like ogni 7-8 reel.
-   Se in 50 reel non la trova: errore `[Canzone]`;
-4. "Use audio" → galleria → il video del task (deve essere l'ultimo aggiunto) → Next → pagina finale, con le protezioni
-   della prova v4 (pannello Edits, Play Store);
-5. scrive la caption, scorre fino a "Share to";
-6. **controlli prima di Share**: chiede ad Android (e, se Android non li vede, a GeeLark) gli interruttori della
-   pagina: **Facebook deve essere acceso** (se è spento lo tocca e, se chiede, sceglie "Always share reels"), **Trial
-   deve essere spento** (se è acceso lo tocca). Ricontrolla dopo ogni tocco; se non ci riesce: errore `[Facebook]` o
-   `[Trial]`;
-7. **Share** (e "Share" nell'avviso "About Reels" se esce), poi controlla che la pubblicazione sia **partita**: non è più
-   sulla pagina finale ed è in Instagram. Se dopo un'altra attesa è ancora lì: errore `[Share]`. **Non preme mai Share due
-   volte** (niente reel doppi);
-8. **la caption della lista passa alla prossima solo se il reel è partito** (con SoloProva o con un errore la stessa
-   caption resta per la volta dopo);
-9. **warm-up dopo di 3 minuti** nei Reels (like ogni 7-8), poi screenshot, riepilogo, chiude Instagram.
+2. **warm-up di 13-15 minuti** (SoloProva: 2,5-3) a **pezzi in ordine a caso**, ogni volta diverso: storie di altri
+   (1-2,5 minuti, 8 volte su 10), home (1,5-3 minuti, scorre solo in giù, 0-2 like), Reels (anche due blocchi).
+   Le storie vengono sempre prima della home (servono la home in cima) e l'ultimo pezzo è sempre nei Reels.
+   Nei Reels: guarda ogni reel 1,5-14 secondi a caso, scorre **veloce, 140-190 ms a caso**, **like ogni 7-8 reel**,
+   **1 repost** e **1-2 salvati** in punti a caso;
+3. dopo il salva, se compare il pannello **"Saved / Collect the posts you love / Start a collection"** tocca sopra il
+   pannello (la parte in alto) per chiuderlo; se GeeLark lo vede ancora preme "indietro". Mai "Start a collection";
+4. finito il tempo, nell'ultimo pezzo di Reels **cerca la canzone**: reel con almeno 2K like (o like non leggibili), canzone
+   con il bollino **Trending** o usata in almeno **1.000 reel**. Se in 50 reel non la trova: errore `[Canzone]`;
+5. "Use audio" → galleria → il video del task → Next → pagina finale (come la prova v4);
+6. scrive la caption, **scorre in fondo e preme Share**. **Facebook non si tocca mai** (è già acceso e così il reel va
+   anche su Facebook). Se per sbaglio compare "Stop sharing on Facebook?" tocca **Cancel**;
+7. controlla che la pubblicazione sia partita (non è più sulla pagina finale); se no errore `[Share]`. Non preme mai
+   Share due volte;
+8. la caption della lista passa alla prossima solo se il reel è partito;
+9. warm-up dopo di 3 minuti nei Reels (like ogni 7-8), poi chiude Instagram.
 
-Con **SoloProva** al punto 7 fa lo screenshot "SOLO PROVA", chiude Instagram senza pubblicare, lo riapre e fa 1 minuto di
-warm-up dopo. Like, repost e salvati del warm-up li fa lo stesso.
+Con **SoloProva** al punto 6 fa lo screenshot "SOLO PROVA", chiude Instagram senza pubblicare, lo riapre e fa 1 minuto di
+warm-up dopo.
 
 Se qualcosa va storto **prima di Share** non pubblica niente: screenshot, chiude Instagram e si ferma con l'errore
-(`[Video]`, `[Canzone]`, `[Galleria]`, `[Editor]`, `[Pagina finale]`, `[Caption]`, `[Facebook]`, `[Trial]`; durante lo
-scorrimento della pagina finale anche quelli del trial reel).
+(`[Video]`, `[Canzone]`, `[Galleria]`, `[Editor]`, `[Pagina finale]`, `[Caption]`).
 
-Nel **riepilogo** del log: durata del warm-up, like/repost/salvati, i reel guardati cercando la canzone e perché sono stati
-scartati, la canzone scelta, cosa ha toccato per posizione, la caption, Facebook e Trial (acceso/spento, chi li ha visti,
-quanti tocchi), se la pubblicazione è partita, il warm-up dopo.
+Nel **riepilogo** del log: l'ordine del giro, like/repost/salvati, pannelli "Saved" chiusi, i reel guardati cercando la
+canzone, la canzone scelta, la caption, se la pubblicazione è partita, il warm-up dopo.
 
-Da provare: prima **con SoloProva acceso** su Melina e su Elixa (guardare nel log `fbStato` e `trialStato` e lo screenshot
-"pagina finale in fondo"), poi un task vero.
+Versioni:
+- v1 (9 ottobre): ha pubblicato bene, ma prima di Share toccava l'interruttore di Facebook (usciva "Stop sharing on
+  Facebook?") e dopo il salva restava aperto il pannello "Saved". Sistemato nella v2, che fa anche il giro in ordine a caso.
 
 ## La prova v4 (`IG_REEL_VIRALE_PROVA_IMPORT.json`, "IG REEL VIRALE PROVA v4")
 
