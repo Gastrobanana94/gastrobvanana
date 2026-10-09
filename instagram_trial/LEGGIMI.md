@@ -3,7 +3,7 @@
 File da importare in GeeLark: `IG_TRIAL_REEL_IMPORT.json` (flusso "IG TRIAL REEL v7").
 Non serve né il relay né ngrok: fa tutto GeeLark, anche col PC spento.
 
-## Un task = giro di 3-5 minuti + un trial reel
+## Un task = giro di 3-7 minuti + un trial reel
 
 Nella pagina "Create task" ci sono:
 
@@ -26,7 +26,7 @@ Chiama i video `01.mp4 … 10.mp4` (con lo zero).
 
 1. Tastiera GeeRunner, permessi a Instagram, svuota la cartella **Download** del telefono e ci mette il video del task.
 2. Controlla che il video sia arrivato sul telefono.
-3. Apre Instagram e fa un giro di **3-5 minuti** (a caso):
+3. Apre Instagram e fa un giro di **3-7 minuti** (reels scorsi a 140-180 ms casuali, home a 200-300 ms casuali) (a caso):
    - **storie di altri** (mai la propria): ogni tanto tocca a destra per saltare alla storia dopo;
    - **home**: scorre solo verso il basso, non la ricarica mai;
    - **reels**: ogni tanto mette **1 o 2 like** (mai togliere un like già messo) e su un reel apre i **commenti**,
@@ -79,3 +79,4 @@ Nel giro non scrive commenti o messaggi e non toglie like.
 
 `[Video]` `[Profilo]` `[Menu]` `[Trial reels]` `[Sicurezza]` `[Galleria]` `[Editor]` `[Descrizione]` `[Pagina finale]` `[Facebook]` `[Share]`:
 il testo dice cosa non ha trovato, e c'è lo screenshot del momento.
+- v7 FIXED: giro di 3-7 minuti, reels a 140-180 ms casuali, home a 200-300 ms casuali.

@@ -1,6 +1,6 @@
 {
-  "title": "IG POST v9.11",
-  "desc": "v9.11: ci sono commenti se entro 20 secondi si vede almeno un pulsante Reply (niente piu' 'No comments yet'); se dopo Reply nella casella non c'e' la @ legge il nome da 'Replying to' e risponde senza @; la lettura si ferma anche su 'Add a reply'; 'commenti ancora aperti?' guarda solo la casella vera; se la lista resta ferma 7 letture il reel finisce; il relay scrive quale tastiera e' attiva. Il 40% si conta per ogni post e se a uno non si riesce a rispondere il turno passa a un altro.",
+  "title": "IG POST v9.12",
+  "desc": "v9.12: salta i 3 reel piu' recenti (quelli di oggi) e lavora sui post dal 4° al 9°. v9.11: ci sono commenti se entro 20 secondi si vede almeno un pulsante Reply (niente piu' 'No comments yet'); se dopo Reply nella casella non c'e' la @ legge il nome da 'Replying to' e risponde senza @; la lettura si ferma anche su 'Add a reply'; 'commenti ancora aperti?' guarda solo la casella vera; se la lista resta ferma 7 letture il reel finisce; il relay scrive quale tastiera e' attiva. Il 40% si conta per ogni post e se a uno non si riesce a rispondere il turno passa a un altro.",
   "content": {
     "startParamMap": [],
     "contents": [
@@ -873,6 +873,66 @@
         "config": {
           "apposition": "and",
           "children": [
+            {
+              "position": {
+                "x": 17350,
+                "y": 285
+              },
+              "id": "6472a439-11ee-4b50-af94-93e995832bbb",
+              "name": "salta i 3 reel di oggi (parte dal 4°)",
+              "type": "forTimes",
+              "config": {
+                "serialType": "randomInterval",
+                "minTimes": 3,
+                "maxTimes": 3,
+                "hiddenChildren": false,
+                "children": [
+                  {
+                    "position": {
+                      "x": 15000,
+                      "y": 285
+                    },
+                    "config": {
+                      "timeoutMax": 4000,
+                      "timeoutMin": 2500,
+                      "timeoutType": "randomInterval"
+                    },
+                    "id": "5ebaaf0a-302e-494d-adb2-12d1e85b5aa6",
+                    "name": "wait",
+                    "type": "waitTime"
+                  },
+                  {
+                    "position": {
+                      "x": 16600,
+                      "y": 285
+                    },
+                    "config": {
+                      "content": "input swipe 360 1000 360 300 280",
+                      "timeout": 120000,
+                      "variable": "swipeOut",
+                      "error": false
+                    },
+                    "id": "f8e06b76-4617-41ce-b100-cee6cceb4b0f",
+                    "name": "next reel",
+                    "type": "executeADB"
+                  },
+                  {
+                    "position": {
+                      "x": 17000,
+                      "y": 285
+                    },
+                    "config": {
+                      "timeoutMax": 4500,
+                      "timeoutMin": 3000,
+                      "timeoutType": "randomInterval"
+                    },
+                    "id": "a87d921c-5ea1-4ea7-9b2e-8c469a4452bc",
+                    "name": "wait",
+                    "type": "waitTime"
+                  }
+                ]
+              }
+            },
             {
               "position": {
                 "x": 17400,
@@ -3023,8 +3083,8 @@
                   }
                 ],
                 "serialType": "randomInterval",
-                "maxTimes": 5,
-                "minTimes": 5
+                "maxTimes": 6,
+                "minTimes": 6
               },
               "id": "11847dad-b490-4d98-bfa7-899045810124",
               "name": "For post",

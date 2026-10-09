@@ -1,6 +1,6 @@
 {
-  "title": "IG TRIAL REEL v7",
-  "desc": "Giro di 3-5 minuti (storie di altri con qualche tocco a destra, home senza ricaricare, reels con 1-2 like e una volta i commenti, che chiude sempre e mai come ultima cosa; in prova 1), poi pubblica 1 trial reel: profilo -> menu -> Account type and tools -> Trial reels -> Create trial reel -> primo video della galleria (l'ultimo aggiunto per Android) -> Next -> descrizione -> Facebook spento solo per questo reel -> Share. Si ferma senza pubblicare se non vede 'This is a trial reel', se il primo video non e' quello del task o se non riesce a spegnere Facebook. Se il profilo non si apre riavvia Instagram e riprova. Etichetta AI e altre opzioni: non le tocca. SoloProva acceso: fa tutto ma non preme Share.",
+  "title": "IG TRIAL REEL v7 FIXED",
+  "desc": "Giro di 3-7 minuti (reels scorsi a 140-180 ms casuali, home a 200-300 ms casuali) (storie di altri con qualche tocco a destra, home senza ricaricare, reels con 1-2 like e una volta i commenti, che chiude sempre e mai come ultima cosa; in prova 1), poi pubblica 1 trial reel: profilo -> menu -> Account type and tools -> Trial reels -> Create trial reel -> primo video della galleria (l'ultimo aggiunto per Android) -> Next -> descrizione -> Facebook spento solo per questo reel -> Share. Si ferma senza pubblicare se non vede 'This is a trial reel', se il primo video non e' quello del task o se non riesce a spegnere Facebook. Se il profilo non si apre riavvia Instagram e riprova. Etichetta AI e altre opzioni: non le tocca. SoloProva acceso: fa tutto ma non preme Share.",
   "content": {
     "startParamMap": [
       {
@@ -617,13 +617,13 @@
           "y": 285
         },
         "id": "8e7b7328-db16-4160-8f89-c8afddb9d1a5",
-        "name": "giro: quanto dura (3-5 minuti: storie, home, reels)",
+        "name": "giro: quanto dura (3-7 minuti: storie, home, reels)",
         "type": "script",
         "config": {
           "injectVariables": [
             "prova"
           ],
-          "script": "async function main({ prova }) { const p=String(prova)==='1'; const T=(p ? 1 : 3 + Math.random()*2)*60000; const a=T*(0.28+Math.random()*0.1), b=T*(0.28+Math.random()*0.1), c=T-a-b; const t=Date.now(); const ok=typeof t==='number' && isFinite(t) && t>0; return { tOk: ok?'1':'0', fineStorie: String(Math.round(t+a)), fineHome: String(Math.round(t+a+b)), fineReels: String(Math.round(t+T)), maxStorie: String(Math.max(2, Math.round(a/6000))), maxHome: String(Math.max(2, Math.round((a+b)/6500))), maxReels: String(Math.max(2, Math.round(c/9000))), giroMin: String(Math.round(T/6000)/10), likeTarget: Math.random() < 0.5 ? '1' : '2', likeFatti: '0', likePuoi: '1', commAt: String(2 + Math.floor(Math.random()*3)), commFatti: '0' }; }",
+          "script": "async function main({ prova }) { const p=String(prova)==='1'; const T=(p ? 1 : 3 + Math.random()*4)*60000; const a=T*(0.28+Math.random()*0.1), b=T*(0.28+Math.random()*0.1), c=T-a-b; const t=Date.now(); const ok=typeof t==='number' && isFinite(t) && t>0; return { tOk: ok?'1':'0', fineStorie: String(Math.round(t+a)), fineHome: String(Math.round(t+a+b)), fineReels: String(Math.round(t+T)), maxStorie: String(Math.max(2, Math.round(a/6000))), maxHome: String(Math.max(2, Math.round((a+b)/6500))), maxReels: String(Math.max(2, Math.round(c/9000))), giroMin: String(Math.round(T/6000)/10), likeTarget: Math.random() < 0.5 ? '1' : '2', likeFatti: '0', likePuoi: '1', commAt: String(2 + Math.floor(Math.random()*3)), commFatti: '0' }; }",
           "type": "js",
           "variableMap": [
             {
@@ -1570,7 +1570,7 @@
                     "name": "scorri la home",
                     "type": "executeADB",
                     "config": {
-                      "content": "input swipe 360 1000 360 450 450",
+                      "content": "sh -c 'input swipe $((340 + RANDOM % 41)) $((980 + RANDOM % 61)) $((340 + RANDOM % 41)) $((430 + RANDOM % 41)) $((200 + RANDOM % 101))'",
                       "timeout": 120000,
                       "variable": "swOut",
                       "error": false
@@ -2445,7 +2445,7 @@
                     "name": "reel dopo",
                     "type": "executeADB",
                     "config": {
-                      "content": "input swipe 360 1000 360 300 280",
+                      "content": "sh -c 'input swipe $((340 + RANDOM % 41)) $((980 + RANDOM % 61)) $((340 + RANDOM % 41)) $((280 + RANDOM % 61)) $((140 + RANDOM % 41))'",
                       "timeout": 120000,
                       "variable": "swOut",
                       "error": false
