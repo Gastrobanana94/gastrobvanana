@@ -21,7 +21,7 @@ Il file da importare in GeeLark è `IG_STORIA_LINK_IMPORT.json`.
 ## Cosa fa
 
 1. Warm-up prima in ordine a caso: storie di altri, home, notifiche, reels a 140-190 ms (like, 1-2 salvati, a volte un repost).
-2. Riapre Instagram pulito, tocca il `+` su "Your story" (se si apre la fotocamera tocca il quadratino della galleria in basso a sinistra; se ancora niente tocca "Your story"; la "spia" scrive nel log i testi e i bottoni sullo schermo), sceglie la foto del task (controlla che sia proprio quella).
+2. Riapre Instagram pulito e arriva alla galleria come il flusso ufficiale di GeeLark: `+` in alto a sinistra → STORY → quadratino della galleria in basso a sinistra. Se non va: `+` su "Your story", poi "Your story" (la "spia" scrive nel log i testi e i bottoni sullo schermo). Sceglie la foto del task (controlla che sia proprio quella).
 3. Faccina degli sticker → **LINK** (se non lo vede lo cerca scrivendo "link") → URL = Link → **Customize sticker text** → testo → **Done**.
 4. Trascina lo sticker del link in basso (in uno di 4 punti facili da toccare), lentamente e oltre le griglie.
 5. Musica a caso da "For you" (come il warm-up), poi **Your stories** (mai Close Friends). Niente caption sulla storia: il testo è sullo sticker.

@@ -263,17 +263,40 @@ pp['script'] = ("async function main({ ysTua, larghezza, alto }) { const w=Numbe
 pp['variableMap'] = [{'value': v, 'variable': v} for v in ('piuX', 'piuY', 'galX', 'galY')]
 prima_if = trova(bc, "IF non si e' aperta -> indietro e tocca 'Your story'")
 resto = prima_if['config']['children'][3:]          # dopo le 3 spie: barra, indietro, 'Your story', ...
-prima_if['config']['children'] = prima_if['config']['children'][:3] + [
-    tocca('fotocamera: tocca il quadratino della galleria', [('id', 'gallery', 'contain'), ('desc', 'allery', 'contain')],
-          'cGalB', 2500),
-    esito('galleria toccata?', 'cGalB', 'galTocco'),
-    se('IF non trovato -> galleria (posizione, in basso a sinistra)', [('galTocco', '0')],
-       [toccaXY('tocca la galleria (posizione)', '${galX}', '${galY}')]),
+
+# Strada principale copiata dal flusso ufficiale di GeeLark (riferimenti/GeeLark_Post_Reels_video_on_Instagram.json):
+# '+' in alto a sinistra (creation_tab / action_bar_buttons_container_left) -> fotocamera -> STORY
+# -> galleria (gallery_preview_button). Se non va: '+' su 'Your story' e poi 'Your story' come prima.
+pp['script'] = pp['script'].replace("galX: R(w*0.10)", "crX: R(w*0.053), crY: R(w*0.115), galX: R(w*0.10)")
+pp['variableMap'] += [{'value': v, 'variable': v} for v in ('crX', 'crY')]
+k = [k for k, n in enumerate(bc) if n.get('name') == "tocca il '+' su 'Your story'"][0]
+vecchio_piu = bc[k]
+bc[k:k + 1] = [
+    tocca("tocca il '+' in alto a sinistra (crea)", [('id', 'com.instagram.android:id/creation_tab', 'equal'),
+                                                    ('id', 'com.instagram.android:id/action_bar_buttons_container_left', 'equal'),
+                                                    ('desc', 'Create', 'equal'), ('desc', 'New post', 'equal')], 'cCrea', 3000),
+    esito("'+' trovato?", 'cCrea', 'creaTocco'),
+    se("IF non trovato -> '+' (posizione)", [('creaTocco', '0')], [toccaXY("tocca il '+' in alto (posizione)", '${crX}', '${crY}')]),
     attendi(2500, 3500),
-    leggi("si e' aperta 'Add to story'?", GAL, 'inGal', 3000),
-    esito('galleria aperta?', 'inGal', 'galOk'),
-    se("IF ancora niente -> indietro e tocca 'Your story'", [('galOk', '0')], resto),
+    tocca("tocca 'STORY' (in basso)", [('id', 'com.instagram.android:id/cam_dest_story', 'equal'),
+                                       ('desc', 'STORY', 'equal'), ('text', 'STORY', 'equal')], 'cStory', 3000),
+    attendi(2000, 3000),
+    tocca('tocca la galleria (in basso a sinistra)', [('id', 'com.instagram.android:id/gallery_preview_button', 'equal'),
+                                                      ('desc', 'Gallery', 'equal'), ('desc', 'allery', 'contain')],
+          'cGalB', 3000),
+    esito('galleria toccata?', 'cGalB', 'galTocco'),
+    se('IF non trovata -> galleria (posizione)', [('galTocco', '0')],
+       [toccaXY('tocca la galleria (posizione)', '${galX}', '${galY}')]),
 ]
+k2 = [k for k, n in enumerate(resto) if n.get('name') == "tocca 'Your story'"][0]
+resto[k2:k2] = [vecchio_piu, attendi(2500, 3500), leggi("si e' aperta 'Add to story'?", GAL, 'inGal', 3000),
+                esito('galleria aperta?', 'inGal', 'galOk'),
+                se("IF ancora niente -> tocca 'Your story'", [('galOk', '0')], [])]
+# il tocco su 'Your story' (e il resto) solo se il '+' non ha aperto la galleria
+coda = resto[k2 + 5:]
+del resto[k2 + 5:]
+resto[k2 + 4]['config']['children'] = coda
+prima_if['config']['children'] = prima_if['config']['children'][:3] + resto
 
 ED = [('text', 'Your stories', 'equal'), ('text', 'Add a caption', 'contain'), ('text', 'Close Friends', 'equal')]
 ADD = [('text', 'Add link', 'equal'), ('text', 'URL', 'equal')]
@@ -423,7 +446,7 @@ err['script'] = err['script'].replace("(il resto del giro e' fatto)", "(il warm-
 # alla fine niente throwException (il task restava "in esecuzione"): l'errore va nel log, poi End task
 fin = trova(top, "IF errore -> il task finisce con l'errore")['config']['children']
 k = [k for k, n in enumerate(fin) if n['type'] == 'throwException'][0]
-fin[k] = js('errore (scritto nel log)', ['errMsg'], "return { errore: String(errMsg||'') };", ['errore'])
+fin[:] = [js('errore (scritto nel log)', ['errMsg'], "return { errore: String(errMsg||'') };", ['errore'])]
 assert not [n for n in tutti(top) if n['type'] == 'throwException']
 
 # ---------------------------------------------------------------- posizioni nel disegno di GeeLark
