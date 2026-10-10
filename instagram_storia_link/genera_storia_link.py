@@ -1,15 +1,16 @@
-# Costruisce "IG STORIA LINK" partendo dal warm-up (instagram_warmup/IG_WARMUP_IMPORT.json):
-# warm-up prima -> storia (foto del task, sticker del link, musica da For you) -> warm-up dopo.
+# IG STORIA LINK v3: copia IDENTICA di IG WARMUP v10.4 (base_IG_WARMUP_v10_4.json, il file del 10/10 dell'utente)
+# con due sole modifiche: niente nota, e lo sticker del link nella storia (prima della musica).
 # Si rigenera con:  python3 instagram_storia_link/genera_storia_link.py
 import json, os, re, uuid
 
 QUI = os.path.dirname(os.path.abspath(__file__))
-BASE = os.path.join(QUI, '..', 'instagram_warmup', 'IG_WARMUP_IMPORT.json')
+BASE = os.path.join(QUI, 'base_IG_WARMUP_v10_4.json')
 OUT = os.path.join(QUI, 'IG_STORIA_LINK_IMPORT.json')
-MAX_BYTE, MAX_PASSI = 240000, 520
+MAX_BYTE, MAX_PASSI = 243500, 532
 
 d = json.load(open(BASE, encoding='utf-8'))
 top = d['content']['contents']
+assert d['title'] == 'IG WARMUP v10.4'
 
 
 def nid():
@@ -148,155 +149,37 @@ def indice(nome):
 
 
 # ---------------------------------------------------------------- titolo e parametri
-d['title'] = 'IG STORIA LINK v2'
-d['desc'] = ("Storia con il link. Warm-up prima (MinutiPrima, vuoto = 8-12 minuti: storie, home, notifiche, "
-             "reels a 140-190 ms con like/salvati/repost, ordine a caso), poi la storia: foto del task (Storia), "
-             "sticker -> LINK -> URL = Link del task -> 'Customize sticker text' = Testo del task o una caption "
-             "della lista (mai ripetuta) -> Done -> trascina il link in basso -> musica a caso da For you -> "
-             "'Your stories'. Poi warm-up dopo (MinutiDopo, vuoto = 3-5 minuti). Senza link o se lo sticker "
-             "del link non riesce, la storia non viene pubblicata e il task finisce con l'errore e lo screenshot.")
-vecchi = {p['key']: p for p in d['content']['startParamMap']}
-storia = dict(vecchi['Storia'], isNotRequired=False)
-d['content']['startParamMap'] = [
+d['title'] = 'IG STORIA LINK v3'
+d['desc'] = d['desc'].replace(', nota ogni 24 ore dalla lista', '').replace('Note e caption', 'Caption') + (
+    " + Link: nella storia, prima della musica, sticker -> LINK -> URL = Link del task -> 'Customize sticker text' "
+    "= Testo del task (vuoto = la caption della lista) -> Done -> trascina il link in basso. Niente nota.")
+d['content']['startParamMap'] += [
     {'contentable': True, 'createFrom': '', 'id': nid(), 'isNotRequired': False, 'key': 'Link', 'length': 500,
      'type': 'string', 'value': ''},
-    storia,
     {'contentable': True, 'createFrom': '', 'id': nid(), 'isNotRequired': True, 'key': 'Testo', 'length': 100,
      'type': 'string', 'value': ''},
-    {'contentable': True, 'createFrom': '', 'id': nid(), 'isNotRequired': True, 'key': 'MinutiPrima', 'length': 3,
-     'type': 'string', 'value': ''},
-    {'contentable': True, 'createFrom': '', 'id': nid(), 'isNotRequired': True, 'key': 'MinutiDopo', 'length': 3,
-     'type': 'string', 'value': ''},
-    vecchi['Lingua'],
 ]
 
-# ---------------------------------------------------------------- niente nota, niente DM
-togli(top, "quando e' stata fatta l'ultima nota?")
+# ---------------------------------------------------------------- 1) niente nota
+i = indice("quando e' stata fatta l'ultima nota?")
+top[i] = js('niente nota (mai)', [], "return { notaDovuta: '0' };", ['notaDovuta'])
 togli(top, 'tocca fare la nota?')
 togli(top, 'IF nota dovuta -> nota')
-togli(top, 'IF modulo = DM (solo guardati)')
-i = indice('azzera: inizio')
-top.insert(i + 1, js("c'e' il link? (nota mai)", ['Link'],
-                     "const s=String(Link===undefined||Link===null?'':Link).trim(); "
-                     "return { notaDovuta: '0', linkPronto: (s && !/\\s/.test(s)) ? '1' : '0' };",
-                     ['notaDovuta', 'linkPronto']))
-top.insert(i + 2, se('IF manca il link -> errore (non faccio niente)', [('linkPronto', '0')],
-                     errore("[Link] Nel task manca il link (campo Link vuoto o con spazi): non faccio niente.")))
 
-# ---------------------------------------------------------------- posizioni (sticker)
+# ---------------------------------------------------------------- 2) sticker del link
 pos = trova(top, 'posizioni sullo schermo')['config']
+assert "frY: R(h*0.899) };" in pos['script']
 pos['script'] = pos['script'].replace("frY: R(h*0.899) };",
                                       "frY: R(h*0.899), stkX: R(w*0.921), stkY: R(w*0.194), "
                                       "cenX: R(w*0.5), cenY: R(h*0.468) };")
-assert 'stkX' in pos['script']
 pos['variableMap'] += [{'value': v, 'variable': v} for v in ('stkX', 'stkY', 'cenX', 'cenY')]
 
-# ---------------------------------------------------------------- piano per fase
-piano = trova(top, 'piano del giro (ordine a caso, durata, numeri)')
-pc = piano['config']
-vecchio = pc['script']
-inizio = vecchio.index('const r=(a,b)')
-pc['injectVariables'] = ['MinutiPrima', 'MinutiDopo', 'fase']
-pc['script'] = (
-    "async function main({ MinutiPrima, MinutiDopo, fase }) { const now=Date.now(); "
-    "const tok=typeof now==='number' && isFinite(now) && now>0; "
-    "const r=(a,b)=>a+Math.floor(Math.random()*(b-a+1)); const dopo=String(fase)==='2'; "
-    "const M=dopo ? MinutiDopo : MinutiPrima; "
-    "let m=parseInt(String(M===undefined||M===null?'':M).replace(/[^0-9]/g,''),10); "
-    "const T = (m>=1 && m<=90) ? m*60000 : (dopo ? r(180,300) : r(480,720))*1000; m=Math.round(T/60000); "
-    "const mischia=a=>{ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); "
-    "const t=a[i]; a[i]=a[j]; a[j]=t; } return a; }; "
-    "let L = dopo ? mischia(['home','reels']) : mischia(['storie','home','notifiche','reels','reels']); "
-    "if(L.indexOf('storie')>=0 && L.indexOf('home') < L.indexOf('storie')){ L=L.filter(x => x!=='home'); "
-    "L.splice(L.indexOf('storie')+1, 0, 'home'); } "
-    "return { tOk: tok?'1':'0', tFine: String(now+T), durataMin: String(m), ordine: L.join(','), "
-    "durStorie: String(r(60,150)*1000), durHome: String((dopo ? r(50,90) : r(90,180))*1000), "
-    "likeTot: String(dopo ? r(0,2) : r(1,6)), commTot: String(dopo ? 0 : r(0,4)), profTot: String(dopo ? 0 : r(0,3)), "
-    "salvaTot: String(dopo ? r(0,1) : r(1,2)), repostTot: String(dopo ? 0 : r(0,1)), likeHomeTot: String(r(0,1)), "
-    "likeFatti:'0', commFatti:'0', profFatti:'0', salvaFatti:'0', repostFatti:'0', likeHomeFatti:'0', reelFeedFatti:'0' }; }")
-assert 'r(1,6)' in pc['script'] and inizio > 0
-
-# ---------------------------------------------------------------- sticker del link (prima della musica)
-blocco = trova(top, "IF c'e' il file della storia -> storia")
-bc = blocco['config']['children']
+bc = trova(top, "IF c'e' il file della storia -> storia")['config']['children']
 j = [k for k, n in enumerate(bc) if n.get('name') == 'scegli la caption (lista, mai ripetuta)'][0]
 bc.insert(j + 1, js('testo dello sticker (Testo del task o caption della lista)', ['Testo', 'captionStoria'],
                     "const t=String(Testo===undefined||Testo===null?'':Testo).trim(); "
                     "return { testoSticker: t || String(captionStoria||''), testoDaTask: t ? '1' : '0' };",
                     ['testoSticker', 'testoDaTask']))
-
-# ---------------------------------------------------------------- galleria della storia: terza via (fotocamera)
-# Test 09/10: dopo il '+' su 'Your story' non si apriva 'Add to story' (si apriva altro a tutto schermo,
-# forse la fotocamera o la storia gia' pubblicata). Terza via: home -> swipe dal bordo sinistro verso destra -> fotocamera ->
-# quadratino della galleria in basso a sinistra. La spia scrive nel log cosa c'e' sullo schermo.
-GAL = [('text', 'Add to story', 'equal'), ('text', 'Recents', 'equal'), ('text', 'Recent', 'equal'),
-       ('text', 'Gallery', 'equal')]
-for n in tutti(bc):
-    if n.get('name') == "si e' aperta 'Add to story'?":
-        n['config']['filterCollection'] = filtri(GAL)
-spia_cmd = trova(top, 'spia: bottoni sullo schermo (storia non pubblicata)')['config']['content']
-SPIA_TESTI = ("sh -c 'uiautomator dump /sdcard/spia.xml >/dev/null 2>&1; "
-              "grep -oE \"(text|content-desc|resource-id)=.[^\\\"]+\" /sdcard/spia.xml | "
-              "sed -E \"s/com.instagram.android:id.//\" | tr \"\\n\" \" \" | cut -c1-2500; echo; echo fine'")
-prima = trova(bc, "IF non si e' aperta -> indietro e tocca 'Your story'")['config']['children']
-prima[0:0] = [
-    adb("spia: testi sullo schermo dopo il '+'", SPIA_TESTI, 'testiPiu'),
-    adb("spia: bottoni sullo schermo dopo il '+'", trova(top, 'spia: bottoni sullo schermo (storia non pubblicata)')['config']['content'], 'bottoniPiu'),
-    js("spia dopo il '+' (cosa c'e' sullo schermo)", ['testiPiu', 'bottoniPiu'], "return { spiaPiu: '1' };", ['spiaPiu']),
-]
-ancora = trova(bc, 'IF ancora no -> niente storia')
-fine_gal = ancora['config']['children']
-ancora['config']['children'] = [
-    adb("spia: cosa c'e' sullo schermo (galleria non aperta)", spia_cmd, 'spiaGal'),
-    adb("spia: testi sullo schermo (galleria non aperta)", SPIA_TESTI, 'testiGal'),
-    js("spia (galleria non aperta)", ['spiaGal', 'testiGal'], "return { spiaGalVista: '1' };", ['spiaGalVista']),
-] + fine_gal
-
-# Screenshot del 09/10 (720x1440): il '+' di 'Your story' e' a (144, ysTua-42), non a ysTua-86 come prima.
-# Se dopo il tocco si apre la fotocamera (niente barra in basso), tocca la galleria in basso a sinistra.
-pp = trova(bc, "posizione del '+' su 'Your story'")['config']
-pp['injectVariables'] = ['ysTua', 'larghezza', 'alto']
-pp['script'] = ("async function main({ ysTua, larghezza, alto }) { const w=Number(larghezza)||720; "
-                "const h=Number(alto)||w*2; const y=Number(ysTua); "
-                "const py = (isFinite(y) && y>0) ? y - w*0.058 : w*0.385; const R=x=>String(Math.round(x)); "
-                "return { piuX: R(w*0.20), piuY: R(py), galX: R(w*0.10), galY: R(h*0.885) }; }")
-pp['variableMap'] = [{'value': v, 'variable': v} for v in ('piuX', 'piuY', 'galX', 'galY')]
-prima_if = trova(bc, "IF non si e' aperta -> indietro e tocca 'Your story'")
-resto = prima_if['config']['children'][3:]          # dopo le 3 spie: barra, indietro, 'Your story', ...
-
-# Strada principale copiata dal flusso ufficiale di GeeLark (riferimenti/GeeLark_Post_Reels_video_on_Instagram.json):
-# '+' in alto a sinistra (creation_tab / action_bar_buttons_container_left) -> fotocamera -> STORY
-# -> galleria (gallery_preview_button). Se non va: '+' su 'Your story' e poi 'Your story' come prima.
-pp['script'] = pp['script'].replace("galX: R(w*0.10)", "crX: R(w*0.053), crY: R(w*0.115), galX: R(w*0.10)")
-pp['variableMap'] += [{'value': v, 'variable': v} for v in ('crX', 'crY')]
-k = [k for k, n in enumerate(bc) if n.get('name') == "tocca il '+' su 'Your story'"][0]
-vecchio_piu = bc[k]
-bc[k:k + 1] = [
-    tocca("tocca il '+' in alto a sinistra (crea)", [('id', 'com.instagram.android:id/creation_tab', 'equal'),
-                                                    ('id', 'com.instagram.android:id/action_bar_buttons_container_left', 'equal'),
-                                                    ('desc', 'Create', 'equal'), ('desc', 'New post', 'equal')], 'cCrea', 3000),
-    esito("'+' trovato?", 'cCrea', 'creaTocco'),
-    se("IF non trovato -> '+' (posizione)", [('creaTocco', '0')], [toccaXY("tocca il '+' in alto (posizione)", '${crX}', '${crY}')]),
-    attendi(2500, 3500),
-    tocca("tocca 'STORY' (in basso)", [('id', 'com.instagram.android:id/cam_dest_story', 'equal'),
-                                       ('desc', 'STORY', 'equal'), ('text', 'STORY', 'equal')], 'cStory', 3000),
-    attendi(2000, 3000),
-    tocca('tocca la galleria (in basso a sinistra)', [('id', 'com.instagram.android:id/gallery_preview_button', 'equal'),
-                                                      ('desc', 'Gallery', 'equal'), ('desc', 'allery', 'contain')],
-          'cGalB', 3000),
-    esito('galleria toccata?', 'cGalB', 'galTocco'),
-    se('IF non trovata -> galleria (posizione)', [('galTocco', '0')],
-       [toccaXY('tocca la galleria (posizione)', '${galX}', '${galY}')]),
-]
-k2 = [k for k, n in enumerate(resto) if n.get('name') == "tocca 'Your story'"][0]
-resto[k2:k2] = [vecchio_piu, attendi(2500, 3500), leggi("si e' aperta 'Add to story'?", GAL, 'inGal', 3000),
-                esito('galleria aperta?', 'inGal', 'galOk'),
-                se("IF ancora niente -> tocca 'Your story'", [('galOk', '0')], [])]
-# il tocco su 'Your story' (e il resto) solo se il '+' non ha aperto la galleria
-coda = resto[k2 + 5:]
-del resto[k2 + 5:]
-resto[k2 + 4]['config']['children'] = coda
-prima_if['config']['children'] = prima_if['config']['children'][:3] + resto
 
 ED = [('text', 'Your stories', 'equal'), ('text', 'Add a caption', 'contain'), ('text', 'Close Friends', 'equal')]
 ADD = [('text', 'Add link', 'equal'), ('text', 'URL', 'equal')]
@@ -325,7 +208,6 @@ trascina = [
         adb('indietro', 'input keyevent 4', 'backOut'),
         attendi(1200, 1800),
     ]),
-    foto('screenshot: link messo'),
 ]
 
 link = [
@@ -340,14 +222,6 @@ link = [
     tocca("tocca 'LINK'", [('text', 'LINK', 'equal'), ('text', 'Link', 'equal'), ('desc', 'Link', 'equal'),
                           ('desc', 'Link sticker', 'contain')], 'cLink', 3000),
     esito('LINK toccato?', 'cLink', 'linkTocco'),
-    se("IF non trovato -> cerca 'link' nella ricerca degli sticker", [('linkTocco', '0')], [
-        tocca("tocca 'Search'", [('text', 'Search', 'contain')], 'cCerca', 2000),
-        attendi(800, 1200),
-        scrivi("scrivi 'link'", 'link', 1, 'cercaScritto'),
-        attendi(1500, 2500),
-        tocca("tocca 'LINK'", [('text', 'LINK', 'equal'), ('text', 'Link', 'equal'), ('desc', 'Link', 'equal'),
-                              ('desc', 'Link sticker', 'contain')], 'cLink', 3000),
-    ]),
     attendi(2000, 3000),
     leggi("si e' aperta 'Add link'?", ADD, 'inAdd', 3000),
     esito("'Add link' aperta?", 'inAdd', 'addOk'),
@@ -362,7 +236,6 @@ link = [
             scrivi('scrivi il testo dello sticker (seconda casella)', '${testoSticker}', 2, 'testoScritto'),
         ]),
         attendi(1200, 1800),
-        foto('screenshot: link e testo scritti'),
         tocca("tocca 'Done' (in alto a destra)", [('text', 'Done', 'equal'), ('desc', 'Done', 'equal')], 'cDoneL', 3000),
         attendi(2000, 3000),
         azzera("azzera: 'Add link' ancora aperta?", {'addAncora': ''}),
@@ -388,66 +261,12 @@ link = [
 i_mus = [k for k, n in enumerate(bc) if n.get('name') == 'IF editor aperto -> musica, emoji e pubblica'][0]
 bc.insert(i_mus, se('IF editor aperto -> sticker del link', [('edOk', '1')], link))
 
-# niente caption sulla storia: il testo va nello sticker
-ned = trova(bc, "IF nell'editor -> caption e 'Your stories'")['config']['children']
-for nome in ("tocca 'Add a caption...'", 'scrivi la caption', 'screenshot: caption scritta'):
-    k = [k for k, n in enumerate(ned) if n.get('name') == nome][0]
-    del ned[k]
-while ned[0]['type'] == 'waitTime':
-    del ned[0]
-ned.insert(0, attendi(1000, 1600))
-
-# niente caption scritta -> non servono la freccia blu "per nome" ne' il correttore (passi per stare nel limite)
-togli(top, 'IF ancora aperta -> prova la freccia blu per nome')
-togli(top, "IF si e' aperto il correttore -> indietro (lo chiude)")
-
-# ---------------------------------------------------------------- due fasi: prima (+ storia) e dopo
-i_piano = indice('piano del giro (ordine a caso, durata, numeri)')
-piano = top.pop(i_piano)
-i_giro = indice('il giro di warm-up (moduli in ordine a caso)')
-giro = top.pop(i_giro)
-riapri = top.pop(indice('IF nota o storia -> riapri Instagram pulito'))
-storia_blocco = top.pop(indice("IF c'e' il file della storia -> storia"))
-fasi = ciclo('fase 1: warm-up prima + storia con link / fase 2: warm-up dopo', 2, [
-    js('che fase e\'?', ['faseN'], "const n=(parseInt(faseN,10)||0)+1; return { faseN: String(n), fase: String(n) };",
-       ['faseN', 'fase']),
-    piano,
-    giro,
-    se('IF fase 1 -> storia con link', [('fase', '1')], [riapri, storia_blocco]),
-])
-top.insert(i_giro, fasi)
-top.insert(i_giro, azzera('azzera: fasi', {'faseN': '0', 'fase': '1'}))
-
-# ---------------------------------------------------------------- riepilogo ed errori
-rie = trova(top, 'riepilogo del giro (per il log)')
-rie['config']['injectVariables'] = ['ordine', 'likeFatti', 'likeTot', 'salvaFatti', 'repostFatti', 'storiaFatta',
-                                   'storiaErr', 'linkOk', 'Link', 'testoSticker', 'testoDaTask', 'musicaMessa',
-                                   'lingua', 'haStoria']
-rie['config']['script'] = (
-    "async function main({ ordine, likeFatti, likeTot, salvaFatti, repostFatti, storiaFatta, storiaErr, linkOk, "
-    "Link, testoSticker, testoDaTask, musicaMessa, lingua, haStoria }) { return { riepilogo: "
-    "'storia ' + storiaFatta + (storiaErr ? ' (' + storiaErr + ')' : '') + ' | link messo ' + linkOk + ' ' + Link + "
-    "' | testo ' + testoSticker + (String(testoDaTask)==='1' ? ' (dal task)' : ' (dalla lista, ' + lingua + ')') + "
-    "' | musica ' + musicaMessa + ' | ultimo giro: ordine ' + ordine + ' like ' + likeFatti + '/' + likeTot + "
-    "' salvati ' + salvaFatti + ' repost ' + repostFatti }; }")
 err = trova(top, "c'e' un errore da segnalare?")['config']
-err['script'] = err['script'].replace(
-    '\\"storiaErr:condividi\\"',
-    '\\"storiaErr:link\\": \\"[Link] Non riesco a mettere lo sticker del link (faccina degli sticker, LINK o '
-    '\'Add link\'): storia non pubblicata. Guarda gli screenshot.\\", \\"storiaErr:condividi\\"', 1)
-if 'storiaErr:link' not in err['script']:
-    err['script'] = err['script'].replace('"storiaErr:condividi"',
-                                          '"storiaErr:link": "[Link] Non riesco a mettere lo sticker del link '
-                                          '(faccina degli sticker, LINK o \'Add link\'): storia non pubblicata. '
-                                          'Guarda gli screenshot.", "storiaErr:condividi"', 1)
+for a, b in (('\\"storiaErr:condividi\\"', '\\"storiaErr:link\\": \\"[Link] Non riesco a mettere lo sticker del link: storia non pubblicata. Guarda gli screenshot.\\", \\"storiaErr:condividi\\"'),
+             ('"storiaErr:condividi"', '"storiaErr:link": "[Link] Non riesco a mettere lo sticker del link: storia non pubblicata. Guarda gli screenshot.", "storiaErr:condividi"')):
+    if 'storiaErr:link' not in err['script']:
+        err['script'] = err['script'].replace(a, b, 1)
 assert 'storiaErr:link' in err['script']
-err['script'] = err['script'].replace("(il resto del giro e' fatto)", "(il warm-up e' fatto)")
-
-# alla fine niente throwException (il task restava "in esecuzione"): l'errore va nel log, poi End task
-fin = trova(top, "IF errore -> il task finisce con l'errore")['config']['children']
-k = [k for k, n in enumerate(fin) if n['type'] == 'throwException'][0]
-fin[:] = [js('errore (scritto nel log)', ['errMsg'], "return { errore: String(errMsg||'') };", ['errore'])]
-assert not [n for n in tutti(top) if n['type'] == 'throwException']
 
 # ---------------------------------------------------------------- posizioni nel disegno di GeeLark
 x = [200]
