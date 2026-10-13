@@ -1,0 +1,3150 @@
+{
+  "title": "IG POST v9.12",
+  "desc": "v9.12: salta i 3 reel piu' recenti (quelli di oggi) e lavora sui post dal 4° al 9°. v9.11: ci sono commenti se entro 20 secondi si vede almeno un pulsante Reply (niente piu' 'No comments yet'); se dopo Reply nella casella non c'e' la @ legge il nome da 'Replying to' e risponde senza @; la lettura si ferma anche su 'Add a reply'; 'commenti ancora aperti?' guarda solo la casella vera; se la lista resta ferma 7 letture il reel finisce; il relay scrive quale tastiera e' attiva. Il 40% si conta per ogni post e se a uno non si riesce a rispondere il turno passa a un altro.",
+  "content": {
+    "startParamMap": [],
+    "contents": [
+      {
+        "position": {
+          "x": 18800,
+          "y": 285
+        },
+        "id": "42672fc1-f882-4863-84a9-6492ee7311bb",
+        "name": "chiudi Instagram (riparte dalla home)",
+        "type": "executeADB",
+        "config": {
+          "content": "am force-stop com.instagram.android",
+          "timeout": 120000,
+          "variable": "stopIg",
+          "error": false
+        }
+      },
+      {
+        "position": {
+          "x": 19000,
+          "y": 285
+        },
+        "config": {
+          "packgename": "com.instagram.android"
+        },
+        "id": "d82ef155-2dd7-491b-910f-f3c9757d6844",
+        "name": "open",
+        "type": "openApp"
+      },
+      {
+        "position": {
+          "x": 19400,
+          "y": 285
+        },
+        "config": {
+          "timeoutMax": 9000,
+          "timeoutMin": 7000,
+          "timeoutType": "randomInterval"
+        },
+        "id": "e4e53f4d-cc31-41db-a768-ae47e0252f06",
+        "name": "wait",
+        "type": "waitTime"
+      },
+      {
+        "position": {
+          "x": 19450,
+          "y": 285
+        },
+        "id": "5c18faae-b718-4d60-9261-53f4615e3ac0",
+        "name": "tastiera GeeLark",
+        "type": "executeADB",
+        "config": {
+          "content": "sh -c 'id=$(ime list -a -s | grep -i gee | head -n 1); if [ -n \"$id\" ]; then ime enable \"$id\" >/dev/null 2>&1; ime set \"$id\" >/dev/null 2>&1; fi; echo \"ime=$(settings get secure default_input_method)\"'",
+          "timeout": 120000,
+          "variable": "imeOut",
+          "error": false
+        }
+      },
+      {
+        "position": {
+          "x": 19550,
+          "y": 285
+        },
+        "id": "b80c24f4-ceec-4585-aabe-13477cd11cc8",
+        "name": "codice telefono",
+        "type": "executeADB",
+        "config": {
+          "content": "sh -c 'echo \"$(getprop ro.serialno),$(getprop ro.boot.serialno)\"'",
+          "timeout": 120000,
+          "variable": "devRaw",
+          "error": false
+        }
+      },
+      {
+        "position": {
+          "x": 19600,
+          "y": 285
+        },
+        "id": "cedb1fc0-caac-47f3-9b46-53c93f9e67b2",
+        "name": "pulisci codice",
+        "type": "script",
+        "config": {
+          "injectVariables": [
+            "devRaw"
+          ],
+          "script": "async function main({ devRaw }) { return { dev: String(devRaw||'').toLowerCase().replace(/[^a-z0-9,._-]/g,'').slice(0,100) }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "dev",
+              "variable": "dev"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 19800,
+          "y": 285
+        },
+        "config": {
+          "content": "sh -c 'dumpsys activity top | grep -q direct_inbox_action_bar && input keyevent 4 || echo home'",
+          "timeout": 120000,
+          "variable": "inboxEsc",
+          "error": false
+        },
+        "id": "c0366463-712c-4e9b-9ebd-0395b9644f20",
+        "name": "inbox escape",
+        "type": "executeADB"
+      },
+      {
+        "position": {
+          "x": 20200,
+          "y": 285
+        },
+        "config": {
+          "timeoutMax": 2000,
+          "timeoutMin": 1000,
+          "timeoutType": "randomInterval"
+        },
+        "id": "c8476250-797b-4fed-bd00-61fb94986e77",
+        "name": "wait",
+        "type": "waitTime"
+      },
+      {
+        "position": {
+          "x": 20600,
+          "y": 285
+        },
+        "config": {
+          "filterCollection": [
+            [
+              {
+                "content": "ot now",
+                "filterType": "contain",
+                "type": "text"
+              }
+            ],
+            [
+              {
+                "content": "Not Now",
+                "filterType": "equal",
+                "type": "text"
+              }
+            ]
+          ],
+          "hiddenChildren": false,
+          "randomDistance": 0,
+          "searchTime": 400,
+          "useOffset": false,
+          "serialType": "fixedValue",
+          "serial": 1
+        },
+        "id": "843e7fa9-aff6-4f0b-a144-b17ae577f195",
+        "name": "popup",
+        "type": "click"
+      },
+      {
+        "position": {
+          "x": 21000,
+          "y": 285
+        },
+        "config": {
+          "filterCollection": [
+            [
+              {
+                "content": "com.instagram.android:id/profile_tab",
+                "filterType": "equal",
+                "type": "id"
+              }
+            ],
+            [
+              {
+                "content": "Profile",
+                "filterType": "equal",
+                "type": "desc"
+              }
+            ]
+          ],
+          "hiddenChildren": false,
+          "randomDistance": 0,
+          "searchTime": 4000,
+          "useOffset": false,
+          "serialType": "fixedValue",
+          "serial": 1,
+          "variable": "onProf"
+        },
+        "id": "959c20b3-f5b9-46b9-84ab-53f28384f3d9",
+        "name": "click",
+        "type": "click"
+      },
+      {
+        "position": {
+          "x": 21010,
+          "y": 285
+        },
+        "id": "bbbafb90-a3ee-4cb1-ad6f-2d6f6c651151",
+        "name": "IF profilo non aperto -> indietro e riprova",
+        "type": "ifElse",
+        "config": {
+          "apposition": "and",
+          "other": [],
+          "conditionList": [
+            {
+              "probability": 50,
+              "relation": "notExist",
+              "useVariable": "onProf"
+            }
+          ],
+          "children": [
+            {
+              "position": {
+                "x": 21020,
+                "y": 285
+              },
+              "id": "a41b9744-0b1e-4f80-9d9e-396416c2110a",
+              "name": "indietro",
+              "type": "executeADB",
+              "config": {
+                "content": "input keyevent 4",
+                "timeout": 120000,
+                "variable": "backOut",
+                "error": false
+              }
+            },
+            {
+              "position": {
+                "x": 21040,
+                "y": 285
+              },
+              "id": "f444f35c-abf4-4b34-b9fd-69a88a899456",
+              "name": "wait",
+              "type": "waitTime",
+              "config": {
+                "timeoutMax": 2500,
+                "timeoutMin": 1500,
+                "timeoutType": "randomInterval"
+              }
+            },
+            {
+              "position": {
+                "x": 21060,
+                "y": 285
+              },
+              "config": {
+                "filterCollection": [
+                  [
+                    {
+                      "content": "ot now",
+                      "filterType": "contain",
+                      "type": "text"
+                    }
+                  ],
+                  [
+                    {
+                      "content": "Not Now",
+                      "filterType": "equal",
+                      "type": "text"
+                    }
+                  ]
+                ],
+                "hiddenChildren": false,
+                "randomDistance": 0,
+                "searchTime": 400,
+                "useOffset": false,
+                "serialType": "fixedValue",
+                "serial": 1
+              },
+              "id": "5f7ce8d9-a101-4d1e-a771-9e3f0a561ee4",
+              "name": "popup",
+              "type": "click"
+            },
+            {
+              "position": {
+                "x": 21080,
+                "y": 285
+              },
+              "config": {
+                "filterCollection": [
+                  [
+                    {
+                      "content": "com.instagram.android:id/profile_tab",
+                      "filterType": "equal",
+                      "type": "id"
+                    }
+                  ],
+                  [
+                    {
+                      "content": "Profile",
+                      "filterType": "equal",
+                      "type": "desc"
+                    }
+                  ]
+                ],
+                "hiddenChildren": false,
+                "randomDistance": 0,
+                "searchTime": 4000,
+                "useOffset": false,
+                "serialType": "fixedValue",
+                "serial": 1,
+                "variable": "onProf"
+              },
+              "id": "fdfa341b-184b-437e-8f8e-3c3ef4b35999",
+              "name": "click",
+              "type": "click"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 21400,
+          "y": 285
+        },
+        "config": {
+          "timeoutMax": 5000,
+          "timeoutMin": 3000,
+          "timeoutType": "randomInterval"
+        },
+        "id": "13005726-80bf-4965-a7b2-9a6abeb606c6",
+        "name": "wait",
+        "type": "waitTime"
+      },
+      {
+        "position": {
+          "x": 21420,
+          "y": 285
+        },
+        "id": "d010883f-d51a-421c-9b46-b22cea49343e",
+        "name": "c'e' Edit profile? (solo sul proprio profilo)",
+        "type": "getEle",
+        "config": {
+          "filterCollection": [
+            [
+              {
+                "content": "Edit profile",
+                "filterType": "equal",
+                "type": "text"
+              }
+            ],
+            [
+              {
+                "content": "Edit Profile",
+                "filterType": "equal",
+                "type": "text"
+              }
+            ]
+          ],
+          "serialType": "fixedValue",
+          "serial": 1,
+          "hiddenChildren": false,
+          "searchTime": 3000,
+          "type": "text",
+          "variable": "mioProfilo",
+          "error": false
+        }
+      },
+      {
+        "position": {
+          "x": 21430,
+          "y": 285
+        },
+        "id": "16bcf502-a339-47fc-96e1-135daafc4f45",
+        "name": "IF non e' il mio profilo -> fine (non tocca niente)",
+        "type": "ifElse",
+        "config": {
+          "apposition": "and",
+          "other": [],
+          "conditionList": [
+            {
+              "probability": 50,
+              "relation": "notExist",
+              "useVariable": "mioProfilo"
+            }
+          ],
+          "children": [
+            {
+              "position": {
+                "x": 23800,
+                "y": 285
+              },
+              "config": {
+                "content": "input keyevent 3",
+                "timeout": 120000,
+                "variable": "homeOut",
+                "error": false
+              },
+              "id": "c3913836-a1a4-4d61-8e6a-0fe136513854",
+              "name": "HOME",
+              "type": "executeADB"
+            },
+            {
+              "position": {
+                "x": 24200,
+                "y": 285
+              },
+              "config": {},
+              "id": "9647ffd4-e08f-49aa-ade9-ebe86a4e98d7",
+              "name": "End task",
+              "type": "endTask"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 21450,
+          "y": 285
+        },
+        "id": "ffc01e8d-ab80-43f1-88f2-317a024a7e59",
+        "name": "reset profilo",
+        "type": "script",
+        "config": {
+          "injectVariables": [],
+          "script": "async function main() { return { profilo: '', tp: '', ioTop: '', stop: '0' }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "profilo",
+              "variable": "profilo"
+            },
+            {
+              "value": "tp",
+              "variable": "tp"
+            },
+            {
+              "value": "ioTop",
+              "variable": "ioTop"
+            },
+            {
+              "value": "stop",
+              "variable": "stop"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 21455,
+          "y": 285
+        },
+        "id": "b92142cd-38f9-4d4f-bac1-7130abea2359",
+        "name": "IF mio profilo -> leggi il nome in alto",
+        "type": "ifElse",
+        "config": {
+          "apposition": "and",
+          "children": [
+            {
+              "position": {
+                "x": 21460,
+                "y": 285
+              },
+              "id": "7a3780ce-444d-4287-9f42-ff6809af2402",
+              "name": "nome Instagram in alto",
+              "type": "getEle",
+              "config": {
+                "filterCollection": [
+                  [
+                    {
+                      "content": "action_bar_large_title",
+                      "filterType": "contain",
+                      "type": "id"
+                    }
+                  ],
+                  [
+                    {
+                      "content": "action_bar_title",
+                      "filterType": "contain",
+                      "type": "id"
+                    }
+                  ]
+                ],
+                "serialType": "fixedValue",
+                "serial": 1,
+                "hiddenChildren": false,
+                "searchTime": 2500,
+                "type": "text",
+                "variable": "ioTop",
+                "error": false
+              }
+            },
+            {
+              "position": {
+                "x": 21470,
+                "y": 285
+              },
+              "id": "4ec93c13-5947-47f4-87fc-c3fc11e4baf6",
+              "name": "leggi testi del profilo",
+              "type": "forTimes",
+              "config": {
+                "serialType": "randomInterval",
+                "minTimes": 8,
+                "maxTimes": 8,
+                "variableIndex": "kp",
+                "hiddenChildren": false,
+                "children": [
+                  {
+                    "position": {
+                      "x": 21480,
+                      "y": 285
+                    },
+                    "id": "9e505b85-6404-4ad2-b1dd-e12fe05d73b0",
+                    "name": "testo profilo kp",
+                    "type": "getEle",
+                    "config": {
+                      "filterCollection": [
+                        [
+                          {
+                            "content": "TextView",
+                            "filterType": "contain",
+                            "type": "class"
+                          }
+                        ]
+                      ],
+                      "serialType": "fixedValue",
+                      "serial": "${kp}",
+                      "hiddenChildren": false,
+                      "searchTime": 300,
+                      "type": "text",
+                      "variable": "tp",
+                      "error": false
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 21490,
+                      "y": 285
+                    },
+                    "id": "1e6f3906-7a0b-45e9-a57c-c0174abc31ab",
+                    "name": "aggiungi al profilo",
+                    "type": "script",
+                    "config": {
+                      "injectVariables": [
+                        "profilo",
+                        "tp"
+                      ],
+                      "script": "async function main({ profilo, tp }) { const x=String(tp||'').replace(/\\s+/g,' ').trim(); return { profilo: x ? (String(profilo||'') + '\\n' + x) : String(profilo||''), tp: '' }; }",
+                      "type": "js",
+                      "variableMap": [
+                        {
+                          "value": "profilo",
+                          "variable": "profilo"
+                        },
+                        {
+                          "value": "tp",
+                          "variable": "tp"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "conditionList": [
+            {
+              "probability": 50,
+              "relation": "exist",
+              "useVariable": "mioProfilo"
+            }
+          ],
+          "other": []
+        }
+      },
+      {
+        "position": {
+          "x": 21500,
+          "y": 285
+        },
+        "id": "557da8f2-8822-486e-a68f-5dc3b231c0e1",
+        "name": "codifica profilo",
+        "type": "script",
+        "config": {
+          "injectVariables": [
+            "ioTop",
+            "profilo",
+            "imeOut"
+          ],
+          "script": "async function main({ ioTop, profilo, imeOut }) { const ime=String(imeOut||'').replace(/\\s+/g,' ').trim(); const s='top=' + String(ioTop||'').trim() + '\\n' + (/^ime=/.test(ime) ? ime : 'ime=' + ime) + '\\n' + String(profilo||''); const e=encodeURIComponent(s).replace(/['()!*]/g, c => '%' + c.charCodeAt(0).toString(16).toUpperCase()); return { profEnc: e }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "profEnc",
+              "variable": "profEnc"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 21550,
+          "y": 285
+        },
+        "id": "6311158a-449b-4d8a-aabf-9868c825b15f",
+        "name": "saluta il relay",
+        "type": "executeADB",
+        "config": {
+          "content": "sh -c 'curl -sk --max-time 40 -H \"ngrok-skip-browser-warning: 1\" --data-binary \"${profEnc}\" \"https://paying-cake-engulf.ngrok-free.dev/ciao?dev=${dev}\"'",
+          "timeout": 120000,
+          "variable": "ciaoResp",
+          "error": false
+        }
+      },
+      {
+        "position": {
+          "x": 21600,
+          "y": 285
+        },
+        "id": "d5dcccc4-f52e-42a2-81b4-e0320c1f8bac",
+        "name": "telefono riconosciuto?",
+        "type": "script",
+        "config": {
+          "injectVariables": [
+            "ciaoResp"
+          ],
+          "script": "async function main({ ciaoResp }) { return { stop: /^STOP/.test(String(ciaoResp||'').trim()) ? '1' : '0' }; }",
+          "type": "js",
+          "variableMap": [
+            {
+              "value": "stop",
+              "variable": "stop"
+            }
+          ]
+        }
+      },
+      {
+        "position": {
+          "x": 21650,
+          "y": 285
+        },
+        "id": "41c3584a-923b-4f86-b70b-c89747e627b8",
+        "name": "IF telefono sconosciuto -> fine (guarda la finestra del relay)",
+        "type": "ifElse",
+        "config": {
+          "apposition": "and",
+          "children": [
+            {
+              "position": {
+                "x": 23800,
+                "y": 285
+              },
+              "config": {
+                "content": "input keyevent 3",
+                "timeout": 120000,
+                "variable": "homeOut",
+                "error": false
+              },
+              "id": "a0a64b96-0236-40c6-9a6d-40473110190c",
+              "name": "HOME",
+              "type": "executeADB"
+            },
+            {
+              "position": {
+                "x": 24200,
+                "y": 285
+              },
+              "config": {},
+              "id": "863c7e03-d3d9-45d8-9a83-a7f7c8369420",
+              "name": "End task",
+              "type": "endTask"
+            }
+          ],
+          "conditionList": [
+            {
+              "probability": 50,
+              "relation": "equal",
+              "useVariable": "stop",
+              "result": "1"
+            }
+          ],
+          "other": []
+        }
+      },
+      {
+        "position": {
+          "x": 21800,
+          "y": 285
+        },
+        "config": {
+          "content": "input swipe 360 1000 360 500 250",
+          "timeout": 120000,
+          "variable": "revealGrid",
+          "error": false
+        },
+        "id": "b75f24f1-0f91-4eaf-8a51-810f1b98d3e3",
+        "name": "reveal grid",
+        "type": "executeADB"
+      },
+      {
+        "position": {
+          "x": 22200,
+          "y": 285
+        },
+        "config": {
+          "timeoutMax": 3000,
+          "timeoutMin": 2000,
+          "timeoutType": "randomInterval"
+        },
+        "id": "29664a6a-1461-4334-bcf4-85ea3b8d478f",
+        "name": "wait",
+        "type": "waitTime"
+      },
+      {
+        "position": {
+          "x": 22600,
+          "y": 285
+        },
+        "config": {
+          "filterCollection": [
+            [
+              {
+                "content": "Reel by",
+                "filterType": "contain",
+                "type": "desc"
+              }
+            ],
+            [
+              {
+                "content": "Post by",
+                "filterType": "contain",
+                "type": "desc"
+              }
+            ],
+            [
+              {
+                "content": "Photo by",
+                "filterType": "contain",
+                "type": "desc"
+              }
+            ],
+            [
+              {
+                "content": "com.instagram.android:id/layout_container",
+                "filterType": "equal",
+                "type": "id"
+              }
+            ],
+            [
+              {
+                "content": "com.instagram.android:id/grid_card_layout_container",
+                "filterType": "equal",
+                "type": "id"
+              }
+            ]
+          ],
+          "hiddenChildren": true,
+          "randomDistance": 0,
+          "searchTime": 6000,
+          "useOffset": false,
+          "serialType": "fixedValue",
+          "serial": 1,
+          "variable": "ownReel"
+        },
+        "id": "ce1e85e1-5721-4b1a-802e-2060ccd28b9c",
+        "name": "click",
+        "type": "click"
+      },
+      {
+        "position": {
+          "x": 23000,
+          "y": 285
+        },
+        "config": {
+          "apposition": "and",
+          "children": [
+            {
+              "position": {
+                "x": 17800,
+                "y": 285
+              },
+              "config": {
+                "content": "input swipe 360 1000 360 500 250",
+                "timeout": 120000,
+                "variable": "rg2",
+                "error": false
+              },
+              "id": "ae734073-b186-451a-bf34-408fc6444eb8",
+              "name": "swipe",
+              "type": "executeADB"
+            },
+            {
+              "position": {
+                "x": 18200,
+                "y": 285
+              },
+              "config": {
+                "timeoutMax": 3000,
+                "timeoutMin": 2000,
+                "timeoutType": "randomInterval"
+              },
+              "id": "3fd4d34a-8380-4d51-a5c7-545c953802a8",
+              "name": "wait",
+              "type": "waitTime"
+            },
+            {
+              "position": {
+                "x": 18600,
+                "y": 285
+              },
+              "config": {
+                "filterCollection": [
+                  [
+                    {
+                      "content": "Reel by",
+                      "filterType": "contain",
+                      "type": "desc"
+                    }
+                  ],
+                  [
+                    {
+                      "content": "Post by",
+                      "filterType": "contain",
+                      "type": "desc"
+                    }
+                  ],
+                  [
+                    {
+                      "content": "Photo by",
+                      "filterType": "contain",
+                      "type": "desc"
+                    }
+                  ],
+                  [
+                    {
+                      "content": "com.instagram.android:id/layout_container",
+                      "filterType": "equal",
+                      "type": "id"
+                    }
+                  ],
+                  [
+                    {
+                      "content": "com.instagram.android:id/grid_card_layout_container",
+                      "filterType": "equal",
+                      "type": "id"
+                    }
+                  ]
+                ],
+                "hiddenChildren": true,
+                "randomDistance": 0,
+                "searchTime": 6000,
+                "useOffset": false,
+                "serialType": "fixedValue",
+                "serial": 1,
+                "variable": "ownReel"
+              },
+              "id": "3d675c03-4102-49c3-afae-6be9acb04014",
+              "name": "click",
+              "type": "click"
+            }
+          ],
+          "conditionList": [
+            {
+              "probability": 50,
+              "relation": "notExist",
+              "useVariable": "ownReel"
+            }
+          ],
+          "other": []
+        },
+        "id": "05ee5623-988d-4117-a248-bb0e1fab5f85",
+        "name": "IF retry grid",
+        "type": "ifElse"
+      },
+      {
+        "position": {
+          "x": 23400,
+          "y": 285
+        },
+        "config": {
+          "apposition": "and",
+          "children": [
+            {
+              "position": {
+                "x": 17350,
+                "y": 285
+              },
+              "id": "6472a439-11ee-4b50-af94-93e995832bbb",
+              "name": "salta i 3 reel di oggi (parte dal 4°)",
+              "type": "forTimes",
+              "config": {
+                "serialType": "randomInterval",
+                "minTimes": 3,
+                "maxTimes": 3,
+                "hiddenChildren": false,
+                "children": [
+                  {
+                    "position": {
+                      "x": 15000,
+                      "y": 285
+                    },
+                    "config": {
+                      "timeoutMax": 4000,
+                      "timeoutMin": 2500,
+                      "timeoutType": "randomInterval"
+                    },
+                    "id": "5ebaaf0a-302e-494d-adb2-12d1e85b5aa6",
+                    "name": "wait",
+                    "type": "waitTime"
+                  },
+                  {
+                    "position": {
+                      "x": 16600,
+                      "y": 285
+                    },
+                    "config": {
+                      "content": "input swipe 360 1000 360 300 280",
+                      "timeout": 120000,
+                      "variable": "swipeOut",
+                      "error": false
+                    },
+                    "id": "f8e06b76-4617-41ce-b100-cee6cceb4b0f",
+                    "name": "next reel",
+                    "type": "executeADB"
+                  },
+                  {
+                    "position": {
+                      "x": 17000,
+                      "y": 285
+                    },
+                    "config": {
+                      "timeoutMax": 4500,
+                      "timeoutMin": 3000,
+                      "timeoutType": "randomInterval"
+                    },
+                    "id": "a87d921c-5ea1-4ea7-9b2e-8c469a4452bc",
+                    "name": "wait",
+                    "type": "waitTime"
+                  }
+                ]
+              }
+            },
+            {
+              "position": {
+                "x": 17400,
+                "y": 285
+              },
+              "config": {
+                "children": [
+                  {
+                    "position": {
+                      "x": 15000,
+                      "y": 285
+                    },
+                    "config": {
+                      "timeoutMax": 4000,
+                      "timeoutMin": 2500,
+                      "timeoutType": "randomInterval"
+                    },
+                    "id": "48c7ef51-7000-48db-91de-0d6248f89e1a",
+                    "name": "wait",
+                    "type": "waitTime"
+                  },
+                  {
+                    "position": {
+                      "x": 15350,
+                      "y": 285
+                    },
+                    "id": "9e9b27be-6bce-4a08-8e7a-bbaeaa60dd12",
+                    "name": "azzera i risultati del post",
+                    "type": "script",
+                    "config": {
+                      "injectVariables": [],
+                      "script": "async function main() { return { inPosts: '', cmOpen: '0', aperti: '0' }; }",
+                      "type": "js",
+                      "variableMap": [
+                        {
+                          "value": "inPosts",
+                          "variable": "inPosts"
+                        },
+                        {
+                          "value": "cmOpen",
+                          "variable": "cmOpen"
+                        },
+                        {
+                          "value": "aperti",
+                          "variable": "aperti"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 15360,
+                      "y": 285
+                    },
+                    "id": "5d62b2dc-09df-47ad-bc5e-82abdeec105c",
+                    "name": "siamo ancora nei nostri post? (scritta Posts in alto)",
+                    "type": "getEle",
+                    "config": {
+                      "filterCollection": [
+                        [
+                          {
+                            "content": "Posts",
+                            "filterType": "equal",
+                            "type": "text"
+                          }
+                        ]
+                      ],
+                      "serialType": "fixedValue",
+                      "serial": 1,
+                      "hiddenChildren": false,
+                      "searchTime": 3000,
+                      "type": "text",
+                      "variable": "inPosts",
+                      "error": false
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 15370,
+                      "y": 285
+                    },
+                    "id": "5ccef704-9155-42b8-b56b-8b51337e86d9",
+                    "name": "nei post?",
+                    "type": "script",
+                    "config": {
+                      "injectVariables": [
+                        "inPosts"
+                      ],
+                      "script": "async function main({ inPosts }) { const s=(inPosts===undefined||inPosts===null)?'':String(inPosts).trim(); return { nelPosts: s==='Posts' ? '1' : '0' }; }",
+                      "type": "js",
+                      "variableMap": [
+                        {
+                          "value": "nelPosts",
+                          "variable": "nelPosts"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 15380,
+                      "y": 285
+                    },
+                    "id": "572ffd5f-0877-4453-bcb1-1b4d015a5a6d",
+                    "name": "IF non siamo piu' nei nostri post -> fine (mai commenti di altri)",
+                    "type": "ifElse",
+                    "config": {
+                      "apposition": "and",
+                      "children": [
+                        {
+                          "position": {
+                            "x": 23800,
+                            "y": 285
+                          },
+                          "config": {
+                            "content": "input keyevent 3",
+                            "timeout": 120000,
+                            "variable": "homeOut",
+                            "error": false
+                          },
+                          "id": "31d54ed3-0de3-4401-bde4-aa54f8ed18cd",
+                          "name": "HOME",
+                          "type": "executeADB"
+                        },
+                        {
+                          "position": {
+                            "x": 24200,
+                            "y": 285
+                          },
+                          "config": {},
+                          "id": "8d89bf00-92ec-4138-b49f-3dd6479179e4",
+                          "name": "End task",
+                          "type": "endTask"
+                        }
+                      ],
+                      "conditionList": [
+                        {
+                          "probability": 50,
+                          "relation": "equal",
+                          "useVariable": "nelPosts",
+                          "result": "0"
+                        }
+                      ],
+                      "other": []
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 15400,
+                      "y": 285
+                    },
+                    "config": {
+                      "filterCollection": [
+                        [
+                          {
+                            "content": "com.instagram.android:id/comment_button",
+                            "filterType": "equal",
+                            "type": "id"
+                          }
+                        ],
+                        [
+                          {
+                            "content": "com.instagram.android:id/row_feed_button_comment",
+                            "filterType": "equal",
+                            "type": "id"
+                          }
+                        ],
+                        [
+                          {
+                            "content": "Comment",
+                            "filterType": "contain",
+                            "type": "desc"
+                          }
+                        ]
+                      ],
+                      "hiddenChildren": true,
+                      "randomDistance": 0,
+                      "searchTime": 6000,
+                      "useOffset": false,
+                      "serialType": "fixedValue",
+                      "serial": 1,
+                      "variable": "cmOpen"
+                    },
+                    "id": "c1f4bca0-8961-45c1-8aaa-6f0a01acb879",
+                    "name": "click",
+                    "type": "click"
+                  },
+                  {
+                    "position": {
+                      "x": 15410,
+                      "y": 285
+                    },
+                    "id": "bb431a95-efbe-451c-b5fb-b4828656772e",
+                    "name": "commenti aperti?",
+                    "type": "script",
+                    "config": {
+                      "injectVariables": [
+                        "cmOpen"
+                      ],
+                      "script": "async function main({ cmOpen }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { aperti: ok(cmOpen) ? '1' : '0' }; }",
+                      "type": "js",
+                      "variableMap": [
+                        {
+                          "value": "aperti",
+                          "variable": "aperti"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 15500,
+                      "y": 285
+                    },
+                    "id": "5da283b0-6b00-47be-8317-e196307ca961",
+                    "name": "IF pulsante commenti non trovato -> scorri e riprova",
+                    "type": "ifElse",
+                    "config": {
+                      "apposition": "and",
+                      "other": [],
+                      "conditionList": [
+                        {
+                          "probability": 50,
+                          "relation": "equal",
+                          "useVariable": "aperti",
+                          "result": "0"
+                        }
+                      ],
+                      "children": [
+                        {
+                          "position": {
+                            "x": 15550,
+                            "y": 285
+                          },
+                          "id": "7a2cf63c-9a64-4d0c-94ab-6ae685488d52",
+                          "name": "scorri un po'",
+                          "type": "executeADB",
+                          "config": {
+                            "content": "input swipe 360 1000 360 500 800",
+                            "timeout": 120000,
+                            "variable": "shReveal",
+                            "error": false
+                          }
+                        },
+                        {
+                          "position": {
+                            "x": 15600,
+                            "y": 285
+                          },
+                          "id": "730be609-89e6-4acc-9b27-283a29799bd3",
+                          "name": "wait",
+                          "type": "waitTime",
+                          "config": {
+                            "timeoutMax": 2500,
+                            "timeoutMin": 1500,
+                            "timeoutType": "randomInterval"
+                          }
+                        },
+                        {
+                          "position": {
+                            "x": 15650,
+                            "y": 285
+                          },
+                          "config": {
+                            "filterCollection": [
+                              [
+                                {
+                                  "content": "com.instagram.android:id/comment_button",
+                                  "filterType": "equal",
+                                  "type": "id"
+                                }
+                              ],
+                              [
+                                {
+                                  "content": "com.instagram.android:id/row_feed_button_comment",
+                                  "filterType": "equal",
+                                  "type": "id"
+                                }
+                              ],
+                              [
+                                {
+                                  "content": "Comment",
+                                  "filterType": "contain",
+                                  "type": "desc"
+                                }
+                              ]
+                            ],
+                            "hiddenChildren": true,
+                            "randomDistance": 0,
+                            "searchTime": 6000,
+                            "useOffset": false,
+                            "serialType": "fixedValue",
+                            "serial": 1,
+                            "variable": "cmOpen"
+                          },
+                          "id": "441fedff-6010-4c26-9574-371665efc1b7",
+                          "name": "click",
+                          "type": "click"
+                        },
+                        {
+                          "position": {
+                            "x": 15420,
+                            "y": 285
+                          },
+                          "id": "ba526f17-40d9-4c5c-b862-cf659784d7de",
+                          "name": "commenti aperti?",
+                          "type": "script",
+                          "config": {
+                            "injectVariables": [
+                              "cmOpen"
+                            ],
+                            "script": "async function main({ cmOpen }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { aperti: ok(cmOpen) ? '1' : '0' }; }",
+                            "type": "js",
+                            "variableMap": [
+                              {
+                                "value": "aperti",
+                                "variable": "aperti"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "position": {
+                      "x": 15800,
+                      "y": 285
+                    },
+                    "config": {
+                      "apposition": "and",
+                      "children": [
+                        {
+                          "position": {
+                            "x": 13000,
+                            "y": 285
+                          },
+                          "config": {
+                            "timeoutMax": 2500,
+                            "timeoutMin": 1500,
+                            "timeoutType": "randomInterval"
+                          },
+                          "id": "07ae42be-f392-468d-89e7-e436ae86d471",
+                          "name": "wait",
+                          "type": "waitTime"
+                        },
+                        {
+                          "position": {
+                            "x": 14780,
+                            "y": 285
+                          },
+                          "id": "4982c19c-94d4-4c61-9bf7-e7073ba1c240",
+                          "name": "azzera: ci sono commenti?",
+                          "type": "script",
+                          "config": {
+                            "injectVariables": [],
+                            "script": "async function main() { return { haReply: '', ciSono: '0' }; }",
+                            "type": "js",
+                            "variableMap": [
+                              {
+                                "value": "haReply",
+                                "variable": "haReply"
+                              },
+                              {
+                                "value": "ciSono",
+                                "variable": "ciSono"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "position": {
+                            "x": 14785,
+                            "y": 285
+                          },
+                          "id": "2c2d7ff0-a299-49c0-aabb-8e554ae2842f",
+                          "name": "cerca un pulsante Reply (fino a 20 secondi)",
+                          "type": "forTimes",
+                          "config": {
+                            "serialType": "randomInterval",
+                            "minTimes": 4,
+                            "maxTimes": 4,
+                            "hiddenChildren": false,
+                            "children": [
+                              {
+                                "position": {
+                                  "x": 14790,
+                                  "y": 285
+                                },
+                                "id": "1b3816f6-66e2-4746-aa85-d052fbcf5dee",
+                                "name": "IF Reply non ancora visto",
+                                "type": "ifElse",
+                                "config": {
+                                  "apposition": "and",
+                                  "children": [
+                                    {
+                                      "position": {
+                                        "x": 14795,
+                                        "y": 285
+                                      },
+                                      "id": "74789398-da4b-4642-9480-b0906ee8df49",
+                                      "name": "azzera Reply",
+                                      "type": "script",
+                                      "config": {
+                                        "injectVariables": [],
+                                        "script": "async function main() { return { haReply: '' }; }",
+                                        "type": "js",
+                                        "variableMap": [
+                                          {
+                                            "value": "haReply",
+                                            "variable": "haReply"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "position": {
+                                        "x": 14800,
+                                        "y": 285
+                                      },
+                                      "id": "dfc5e398-4be7-4ce1-9670-2bdfdb195b0f",
+                                      "name": "c'e' un pulsante Reply?",
+                                      "type": "getEle",
+                                      "config": {
+                                        "filterCollection": [
+                                          [
+                                            {
+                                              "content": "Reply",
+                                              "filterType": "equal",
+                                              "type": "text"
+                                            }
+                                          ]
+                                        ],
+                                        "serialType": "fixedValue",
+                                        "serial": 1,
+                                        "hiddenChildren": false,
+                                        "searchTime": 5000,
+                                        "type": "text",
+                                        "variable": "haReply",
+                                        "error": false
+                                      }
+                                    },
+                                    {
+                                      "position": {
+                                        "x": 14805,
+                                        "y": 285
+                                      },
+                                      "id": "f4acd052-cd68-4e84-b913-44829ea8ae7b",
+                                      "name": "visto un Reply?",
+                                      "type": "script",
+                                      "config": {
+                                        "injectVariables": [
+                                          "haReply"
+                                        ],
+                                        "script": "async function main({ haReply }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { ciSono: ok(haReply) ? '1' : '0' }; }",
+                                        "type": "js",
+                                        "variableMap": [
+                                          {
+                                            "value": "ciSono",
+                                            "variable": "ciSono"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  "conditionList": [
+                                    {
+                                      "probability": 50,
+                                      "relation": "equal",
+                                      "useVariable": "ciSono",
+                                      "result": "0"
+                                    }
+                                  ],
+                                  "other": []
+                                }
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "position": {
+                            "x": 15000,
+                            "y": 285
+                          },
+                          "config": {
+                            "apposition": "and",
+                            "children": [
+                              {
+                                "position": {
+                                  "x": 9000,
+                                  "y": 285
+                                },
+                                "id": "f0712774-c866-4573-adfe-170240e2d937",
+                                "name": "reset goOn",
+                                "type": "script",
+                                "config": {
+                                  "injectVariables": [],
+                                  "script": "async function main() { return { goOn: '1', vuote: '0', nuovo: '1', accPrima: '', fermo: '0' }; }",
+                                  "type": "js",
+                                  "variableMap": [
+                                    {
+                                      "value": "goOn",
+                                      "variable": "goOn"
+                                    },
+                                    {
+                                      "value": "vuote",
+                                      "variable": "vuote"
+                                    },
+                                    {
+                                      "value": "nuovo",
+                                      "variable": "nuovo"
+                                    },
+                                    {
+                                      "value": "accPrima",
+                                      "variable": "accPrima"
+                                    },
+                                    {
+                                      "value": "fermo",
+                                      "variable": "fermo"
+                                    }
+                                  ]
+                                }
+                              },
+                              {
+                                "position": {
+                                  "x": 12595,
+                                  "y": 285
+                                },
+                                "id": "f76de96e-52b5-4936-b2cc-163cc85aeb30",
+                                "name": "For commenti (5 blocchi da 50 giri)",
+                                "type": "forTimes",
+                                "config": {
+                                  "serialType": "randomInterval",
+                                  "maxTimes": 5,
+                                  "minTimes": 5,
+                                  "children": [
+                                    {
+                                      "position": {
+                                        "x": 12605,
+                                        "y": 285
+                                      },
+                                      "id": "c84d109c-aba1-4dc8-884a-78d9b5bd9e5e",
+                                      "name": "IF continua (no END)",
+                                      "type": "ifElse",
+                                      "config": {
+                                        "apposition": "and",
+                                        "children": [
+                                          {
+                                            "position": {
+                                              "x": 12600,
+                                              "y": 285
+                                            },
+                                            "config": {
+                                              "children": [
+                                                {
+                                                  "position": {
+                                                    "x": 9400,
+                                                    "y": 285
+                                                  },
+                                                  "id": "c9afc66c-ea62-4ecb-9aa5-c5c2f8165273",
+                                                  "name": "IF continua (no END)",
+                                                  "type": "ifElse",
+                                                  "config": {
+                                                    "apposition": "and",
+                                                    "other": [],
+                                                    "children": [
+                                                      {
+                                                        "position": {
+                                                          "x": 9000,
+                                                          "y": 285
+                                                        },
+                                                        "id": "729d53fe-1305-41ae-a3dc-1bf08da23880",
+                                                        "name": "reset elenco",
+                                                        "type": "script",
+                                                        "config": {
+                                                          "injectVariables": [],
+                                                          "script": "async function main() { return { acc: '', t: '', miss: '0', leggi: '1' }; }",
+                                                          "type": "js",
+                                                          "variableMap": [
+                                                            {
+                                                              "value": "acc",
+                                                              "variable": "acc"
+                                                            },
+                                                            {
+                                                              "value": "t",
+                                                              "variable": "t"
+                                                            },
+                                                            {
+                                                              "value": "miss",
+                                                              "variable": "miss"
+                                                            },
+                                                            {
+                                                              "value": "leggi",
+                                                              "variable": "leggi"
+                                                            }
+                                                          ]
+                                                        }
+                                                      },
+                                                      {
+                                                        "position": {
+                                                          "x": 9200,
+                                                          "y": 285
+                                                        },
+                                                        "id": "bbe5f6b2-cd96-49e5-b091-c9f165e0e61e",
+                                                        "name": "leggi testi a schermo",
+                                                        "type": "forTimes",
+                                                        "config": {
+                                                          "serialType": "randomInterval",
+                                                          "minTimes": 30,
+                                                          "maxTimes": 30,
+                                                          "variableIndex": "k",
+                                                          "hiddenChildren": false,
+                                                          "children": [
+                                                            {
+                                                              "position": {
+                                                                "x": 9300,
+                                                                "y": 285
+                                                              },
+                                                              "id": "3085fe0c-1053-4ff1-a740-e7f7f0341064",
+                                                              "name": "IF ci sono ancora testi",
+                                                              "type": "ifElse",
+                                                              "config": {
+                                                                "apposition": "and",
+                                                                "other": [],
+                                                                "conditionList": [
+                                                                  {
+                                                                    "probability": 50,
+                                                                    "relation": "equal",
+                                                                    "useVariable": "leggi",
+                                                                    "result": "1"
+                                                                  }
+                                                                ],
+                                                                "children": [
+                                                                  {
+                                                                    "position": {
+                                                                      "x": 9400,
+                                                                      "y": 285
+                                                                    },
+                                                                    "id": "6741c256-bb8f-4d46-acc8-687d54870589",
+                                                                    "name": "testo numero k",
+                                                                    "type": "getEle",
+                                                                    "config": {
+                                                                      "filterCollection": [
+                                                                        [
+                                                                          {
+                                                                            "content": "TextView",
+                                                                            "filterType": "contain",
+                                                                            "type": "class"
+                                                                          }
+                                                                        ],
+                                                                        [
+                                                                          {
+                                                                            "content": "Reply",
+                                                                            "filterType": "equal",
+                                                                            "type": "text"
+                                                                          }
+                                                                        ]
+                                                                      ],
+                                                                      "serialType": "fixedValue",
+                                                                      "serial": "${k}",
+                                                                      "hiddenChildren": false,
+                                                                      "searchTime": 300,
+                                                                      "type": "text",
+                                                                      "variable": "t",
+                                                                      "error": false
+                                                                    }
+                                                                  },
+                                                                  {
+                                                                    "position": {
+                                                                      "x": 9500,
+                                                                      "y": 285
+                                                                    },
+                                                                    "id": "f4d453dd-3a06-4684-b2fe-35e69cb7c846",
+                                                                    "name": "aggiungi all'elenco",
+                                                                    "type": "script",
+                                                                    "config": {
+                                                                      "injectVariables": [
+                                                                        "acc",
+                                                                        "t",
+                                                                        "miss"
+                                                                      ],
+                                                                      "script": "async function main({ acc, t, miss }) { const x=String(t||'').replace(/\\s+/g,' ').trim(); const fine=/^(add a comment|add a reply|aggiungi un commento|aggiungi una risposta|kommentar hinzuf|antwort hinzuf|@)/i.test(x); const m = x ? 0 : (parseInt(miss,10)||0) + 1; return { acc: (x && !fine) ? (String(acc||'') + '\\n' + x) : String(acc||''), t: '', miss: String(m), leggi: (fine || m >= 4) ? '0' : '1' }; }",
+                                                                      "type": "js",
+                                                                      "variableMap": [
+                                                                        {
+                                                                          "value": "acc",
+                                                                          "variable": "acc"
+                                                                        },
+                                                                        {
+                                                                          "value": "t",
+                                                                          "variable": "t"
+                                                                        },
+                                                                        {
+                                                                          "value": "miss",
+                                                                          "variable": "miss"
+                                                                        },
+                                                                        {
+                                                                          "value": "leggi",
+                                                                          "variable": "leggi"
+                                                                        }
+                                                                      ]
+                                                                    }
+                                                                  }
+                                                                ]
+                                                              }
+                                                            }
+                                                          ]
+                                                        }
+                                                      },
+                                                      {
+                                                        "position": {
+                                                          "x": 9600,
+                                                          "y": 285
+                                                        },
+                                                        "id": "26c48293-c63a-4af1-955c-3aa972b3d303",
+                                                        "name": "codifica elenco",
+                                                        "type": "script",
+                                                        "config": {
+                                                          "injectVariables": [
+                                                            "acc",
+                                                            "accPrima",
+                                                            "fermo"
+                                                          ],
+                                                          "script": "async function main({ acc, accPrima, fermo }) { const pulito=String(acc||'').split('\\n').filter(r => !/^\\s*\\d{1,2}:\\d{2}\\s*$/.test(r)).join('\\n'); const f=(pulito===String(accPrima||'')) ? (parseInt(fermo,10)||0)+1 : 0; const e=encodeURIComponent(String(acc||'')).replace(/['()!*]/g, c => '%' + c.charCodeAt(0).toString(16).toUpperCase()); return { accEnc: e, accPrima: pulito, fermo: String(f) }; }",
+                                                          "type": "js",
+                                                          "variableMap": [
+                                                            {
+                                                              "value": "accEnc",
+                                                              "variable": "accEnc"
+                                                            },
+                                                            {
+                                                              "value": "accPrima",
+                                                              "variable": "accPrima"
+                                                            },
+                                                            {
+                                                              "value": "fermo",
+                                                              "variable": "fermo"
+                                                            }
+                                                          ]
+                                                        }
+                                                      },
+                                                      {
+                                                        "position": {
+                                                          "x": 9800,
+                                                          "y": 285
+                                                        },
+                                                        "id": "a06a095c-2ab8-43c2-9105-e90f660bad92",
+                                                        "name": "manda al relay",
+                                                        "type": "executeADB",
+                                                        "config": {
+                                                          "content": "sh -c 'curl -sk --max-time 40 -H \"ngrok-skip-browser-warning: 1\" --data-binary \"${accEnc}\" \"https://paying-cake-engulf.ngrok-free.dev/pick?dev=${dev}&nuovo=${nuovo}\"'",
+                                                          "timeout": 120000,
+                                                          "variable": "curlResp",
+                                                          "error": false
+                                                        }
+                                                      },
+                                                      {
+                                                        "position": {
+                                                          "x": 10600,
+                                                          "y": 285
+                                                        },
+                                                        "config": {
+                                                          "injectVariables": [
+                                                            "curlResp",
+                                                            "vuote",
+                                                            "nuovo",
+                                                            "fermo"
+                                                          ],
+                                                          "script": "async function main({ curlResp, vuote, nuovo, fermo }) { const r=String(curlResp||'').replace(/\\s+/g,' ').trim(); const no={ goPost:'0', goOn:'1', pickN:0, tapX:'0', tapY:'0', useTap:'0', ocrAuthor:'', theReply:'', vuote:'0', nuovo:'0' }; if((parseInt(fermo,10)||0)>=6) return Object.assign(no,{ goOn:'0' }); if(/^END/.test(r)) return Object.assign(no,{ goOn:'0' }); if(/^NO_MATCH/.test(r)) return no; const p=r.split('|'); const n=parseInt(p[1],10)||0; if(p[0]==='PICK' && p.length>=6 && n>=1) return { goPost:'1', goOn:'1', pickN:n, tapX:'0', tapY:'0', useTap:'0', ocrAuthor:p[4], theReply:p.slice(5).join('|'), vuote:'0', nuovo:'0' }; const v=(parseInt(vuote,10)||0)+1; return Object.assign(no,{ goPost:'2', goOn: v>=3 ? '0' : '1', vuote:String(v), nuovo:String(nuovo||'0') }); }",
+                                                          "type": "js",
+                                                          "variableMap": [
+                                                            {
+                                                              "value": "goPost",
+                                                              "variable": "goPost"
+                                                            },
+                                                            {
+                                                              "value": "goOn",
+                                                              "variable": "goOn"
+                                                            },
+                                                            {
+                                                              "value": "pickN",
+                                                              "variable": "pickN"
+                                                            },
+                                                            {
+                                                              "value": "tapX",
+                                                              "variable": "tapX"
+                                                            },
+                                                            {
+                                                              "value": "tapY",
+                                                              "variable": "tapY"
+                                                            },
+                                                            {
+                                                              "value": "useTap",
+                                                              "variable": "useTap"
+                                                            },
+                                                            {
+                                                              "value": "ocrAuthor",
+                                                              "variable": "ocrAuthor"
+                                                            },
+                                                            {
+                                                              "value": "theReply",
+                                                              "variable": "theReply"
+                                                            },
+                                                            {
+                                                              "value": "vuote",
+                                                              "variable": "vuote"
+                                                            },
+                                                            {
+                                                              "value": "nuovo",
+                                                              "variable": "nuovo"
+                                                            }
+                                                          ]
+                                                        },
+                                                        "id": "9a19ff19-30b4-4cd6-9b3c-11d022030ca9",
+                                                        "name": "decide",
+                                                        "type": "script"
+                                                      },
+                                                      {
+                                                        "position": {
+                                                          "x": 11400,
+                                                          "y": 285
+                                                        },
+                                                        "config": {
+                                                          "apposition": "and",
+                                                          "children": [
+                                                            {
+                                                              "position": {
+                                                                "x": 1400,
+                                                                "y": 285
+                                                              },
+                                                              "id": "2286cff9-3615-4148-a741-fceb3177545d",
+                                                              "name": "click Reply scelto",
+                                                              "type": "click",
+                                                              "config": {
+                                                                "filterCollection": [
+                                                                  [
+                                                                    {
+                                                                      "content": "Reply",
+                                                                      "filterType": "equal",
+                                                                      "type": "text"
+                                                                    }
+                                                                  ]
+                                                                ],
+                                                                "serialType": "fixedValue",
+                                                                "serial": "${pickN}",
+                                                                "hiddenChildren": false,
+                                                                "searchTime": 3000,
+                                                                "randomDistance": 0,
+                                                                "useOffset": false,
+                                                                "doubleClick": false,
+                                                                "variable": "repHit",
+                                                                "error": false
+                                                              }
+                                                            },
+                                                            {
+                                                              "position": {
+                                                                "x": 15400,
+                                                                "y": 285
+                                                              },
+                                                              "config": {
+                                                                "timeoutMax": 1600,
+                                                                "timeoutMin": 900,
+                                                                "timeoutType": "randomInterval"
+                                                              },
+                                                              "id": "ab15f1a3-b250-4b0b-88a6-95d691fc8624",
+                                                              "name": "wait",
+                                                              "type": "waitTime"
+                                                            },
+                                                            {
+                                                              "position": {
+                                                                "x": 15800,
+                                                                "y": 285
+                                                              },
+                                                              "config": {
+                                                                "injectVariables": [],
+                                                                "script": "async function main() { return { prefill: '' }; }",
+                                                                "type": "js",
+                                                                "variableMap": [
+                                                                  {
+                                                                    "value": "prefill",
+                                                                    "variable": "prefill"
+                                                                  }
+                                                                ]
+                                                              },
+                                                              "id": "d2529e60-f623-4dd1-b77d-db49dcc203bc",
+                                                              "name": "reset prefill",
+                                                              "type": "script"
+                                                            },
+                                                            {
+                                                              "position": {
+                                                                "x": 16200,
+                                                                "y": 285
+                                                              },
+                                                              "config": {
+                                                                "filterCollection": [
+                                                                  [
+                                                                    {
+                                                                      "content": "TextView",
+                                                                      "filterType": "contain",
+                                                                      "type": "class"
+                                                                    },
+                                                                    {
+                                                                      "content": "@",
+                                                                      "filterType": "contain",
+                                                                      "type": "text"
+                                                                    }
+                                                                  ]
+                                                                ],
+                                                                "serialType": "fixedValue",
+                                                                "serial": 1,
+                                                                "hiddenChildren": true,
+                                                                "searchTime": 2500,
+                                                                "type": "text",
+                                                                "variable": "prefill",
+                                                                "error": false
+                                                              },
+                                                              "id": "a0d52c1d-38c9-4c55-b43e-6fb8897c4176",
+                                                              "name": "leggi composer (@utente reale)",
+                                                              "type": "getEle"
+                                                            },
+                                                            {
+                                                              "position": {
+                                                                "x": 16600,
+                                                                "y": 285
+                                                              },
+                                                              "config": {
+                                                                "injectVariables": [
+                                                                  "prefill"
+                                                                ],
+                                                                "script": "async function main({ prefill }) { const s=String(prefill||'').trim(); const m=/^@([A-Za-z0-9._]{2,30})/.exec(s); return { pfUser: m ? m[1] : '', via: m ? 'T' : 'C' }; }",
+                                                                "type": "js",
+                                                                "variableMap": [
+                                                                  {
+                                                                    "value": "pfUser",
+                                                                    "variable": "pfUser"
+                                                                  },
+                                                                  {
+                                                                    "value": "via",
+                                                                    "variable": "via"
+                                                                  }
+                                                                ]
+                                                              },
+                                                              "id": "43e36a0f-6c37-430e-96d4-1a87ceb916ee",
+                                                              "name": "pf",
+                                                              "type": "script"
+                                                            },
+                                                            {
+                                                              "position": {
+                                                                "x": 16605,
+                                                                "y": 285
+                                                              },
+                                                              "id": "8c056980-8a4d-4bf8-bbd3-0669bda74cda",
+                                                              "name": "IF niente @ nella casella -> cerca la riga 'Replying to'",
+                                                              "type": "ifElse",
+                                                              "config": {
+                                                                "apposition": "and",
+                                                                "children": [
+                                                                  {
+                                                                    "position": {
+                                                                      "x": 16610,
+                                                                      "y": 285
+                                                                    },
+                                                                    "id": "7c8bd92a-8123-4c34-8591-202a4dd5e129",
+                                                                    "name": "azzera: riga Replying to",
+                                                                    "type": "script",
+                                                                    "config": {
+                                                                      "injectVariables": [],
+                                                                      "script": "async function main() { return { barra: '', trovato: '0', rispostaAperta: '' }; }",
+                                                                      "type": "js",
+                                                                      "variableMap": [
+                                                                        {
+                                                                          "value": "barra",
+                                                                          "variable": "barra"
+                                                                        },
+                                                                        {
+                                                                          "value": "trovato",
+                                                                          "variable": "trovato"
+                                                                        },
+                                                                        {
+                                                                          "value": "rispostaAperta",
+                                                                          "variable": "rispostaAperta"
+                                                                        }
+                                                                      ]
+                                                                    }
+                                                                  },
+                                                                  {
+                                                                    "position": {
+                                                                      "x": 16615,
+                                                                      "y": 285
+                                                                    },
+                                                                    "id": "99bc713e-5ef3-4214-96ac-c02b5d0ba8c1",
+                                                                    "name": "guarda le righe con 'Replying to'",
+                                                                    "type": "forTimes",
+                                                                    "config": {
+                                                                      "serialType": "randomInterval",
+                                                                      "minTimes": 3,
+                                                                      "maxTimes": 3,
+                                                                      "hiddenChildren": false,
+                                                                      "children": [
+                                                                        {
+                                                                          "position": {
+                                                                            "x": 16620,
+                                                                            "y": 285
+                                                                          },
+                                                                          "id": "4ae72bc9-9afd-4df1-9204-2bd43a21775f",
+                                                                          "name": "IF nome non ancora trovato",
+                                                                          "type": "ifElse",
+                                                                          "config": {
+                                                                            "apposition": "and",
+                                                                            "children": [
+                                                                              {
+                                                                                "position": {
+                                                                                  "x": 16622,
+                                                                                  "y": 285
+                                                                                },
+                                                                                "id": "b090365a-c502-478c-89af-1ad5a47765d6",
+                                                                                "name": "azzera riga",
+                                                                                "type": "script",
+                                                                                "config": {
+                                                                                  "injectVariables": [],
+                                                                                  "script": "async function main() { return { barra: '' }; }",
+                                                                                  "type": "js",
+                                                                                  "variableMap": [
+                                                                                    {
+                                                                                      "value": "barra",
+                                                                                      "variable": "barra"
+                                                                                    }
+                                                                                  ]
+                                                                                }
+                                                                              },
+                                                                              {
+                                                                                "position": {
+                                                                                  "x": 16624,
+                                                                                  "y": 285
+                                                                                },
+                                                                                "id": "6396e2c4-f1ce-40bc-b0ee-296753aac667",
+                                                                                "name": "riga 'Replying to' n. kb",
+                                                                                "type": "getEle",
+                                                                                "config": {
+                                                                                  "filterCollection": [
+                                                                                    [
+                                                                                      {
+                                                                                        "content": "eplying to",
+                                                                                        "filterType": "contain",
+                                                                                        "type": "text"
+                                                                                      }
+                                                                                    ]
+                                                                                  ],
+                                                                                  "serialType": "fixedValue",
+                                                                                  "serial": "${kb}",
+                                                                                  "hiddenChildren": false,
+                                                                                  "searchTime": 1000,
+                                                                                  "type": "text",
+                                                                                  "variable": "barra",
+                                                                                  "error": false
+                                                                                }
+                                                                              },
+                                                                              {
+                                                                                "position": {
+                                                                                  "x": 16626,
+                                                                                  "y": 285
+                                                                                },
+                                                                                "id": "3a65b5af-a6e1-4f08-808a-69d806cc34da",
+                                                                                "name": "e' 'Replying to nome'?",
+                                                                                "type": "script",
+                                                                                "config": {
+                                                                                  "injectVariables": [
+                                                                                    "barra",
+                                                                                    "pfUser",
+                                                                                    "via"
+                                                                                  ],
+                                                                                  "script": "async function main({ barra, pfUser, via }) { const s=String(barra||'').replace(/\\s+/g,' ').trim(); const m=/^replying to @?([A-Za-z0-9._]{2,30})[^A-Za-z0-9 ]*$/i.exec(s); return m ? { pfUser: m[1], via: 'R', trovato: '1' } : { pfUser: String(pfUser||''), via: String(via||'C'), trovato: '0' }; }",
+                                                                                  "type": "js",
+                                                                                  "variableMap": [
+                                                                                    {
+                                                                                      "value": "pfUser",
+                                                                                      "variable": "pfUser"
+                                                                                    },
+                                                                                    {
+                                                                                      "value": "via",
+                                                                                      "variable": "via"
+                                                                                    },
+                                                                                    {
+                                                                                      "value": "trovato",
+                                                                                      "variable": "trovato"
+                                                                                    }
+                                                                                  ]
+                                                                                }
+                                                                              }
+                                                                            ],
+                                                                            "conditionList": [
+                                                                              {
+                                                                                "probability": 50,
+                                                                                "relation": "equal",
+                                                                                "useVariable": "trovato",
+                                                                                "result": "0"
+                                                                              }
+                                                                            ],
+                                                                            "other": []
+                                                                          }
+                                                                        }
+                                                                      ],
+                                                                      "variableIndex": "kb"
+                                                                    }
+                                                                  },
+                                                                  {
+                                                                    "position": {
+                                                                      "x": 16630,
+                                                                      "y": 285
+                                                                    },
+                                                                    "id": "85edc50c-82da-4b4e-88fb-b396ec9e024c",
+                                                                    "name": "IF nessun nome -> la casella e' aperta? (Add a reply)",
+                                                                    "type": "ifElse",
+                                                                    "config": {
+                                                                      "apposition": "and",
+                                                                      "children": [
+                                                                        {
+                                                                          "position": {
+                                                                            "x": 16632,
+                                                                            "y": 285
+                                                                          },
+                                                                          "id": "c52d49d4-381a-46c9-bab5-bf9e7b647565",
+                                                                          "name": "c'e' 'Add a reply'?",
+                                                                          "type": "getEle",
+                                                                          "config": {
+                                                                            "filterCollection": [
+                                                                              [
+                                                                                {
+                                                                                  "content": "dd a reply",
+                                                                                  "filterType": "contain",
+                                                                                  "type": "text"
+                                                                                }
+                                                                              ]
+                                                                            ],
+                                                                            "serialType": "fixedValue",
+                                                                            "serial": 1,
+                                                                            "hiddenChildren": false,
+                                                                            "searchTime": 1500,
+                                                                            "type": "text",
+                                                                            "variable": "rispostaAperta",
+                                                                            "error": false
+                                                                          }
+                                                                        },
+                                                                        {
+                                                                          "position": {
+                                                                            "x": 16634,
+                                                                            "y": 285
+                                                                          },
+                                                                          "id": "5012764f-e015-4090-af0a-89411f5907e1",
+                                                                          "name": "casella aperta senza nome?",
+                                                                          "type": "script",
+                                                                          "config": {
+                                                                            "injectVariables": [
+                                                                              "rispostaAperta"
+                                                                            ],
+                                                                            "script": "async function main({ rispostaAperta }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { via: ok(rispostaAperta) ? 'V' : 'C' }; }",
+                                                                            "type": "js",
+                                                                            "variableMap": [
+                                                                              {
+                                                                                "value": "via",
+                                                                                "variable": "via"
+                                                                              }
+                                                                            ]
+                                                                          }
+                                                                        }
+                                                                      ],
+                                                                      "conditionList": [
+                                                                        {
+                                                                          "probability": 50,
+                                                                          "relation": "equal",
+                                                                          "useVariable": "trovato",
+                                                                          "result": "0"
+                                                                        }
+                                                                      ],
+                                                                      "other": []
+                                                                    }
+                                                                  }
+                                                                ],
+                                                                "conditionList": [
+                                                                  {
+                                                                    "probability": 50,
+                                                                    "relation": "equal",
+                                                                    "useVariable": "via",
+                                                                    "result": "C"
+                                                                  }
+                                                                ],
+                                                                "other": []
+                                                              }
+                                                            },
+                                                            {
+                                                              "position": {
+                                                                "x": 17400,
+                                                                "y": 285
+                                                              },
+                                                              "config": {
+                                                                "content": "sh -c 'curl -sk -H \"ngrok-skip-browser-warning: 1\" --max-time 40 --data-binary \"u=${pfUser}\" \"https://paying-cake-engulf.ngrok-free.dev/confirm?dev=${dev}&via=${via}&u=${pfUser}\"'",
+                                                                "timeout": 120000,
+                                                                "variable": "confResp",
+                                                                "error": false
+                                                              },
+                                                              "id": "cdf721c6-a124-479c-b151-6dc7042e4f13",
+                                                              "name": "confirm relay",
+                                                              "type": "executeADB"
+                                                            },
+                                                            {
+                                                              "position": {
+                                                                "x": 18200,
+                                                                "y": 285
+                                                              },
+                                                              "config": {
+                                                                "injectVariables": [
+                                                                  "confResp"
+                                                                ],
+                                                                "script": "async function main({ confResp }) { let r=String(confResp||'').replace(/\\s+/g,' ').trim(); r=r.replace(/^[\"']+|[\"']+$/g,'').trim(); const bad=(!r)||/NO_MATCH/i.test(r)||r.charAt(0)==='{'||r.charAt(0)==='<'||r.length>220; return { goType: bad?'0':'1', finalText: bad?'':r }; }",
+                                                                "type": "js",
+                                                                "variableMap": [
+                                                                  {
+                                                                    "value": "goType",
+                                                                    "variable": "goType"
+                                                                  },
+                                                                  {
+                                                                    "value": "finalText",
+                                                                    "variable": "finalText"
+                                                                  }
+                                                                ]
+                                                              },
+                                                              "id": "47a983c0-a6f4-47a3-a4f6-6e3297e20c6e",
+                                                              "name": "decide2",
+                                                              "type": "script"
+                                                            },
+                                                            {
+                                                              "position": {
+                                                                "x": 19800,
+                                                                "y": 285
+                                                              },
+                                                              "config": {
+                                                                "apposition": "and",
+                                                                "children": [
+                                                                  {
+                                                                    "position": {
+                                                                      "x": 10590,
+                                                                      "y": 285
+                                                                    },
+                                                                    "id": "bc812818-dc2b-46b4-a109-36d10a246195",
+                                                                    "name": "azzera i risultati della scrittura",
+                                                                    "type": "script",
+                                                                    "config": {
+                                                                      "injectVariables": [],
+                                                                      "script": "async function main() { return { tR: '0', tA: '0', tB: '0', tC: '0', scritto: '0', verificato: '0', posted: '0', postOk: '0' }; }",
+                                                                      "type": "js",
+                                                                      "variableMap": [
+                                                                        {
+                                                                          "value": "tR",
+                                                                          "variable": "tR"
+                                                                        },
+                                                                        {
+                                                                          "value": "tA",
+                                                                          "variable": "tA"
+                                                                        },
+                                                                        {
+                                                                          "value": "tB",
+                                                                          "variable": "tB"
+                                                                        },
+                                                                        {
+                                                                          "value": "tC",
+                                                                          "variable": "tC"
+                                                                        },
+                                                                        {
+                                                                          "value": "scritto",
+                                                                          "variable": "scritto"
+                                                                        },
+                                                                        {
+                                                                          "value": "verificato",
+                                                                          "variable": "verificato"
+                                                                        },
+                                                                        {
+                                                                          "value": "posted",
+                                                                          "variable": "posted"
+                                                                        },
+                                                                        {
+                                                                          "value": "postOk",
+                                                                          "variable": "postOk"
+                                                                        }
+                                                                      ]
+                                                                    }
+                                                                  },
+                                                                  {
+                                                                    "position": {
+                                                                      "x": 10592,
+                                                                      "y": 285
+                                                                    },
+                                                                    "id": "8b9fa536-7b01-4d27-910c-8db01c32687b",
+                                                                    "name": "IF nome da 'Replying to' -> scrivi nella casella vuota",
+                                                                    "type": "ifElse",
+                                                                    "config": {
+                                                                      "apposition": "and",
+                                                                      "children": [
+                                                                        {
+                                                                          "position": {
+                                                                            "x": 10594,
+                                                                            "y": 285
+                                                                          },
+                                                                          "config": {
+                                                                            "content": [
+                                                                              "${finalText}"
+                                                                            ],
+                                                                            "filterType": "contain",
+                                                                            "filters": [
+                                                                              {
+                                                                                "content": "dd a reply",
+                                                                                "type": "text"
+                                                                              }
+                                                                            ],
+                                                                            "hiddenChildren": true,
+                                                                            "inputType": "taskOrder",
+                                                                            "searchTime": 3500,
+                                                                            "serial": 1,
+                                                                            "serialType": "fixedValue",
+                                                                            "variable": "tR"
+                                                                          },
+                                                                          "id": "5168b243-ba24-4e5c-991b-84269639ef54",
+                                                                          "name": "input (casella senza @: Add a reply)",
+                                                                          "type": "inputContent"
+                                                                        },
+                                                                        {
+                                                                          "position": {
+                                                                            "x": 10596,
+                                                                            "y": 285
+                                                                          },
+                                                                          "id": "6c0fe1f8-75ec-434e-bc03-f465447bbdff",
+                                                                          "name": "scritto?",
+                                                                          "type": "script",
+                                                                          "config": {
+                                                                            "injectVariables": [
+                                                                              "tR"
+                                                                            ],
+                                                                            "script": "async function main({ tR }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { scritto: ok(tR) ? '1' : '0' }; }",
+                                                                            "type": "js",
+                                                                            "variableMap": [
+                                                                              {
+                                                                                "value": "scritto",
+                                                                                "variable": "scritto"
+                                                                              }
+                                                                            ]
+                                                                          }
+                                                                        }
+                                                                      ],
+                                                                      "conditionList": [
+                                                                        {
+                                                                          "probability": 50,
+                                                                          "relation": "equal",
+                                                                          "useVariable": "via",
+                                                                          "result": "R"
+                                                                        }
+                                                                      ],
+                                                                      "other": []
+                                                                    }
+                                                                  },
+                                                                  {
+                                                                    "position": {
+                                                                      "x": 10598,
+                                                                      "y": 285
+                                                                    },
+                                                                    "id": "b9ee81d4-cb9b-450e-b950-2877052e25ee",
+                                                                    "name": "IF non ancora scritto -> casella con la @",
+                                                                    "type": "ifElse",
+                                                                    "config": {
+                                                                      "apposition": "and",
+                                                                      "children": [
+                                                                        {
+                                                                          "position": {
+                                                                            "x": 10600,
+                                                                            "y": 285
+                                                                          },
+                                                                          "config": {
+                                                                            "content": [
+                                                                              "${finalText}"
+                                                                            ],
+                                                                            "filterType": "contain",
+                                                                            "filters": [
+                                                                              {
+                                                                                "content": "TextView",
+                                                                                "type": "class"
+                                                                              },
+                                                                              {
+                                                                                "content": "@",
+                                                                                "type": "text"
+                                                                              }
+                                                                            ],
+                                                                            "hiddenChildren": true,
+                                                                            "inputType": "taskOrder",
+                                                                            "searchTime": 3500,
+                                                                            "serial": 1,
+                                                                            "serialType": "fixedValue",
+                                                                            "variable": "tA"
+                                                                          },
+                                                                          "id": "8ec1795d-1ff3-454e-a052-97c9fc4dd2a8",
+                                                                          "name": "input",
+                                                                          "type": "inputContent"
+                                                                        },
+                                                                        {
+                                                                          "position": {
+                                                                            "x": 10610,
+                                                                            "y": 285
+                                                                          },
+                                                                          "id": "317716ad-663e-4274-8a76-dc84f2c94c5b",
+                                                                          "name": "scritto?",
+                                                                          "type": "script",
+                                                                          "config": {
+                                                                            "injectVariables": [
+                                                                              "tA"
+                                                                            ],
+                                                                            "script": "async function main({ tA }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { scritto: ok(tA) ? '1' : '0' }; }",
+                                                                            "type": "js",
+                                                                            "variableMap": [
+                                                                              {
+                                                                                "value": "scritto",
+                                                                                "variable": "scritto"
+                                                                              }
+                                                                            ]
+                                                                          }
+                                                                        }
+                                                                      ],
+                                                                      "conditionList": [
+                                                                        {
+                                                                          "probability": 50,
+                                                                          "relation": "equal",
+                                                                          "useVariable": "scritto",
+                                                                          "result": "0"
+                                                                        }
+                                                                      ],
+                                                                      "other": []
+                                                                    }
+                                                                  },
+                                                                  {
+                                                                    "position": {
+                                                                      "x": 11400,
+                                                                      "y": 285
+                                                                    },
+                                                                    "config": {
+                                                                      "apposition": "and",
+                                                                      "children": [
+                                                                        {
+                                                                          "position": {
+                                                                            "x": 11000,
+                                                                            "y": 285
+                                                                          },
+                                                                          "config": {
+                                                                            "content": [
+                                                                              "${finalText}"
+                                                                            ],
+                                                                            "filterType": "contain",
+                                                                            "filters": [
+                                                                              {
+                                                                                "content": "@",
+                                                                                "type": "text"
+                                                                              }
+                                                                            ],
+                                                                            "hiddenChildren": true,
+                                                                            "inputType": "taskOrder",
+                                                                            "searchTime": 3500,
+                                                                            "serial": 1,
+                                                                            "serialType": "fixedValue",
+                                                                            "variable": "tB"
+                                                                          },
+                                                                          "id": "58f5f1cb-27ac-4210-97b2-5899fbb4efa0",
+                                                                          "name": "input",
+                                                                          "type": "inputContent"
+                                                                        },
+                                                                        {
+                                                                          "position": {
+                                                                            "x": 10630,
+                                                                            "y": 285
+                                                                          },
+                                                                          "id": "edcaaa97-7661-4500-b211-6fad3ba717f2",
+                                                                          "name": "scritto?",
+                                                                          "type": "script",
+                                                                          "config": {
+                                                                            "injectVariables": [
+                                                                              "tB"
+                                                                            ],
+                                                                            "script": "async function main({ tB }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { scritto: ok(tB) ? '1' : '0' }; }",
+                                                                            "type": "js",
+                                                                            "variableMap": [
+                                                                              {
+                                                                                "value": "scritto",
+                                                                                "variable": "scritto"
+                                                                              }
+                                                                            ]
+                                                                          }
+                                                                        }
+                                                                      ],
+                                                                      "conditionList": [
+                                                                        {
+                                                                          "probability": 50,
+                                                                          "relation": "equal",
+                                                                          "useVariable": "scritto",
+                                                                          "result": "0"
+                                                                        }
+                                                                      ],
+                                                                      "other": []
+                                                                    },
+                                                                    "id": "58f59c9e-bb4f-4b50-a7c5-d858f91c2719",
+                                                                    "name": "IF input @ fallito -> hint",
+                                                                    "type": "ifElse"
+                                                                  },
+                                                                  {
+                                                                    "position": {
+                                                                      "x": 12200,
+                                                                      "y": 285
+                                                                    },
+                                                                    "config": {
+                                                                      "apposition": "and",
+                                                                      "children": [
+                                                                        {
+                                                                          "position": {
+                                                                            "x": 11800,
+                                                                            "y": 285
+                                                                          },
+                                                                          "config": {
+                                                                            "content": [
+                                                                              "${finalText}"
+                                                                            ],
+                                                                            "filterType": "equal",
+                                                                            "filters": [
+                                                                              {
+                                                                                "content": "com.instagram.android:id/layout_comment_thread_edittext",
+                                                                                "type": "id"
+                                                                              }
+                                                                            ],
+                                                                            "hiddenChildren": true,
+                                                                            "inputType": "taskOrder",
+                                                                            "searchTime": 3500,
+                                                                            "serial": 1,
+                                                                            "serialType": "fixedValue",
+                                                                            "variable": "tC"
+                                                                          },
+                                                                          "id": "9764c749-893a-48be-9bfc-1962ce339374",
+                                                                          "name": "input",
+                                                                          "type": "inputContent"
+                                                                        },
+                                                                        {
+                                                                          "position": {
+                                                                            "x": 10650,
+                                                                            "y": 285
+                                                                          },
+                                                                          "id": "79f8a863-6850-49d3-83b8-65cb3bc73363",
+                                                                          "name": "scritto?",
+                                                                          "type": "script",
+                                                                          "config": {
+                                                                            "injectVariables": [
+                                                                              "tC"
+                                                                            ],
+                                                                            "script": "async function main({ tC }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { scritto: ok(tC) ? '1' : '0' }; }",
+                                                                            "type": "js",
+                                                                            "variableMap": [
+                                                                              {
+                                                                                "value": "scritto",
+                                                                                "variable": "scritto"
+                                                                              }
+                                                                            ]
+                                                                          }
+                                                                        }
+                                                                      ],
+                                                                      "conditionList": [
+                                                                        {
+                                                                          "probability": 50,
+                                                                          "relation": "equal",
+                                                                          "useVariable": "scritto",
+                                                                          "result": "0"
+                                                                        }
+                                                                      ],
+                                                                      "other": []
+                                                                    },
+                                                                    "id": "5986b13b-8372-4975-b8ad-b2ace85158f8",
+                                                                    "name": "IF anche hint fallito -> id",
+                                                                    "type": "ifElse"
+                                                                  },
+                                                                  {
+                                                                    "position": {
+                                                                      "x": 12600,
+                                                                      "y": 285
+                                                                    },
+                                                                    "config": {
+                                                                      "injectVariables": [],
+                                                                      "script": "async function main() { return { typedChk: '' }; }",
+                                                                      "type": "js",
+                                                                      "variableMap": [
+                                                                        {
+                                                                          "value": "typedChk",
+                                                                          "variable": "typedChk"
+                                                                        }
+                                                                      ]
+                                                                    },
+                                                                    "id": "d89069ad-792a-4e61-84e6-4c576a0da6e5",
+                                                                    "name": "reset typedChk",
+                                                                    "type": "script"
+                                                                  },
+                                                                  {
+                                                                    "position": {
+                                                                      "x": 13000,
+                                                                      "y": 285
+                                                                    },
+                                                                    "config": {
+                                                                      "filterCollection": [
+                                                                        [
+                                                                          {
+                                                                            "content": "${finalText}",
+                                                                            "filterType": "contain",
+                                                                            "type": "text"
+                                                                          }
+                                                                        ]
+                                                                      ],
+                                                                      "serialType": "fixedValue",
+                                                                      "serial": 1,
+                                                                      "hiddenChildren": true,
+                                                                      "searchTime": 1800,
+                                                                      "type": "text",
+                                                                      "variable": "typedChk",
+                                                                      "error": false
+                                                                    },
+                                                                    "id": "14b95d55-752e-40e2-bc8a-dc0895cd29e8",
+                                                                    "name": "probe testo digitato",
+                                                                    "type": "getEle"
+                                                                  },
+                                                                  {
+                                                                    "position": {
+                                                                      "x": 10670,
+                                                                      "y": 285
+                                                                    },
+                                                                    "id": "d8399ef7-a0b1-4e6c-8f91-60370e995a7e",
+                                                                    "name": "testo verificato?",
+                                                                    "type": "script",
+                                                                    "config": {
+                                                                      "injectVariables": [
+                                                                        "typedChk"
+                                                                      ],
+                                                                      "script": "async function main({ typedChk }) { const s=(typedChk===undefined||typedChk===null)?'':String(typedChk).trim(); return { verificato: s ? '1' : '0' }; }",
+                                                                      "type": "js",
+                                                                      "variableMap": [
+                                                                        {
+                                                                          "value": "verificato",
+                                                                          "variable": "verificato"
+                                                                        }
+                                                                      ]
+                                                                    }
+                                                                  },
+                                                                  {
+                                                                    "position": {
+                                                                      "x": 14600,
+                                                                      "y": 285
+                                                                    },
+                                                                    "config": {
+                                                                      "apposition": "and",
+                                                                      "children": [
+                                                                        {
+                                                                          "position": {
+                                                                            "x": 7800,
+                                                                            "y": 285
+                                                                          },
+                                                                          "config": {
+                                                                            "timeoutMax": 1400,
+                                                                            "timeoutMin": 800,
+                                                                            "timeoutType": "randomInterval"
+                                                                          },
+                                                                          "id": "7358f418-69ca-4c87-8ba8-b356be0da93c",
+                                                                          "name": "wait",
+                                                                          "type": "waitTime"
+                                                                        },
+                                                                        {
+                                                                          "position": {
+                                                                            "x": 8200,
+                                                                            "y": 285
+                                                                          },
+                                                                          "config": {
+                                                                            "filterCollection": [
+                                                                              [
+                                                                                {
+                                                                                  "content": "Post",
+                                                                                  "filterType": "equal",
+                                                                                  "type": "text"
+                                                                                }
+                                                                              ],
+                                                                              [
+                                                                                {
+                                                                                  "content": "Post",
+                                                                                  "filterType": "contain",
+                                                                                  "type": "desc"
+                                                                                }
+                                                                              ],
+                                                                              [
+                                                                                {
+                                                                                  "content": "com.instagram.android:id/layout_comment_thread_post_button_click_area",
+                                                                                  "filterType": "equal",
+                                                                                  "type": "id"
+                                                                                }
+                                                                              ]
+                                                                            ],
+                                                                            "hiddenChildren": true,
+                                                                            "randomDistance": 0,
+                                                                            "searchTime": 3000,
+                                                                            "useOffset": false,
+                                                                            "serialType": "fixedValue",
+                                                                            "serial": 1,
+                                                                            "variable": "posted"
+                                                                          },
+                                                                          "id": "93b978f5-1287-4212-99d1-741c38ba5bfd",
+                                                                          "name": "click Post",
+                                                                          "type": "click"
+                                                                        },
+                                                                        {
+                                                                          "position": {
+                                                                            "x": 10690,
+                                                                            "y": 285
+                                                                          },
+                                                                          "id": "d4bd391c-3027-4a2d-b6ae-135949fe4d45",
+                                                                          "name": "pubblicato?",
+                                                                          "type": "script",
+                                                                          "config": {
+                                                                            "injectVariables": [
+                                                                              "posted"
+                                                                            ],
+                                                                            "script": "async function main({ posted }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { postOk: ok(posted) ? '1' : '0' }; }",
+                                                                            "type": "js",
+                                                                            "variableMap": [
+                                                                              {
+                                                                                "value": "postOk",
+                                                                                "variable": "postOk"
+                                                                              }
+                                                                            ]
+                                                                          }
+                                                                        },
+                                                                        {
+                                                                          "position": {
+                                                                            "x": 9800,
+                                                                            "y": 285
+                                                                          },
+                                                                          "config": {
+                                                                            "apposition": "and",
+                                                                            "children": [
+                                                                              {
+                                                                                "position": {
+                                                                                  "x": 9000,
+                                                                                  "y": 285
+                                                                                },
+                                                                                "config": {
+                                                                                  "content": "sh -c 'curl -sk -H \"ngrok-skip-browser-warning: 1\" --max-time 20 \"https://paying-cake-engulf.ngrok-free.dev/ack?dev=${dev}\"'",
+                                                                                  "timeout": 120000,
+                                                                                  "variable": "ackOut",
+                                                                                  "error": false
+                                                                                },
+                                                                                "id": "81943a9f-2773-4d5e-bb02-5e58ccbcfe0c",
+                                                                                "name": "ack relay",
+                                                                                "type": "executeADB"
+                                                                              }
+                                                                            ],
+                                                                            "conditionList": [
+                                                                              {
+                                                                                "probability": 50,
+                                                                                "relation": "equal",
+                                                                                "useVariable": "postOk",
+                                                                                "result": "1"
+                                                                              }
+                                                                            ],
+                                                                            "other": []
+                                                                          },
+                                                                          "id": "4cc92863-0e93-482b-abdb-85a30953f02a",
+                                                                          "name": "IF posted -> ack",
+                                                                          "type": "ifElse"
+                                                                        },
+                                                                        {
+                                                                          "position": {
+                                                                            "x": 10200,
+                                                                            "y": 285
+                                                                          },
+                                                                          "config": {
+                                                                            "timeoutMax": 3000,
+                                                                            "timeoutMin": 2000,
+                                                                            "timeoutType": "randomInterval"
+                                                                          },
+                                                                          "id": "57ada50e-8eaf-4d15-844c-eefb79bc01af",
+                                                                          "name": "wait",
+                                                                          "type": "waitTime"
+                                                                        }
+                                                                      ],
+                                                                      "conditionList": [
+                                                                        {
+                                                                          "probability": 50,
+                                                                          "relation": "equal",
+                                                                          "useVariable": "verificato",
+                                                                          "result": "1"
+                                                                        }
+                                                                      ],
+                                                                      "other": []
+                                                                    },
+                                                                    "id": "4adf2ae9-af6c-48ef-809b-c25d82d06b60",
+                                                                    "name": "IF testo verificato -> Post, ELSE chiudi tastiera",
+                                                                    "type": "ifElse"
+                                                                  }
+                                                                ],
+                                                                "conditionList": [
+                                                                  {
+                                                                    "probability": 50,
+                                                                    "relation": "equal",
+                                                                    "useVariable": "goType",
+                                                                    "result": "1"
+                                                                  }
+                                                                ],
+                                                                "other": []
+                                                              },
+                                                              "id": "f64cddfe-0fbd-4b08-84c7-a04dc3e66fd7",
+                                                              "name": "IF goType -> digita, ELSE chiudi tastiera",
+                                                              "type": "ifElse"
+                                                            },
+                                                            {
+                                                              "position": {
+                                                                "x": 15000,
+                                                                "y": 285
+                                                              },
+                                                              "id": "5f1accce-2cf2-45b1-95d7-6b09113eb7f3",
+                                                              "name": "chiudi tastiera se aperta",
+                                                              "type": "executeADB",
+                                                              "config": {
+                                                                "content": "sh -c 'dumpsys input_method | grep -qE \"mInputShown=true|mIsInputViewShown=true\" && input keyevent 4; echo ok'",
+                                                                "timeout": 120000,
+                                                                "variable": "kbOut",
+                                                                "error": false
+                                                              }
+                                                            },
+                                                            {
+                                                              "position": {
+                                                                "x": 15200,
+                                                                "y": 285
+                                                              },
+                                                              "id": "a3591606-2611-4430-b081-babcc5549f89",
+                                                              "name": "wait",
+                                                              "type": "waitTime",
+                                                              "config": {
+                                                                "timeoutMax": 1000,
+                                                                "timeoutMin": 600,
+                                                                "timeoutType": "randomInterval"
+                                                              }
+                                                            }
+                                                          ],
+                                                          "conditionList": [
+                                                            {
+                                                              "probability": 50,
+                                                              "relation": "equal",
+                                                              "useVariable": "goPost",
+                                                              "result": "1"
+                                                            }
+                                                          ],
+                                                          "other": []
+                                                        },
+                                                        "id": "525d44c9-2c00-415d-8077-8bc8ac7361ce",
+                                                        "name": "IF goPost",
+                                                        "type": "ifElse"
+                                                      },
+                                                      {
+                                                        "position": {
+                                                          "x": 15400,
+                                                          "y": 285
+                                                        },
+                                                        "id": "cbf5919f-a7b5-4ae3-8d45-2b762f4e2730",
+                                                        "name": "IF nessuna risposta -> scorri",
+                                                        "type": "ifElse",
+                                                        "config": {
+                                                          "apposition": "and",
+                                                          "other": [],
+                                                          "conditionList": [
+                                                            {
+                                                              "probability": 50,
+                                                              "relation": "equal",
+                                                              "useVariable": "goPost",
+                                                              "result": "0"
+                                                            }
+                                                          ],
+                                                          "children": [
+                                                            {
+                                                              "position": {
+                                                                "x": 15500,
+                                                                "y": 285
+                                                              },
+                                                              "id": "3b36004f-8278-438d-8118-81768e5b04e6",
+                                                              "name": "scroll sheet",
+                                                              "type": "executeADB",
+                                                              "config": {
+                                                                "content": "input swipe 360 900 360 500 1500",
+                                                                "timeout": 120000,
+                                                                "variable": "shScroll",
+                                                                "error": false
+                                                              }
+                                                            },
+                                                            {
+                                                              "position": {
+                                                                "x": 15600,
+                                                                "y": 285
+                                                              },
+                                                              "id": "0b2fc5eb-615d-4e6b-9ad6-cd9fa4287d74",
+                                                              "name": "wait",
+                                                              "type": "waitTime",
+                                                              "config": {
+                                                                "timeoutMax": 2500,
+                                                                "timeoutMin": 1500,
+                                                                "timeoutType": "randomInterval"
+                                                              }
+                                                            }
+                                                          ]
+                                                        }
+                                                      }
+                                                    ],
+                                                    "conditionList": [
+                                                      {
+                                                        "probability": 50,
+                                                        "relation": "equal",
+                                                        "useVariable": "goOn",
+                                                        "result": "1"
+                                                      }
+                                                    ]
+                                                  }
+                                                }
+                                              ],
+                                              "serialType": "randomInterval",
+                                              "maxTimes": 50,
+                                              "minTimes": 50
+                                            },
+                                            "id": "3e7265fa-1ed3-4d42-971d-6ccea617c338",
+                                            "name": "giri (50 per blocco)",
+                                            "type": "forTimes"
+                                          }
+                                        ],
+                                        "conditionList": [
+                                          {
+                                            "probability": 50,
+                                            "relation": "equal",
+                                            "useVariable": "goOn",
+                                            "result": "1"
+                                          }
+                                        ],
+                                        "other": []
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            ],
+                            "conditionList": [
+                              {
+                                "probability": 50,
+                                "relation": "equal",
+                                "useVariable": "ciSono",
+                                "result": "1"
+                              }
+                            ],
+                            "other": []
+                          },
+                          "id": "714be356-d99b-47d3-96af-0d8487cf4093",
+                          "name": "IF c'e' almeno un Reply (commenti di Instagram)",
+                          "type": "ifElse"
+                        },
+                        {
+                          "position": {
+                            "x": 13400,
+                            "y": 285
+                          },
+                          "config": {},
+                          "id": "e272b347-5a10-4780-b2d8-cac58a82cbab",
+                          "name": "back",
+                          "type": "goBack"
+                        },
+                        {
+                          "position": {
+                            "x": 13790,
+                            "y": 285
+                          },
+                          "id": "349c8030-329a-449d-9ceb-69ebe1ea0e07",
+                          "name": "azzera: commenti ancora aperti?",
+                          "type": "script",
+                          "config": {
+                            "injectVariables": [],
+                            "script": "async function main() { return { sheetStill: '', ancoraAperti: '0' }; }",
+                            "type": "js",
+                            "variableMap": [
+                              {
+                                "value": "sheetStill",
+                                "variable": "sheetStill"
+                              },
+                              {
+                                "value": "ancoraAperti",
+                                "variable": "ancoraAperti"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "position": {
+                            "x": 13800,
+                            "y": 285
+                          },
+                          "config": {
+                            "filterCollection": [
+                              [
+                                {
+                                  "content": "com.instagram.android:id/layout_comment_thread_edittext",
+                                  "filterType": "equal",
+                                  "type": "id"
+                                }
+                              ],
+                              [
+                                {
+                                  "content": "dd a comment",
+                                  "filterType": "contain",
+                                  "type": "text"
+                                }
+                              ],
+                              [
+                                {
+                                  "content": "dd a reply",
+                                  "filterType": "contain",
+                                  "type": "text"
+                                }
+                              ]
+                            ],
+                            "serialType": "fixedValue",
+                            "serial": 1,
+                            "hiddenChildren": false,
+                            "searchTime": 1200,
+                            "type": "text",
+                            "variable": "sheetStill",
+                            "error": false
+                          },
+                          "id": "58ab9567-80e3-40c8-9a76-903a06230ec1",
+                          "name": "la casella dei commenti si vede ancora?",
+                          "type": "getEle"
+                        },
+                        {
+                          "position": {
+                            "x": 13810,
+                            "y": 285
+                          },
+                          "id": "7c18e082-c253-4bd6-a47f-9dfc4a8700be",
+                          "name": "commenti ancora aperti?",
+                          "type": "script",
+                          "config": {
+                            "injectVariables": [
+                              "sheetStill"
+                            ],
+                            "script": "async function main({ sheetStill }) { const ok=v=>{ if(v===true) return true; if(v===undefined||v===null||v===false) return false; const s=String(v).trim().toLowerCase(); return !(s===''||s==='0'||s==='false'||s==='undefined'||s==='null'); }; return { ancoraAperti: ok(sheetStill) ? '1' : '0' }; }",
+                            "type": "js",
+                            "variableMap": [
+                              {
+                                "value": "ancoraAperti",
+                                "variable": "ancoraAperti"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "position": {
+                            "x": 14600,
+                            "y": 285
+                          },
+                          "config": {
+                            "apposition": "and",
+                            "children": [
+                              {
+                                "position": {
+                                  "x": 14200,
+                                  "y": 285
+                                },
+                                "config": {},
+                                "id": "611880b8-00d2-4f3c-afff-cdb18c41aff9",
+                                "name": "back",
+                                "type": "goBack"
+                              }
+                            ],
+                            "conditionList": [
+                              {
+                                "probability": 50,
+                                "relation": "equal",
+                                "useVariable": "ancoraAperti",
+                                "result": "1"
+                              }
+                            ],
+                            "other": []
+                          },
+                          "id": "78678d4d-488d-4604-a0a3-b21fccdabf17",
+                          "name": "IF commenti ancora aperti -> indietro",
+                          "type": "ifElse"
+                        }
+                      ],
+                      "conditionList": [
+                        {
+                          "probability": 50,
+                          "relation": "equal",
+                          "useVariable": "aperti",
+                          "result": "1"
+                        }
+                      ],
+                      "other": []
+                    },
+                    "id": "60b01a59-6698-4e8f-be3b-e2719b1b638b",
+                    "name": "IF commenti aperti",
+                    "type": "ifElse"
+                  },
+                  {
+                    "position": {
+                      "x": 16200,
+                      "y": 285
+                    },
+                    "config": {
+                      "timeoutMax": 2000,
+                      "timeoutMin": 1200,
+                      "timeoutType": "randomInterval"
+                    },
+                    "id": "46fc401b-832e-4a4d-8743-143d81d8743a",
+                    "name": "wait",
+                    "type": "waitTime"
+                  },
+                  {
+                    "position": {
+                      "x": 16600,
+                      "y": 285
+                    },
+                    "config": {
+                      "content": "input swipe 360 1000 360 300 280",
+                      "timeout": 120000,
+                      "variable": "swipeOut",
+                      "error": false
+                    },
+                    "id": "0b7805bf-6d84-4537-b324-2d0e863713e3",
+                    "name": "next reel",
+                    "type": "executeADB"
+                  },
+                  {
+                    "position": {
+                      "x": 17000,
+                      "y": 285
+                    },
+                    "config": {
+                      "timeoutMax": 4500,
+                      "timeoutMin": 3000,
+                      "timeoutType": "randomInterval"
+                    },
+                    "id": "b2216e45-8c46-420c-87ce-247bedd426ab",
+                    "name": "wait",
+                    "type": "waitTime"
+                  }
+                ],
+                "serialType": "randomInterval",
+                "maxTimes": 6,
+                "minTimes": 6
+              },
+              "id": "11847dad-b490-4d98-bfa7-899045810124",
+              "name": "For post",
+              "type": "forTimes"
+            }
+          ],
+          "conditionList": [
+            {
+              "probability": 50,
+              "relation": "exist",
+              "useVariable": "ownReel"
+            }
+          ],
+          "other": []
+        },
+        "id": "2fd03b83-6d88-4f31-a3d7-ecd1d3e10442",
+        "name": "IF reel aperto",
+        "type": "ifElse"
+      },
+      {
+        "position": {
+          "x": 23800,
+          "y": 285
+        },
+        "config": {
+          "content": "input keyevent 3",
+          "timeout": 120000,
+          "variable": "homeOut",
+          "error": false
+        },
+        "id": "a8a1f490-ac9d-4bee-90c7-dc13d7a90b1c",
+        "name": "HOME",
+        "type": "executeADB"
+      },
+      {
+        "position": {
+          "x": 24200,
+          "y": 285
+        },
+        "config": {},
+        "id": "7134ae75-f76c-4706-b4d7-6ca6b40ed098",
+        "name": "End task",
+        "type": "endTask"
+      }
+    ],
+    "otherContents": {
+      "startNode": {
+        "position": {
+          "x": 333,
+          "y": 285
+        },
+        "config": {},
+        "type": "start",
+        "id": "init-node"
+      },
+      "contents": [],
+      "edges": [],
+      "otherFunctionNode": []
+    },
+    "contentType": "phone",
+    "errorType": "skip"
+  }
+}
