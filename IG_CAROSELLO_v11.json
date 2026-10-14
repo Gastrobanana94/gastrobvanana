@@ -1,0 +1,5512 @@
+{
+ "title": "IG CAROSELLO v11",
+ "desc": "v11: il '+' della grafica nuova (in alto a sinistra, 5,3%/5,9% dello schermo: su Berlino il tocco al 6,5%/7,1% cadeva fuori dall'icona e il giro finiva 'ok' senza pubblicare). 4 tentativi: per nome, poi SEMPRE a coordinate se il composer non esce, alternando posizione nuova e vecchia; se esce il foglio 'Create' tocca 'Post'; il composer e' riconosciuto anche dal bottone Next/Select. Resto identico alla v10.",
+ "content": {
+  "startParamMap": [
+   {
+    "createFrom": "",
+    "id": "baae629d-d676-4888-a553-4b3accd4c50d",
+    "isNotRequired": true,
+    "key": "Foto1",
+    "type": "file",
+    "value": []
+   },
+   {
+    "createFrom": "",
+    "id": "ba4698ba-8aef-4674-a68f-bf119ee65eae",
+    "isNotRequired": true,
+    "key": "Foto2",
+    "type": "file",
+    "value": []
+   },
+   {
+    "createFrom": "",
+    "id": "d81a50a6-d9b3-4844-b161-2f608988dbb1",
+    "isNotRequired": true,
+    "key": "Foto3",
+    "type": "file",
+    "value": []
+   },
+   {
+    "contentable": true,
+    "createFrom": "",
+    "id": "66e43b96-a463-42e1-9da6-89060b85c439",
+    "isNotRequired": true,
+    "key": "Caption",
+    "length": 2200,
+    "type": "textarea",
+    "value": ""
+   }
+  ],
+  "contents": [
+   {
+    "position": {
+     "x": 400,
+     "y": 297
+    },
+    "config": {
+     "content": "pm grant com.instagram.android android.permission.READ_EXTERNAL_STORAGE; pm grant com.instagram.android android.permission.WRITE_EXTERNAL_STORAGE; pm grant com.instagram.android android.permission.READ_MEDIA_IMAGES; pm grant com.instagram.android android.permission.READ_MEDIA_VIDEO; pm grant com.instagram.android android.permission.CAMERA; pm grant com.instagram.android android.permission.POST_NOTIFICATIONS",
+     "timeout": 30000,
+     "error": false,
+     "variable": "permOut"
+    },
+    "id": "9c8e921e-3fb2-424e-ade3-509a569e85bc",
+    "name": "permessi a Instagram",
+    "type": "executeADB"
+   },
+   {
+    "position": {
+     "x": 800,
+     "y": 297
+    },
+    "config": {
+     "path": "/sdcard/Download"
+    },
+    "id": "abc4040f-e53d-40b5-b43e-c8d069c8e3d2",
+    "name": "svuota Download",
+    "type": "deleteFolder"
+   },
+   {
+    "position": {
+     "x": 1200,
+     "y": 297
+    },
+    "config": {
+     "injectVariables": [],
+     "script": "async function main() { return {\"nFoto\":\"0\",\"fotoOk\":\"0\",\"selOk\":\"0\",\"f2Ok\":\"0\",\"f3Ok\":\"0\",\"nextOk\":\"0\",\"ratioOk\":\"0\",\"tabOk\":\"0\",\"postOk\":\"0\",\"npY\":\"\",\"homeT\":\"\",\"homeOk\":\"0\",\"capOk\":\"0\",\"capConf\":\"0\",\"shareOk\":\"0\",\"pubblicato\":\"0\",\"piuOk\":\"0\",\"canY\":\"\",\"canYletto\":\"0\",\"recY\":\"\",\"passo\":\"inizio\"}; }",
+     "type": "js",
+     "variableMap": [
+      {
+       "value": "nFoto",
+       "variable": "nFoto"
+      },
+      {
+       "value": "fotoOk",
+       "variable": "fotoOk"
+      },
+      {
+       "value": "selOk",
+       "variable": "selOk"
+      },
+      {
+       "value": "f2Ok",
+       "variable": "f2Ok"
+      },
+      {
+       "value": "f3Ok",
+       "variable": "f3Ok"
+      },
+      {
+       "value": "nextOk",
+       "variable": "nextOk"
+      },
+      {
+       "value": "ratioOk",
+       "variable": "ratioOk"
+      },
+      {
+       "value": "tabOk",
+       "variable": "tabOk"
+      },
+      {
+       "value": "postOk",
+       "variable": "postOk"
+      },
+      {
+       "value": "npY",
+       "variable": "npY"
+      },
+      {
+       "value": "homeT",
+       "variable": "homeT"
+      },
+      {
+       "value": "homeOk",
+       "variable": "homeOk"
+      },
+      {
+       "value": "capOk",
+       "variable": "capOk"
+      },
+      {
+       "value": "capConf",
+       "variable": "capConf"
+      },
+      {
+       "value": "shareOk",
+       "variable": "shareOk"
+      },
+      {
+       "value": "pubblicato",
+       "variable": "pubblicato"
+      },
+      {
+       "value": "piuOk",
+       "variable": "piuOk"
+      },
+      {
+       "value": "canY",
+       "variable": "canY"
+      },
+      {
+       "value": "canYletto",
+       "variable": "canYletto"
+      },
+      {
+       "value": "recY",
+       "variable": "recY"
+      },
+      {
+       "value": "passo",
+       "variable": "passo"
+      }
+     ]
+    },
+    "id": "892dff2f-492b-4aed-b04a-e5157c6efbe1",
+    "name": "azzera",
+    "type": "script"
+   },
+   {
+    "position": {
+     "x": 2400,
+     "y": 297
+    },
+    "config": {
+     "conditionV3": [
+      [
+       {
+        "probability": 50,
+        "relation": "exist",
+        "useVariable": "Foto3"
+       }
+      ]
+     ],
+     "children": [
+      {
+       "position": {
+        "x": 1600,
+        "y": 297
+       },
+       "config": {
+        "inputType": "taskOrder",
+        "isUseVariable": false,
+        "useVariable": "Foto3"
+       },
+       "id": "df75b5b9-c4b4-4aaa-a74b-b03e86d63c8a",
+       "name": "carica Foto3",
+       "type": "uploadFile"
+      },
+      {
+       "position": {
+        "x": 2000,
+        "y": 297
+       },
+       "config": {
+        "timeoutMin": 900,
+        "timeoutMax": 1500,
+        "timeoutType": "randomInterval"
+       },
+       "id": "e77c9787-58e1-4b91-bdc3-98b73ee20e23",
+       "name": "wait",
+       "type": "waitTime"
+      }
+     ],
+     "other": []
+    },
+    "id": "03ae9862-5470-4236-8c31-821945236835",
+    "name": "IF c'e' Foto3 -> caricala",
+    "type": "ifElse"
+   },
+   {
+    "position": {
+     "x": 3600,
+     "y": 297
+    },
+    "config": {
+     "conditionV3": [
+      [
+       {
+        "probability": 50,
+        "relation": "exist",
+        "useVariable": "Foto2"
+       }
+      ]
+     ],
+     "children": [
+      {
+       "position": {
+        "x": 2800,
+        "y": 297
+       },
+       "config": {
+        "inputType": "taskOrder",
+        "isUseVariable": false,
+        "useVariable": "Foto2"
+       },
+       "id": "2d545873-107b-451b-b4d6-d901f02a462b",
+       "name": "carica Foto2",
+       "type": "uploadFile"
+      },
+      {
+       "position": {
+        "x": 3200,
+        "y": 297
+       },
+       "config": {
+        "timeoutMin": 900,
+        "timeoutMax": 1500,
+        "timeoutType": "randomInterval"
+       },
+       "id": "425f9afd-d857-447c-aa48-5d8f0e12eea0",
+       "name": "wait",
+       "type": "waitTime"
+      }
+     ],
+     "other": []
+    },
+    "id": "bdb117cc-ef36-4db5-a281-17a256a1b1c6",
+    "name": "IF c'e' Foto2 -> caricala",
+    "type": "ifElse"
+   },
+   {
+    "position": {
+     "x": 4800,
+     "y": 297
+    },
+    "config": {
+     "conditionV3": [
+      [
+       {
+        "probability": 50,
+        "relation": "exist",
+        "useVariable": "Foto1"
+       }
+      ]
+     ],
+     "children": [
+      {
+       "position": {
+        "x": 4000,
+        "y": 297
+       },
+       "config": {
+        "inputType": "taskOrder",
+        "isUseVariable": false,
+        "useVariable": "Foto1"
+       },
+       "id": "5685d922-fcac-4c94-988c-78cfb0733bf4",
+       "name": "carica Foto1",
+       "type": "uploadFile"
+      },
+      {
+       "position": {
+        "x": 4400,
+        "y": 297
+       },
+       "config": {
+        "timeoutMin": 900,
+        "timeoutMax": 1500,
+        "timeoutType": "randomInterval"
+       },
+       "id": "4fad37df-09b2-40f5-9f6d-2d52a4586020",
+       "name": "wait",
+       "type": "waitTime"
+      }
+     ],
+     "other": []
+    },
+    "id": "152be4ab-141b-4b48-86c2-fba7226e5676",
+    "name": "IF c'e' Foto1 -> caricala",
+    "type": "ifElse"
+   },
+   {
+    "position": {
+     "x": 7200,
+     "y": 297
+    },
+    "config": {
+     "serialType": "fixedValue",
+     "times": "10",
+     "children": [
+      {
+       "position": {
+        "x": 6800,
+        "y": 297
+       },
+       "config": {
+        "conditionV3": [
+         [
+          {
+           "probability": 50,
+           "relation": "equal",
+           "useVariable": "fotoOk",
+           "result": "0"
+          }
+         ]
+        ],
+        "children": [
+         {
+          "position": {
+           "x": 5200,
+           "y": 297
+          },
+          "config": {
+           "content": "sh -c 'ls /sdcard/Download/ 2>/dev/null | wc -l'",
+           "timeout": 120000,
+           "error": false,
+           "variable": "cOut"
+          },
+          "id": "310900ab-aba5-4acc-b900-30f6c7ccf58f",
+          "name": "quante?",
+          "type": "executeADB"
+         },
+         {
+          "position": {
+           "x": 5600,
+           "y": 297
+          },
+          "config": {
+           "injectVariables": [
+            "cOut"
+           ],
+           "script": "async function main({ cOut }) { const n=parseInt(String(cOut||\"\").trim())||0; return { nFoto: String(n), fotoOk: n>=2 ? \"1\" : \"0\" }; }",
+           "type": "js",
+           "variableMap": [
+            {
+             "value": "nFoto",
+             "variable": "nFoto"
+            },
+            {
+             "value": "fotoOk",
+             "variable": "fotoOk"
+            }
+           ]
+          },
+          "id": "778be3c4-c06b-43f6-9c3c-2ea779028439",
+          "name": "arrivate?",
+          "type": "script"
+         },
+         {
+          "position": {
+           "x": 6400,
+           "y": 297
+          },
+          "config": {
+           "conditionV3": [
+            [
+             {
+              "probability": 50,
+              "relation": "equal",
+              "useVariable": "fotoOk",
+              "result": "0"
+             }
+            ]
+           ],
+           "children": [
+            {
+             "position": {
+              "x": 6000,
+              "y": 297
+             },
+             "config": {
+              "timeoutMin": 2500,
+              "timeoutMax": 3500,
+              "timeoutType": "randomInterval"
+             },
+             "id": "6a9e4187-39e5-475b-a04c-306727f8a53c",
+             "name": "wait",
+             "type": "waitTime"
+            }
+           ],
+           "other": []
+          },
+          "id": "002b7ae2-722b-47e4-916a-fe83c464bc22",
+          "name": "IF no -> aspetta",
+          "type": "ifElse"
+         }
+        ],
+        "other": []
+       },
+       "id": "c567760c-7eb2-4e2b-b762-db63c67afb23",
+       "name": "IF non ancora 2",
+       "type": "ifElse"
+      }
+     ]
+    },
+    "id": "abf1d371-5213-4174-9a37-661e8490abcf",
+    "name": "aspetta che arrivino",
+    "type": "forTimes"
+   },
+   {
+    "position": {
+     "x": 8400,
+     "y": 297
+    },
+    "config": {
+     "conditionV3": [
+      [
+       {
+        "probability": 50,
+        "relation": "equal",
+        "useVariable": "fotoOk",
+        "result": "1"
+       }
+      ]
+     ],
+     "children": [
+      {
+       "position": {
+        "x": 7600,
+        "y": 297
+       },
+       "config": {
+        "content": "sh -c 'for f in /sdcard/Download/*; do touch \"$f\"; am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d \"file://$f\" >/dev/null 2>&1; done; echo ok'",
+        "timeout": 120000,
+        "error": false,
+        "variable": "scanOut"
+       },
+       "id": "89ed7e87-1973-4e54-8c86-dfeba7df072e",
+       "name": "media scan",
+       "type": "executeADB"
+      },
+      {
+       "position": {
+        "x": 8000,
+        "y": 297
+       },
+       "config": {
+        "timeoutMin": 1500,
+        "timeoutMax": 2200,
+        "timeoutType": "randomInterval"
+       },
+       "id": "0c939386-06e4-4823-875a-4eaf1d78ee5e",
+       "name": "wait",
+       "type": "waitTime"
+      }
+     ],
+     "other": []
+    },
+    "id": "dbb9dd25-f07b-4784-a300-1373ece26c25",
+    "name": "IF arrivate -> scansione galleria",
+    "type": "ifElse"
+   },
+   {
+    "position": {
+     "x": 8800,
+     "y": 297
+    },
+    "config": {
+     "content": "am force-stop com.instagram.android",
+     "timeout": 120000,
+     "error": false,
+     "variable": "stopOut"
+    },
+    "id": "4f18485b-ad53-4e89-a1b3-76f697ec2b84",
+    "name": "chiudi Instagram",
+    "type": "executeADB"
+   },
+   {
+    "position": {
+     "x": 9200,
+     "y": 297
+    },
+    "config": {
+     "timeoutMin": 1200,
+     "timeoutMax": 2000,
+     "timeoutType": "randomInterval"
+    },
+    "id": "410a2933-b246-42d5-bfb8-78e4ab9d5551",
+    "name": "wait",
+    "type": "waitTime"
+   },
+   {
+    "position": {
+     "x": 9600,
+     "y": 297
+    },
+    "config": {
+     "packgename": "com.instagram.android"
+    },
+    "id": "a60a3f0b-3c50-476c-b55f-533f91a4f741",
+    "name": "apri Instagram",
+    "type": "openApp"
+   },
+   {
+    "position": {
+     "x": 10000,
+     "y": 297
+    },
+    "config": {
+     "timeoutMin": 6000,
+     "timeoutMax": 8000,
+     "timeoutType": "randomInterval"
+    },
+    "id": "875d18c6-d140-4114-97e1-bad8cd01a595",
+    "name": "aspetta che sia pronta",
+    "type": "waitTime"
+   },
+   {
+    "position": {
+     "x": 10400,
+     "y": 297
+    },
+    "config": {
+     "doubleClick": false,
+     "filterCollection": [
+      [
+       {
+        "content": "ot now",
+        "filterType": "contain",
+        "type": "text"
+       }
+      ],
+      [
+       {
+        "content": "Not Now",
+        "filterType": "equal",
+        "type": "text"
+       }
+      ]
+     ],
+     "hiddenChildren": false,
+     "randomDistance": 0,
+     "searchTime": 600,
+     "serial": 1,
+     "serialType": "fixedValue",
+     "useOffset": false
+    },
+    "id": "551b4f31-3731-4606-8269-59e490f1975b",
+    "name": "pop-up 'Not now'",
+    "type": "click"
+   },
+   {
+    "position": {
+     "x": 10800,
+     "y": 297
+    },
+    "config": {
+     "content": "wm size",
+     "timeout": 120000,
+     "error": false,
+     "variable": "schermoOut"
+    },
+    "id": "36584bcf-dbd0-483f-9f04-c10ccc27206f",
+    "name": "misure dello schermo",
+    "type": "executeADB"
+   },
+   {
+    "position": {
+     "x": 11200,
+     "y": 297
+    },
+    "config": {
+     "injectVariables": [
+      "schermoOut"
+     ],
+     "script": "async function main({ schermoOut }) { const s=String(schermoOut||\"\"); const m=/Override size: *(\\d+)x(\\d+)/.exec(s) || /Physical size: *(\\d+)x(\\d+)/.exec(s); let w = m ? Number(m[1]) : 720; if (!(w>0)) w = 720; let h = m ? Number(m[2]) : w*2; if (!(h>w)) h = w*2; const R=x=>String(Math.round(x)); return { larg: R(w), alt: R(h), piuX: R(w*0.053), piuY: R(h*0.059), piuX2: R(w*0.065), piuY2: R(h*0.071), tabReelsX: R(w*0.70), tabHomeX: R(w*0.10), tabY: R(h*0.925) }; }",
+     "type": "js",
+     "variableMap": [
+      {
+       "value": "larg",
+       "variable": "larg"
+      },
+      {
+       "value": "alt",
+       "variable": "alt"
+      },
+      {
+       "value": "piuX",
+       "variable": "piuX"
+      },
+      {
+       "value": "piuY",
+       "variable": "piuY"
+      },
+      {
+       "value": "tabReelsX",
+       "variable": "tabReelsX"
+      },
+      {
+       "value": "tabHomeX",
+       "variable": "tabHomeX"
+      },
+      {
+       "value": "tabY",
+       "variable": "tabY"
+      },
+      {
+       "value": "piuX2",
+       "variable": "piuX2"
+      },
+      {
+       "value": "piuY2",
+       "variable": "piuY2"
+      }
+     ]
+    },
+    "id": "338b6401-b166-4953-9f75-d2bae67eea20",
+    "name": "posizioni",
+    "type": "script"
+   },
+   {
+    "position": {
+     "x": 11600,
+     "y": 297
+    },
+    "config": {
+     "error": false,
+     "isBase64": false,
+     "isScope": false
+    },
+    "id": "50f961bf-6275-40bc-bfd5-aded4329a2ef",
+    "name": "FOTO 0 - home",
+    "type": "screenshotPage"
+   },
+   {
+    "position": {
+     "x": 13200,
+     "y": 297
+    },
+    "config": {
+     "serialType": "randomInterval",
+     "minTimes": 14,
+     "maxTimes": 22,
+     "hiddenChildren": false,
+     "children": [
+      {
+       "position": {
+        "x": 12000,
+        "y": 297
+       },
+       "config": {
+        "timeoutMin": 2200,
+        "timeoutMax": 5200,
+        "timeoutType": "randomInterval"
+       },
+       "id": "062c83b7-0b51-4fa1-907b-744b6d694a77",
+       "name": "guarda",
+       "type": "waitTime"
+      },
+      {
+       "position": {
+        "x": 12400,
+        "y": 297
+       },
+       "config": {
+        "injectVariables": [
+         "larg",
+         "alt"
+        ],
+        "script": "async function main({ larg, alt }) { const w=Number(larg)||720, h=Number(alt)||1440; const R=x=>String(Math.round(x)); return { gx: R(w*(0.38+Math.random()*0.24)), gy1: R(h*0.66), gy2: R(h*0.40), durata: String(140+Math.floor(Math.random()*51)) }; }",
+        "type": "js",
+        "variableMap": [
+         {
+          "value": "gx",
+          "variable": "gx"
+         },
+         {
+          "value": "gy1",
+          "variable": "gy1"
+         },
+         {
+          "value": "gy2",
+          "variable": "gy2"
+         },
+         {
+          "value": "durata",
+          "variable": "durata"
+         }
+        ]
+       },
+       "id": "5b3d4111-a1be-40ab-88c7-4132e4fc3a55",
+       "name": "prepara lo scroll (home)",
+       "type": "script"
+      },
+      {
+       "position": {
+        "x": 12800,
+        "y": 297
+       },
+       "config": {
+        "content": "input swipe ${gx} ${gy1} ${gx} ${gy2} ${durata}",
+        "timeout": 120000,
+        "error": false,
+        "variable": "sw_home"
+       },
+       "id": "e81df3c6-3ad2-4bea-b279-d3e41c834343",
+       "name": "scroll home (140-190 ms)",
+       "type": "executeADB"
+      }
+     ]
+    },
+    "id": "b03ba5af-6fe8-4d18-96ae-5f291ee730a7",
+    "name": "warmup: scorri la home (a caso)",
+    "type": "forTimes"
+   },
+   {
+    "position": {
+     "x": 13600,
+     "y": 297
+    },
+    "config": {
+     "error": false,
+     "isBase64": false,
+     "isScope": false
+    },
+    "id": "6946aaa5-e92e-4a12-8919-9383297a6358",
+    "name": "FOTO 0b - home scrollata",
+    "type": "screenshotPage"
+   },
+   {
+    "position": {
+     "x": 14000,
+     "y": 297
+    },
+    "config": {
+     "doubleClick": false,
+     "filterCollection": [
+      [
+       {
+        "content": "Reels",
+        "filterType": "equal",
+        "type": "desc"
+       }
+      ],
+      [
+       {
+        "content": "reels",
+        "filterType": "equal",
+        "type": "desc"
+       }
+      ]
+     ],
+     "hiddenChildren": false,
+     "randomDistance": 0,
+     "searchTime": 2500,
+     "serial": 1,
+     "serialType": "fixedValue",
+     "useOffset": false,
+     "variable": "tabT"
+    },
+    "id": "096e05a5-f777-4d9d-8fea-164d2a6d21ef",
+    "name": "tab Reels (per nome)",
+    "type": "click"
+   },
+   {
+    "position": {
+     "x": 14400,
+     "y": 297
+    },
+    "config": {
+     "injectVariables": [
+      "tabT"
+     ],
+     "script": "async function main({ tabT }) { const v=String(tabT||\"\").trim(); return { tabOk: (v===\"true\"||v===\"1\")?\"1\":\"0\" }; }",
+     "type": "js",
+     "variableMap": [
+      {
+       "value": "tabOk",
+       "variable": "tabOk"
+      }
+     ]
+    },
+    "id": "5284740d-4e43-4ac0-b6fb-e6dea395abaa",
+    "name": "preso?",
+    "type": "script"
+   },
+   {
+    "position": {
+     "x": 15200,
+     "y": 297
+    },
+    "config": {
+     "conditionV3": [
+      [
+       {
+        "probability": 50,
+        "relation": "equal",
+        "useVariable": "tabOk",
+        "result": "0"
+       }
+      ]
+     ],
+     "children": [
+      {
+       "position": {
+        "x": 14800,
+        "y": 297
+       },
+       "config": {
+        "excuteError": "noProcessing",
+        "randomDistance": 0,
+        "x": "${tabReelsX}",
+        "y": "${tabY}"
+       },
+       "id": "91f78965-0fc6-4052-810a-329dab3ded5b",
+       "name": "tocca il tab Reels",
+       "type": "clickXY"
+      }
+     ],
+     "other": []
+    },
+    "id": "f9145cd2-757e-40ca-b8f0-e25008bea939",
+    "name": "IF no -> tocca la posizione",
+    "type": "ifElse"
+   },
+   {
+    "position": {
+     "x": 15600,
+     "y": 297
+    },
+    "config": {
+     "timeoutMin": 2000,
+     "timeoutMax": 3000,
+     "timeoutType": "randomInterval"
+    },
+    "id": "486f2cbf-6218-4da4-b63b-7a32aef7ce8a",
+    "name": "wait",
+    "type": "waitTime"
+   },
+   {
+    "position": {
+     "x": 17200,
+     "y": 297
+    },
+    "config": {
+     "serialType": "randomInterval",
+     "minTimes": 28,
+     "maxTimes": 40,
+     "hiddenChildren": false,
+     "children": [
+      {
+       "position": {
+        "x": 16000,
+        "y": 297
+       },
+       "config": {
+        "timeoutMin": 3500,
+        "timeoutMax": 8000,
+        "timeoutType": "randomInterval"
+       },
+       "id": "357be55b-06e8-4799-a77e-46b1de7f819a",
+       "name": "guarda",
+       "type": "waitTime"
+      },
+      {
+       "position": {
+        "x": 16400,
+        "y": 297
+       },
+       "config": {
+        "injectVariables": [
+         "larg",
+         "alt"
+        ],
+        "script": "async function main({ larg, alt }) { const w=Number(larg)||720, h=Number(alt)||1440; const R=x=>String(Math.round(x)); return { gx: R(w*(0.38+Math.random()*0.24)), gy1: R(h*0.74), gy2: R(h*0.30), durata: String(140+Math.floor(Math.random()*51)) }; }",
+        "type": "js",
+        "variableMap": [
+         {
+          "value": "gx",
+          "variable": "gx"
+         },
+         {
+          "value": "gy1",
+          "variable": "gy1"
+         },
+         {
+          "value": "gy2",
+          "variable": "gy2"
+         },
+         {
+          "value": "durata",
+          "variable": "durata"
+         }
+        ]
+       },
+       "id": "59500158-f638-4302-b3fe-d7462a24b02c",
+       "name": "prepara lo scroll (reels)",
+       "type": "script"
+      },
+      {
+       "position": {
+        "x": 16800,
+        "y": 297
+       },
+       "config": {
+        "content": "input swipe ${gx} ${gy1} ${gx} ${gy2} ${durata}",
+        "timeout": 120000,
+        "error": false,
+        "variable": "sw_reels"
+       },
+       "id": "571a2f03-a1dd-4a38-a323-6435756cd9f2",
+       "name": "scroll reels (140-190 ms)",
+       "type": "executeADB"
+      }
+     ]
+    },
+    "id": "2ccf3a9c-be85-4af8-b4a9-b290ead163a9",
+    "name": "warmup: guarda i reels (a caso)",
+    "type": "forTimes"
+   },
+   {
+    "position": {
+     "x": 17600,
+     "y": 297
+    },
+    "config": {
+     "error": false,
+     "isBase64": false,
+     "isScope": false
+    },
+    "id": "904d4886-45ab-4170-98cc-5905604fe9cf",
+    "name": "FOTO 0c - reels",
+    "type": "screenshotPage"
+   },
+   {
+    "position": {
+     "x": 18000,
+     "y": 297
+    },
+    "config": {
+     "content": "am force-stop com.instagram.android",
+     "timeout": 120000,
+     "error": false,
+     "variable": "wuStop"
+    },
+    "id": "35d4516d-4322-492c-8908-1fe4a42b3d35",
+    "name": "chiudi Instagram (si riparte puliti)",
+    "type": "executeADB"
+   },
+   {
+    "position": {
+     "x": 18400,
+     "y": 297
+    },
+    "config": {
+     "timeoutMin": 2000,
+     "timeoutMax": 3000,
+     "timeoutType": "randomInterval"
+    },
+    "id": "5e015949-2e17-4428-ada7-e4ba59f27a0c",
+    "name": "wait",
+    "type": "waitTime"
+   },
+   {
+    "position": {
+     "x": 18800,
+     "y": 297
+    },
+    "config": {
+     "packgename": "com.instagram.android"
+    },
+    "id": "7c2b0961-1c45-44a7-8c87-139e325e0ccb",
+    "name": "riapri Instagram",
+    "type": "openApp"
+   },
+   {
+    "position": {
+     "x": 19200,
+     "y": 297
+    },
+    "config": {
+     "timeoutMin": 6000,
+     "timeoutMax": 8000,
+     "timeoutType": "randomInterval"
+    },
+    "id": "6f1e5d26-3265-4e5c-98ca-1bdcc3b5cc71",
+    "name": "Instagram di nuovo pronta",
+    "type": "waitTime"
+   },
+   {
+    "position": {
+     "x": 19600,
+     "y": 297
+    },
+    "config": {
+     "doubleClick": false,
+     "filterCollection": [
+      [
+       {
+        "content": "ot now",
+        "filterType": "contain",
+        "type": "text"
+       }
+      ],
+      [
+       {
+        "content": "Not Now",
+        "filterType": "equal",
+        "type": "text"
+       }
+      ]
+     ],
+     "hiddenChildren": false,
+     "randomDistance": 0,
+     "searchTime": 600,
+     "serial": 1,
+     "serialType": "fixedValue",
+     "useOffset": false
+    },
+    "id": "64395653-3213-4d14-98f3-340040935071",
+    "name": "pop-up 'Not now'",
+    "type": "click"
+   },
+   {
+    "position": {
+     "x": 20000,
+     "y": 297
+    },
+    "config": {
+     "timeoutMin": 3000,
+     "timeoutMax": 4500,
+     "timeoutType": "randomInterval"
+    },
+    "id": "15f495dc-99a4-44e9-b1ca-aa69ca79bca0",
+    "name": "respiro",
+    "type": "waitTime"
+   },
+   {
+    "position": {
+     "x": 20400,
+     "y": 297
+    },
+    "config": {
+     "error": false,
+     "isBase64": false,
+     "isScope": false
+    },
+    "id": "dd0f4db3-29a6-4fee-bdf6-a7d1c00100fd",
+    "name": "FOTO 0d - warmup finito, Instagram riavviata",
+    "type": "screenshotPage"
+   },
+   {
+    "position": {
+     "x": 28000,
+     "y": 297
+    },
+    "config": {
+     "serialType": "fixedValue",
+     "times": "4",
+     "children": [
+      {
+       "position": {
+        "x": 27600,
+        "y": 297
+       },
+       "config": {
+        "conditionV3": [
+         [
+          {
+           "probability": 50,
+           "relation": "equal",
+           "useVariable": "postOk",
+           "result": "0"
+          }
+         ]
+        ],
+        "children": [
+         {
+          "position": {
+           "x": 20800,
+           "y": 297
+          },
+          "config": {
+           "doubleClick": false,
+           "filterCollection": [
+            [
+             {
+              "content": "com.instagram.android:id/feed_tab",
+              "filterType": "equal",
+              "type": "id"
+             }
+            ],
+            [
+             {
+              "content": "Home",
+              "filterType": "contain",
+              "type": "desc"
+             }
+            ],
+            [
+             {
+              "content": "home",
+              "filterType": "contain",
+              "type": "desc"
+             }
+            ]
+           ],
+           "hiddenChildren": false,
+           "randomDistance": 0,
+           "searchTime": 2500,
+           "serial": 1,
+           "serialType": "fixedValue",
+           "useOffset": false,
+           "variable": "homeT"
+          },
+          "id": "1fdbfbaf-93a6-4703-b9e4-762304582780",
+          "name": "tab Home",
+          "type": "click"
+         },
+         {
+          "position": {
+           "x": 21200,
+           "y": 297
+          },
+          "config": {
+           "injectVariables": [
+            "homeT"
+           ],
+           "script": "async function main({ homeT }) { const v=String(homeT||\"\").trim(); return { homeOk: (v===\"true\"||v===\"1\")?\"1\":\"0\" }; }",
+           "type": "js",
+           "variableMap": [
+            {
+             "value": "homeOk",
+             "variable": "homeOk"
+            }
+           ]
+          },
+          "id": "e9ee717e-8dad-4fd6-99ca-ef247d607fd6",
+          "name": "tab preso?",
+          "type": "script"
+         },
+         {
+          "position": {
+           "x": 22000,
+           "y": 297
+          },
+          "config": {
+           "conditionV3": [
+            [
+             {
+              "probability": 50,
+              "relation": "equal",
+              "useVariable": "homeOk",
+              "result": "0"
+             }
+            ]
+           ],
+           "children": [
+            {
+             "position": {
+              "x": 21600,
+              "y": 297
+             },
+             "config": {
+              "excuteError": "noProcessing",
+              "randomDistance": 0,
+              "x": "${tabHomeX}",
+              "y": "${tabY}"
+             },
+             "id": "f2387ba4-444c-42a3-9111-95acb67d4fff",
+             "name": "tab Home (10% x 92,5%)",
+             "type": "clickXY"
+            }
+           ],
+           "other": []
+          },
+          "id": "bddd89e2-f553-4504-8a1f-b3d806c637a4",
+          "name": "IF il tab non si legge -> posizione",
+          "type": "ifElse"
+         },
+         {
+          "position": {
+           "x": 22400,
+           "y": 297
+          },
+          "config": {
+           "timeoutMin": 1600,
+           "timeoutMax": 2400,
+           "timeoutType": "randomInterval"
+          },
+          "id": "dad8aabd-86d9-4cff-96dd-77bacda0b08f",
+          "name": "wait",
+          "type": "waitTime"
+         },
+         {
+          "position": {
+           "x": 22800,
+           "y": 297
+          },
+          "config": {
+           "doubleClick": false,
+           "filterCollection": [
+            [
+             {
+              "content": "Create",
+              "filterType": "equal",
+              "type": "desc"
+             }
+            ],
+            [
+             {
+              "content": "Create new post",
+              "filterType": "contain",
+              "type": "desc"
+             }
+            ],
+            [
+             {
+              "content": "New post",
+              "filterType": "contain",
+              "type": "desc"
+             }
+            ],
+            [
+             {
+              "content": "Crea",
+              "filterType": "contain",
+              "type": "desc"
+             }
+            ],
+            [
+             {
+              "content": "Create",
+              "filterType": "contain",
+              "type": "desc"
+             }
+            ]
+           ],
+           "hiddenChildren": false,
+           "randomDistance": 0,
+           "searchTime": 2000,
+           "serial": 1,
+           "serialType": "fixedValue",
+           "useOffset": false,
+           "variable": "piuT"
+          },
+          "id": "683d9396-14e4-4f8a-8b1a-65711ff2decf",
+          "name": "tocca il + (per nome)",
+          "type": "click"
+         },
+         {
+          "position": {
+           "x": 23200,
+           "y": 297
+          },
+          "config": {
+           "injectVariables": [
+            "piuT"
+           ],
+           "script": "async function main({ piuT }) { const v=String(piuT||\"\").trim(); const ok=(v===\"true\"||v===\"1\"); return { piuOk: ok?\"1\":\"0\", comePiu: ok?\"nome\":\"posizione\" }; }",
+           "type": "js",
+           "variableMap": [
+            {
+             "value": "piuOk",
+             "variable": "piuOk"
+            },
+            {
+             "value": "comePiu",
+             "variable": "comePiu"
+            }
+           ]
+          },
+          "id": "57e53519-49d4-41a0-a62a-4c90aa1cf8ff",
+          "name": "+ preso?",
+          "type": "script"
+         },
+         {
+          "position": {
+           "x": 70000,
+           "y": 285
+          },
+          "id": "2f65eb9d-f5b7-4796-aea0-24dc0305e811",
+          "name": "quale posizione del + (tentativi dispari: grafica nuova 5,3%/5,9%; pari: vecchia 6,5%/7,1%)",
+          "type": "script",
+          "config": {
+           "injectVariables": [
+            "kp",
+            "piuX",
+            "piuY",
+            "piuX2",
+            "piuY2",
+            "piuOk"
+           ],
+           "script": "async function main({ kp, piuX, piuY, piuX2, piuY2, piuOk }) { const n=parseInt(kp,10)||0; const pari = n%2===0; const coordOra = (String(piuOk)!==\"1\" || n!==1) ? \"1\" : \"0\"; return { pX: pari ? piuX2 : piuX, pY: pari ? piuY2 : piuY, coordOra }; }",
+           "type": "js",
+           "variableMap": [
+            {
+             "value": "pX",
+             "variable": "pX"
+            },
+            {
+             "value": "pY",
+             "variable": "pY"
+            },
+            {
+             "value": "coordOra",
+             "variable": "coordOra"
+            }
+           ]
+          }
+         },
+         {
+          "position": {
+           "x": 24000,
+           "y": 297
+          },
+          "config": {
+           "conditionV3": [
+            [
+             {
+              "probability": 50,
+              "relation": "equal",
+              "useVariable": "coordOra",
+              "result": "1"
+             }
+            ]
+           ],
+           "children": [
+            {
+             "position": {
+              "x": 23600,
+              "y": 297
+             },
+             "config": {
+              "excuteError": "noProcessing",
+              "randomDistance": 0,
+              "x": "${pX}",
+              "y": "${pY}"
+             },
+             "id": "67df9d78-e561-40bb-9554-fa647dd5665a",
+             "name": "tocca il + (posizione scelta)",
+             "type": "clickXY"
+            }
+           ],
+           "other": []
+          },
+          "id": "e551584d-9be3-4cc7-a5b7-5585a4d42f6d",
+          "name": "IF il nome non si legge, o e' dal 2o tentativo in poi -> + a coordinate",
+          "type": "ifElse"
+         },
+         {
+          "position": {
+           "x": 24400,
+           "y": 297
+          },
+          "config": {
+           "timeoutMin": 2500,
+           "timeoutMax": 3500,
+           "timeoutType": "randomInterval"
+          },
+          "id": "7c671071-c5db-44aa-8d68-e6fda84beb7c",
+          "name": "si apre il composer",
+          "type": "waitTime"
+         },
+         {
+          "position": {
+           "x": 24800,
+           "y": 297
+          },
+          "config": {
+           "error": false,
+           "isBase64": false,
+           "isScope": false
+          },
+          "id": "aedcd93d-a766-4130-9596-d967afbb501e",
+          "name": "FOTO 1 - quale composer e' uscito?",
+          "type": "screenshotPage"
+         },
+         {
+          "position": {
+           "x": 25200,
+           "y": 297
+          },
+          "config": {
+           "injectVariables": [],
+           "script": "async function main() { return { npY: \"\" }; }",
+           "type": "js",
+           "variableMap": [
+            {
+             "value": "npY",
+             "variable": "npY"
+            }
+           ]
+          },
+          "id": "387ffd6a-4e99-400b-870d-aabbcde0c445",
+          "name": "azzera",
+          "type": "script"
+         },
+         {
+          "position": {
+           "x": 70010,
+           "y": 285
+          },
+          "id": "b2599da4-ed63-4fba-bb89-82d857809594",
+          "name": "se e' uscito il foglio 'Create' -> tocca 'Post'",
+          "type": "click",
+          "config": {
+           "doubleClick": false,
+           "filterCollection": [
+            [
+             {
+              "content": "Post",
+              "filterType": "equal",
+              "type": "text"
+             }
+            ],
+            [
+             {
+              "content": "Post",
+              "filterType": "equal",
+              "type": "desc"
+             }
+            ]
+           ],
+           "hiddenChildren": false,
+           "randomDistance": 0,
+           "searchTime": 1200,
+           "serial": 1,
+           "serialType": "fixedValue",
+           "useOffset": false,
+           "excuteError": "noProcessing"
+          }
+         },
+         {
+          "position": {
+           "x": 25600,
+           "y": 297
+          },
+          "config": {
+           "filterCollection": [
+            [
+             {
+              "content": "New post",
+              "filterType": "contain",
+              "type": "text"
+             }
+            ],
+            [
+             {
+              "content": "ew post",
+              "filterType": "contain",
+              "type": "text"
+             }
+            ],
+            [
+             {
+              "content": "Nuovo post",
+              "filterType": "contain",
+              "type": "text"
+             }
+            ],
+            [
+             {
+              "content": "New post",
+              "filterType": "contain",
+              "type": "desc"
+             }
+            ],
+            [
+             {
+              "content": "com.instagram.android:id/creation_next_button",
+              "filterType": "equal",
+              "type": "id"
+             }
+            ],
+            [
+             {
+              "content": "com.instagram.android:id/multi_select_slide_button",
+              "filterType": "contain",
+              "type": "id"
+             }
+            ],
+            [
+             {
+              "content": "SELECT MULTIPLE",
+              "filterType": "equal",
+              "type": "text"
+             }
+            ]
+           ],
+           "hiddenChildren": false,
+           "searchTime": 3500,
+           "serial": 1,
+           "serialType": "fixedValue",
+           "variable": "npY"
+          },
+          "id": "5ce58b17-6efc-4c1e-8fa8-3348fa07535c",
+          "name": "c'e' scritto 'New post'?",
+          "type": "waitEle"
+         },
+         {
+          "position": {
+           "x": 26000,
+           "y": 297
+          },
+          "config": {
+           "injectVariables": [
+            "npY"
+           ],
+           "script": "async function main({ npY }) { const v=String(npY||\"\").trim(); const ok = v!==\"\" && !/^(false|undefined|null|0)$/i.test(v); return { postOk: ok?\"1\":\"0\" }; }",
+           "type": "js",
+           "variableMap": [
+            {
+             "value": "postOk",
+             "variable": "postOk"
+            }
+           ]
+          },
+          "id": "73321fb1-5f65-4cf1-a9af-ae1d45d6cb63",
+          "name": "composer POST?",
+          "type": "script"
+         },
+         {
+          "position": {
+           "x": 27200,
+           "y": 297
+          },
+          "config": {
+           "conditionV3": [
+            [
+             {
+              "probability": 50,
+              "relation": "equal",
+              "useVariable": "postOk",
+              "result": "0"
+             }
+            ]
+           ],
+           "children": [
+            {
+             "position": {
+              "x": 26400,
+              "y": 297
+             },
+             "config": {
+              "content": "input keyevent 4",
+              "timeout": 120000,
+              "error": false,
+              "variable": "bkComposer"
+             },
+             "id": "6c164bb1-d97b-4a08-8601-98664821e167",
+             "name": "BACK (chiude il composer sbagliato)",
+             "type": "executeADB"
+            },
+            {
+             "position": {
+              "x": 26800,
+              "y": 297
+             },
+             "config": {
+              "timeoutMin": 1800,
+              "timeoutMax": 2600,
+              "timeoutType": "randomInterval"
+             },
+             "id": "6971c10b-db6b-4a55-a614-b40d0f3ffd60",
+             "name": "wait",
+             "type": "waitTime"
+            }
+           ],
+           "other": []
+          },
+          "id": "ff5cbde0-d070-4eda-b37b-8aa663ef7d72",
+          "name": "IF non e' il composer POST -> chiudilo",
+          "type": "ifElse"
+         }
+        ],
+        "other": []
+       },
+       "id": "491993dc-2ba5-4c2e-96c1-b8ed744049a4",
+       "name": "IF non ci sono ancora",
+       "type": "ifElse"
+      }
+     ],
+     "variableIndex": "kp"
+    },
+    "id": "eb879616-442f-4c02-8264-2bd44387dd52",
+    "name": "apri il composer POST (4 tentativi)",
+    "type": "forTimes"
+   },
+   {
+    "position": {
+     "x": 28400,
+     "y": 297
+    },
+    "config": {
+     "error": false,
+     "isBase64": false,
+     "isScope": false
+    },
+    "id": "ab1d1492-f80d-4239-aafc-34c4a1600b45",
+    "name": "FOTO 1b - composer POST?",
+    "type": "screenshotPage"
+   },
+   {
+    "position": {
+     "x": 30000,
+     "y": 297
+    },
+    "config": {
+     "conditionV3": [
+      [
+       {
+        "probability": 50,
+        "relation": "equal",
+        "useVariable": "postOk",
+        "result": "0"
+       }
+      ]
+     ],
+     "children": [
+      {
+       "position": {
+        "x": 28800,
+        "y": 297
+       },
+       "config": {
+        "injectVariables": [],
+        "script": "async function main() { return { passo: \"FERMO: col + non esce il composer dei POST (guarda FOTO 1), non vado avanti\" }; }",
+        "type": "js",
+        "variableMap": [
+         {
+          "value": "passo",
+          "variable": "passo"
+         }
+        ]
+       },
+       "id": "ba233da5-56e7-4263-b62f-3ac71ed60878",
+       "name": "fermo",
+       "type": "script"
+      },
+      {
+       "position": {
+        "x": 29200,
+        "y": 297
+       },
+       "config": {
+        "content": "input keyevent 3",
+        "timeout": 120000,
+        "error": false,
+        "variable": "fineOut"
+       },
+       "id": "0d8198a1-cad6-45a9-8bbe-4d189e54f9fa",
+       "name": "HOME del telefono",
+       "type": "executeADB"
+      },
+      {
+       "position": {
+        "x": 29600,
+        "y": 297
+       },
+       "config": {},
+       "id": "e361e3fb-9ab8-49d9-a7b1-fe237404f1d5",
+       "name": "fine",
+       "type": "endTask"
+      }
+     ],
+     "other": []
+    },
+    "id": "59406bfe-4922-440c-922d-fcbcdb782f7d",
+    "name": "IF non esce il composer POST -> FERMO",
+    "type": "ifElse"
+   },
+   {
+    "position": {
+     "x": 102400,
+     "y": 297
+    },
+    "config": {
+     "conditionV3": [
+      [
+       {
+        "probability": 50,
+        "relation": "equal",
+        "useVariable": "fotoOk",
+        "result": "1"
+       }
+      ]
+     ],
+     "children": [
+      {
+       "position": {
+        "x": 40000,
+        "y": 297
+       },
+       "config": {
+        "serialType": "fixedValue",
+        "times": "6",
+        "children": [
+         {
+          "position": {
+           "x": 30400,
+           "y": 297
+          },
+          "config": {
+           "filterCollection": [
+            [
+             {
+              "content": "com.instagram.android:id/multi_select_slide_button",
+              "filterType": "equal",
+              "type": "id"
+             }
+            ]
+           ],
+           "hiddenChildren": false,
+           "searchTime": 2500,
+           "serial": 1,
+           "serialType": "fixedValue",
+           "variable": "SELECT_v0"
+          },
+          "id": "b9988ebc-bb7d-4dd4-8aaa-00fd385cd7f0",
+          "name": "c'e' il bottone Select?",
+          "type": "waitEle"
+         },
+         {
+          "position": {
+           "x": 31600,
+           "y": 297
+          },
+          "config": {
+           "conditionV3": [
+            [
+             {
+              "probability": 50,
+              "relation": "exist",
+              "useVariable": "SELECT_v0"
+             }
+            ]
+           ],
+           "children": [
+            {
+             "position": {
+              "x": 30800,
+              "y": 297
+             },
+             "config": {
+              "doubleClick": false,
+              "filterCollection": [
+               [
+                {
+                 "content": "com.instagram.android:id/multi_select_slide_button",
+                 "filterType": "equal",
+                 "type": "id"
+                }
+               ]
+              ],
+              "hiddenChildren": false,
+              "randomDistance": 0,
+              "searchTime": 3000,
+              "serial": 1,
+              "serialType": "fixedValue",
+              "useOffset": false
+             },
+             "id": "54a9da39-4fe8-4418-b4ef-84b44f59e0e2",
+             "name": "clicca il bottone Select",
+             "type": "click"
+            },
+            {
+             "position": {
+              "x": 31200,
+              "y": 297
+             },
+             "config": {},
+             "id": "63d1ff94-e1a8-4b66-b4cb-c8963e32f685",
+             "name": "esci dal giro",
+             "type": "breakLoop"
+            }
+           ],
+           "other": []
+          },
+          "id": "4bac625c-e6bb-425d-a4b9-49fdce548ce7",
+          "name": "IF c'e' il bottone Select -> clicca",
+          "type": "ifElse"
+         },
+         {
+          "position": {
+           "x": 32000,
+           "y": 297
+          },
+          "config": {
+           "filterCollection": [
+            [
+             {
+              "content": "com.instagram.android:id/multi_select_slide_button_alt",
+              "filterType": "equal",
+              "type": "id"
+             }
+            ]
+           ],
+           "hiddenChildren": false,
+           "searchTime": 2500,
+           "serial": 1,
+           "serialType": "fixedValue",
+           "variable": "SELECT_v1"
+          },
+          "id": "90857e1e-1e57-45ca-9d35-2ef51337e93d",
+          "name": "c'e' il bottone Select (alt)?",
+          "type": "waitEle"
+         },
+         {
+          "position": {
+           "x": 33200,
+           "y": 297
+          },
+          "config": {
+           "conditionV3": [
+            [
+             {
+              "probability": 50,
+              "relation": "exist",
+              "useVariable": "SELECT_v1"
+             }
+            ]
+           ],
+           "children": [
+            {
+             "position": {
+              "x": 32400,
+              "y": 297
+             },
+             "config": {
+              "doubleClick": false,
+              "filterCollection": [
+               [
+                {
+                 "content": "com.instagram.android:id/multi_select_slide_button_alt",
+                 "filterType": "equal",
+                 "type": "id"
+                }
+               ]
+              ],
+              "hiddenChildren": false,
+              "randomDistance": 0,
+              "searchTime": 3000,
+              "serial": 1,
+              "serialType": "fixedValue",
+              "useOffset": false
+             },
+             "id": "031bdfae-383b-417d-aa39-c748a1e02eb9",
+             "name": "clicca il bottone Select (alt)",
+             "type": "click"
+            },
+            {
+             "position": {
+              "x": 32800,
+              "y": 297
+             },
+             "config": {},
+             "id": "2f41c963-093c-4903-a3e3-d9d26861742e",
+             "name": "esci dal giro",
+             "type": "breakLoop"
+            }
+           ],
+           "other": []
+          },
+          "id": "bf23360e-bcc4-4c42-acbf-63a588f33fae",
+          "name": "IF c'e' il bottone Select (alt) -> clicca",
+          "type": "ifElse"
+         },
+         {
+          "position": {
+           "x": 33600,
+           "y": 297
+          },
+          "config": {
+           "filterCollection": [
+            [
+             {
+              "content": "SELECT MULTIPLE",
+              "filterType": "equal",
+              "type": "text"
+             }
+            ]
+           ],
+           "hiddenChildren": false,
+           "searchTime": 2500,
+           "serial": 1,
+           "serialType": "fixedValue",
+           "variable": "SELECT_v2"
+          },
+          "id": "22fec111-ef5e-4fa9-a26b-f9fc833c1d33",
+          "name": "c'e' la scritta SELECT MULTIPLE?",
+          "type": "waitEle"
+         },
+         {
+          "position": {
+           "x": 34800,
+           "y": 297
+          },
+          "config": {
+           "conditionV3": [
+            [
+             {
+              "probability": 50,
+              "relation": "exist",
+              "useVariable": "SELECT_v2"
+             }
+            ]
+           ],
+           "children": [
+            {
+             "position": {
+              "x": 34000,
+              "y": 297
+             },
+             "config": {
+              "doubleClick": false,
+              "filterCollection": [
+               [
+                {
+                 "content": "SELECT MULTIPLE",
+                 "filterType": "equal",
+                 "type": "text"
+                }
+               ]
+              ],
+              "hiddenChildren": false,
+              "randomDistance": 0,
+              "searchTime": 3000,
+              "serial": 1,
+              "serialType": "fixedValue",
+              "useOffset": false
+             },
+             "id": "c45ec85e-7c03-4f43-afba-8999941c359c",
+             "name": "clicca la scritta SELECT MULTIPLE",
+             "type": "click"
+            },
+            {
+             "position": {
+              "x": 34400,
+              "y": 297
+             },
+             "config": {},
+             "id": "1701b1e7-581c-4430-ae04-10623a0f1c49",
+             "name": "esci dal giro",
+             "type": "breakLoop"
+            }
+           ],
+           "other": []
+          },
+          "id": "7c7d50b3-fca7-498c-a03c-b51877345b8a",
+          "name": "IF c'e' la scritta SELECT MULTIPLE -> clicca",
+          "type": "ifElse"
+         },
+         {
+          "position": {
+           "x": 35200,
+           "y": 297
+          },
+          "config": {
+           "filterCollection": [
+            [
+             {
+              "content": "Select",
+              "filterType": "equal",
+              "type": "text"
+             }
+            ]
+           ],
+           "hiddenChildren": false,
+           "searchTime": 2500,
+           "serial": 1,
+           "serialType": "fixedValue",
+           "variable": "SELECT_v3"
+          },
+          "id": "e2b600b2-bdfc-448a-8e9a-3346bc8837a1",
+          "name": "c'e' la scritta Select?",
+          "type": "waitEle"
+         },
+         {
+          "position": {
+           "x": 36400,
+           "y": 297
+          },
+          "config": {
+           "conditionV3": [
+            [
+             {
+              "probability": 50,
+              "relation": "exist",
+              "useVariable": "SELECT_v3"
+             }
+            ]
+           ],
+           "children": [
+            {
+             "position": {
+              "x": 35600,
+              "y": 297
+             },
+             "config": {
+              "doubleClick": false,
+              "filterCollection": [
+               [
+                {
+                 "content": "Select",
+                 "filterType": "equal",
+                 "type": "text"
+                }
+               ]
+              ],
+              "hiddenChildren": false,
+              "randomDistance": 0,
+              "searchTime": 3000,
+              "serial": 1,
+              "serialType": "fixedValue",
+              "useOffset": false
+             },
+             "id": "2c4b7dc2-2653-4744-a383-070e60d73b33",
+             "name": "clicca la scritta Select",
+             "type": "click"
+            },
+            {
+             "position": {
+              "x": 36000,
+              "y": 297
+             },
+             "config": {},
+             "id": "f18e6368-5f17-49f8-bef5-b71d429f1f8b",
+             "name": "esci dal giro",
+             "type": "breakLoop"
+            }
+           ],
+           "other": []
+          },
+          "id": "cf87cb22-f377-435a-8d05-0f2c993a215d",
+          "name": "IF c'e' la scritta Select -> clicca",
+          "type": "ifElse"
+         },
+         {
+          "position": {
+           "x": 36800,
+           "y": 297
+          },
+          "config": {
+           "filterCollection": [
+            [
+             {
+              "content": "Select",
+              "filterType": "equal",
+              "type": "desc"
+             }
+            ]
+           ],
+           "hiddenChildren": false,
+           "searchTime": 2500,
+           "serial": 1,
+           "serialType": "fixedValue",
+           "variable": "SELECT_v4"
+          },
+          "id": "ec594d08-aec4-47b8-b18c-8ceafdbc3351",
+          "name": "c'e' Select (desc)?",
+          "type": "waitEle"
+         },
+         {
+          "position": {
+           "x": 38000,
+           "y": 297
+          },
+          "config": {
+           "conditionV3": [
+            [
+             {
+              "probability": 50,
+              "relation": "exist",
+              "useVariable": "SELECT_v4"
+             }
+            ]
+           ],
+           "children": [
+            {
+             "position": {
+              "x": 37200,
+              "y": 297
+             },
+             "config": {
+              "doubleClick": false,
+              "filterCollection": [
+               [
+                {
+                 "content": "Select",
+                 "filterType": "equal",
+                 "type": "desc"
+                }
+               ]
+              ],
+              "hiddenChildren": false,
+              "randomDistance": 0,
+              "searchTime": 3000,
+              "serial": 1,
+              "serialType": "fixedValue",
+              "useOffset": false
+             },
+             "id": "57cbde73-90cd-438e-957d-09906508d37d",
+             "name": "clicca Select (desc)",
+             "type": "click"
+            },
+            {
+             "position": {
+              "x": 37600,
+              "y": 297
+             },
+             "config": {},
+             "id": "49a9887b-2887-4803-8e94-6c3b9d2c0575",
+             "name": "esci dal giro",
+             "type": "breakLoop"
+            }
+           ],
+           "other": []
+          },
+          "id": "708bd31b-6cd3-4145-a13b-2bb2cdb4e1ce",
+          "name": "IF c'e' Select (desc) -> clicca",
+          "type": "ifElse"
+         },
+         {
+          "position": {
+           "x": 38400,
+           "y": 297
+          },
+          "config": {
+           "filterCollection": [
+            [
+             {
+              "content": "elect",
+              "filterType": "contain",
+              "type": "text"
+             }
+            ]
+           ],
+           "hiddenChildren": false,
+           "searchTime": 2500,
+           "serial": 1,
+           "serialType": "fixedValue",
+           "variable": "SELECT_v5"
+          },
+          "id": "6e22a59d-38bb-439f-8d8c-61e075bb7c2e",
+          "name": "c'e' Select (parziale)?",
+          "type": "waitEle"
+         },
+         {
+          "position": {
+           "x": 39600,
+           "y": 297
+          },
+          "config": {
+           "conditionV3": [
+            [
+             {
+              "probability": 50,
+              "relation": "exist",
+              "useVariable": "SELECT_v5"
+             }
+            ]
+           ],
+           "children": [
+            {
+             "position": {
+              "x": 38800,
+              "y": 297
+             },
+             "config": {
+              "doubleClick": false,
+              "filterCollection": [
+               [
+                {
+                 "content": "elect",
+                 "filterType": "contain",
+                 "type": "text"
+                }
+               ]
+              ],
+              "hiddenChildren": false,
+              "randomDistance": 0,
+              "searchTime": 3000,
+              "serial": 1,
+              "serialType": "fixedValue",
+              "useOffset": false
+             },
+             "id": "f010b6f2-373a-4df6-acd3-32393e441a54",
+             "name": "clicca Select (parziale)",
+             "type": "click"
+            },
+            {
+             "position": {
+              "x": 39200,
+              "y": 297
+             },
+             "config": {},
+             "id": "c063fd00-18ac-4248-b3e3-e68c84919de6",
+             "name": "esci dal giro",
+             "type": "breakLoop"
+            }
+           ],
+           "other": []
+          },
+          "id": "f62b019c-b2d7-4586-813f-e305fc7b1408",
+          "name": "IF c'e' Select (parziale) -> clicca",
+          "type": "ifElse"
+         }
+        ],
+        "remark": "SELECT"
+       },
+       "id": "dba50067-fb30-4c8e-9af6-c7871dc68060",
+       "name": "tocca Select (per nome interno)",
+       "type": "forTimes"
+      },
+      {
+       "position": {
+        "x": 40400,
+        "y": 297
+       },
+       "config": {
+        "timeoutMin": 1200,
+        "timeoutMax": 1800,
+        "timeoutType": "randomInterval"
+       },
+       "id": "16553ac9-454b-4270-8371-a1470c2c1e84",
+       "name": "wait",
+       "type": "waitTime"
+      },
+      {
+       "position": {
+        "x": 40800,
+        "y": 297
+       },
+       "config": {
+        "error": false,
+        "isBase64": false,
+        "isScope": false
+       },
+       "id": "44d6e799-5383-4fbc-a2a1-b9cdb67cb772",
+       "name": "FOTO 2 - dopo Select",
+       "type": "screenshotPage"
+      },
+      {
+       "position": {
+        "x": 41200,
+        "y": 297
+       },
+       "config": {
+        "injectVariables": [],
+        "script": "async function main() { return { canY: \"\" }; }",
+        "type": "js",
+        "variableMap": [
+         {
+          "value": "canY",
+          "variable": "canY"
+         }
+        ]
+       },
+       "id": "5b257c2e-3fa4-46a2-89c4-960f97254f9d",
+       "name": "azzera",
+       "type": "script"
+      },
+      {
+       "position": {
+        "x": 41600,
+        "y": 297
+       },
+       "config": {
+        "filterCollection": [
+         [
+          {
+           "content": "Cancel",
+           "filterType": "equal",
+           "type": "text"
+          }
+         ],
+         [
+          {
+           "content": "ancel",
+           "filterType": "contain",
+           "type": "text"
+          }
+         ]
+        ],
+        "serialType": "fixedValue",
+        "serial": 1,
+        "hiddenChildren": false,
+        "searchTime": 2000,
+        "type": "centerY",
+        "variable": "canY",
+        "error": false
+       },
+       "id": "9e85ffef-9d60-45af-8586-1b9f70b22ced",
+       "name": "dov'e' la scritta 'Cancel'?",
+       "type": "getEle"
+      },
+      {
+       "position": {
+        "x": 42000,
+        "y": 297
+       },
+       "config": {
+        "injectVariables": [
+         "canY",
+         "alt"
+        ],
+        "script": "async function main({ canY, alt }) { const h=Number(alt)||1440; const y=Number(String(canY===undefined||canY===null?\"\":canY).trim()); const ok = y>0 && y > h*0.40; return { selOk: ok?\"1\":\"0\", canYletto: String(y||0) }; }",
+        "type": "js",
+        "variableMap": [
+         {
+          "value": "selOk",
+          "variable": "selOk"
+         },
+         {
+          "value": "canYletto",
+          "variable": "canYletto"
+         }
+        ]
+       },
+       "id": "644cd67a-0fe8-4d57-a54c-0a4fb05e41d3",
+       "name": "Select attivo?",
+       "type": "script"
+      },
+      {
+       "position": {
+        "x": 45600,
+        "y": 297
+       },
+       "config": {
+        "conditionV3": [
+         [
+          {
+           "probability": 50,
+           "relation": "equal",
+           "useVariable": "selOk",
+           "result": "0"
+          }
+         ]
+        ],
+        "children": [
+         {
+          "position": {
+           "x": 42400,
+           "y": 297
+          },
+          "config": {
+           "filterCollection": [
+            [
+             {
+              "content": "Recents",
+              "filterType": "equal",
+              "type": "text"
+             }
+            ],
+            [
+             {
+              "content": "Recenti",
+              "filterType": "equal",
+              "type": "text"
+             }
+            ],
+            [
+             {
+              "content": "ecents",
+              "filterType": "contain",
+              "type": "text"
+             }
+            ]
+           ],
+           "serialType": "fixedValue",
+           "serial": 1,
+           "hiddenChildren": false,
+           "searchTime": 2000,
+           "type": "centerY",
+           "variable": "recY",
+           "error": false
+          },
+          "id": "c09670ab-6ea0-44a0-99a9-2fa7f106a2a5",
+          "name": "dov'e' la riga 'Recents'?",
+          "type": "getEle"
+         },
+         {
+          "position": {
+           "x": 42800,
+           "y": 297
+          },
+          "config": {
+           "injectVariables": [
+            "recY",
+            "alt",
+            "larg"
+           ],
+           "script": "async function main({ recY, alt, larg }) { const h=Number(alt)||1440, w=Number(larg)||720; const y=Number(String(recY===undefined||recY===null?\"\":recY).trim()); return { sX: String(Math.round(w*0.878)), sY: String(y>0?y:Math.round(h*0.593)) }; }",
+           "type": "js",
+           "variableMap": [
+            {
+             "value": "sX",
+             "variable": "sX"
+            },
+            {
+             "value": "sY",
+             "variable": "sY"
+            }
+           ]
+          },
+          "id": "ea918cfe-44a5-4ff6-9a5d-05bc7be1074b",
+          "name": "punto del bottone Select",
+          "type": "script"
+         },
+         {
+          "position": {
+           "x": 43200,
+           "y": 297
+          },
+          "config": {
+           "content": "input tap ${sX} ${sY}",
+           "timeout": 120000,
+           "error": false,
+           "variable": "tapSel"
+          },
+          "id": "b6727951-0aef-46b9-87c2-3fae93c1eb67",
+          "name": "tocca Select (input tap, pixel veri)",
+          "type": "executeADB"
+         },
+         {
+          "position": {
+           "x": 43600,
+           "y": 297
+          },
+          "config": {
+           "timeoutMin": 1200,
+           "timeoutMax": 1800,
+           "timeoutType": "randomInterval"
+          },
+          "id": "3d165654-af23-4b6c-85d9-3761fa1e0dfe",
+          "name": "wait",
+          "type": "waitTime"
+         },
+         {
+          "position": {
+           "x": 44000,
+           "y": 297
+          },
+          "config": {
+           "error": false,
+           "isBase64": false,
+           "isScope": false
+          },
+          "id": "0b1c7316-dbcc-4a69-ac21-027e786ea2b7",
+          "name": "FOTO 2b - Select al secondo tentativo?",
+          "type": "screenshotPage"
+         },
+         {
+          "position": {
+           "x": 44400,
+           "y": 297
+          },
+          "config": {
+           "injectVariables": [],
+           "script": "async function main() { return { canY: \"\" }; }",
+           "type": "js",
+           "variableMap": [
+            {
+             "value": "canY",
+             "variable": "canY"
+            }
+           ]
+          },
+          "id": "21945e51-e21e-47e0-9f97-fe61f450a71e",
+          "name": "azzera",
+          "type": "script"
+         },
+         {
+          "position": {
+           "x": 44800,
+           "y": 297
+          },
+          "config": {
+           "filterCollection": [
+            [
+             {
+              "content": "Cancel",
+              "filterType": "equal",
+              "type": "text"
+             }
+            ],
+            [
+             {
+              "content": "ancel",
+              "filterType": "contain",
+              "type": "text"
+             }
+            ]
+           ],
+           "serialType": "fixedValue",
+           "serial": 1,
+           "hiddenChildren": false,
+           "searchTime": 2000,
+           "type": "centerY",
+           "variable": "canY",
+           "error": false
+          },
+          "id": "c69d9562-b80e-4b0e-8ddd-be34d3be7391",
+          "name": "'Cancel' adesso?",
+          "type": "getEle"
+         },
+         {
+          "position": {
+           "x": 45200,
+           "y": 297
+          },
+          "config": {
+           "injectVariables": [
+            "canY",
+            "alt"
+           ],
+           "script": "async function main({ canY, alt }) { const h=Number(alt)||1440; const y=Number(String(canY===undefined||canY===null?\"\":canY).trim()); return { selOk: (y>0 && y>h*0.40)?\"1\":\"0\", canYletto: String(y||0) }; }",
+           "type": "js",
+           "variableMap": [
+            {
+             "value": "selOk",
+             "variable": "selOk"
+            },
+            {
+             "value": "canYletto",
+             "variable": "canYletto"
+            }
+           ]
+          },
+          "id": "69911a8d-0e29-4458-a596-296a6a358d42",
+          "name": "attivo ora?",
+          "type": "script"
+         }
+        ],
+        "other": []
+       },
+       "id": "ca8eecdb-4f74-42d4-b18f-4927520531a6",
+       "name": "IF Select non attivo -> riserva a coordinate",
+       "type": "ifElse"
+      },
+      {
+       "position": {
+        "x": 46000,
+        "y": 297
+       },
+       "config": {
+        "doubleClick": false,
+        "filterCollection": [
+         [
+          {
+           "content": "com.instagram.android:id/gallery_grid_item_thumbnail",
+           "filterType": "equal",
+           "type": "id"
+          }
+         ]
+        ],
+        "hiddenChildren": false,
+        "randomDistance": 0,
+        "searchTime": 3000,
+        "serial": 2,
+        "serialType": "fixedValue",
+        "useOffset": false,
+        "variable": "f2T"
+       },
+       "id": "6b7aa7e9-1108-48d9-8c91-b537faf0f736",
+       "name": "clicca la 2a miniatura",
+       "type": "click"
+      },
+      {
+       "position": {
+        "x": 46400,
+        "y": 297
+       },
+       "config": {
+        "injectVariables": [
+         "f2T"
+        ],
+        "script": "async function main({ f2T }) { const v=String(f2T||\"\").trim(); return { f2Ok: (v===\"true\"||v===\"1\")?\"1\":\"0\" }; }",
+        "type": "js",
+        "variableMap": [
+         {
+          "value": "f2Ok",
+          "variable": "f2Ok"
+         }
+        ]
+       },
+       "id": "e0a26e5b-5655-447e-aea4-a26c8d010519",
+       "name": "2a presa?",
+       "type": "script"
+      },
+      {
+       "position": {
+        "x": 46800,
+        "y": 297
+       },
+       "config": {
+        "timeoutMin": 900,
+        "timeoutMax": 1400,
+        "timeoutType": "randomInterval"
+       },
+       "id": "18d82038-1155-4fc7-9a0f-36a13fef73d7",
+       "name": "wait",
+       "type": "waitTime"
+      },
+      {
+       "position": {
+        "x": 47200,
+        "y": 297
+       },
+       "config": {
+        "error": false,
+        "isBase64": false,
+        "isScope": false
+       },
+       "id": "7c1608ab-45e9-41a2-ae78-c610422a062e",
+       "name": "FOTO 3a - numerino 2?",
+       "type": "screenshotPage"
+      },
+      {
+       "position": {
+        "x": 47600,
+        "y": 297
+       },
+       "config": {
+        "doubleClick": false,
+        "filterCollection": [
+         [
+          {
+           "content": "com.instagram.android:id/gallery_grid_item_thumbnail",
+           "filterType": "equal",
+           "type": "id"
+          }
+         ]
+        ],
+        "hiddenChildren": false,
+        "randomDistance": 0,
+        "searchTime": 3000,
+        "serial": 3,
+        "serialType": "fixedValue",
+        "useOffset": false,
+        "variable": "f3T"
+       },
+       "id": "defb094c-3204-4653-8bf0-b23782d83672",
+       "name": "clicca la 3a miniatura",
+       "type": "click"
+      },
+      {
+       "position": {
+        "x": 48000,
+        "y": 297
+       },
+       "config": {
+        "injectVariables": [
+         "f3T"
+        ],
+        "script": "async function main({ f3T }) { const v=String(f3T||\"\").trim(); return { f3Ok: (v===\"true\"||v===\"1\")?\"1\":\"0\" }; }",
+        "type": "js",
+        "variableMap": [
+         {
+          "value": "f3Ok",
+          "variable": "f3Ok"
+         }
+        ]
+       },
+       "id": "4b83345a-3aae-43ed-93dc-917fe765dae0",
+       "name": "3a presa?",
+       "type": "script"
+      },
+      {
+       "position": {
+        "x": 48400,
+        "y": 297
+       },
+       "config": {
+        "timeoutMin": 900,
+        "timeoutMax": 1400,
+        "timeoutType": "randomInterval"
+       },
+       "id": "21ec3cbc-1af7-41cf-a90e-0f0bb42c266a",
+       "name": "wait",
+       "type": "waitTime"
+      },
+      {
+       "position": {
+        "x": 48800,
+        "y": 297
+       },
+       "config": {
+        "error": false,
+        "isBase64": false,
+        "isScope": false
+       },
+       "id": "4ee89a3b-f56e-44d0-8759-e3d694c21021",
+       "name": "FOTO 3b - numerino 3?",
+       "type": "screenshotPage"
+      },
+      {
+       "position": {
+        "x": 52400,
+        "y": 297
+       },
+       "config": {
+        "serialType": "fixedValue",
+        "times": "6",
+        "children": [
+         {
+          "position": {
+           "x": 49200,
+           "y": 297
+          },
+          "config": {
+           "filterCollection": [
+            [
+             {
+              "content": "com.instagram.android:id/creation_next_button",
+              "filterType": "equal",
+              "type": "id"
+             }
+            ]
+           ],
+           "hiddenChildren": false,
+           "searchTime": 2500,
+           "serial": 1,
+           "serialType": "fixedValue",
+           "variable": "NEXT1_v0"
+          },
+          "id": "c9ad5230-4f3e-4dca-a7ac-66378699798c",
+          "name": "c'e' il bottone Next?",
+          "type": "waitEle"
+         },
+         {
+          "position": {
+           "x": 50400,
+           "y": 297
+          },
+          "config": {
+           "conditionV3": [
+            [
+             {
+              "probability": 50,
+              "relation": "exist",
+              "useVariable": "NEXT1_v0"
+             }
+            ]
+           ],
+           "children": [
+            {
+             "position": {
+              "x": 49600,
+              "y": 297
+             },
+             "config": {
+              "doubleClick": false,
+              "filterCollection": [
+               [
+                {
+                 "content": "com.instagram.android:id/creation_next_button",
+                 "filterType": "equal",
+                 "type": "id"
+                }
+               ]
+              ],
+              "hiddenChildren": false,
+              "randomDistance": 0,
+              "searchTime": 3000,
+              "serial": 1,
+              "serialType": "fixedValue",
+              "useOffset": false
+             },
+             "id": "c457932e-8803-4fca-9404-fef9b5d52400",
+             "name": "clicca il bottone Next",
+             "type": "click"
+            },
+            {
+             "position": {
+              "x": 50000,
+              "y": 297
+             },
+             "config": {},
+             "id": "eba8e48e-1ade-42f0-8ea8-58041d590e7b",
+             "name": "esci dal giro",
+             "type": "breakLoop"
+            }
+           ],
+           "other": []
+          },
+          "id": "54374e35-ff9a-4f7f-84b0-f32ac13fdba0",
+          "name": "IF c'e' il bottone Next -> clicca",
+          "type": "ifElse"
+         },
+         {
+          "position": {
+           "x": 50800,
+           "y": 297
+          },
+          "config": {
+           "filterCollection": [
+            [
+             {
+              "content": "Next",
+              "filterType": "equal",
+              "type": "text"
+             }
+            ]
+           ],
+           "hiddenChildren": false,
+           "searchTime": 2500,
+           "serial": 1,
+           "serialType": "fixedValue",
+           "variable": "NEXT1_v1"
+          },
+          "id": "16f3a5d5-031e-4b12-9b1e-c30a13395436",
+          "name": "c'e' la scritta Next?",
+          "type": "waitEle"
+         },
+         {
+          "position": {
+           "x": 52000,
+           "y": 297
+          },
+          "config": {
+           "conditionV3": [
+            [
+             {
+              "probability": 50,
+              "relation": "exist",
+              "useVariable": "NEXT1_v1"
+             }
+            ]
+           ],
+           "children": [
+            {
+             "position": {
+              "x": 51200,
+              "y": 297
+             },
+             "config": {
+              "doubleClick": false,
+              "filterCollection": [
+               [
+                {
+                 "content": "Next",
+                 "filterType": "equal",
+                 "type": "text"
+                }
+               ]
+              ],
+              "hiddenChildren": false,
+              "randomDistance": 0,
+              "searchTime": 3000,
+              "serial": 1,
+              "serialType": "fixedValue",
+              "useOffset": false
+             },
+             "id": "cf00fe41-c95e-4b4c-b85c-70821301fe97",
+             "name": "clicca la scritta Next",
+             "type": "click"
+            },
+            {
+             "position": {
+              "x": 51600,
+              "y": 297
+             },
+             "config": {},
+             "id": "5aa7006f-2cd9-4eeb-9e31-be16ae0419d5",
+             "name": "esci dal giro",
+             "type": "breakLoop"
+            }
+           ],
+           "other": []
+          },
+          "id": "8f5352a3-a29f-43e7-a122-79997653e258",
+          "name": "IF c'e' la scritta Next -> clicca",
+          "type": "ifElse"
+         }
+        ],
+        "remark": "NEXT1"
+       },
+       "id": "0de87ed8-57ac-4065-b58f-b097ca1b96fc",
+       "name": "tocca Next",
+       "type": "forTimes"
+      },
+      {
+       "position": {
+        "x": 52800,
+        "y": 297
+       },
+       "config": {
+        "timeoutMin": 3000,
+        "timeoutMax": 4500,
+        "timeoutType": "randomInterval"
+       },
+       "id": "4be7f73e-9654-4866-9373-8513a4a543d5",
+       "name": "si apre l'editor",
+       "type": "waitTime"
+      },
+      {
+       "position": {
+        "x": 53200,
+        "y": 297
+       },
+       "config": {
+        "error": false,
+        "isBase64": false,
+        "isScope": false
+       },
+       "id": "ab79bcbb-499d-4b68-84d3-a7feb570f414",
+       "name": "FOTO 4 - editor del carosello",
+       "type": "screenshotPage"
+      },
+      {
+       "position": {
+        "x": 53600,
+        "y": 297
+       },
+       "config": {
+        "filterCollection": [
+         [
+          {
+           "content": "Audio",
+           "filterType": "equal",
+           "type": "desc"
+          }
+         ],
+         [
+          {
+           "content": "com.instagram.android:id/album_post_capture_crop_toggle_button_v2",
+           "filterType": "equal",
+           "type": "id"
+          }
+         ],
+         [
+          {
+           "content": "com.instagram.android:id/feed_post_capture_crop_toggle_button",
+           "filterType": "equal",
+           "type": "id"
+          }
+         ]
+        ],
+        "hiddenChildren": false,
+        "searchTime": 3000,
+        "serial": 1,
+        "serialType": "fixedValue",
+        "variable": "edSegno"
+       },
+       "id": "a96724a3-7af4-46e7-b024-734f2c2732b5",
+       "name": "c'e' la barra dell'editor?",
+       "type": "waitEle"
+      },
+      {
+       "position": {
+        "x": 54000,
+        "y": 297
+       },
+       "config": {
+        "injectVariables": [
+         "edSegno"
+        ],
+        "script": "async function main({ edSegno }) { const v=String(edSegno||\"\").trim(); const ok = v!==\"\" && !/^(false|undefined|null|0)$/i.test(v); return { nextOk: ok?\"1\":\"0\" }; }",
+        "type": "js",
+        "variableMap": [
+         {
+          "value": "nextOk",
+          "variable": "nextOk"
+         }
+        ]
+       },
+       "id": "b5bbf862-b4b6-4b38-9b65-1dc94bf469b6",
+       "name": "editor?",
+       "type": "script"
+      },
+      {
+       "position": {
+        "x": 68800,
+        "y": 297
+       },
+       "config": {
+        "conditionV3": [
+         [
+          {
+           "probability": 50,
+           "relation": "equal",
+           "useVariable": "nextOk",
+           "result": "1"
+          }
+         ]
+        ],
+        "children": [
+         {
+          "position": {
+           "x": 59200,
+           "y": 297
+          },
+          "config": {
+           "serialType": "fixedValue",
+           "times": "4",
+           "children": [
+            {
+             "position": {
+              "x": 54400,
+              "y": 297
+             },
+             "config": {
+              "filterCollection": [
+               [
+                {
+                 "content": "com.instagram.android:id/album_post_capture_crop_toggle_button_v2",
+                 "filterType": "equal",
+                 "type": "id"
+                }
+               ]
+              ],
+              "hiddenChildren": false,
+              "searchTime": 2500,
+              "serial": 1,
+              "serialType": "fixedValue",
+              "variable": "RATIO_v0"
+             },
+             "id": "2ac655cc-4d7f-46d4-a62f-094586c888b7",
+             "name": "c'e' Ratio (nome interno)?",
+             "type": "waitEle"
+            },
+            {
+             "position": {
+              "x": 55600,
+              "y": 297
+             },
+             "config": {
+              "conditionV3": [
+               [
+                {
+                 "probability": 50,
+                 "relation": "exist",
+                 "useVariable": "RATIO_v0"
+                }
+               ]
+              ],
+              "children": [
+               {
+                "position": {
+                 "x": 54800,
+                 "y": 297
+                },
+                "config": {
+                 "doubleClick": false,
+                 "filterCollection": [
+                  [
+                   {
+                    "content": "com.instagram.android:id/album_post_capture_crop_toggle_button_v2",
+                    "filterType": "equal",
+                    "type": "id"
+                   }
+                  ]
+                 ],
+                 "hiddenChildren": false,
+                 "randomDistance": 0,
+                 "searchTime": 3000,
+                 "serial": 1,
+                 "serialType": "fixedValue",
+                 "useOffset": false
+                },
+                "id": "73ade374-05bc-4df8-9904-42932ef418db",
+                "name": "clicca Ratio (nome interno)",
+                "type": "click"
+               },
+               {
+                "position": {
+                 "x": 55200,
+                 "y": 297
+                },
+                "config": {},
+                "id": "5d54eb8a-51e1-4ba1-bf53-726de0e0b4bd",
+                "name": "esci dal giro",
+                "type": "breakLoop"
+               }
+              ],
+              "other": []
+             },
+             "id": "9e38713a-bc86-4a2a-bd44-3f0c602b878a",
+             "name": "IF c'e' Ratio (nome interno) -> clicca",
+             "type": "ifElse"
+            },
+            {
+             "position": {
+              "x": 56000,
+              "y": 297
+             },
+             "config": {
+              "filterCollection": [
+               [
+                {
+                 "content": "com.instagram.android:id/feed_post_capture_crop_toggle_button",
+                 "filterType": "equal",
+                 "type": "id"
+                }
+               ]
+              ],
+              "hiddenChildren": false,
+              "searchTime": 2500,
+              "serial": 1,
+              "serialType": "fixedValue",
+              "variable": "RATIO_v1"
+             },
+             "id": "4de4fcd9-6352-4b08-abf9-8ee93f5172f3",
+             "name": "c'e' Ratio (nome interno 2)?",
+             "type": "waitEle"
+            },
+            {
+             "position": {
+              "x": 57200,
+              "y": 297
+             },
+             "config": {
+              "conditionV3": [
+               [
+                {
+                 "probability": 50,
+                 "relation": "exist",
+                 "useVariable": "RATIO_v1"
+                }
+               ]
+              ],
+              "children": [
+               {
+                "position": {
+                 "x": 56400,
+                 "y": 297
+                },
+                "config": {
+                 "doubleClick": false,
+                 "filterCollection": [
+                  [
+                   {
+                    "content": "com.instagram.android:id/feed_post_capture_crop_toggle_button",
+                    "filterType": "equal",
+                    "type": "id"
+                   }
+                  ]
+                 ],
+                 "hiddenChildren": false,
+                 "randomDistance": 0,
+                 "searchTime": 3000,
+                 "serial": 1,
+                 "serialType": "fixedValue",
+                 "useOffset": false
+                },
+                "id": "59462ca1-7823-408c-bca7-186e2b33c35e",
+                "name": "clicca Ratio (nome interno 2)",
+                "type": "click"
+               },
+               {
+                "position": {
+                 "x": 56800,
+                 "y": 297
+                },
+                "config": {},
+                "id": "38253f26-d696-4ccb-bf61-0aff5b9aa567",
+                "name": "esci dal giro",
+                "type": "breakLoop"
+               }
+              ],
+              "other": []
+             },
+             "id": "4360e14e-2a76-405a-a697-b44c4da48705",
+             "name": "IF c'e' Ratio (nome interno 2) -> clicca",
+             "type": "ifElse"
+            },
+            {
+             "position": {
+              "x": 57600,
+              "y": 297
+             },
+             "config": {
+              "filterCollection": [
+               [
+                {
+                 "content": "Ratio",
+                 "filterType": "equal",
+                 "type": "text"
+                }
+               ]
+              ],
+              "hiddenChildren": false,
+              "searchTime": 2500,
+              "serial": 1,
+              "serialType": "fixedValue",
+              "variable": "RATIO_v2"
+             },
+             "id": "3e56c777-d038-40c1-8990-692cfb98d11d",
+             "name": "c'e' la scritta Ratio?",
+             "type": "waitEle"
+            },
+            {
+             "position": {
+              "x": 58800,
+              "y": 297
+             },
+             "config": {
+              "conditionV3": [
+               [
+                {
+                 "probability": 50,
+                 "relation": "exist",
+                 "useVariable": "RATIO_v2"
+                }
+               ]
+              ],
+              "children": [
+               {
+                "position": {
+                 "x": 58000,
+                 "y": 297
+                },
+                "config": {
+                 "doubleClick": false,
+                 "filterCollection": [
+                  [
+                   {
+                    "content": "Ratio",
+                    "filterType": "equal",
+                    "type": "text"
+                   }
+                  ]
+                 ],
+                 "hiddenChildren": false,
+                 "randomDistance": 0,
+                 "searchTime": 3000,
+                 "serial": 1,
+                 "serialType": "fixedValue",
+                 "useOffset": false
+                },
+                "id": "34889250-782a-4474-bdb5-69a15895a381",
+                "name": "clicca la scritta Ratio",
+                "type": "click"
+               },
+               {
+                "position": {
+                 "x": 58400,
+                 "y": 297
+                },
+                "config": {},
+                "id": "b6b6a5ce-de0c-4567-b753-86050e29ba15",
+                "name": "esci dal giro",
+                "type": "breakLoop"
+               }
+              ],
+              "other": []
+             },
+             "id": "2d96c9c5-08bb-4ea2-9fc6-c9e5a0076ec6",
+             "name": "IF c'e' la scritta Ratio -> clicca",
+             "type": "ifElse"
+            }
+           ],
+           "remark": "RATIO"
+          },
+          "id": "7c22c685-e991-4df1-9386-d77d1ebef982",
+          "name": "tocca Ratio",
+          "type": "forTimes"
+         },
+         {
+          "position": {
+           "x": 59600,
+           "y": 297
+          },
+          "config": {
+           "timeoutMin": 1200,
+           "timeoutMax": 1800,
+           "timeoutType": "randomInterval"
+          },
+          "id": "73fa1652-61f1-4dec-88cc-cd34dd15b514",
+          "name": "wait",
+          "type": "waitTime"
+         },
+         {
+          "position": {
+           "x": 63200,
+           "y": 297
+          },
+          "config": {
+           "serialType": "fixedValue",
+           "times": "3",
+           "children": [
+            {
+             "position": {
+              "x": 60000,
+              "y": 297
+             },
+             "config": {
+              "filterCollection": [
+               [
+                {
+                 "content": "Portrait",
+                 "filterType": "equal",
+                 "type": "text"
+                }
+               ]
+              ],
+              "hiddenChildren": false,
+              "searchTime": 2500,
+              "serial": 1,
+              "serialType": "fixedValue",
+              "variable": "PORTRAIT_v0"
+             },
+             "id": "6ee5a076-8f5e-4950-a3c5-b332ae30eb91",
+             "name": "c'e' la scritta Portrait?",
+             "type": "waitEle"
+            },
+            {
+             "position": {
+              "x": 61200,
+              "y": 297
+             },
+             "config": {
+              "conditionV3": [
+               [
+                {
+                 "probability": 50,
+                 "relation": "exist",
+                 "useVariable": "PORTRAIT_v0"
+                }
+               ]
+              ],
+              "children": [
+               {
+                "position": {
+                 "x": 60400,
+                 "y": 297
+                },
+                "config": {
+                 "doubleClick": false,
+                 "filterCollection": [
+                  [
+                   {
+                    "content": "Portrait",
+                    "filterType": "equal",
+                    "type": "text"
+                   }
+                  ]
+                 ],
+                 "hiddenChildren": false,
+                 "randomDistance": 0,
+                 "searchTime": 3000,
+                 "serial": 1,
+                 "serialType": "fixedValue",
+                 "useOffset": false
+                },
+                "id": "a58581bc-b52c-48d6-90d9-7d6d3c92e162",
+                "name": "clicca la scritta Portrait",
+                "type": "click"
+               },
+               {
+                "position": {
+                 "x": 60800,
+                 "y": 297
+                },
+                "config": {},
+                "id": "591bf150-c747-49e9-9f3d-61cecf7bf4e1",
+                "name": "esci dal giro",
+                "type": "breakLoop"
+               }
+              ],
+              "other": []
+             },
+             "id": "f25198bf-2d5b-45cb-a0ff-42379d016fe4",
+             "name": "IF c'e' la scritta Portrait -> clicca",
+             "type": "ifElse"
+            },
+            {
+             "position": {
+              "x": 61600,
+              "y": 297
+             },
+             "config": {
+              "filterCollection": [
+               [
+                {
+                 "content": "Portrait",
+                 "filterType": "equal",
+                 "type": "desc"
+                }
+               ]
+              ],
+              "hiddenChildren": false,
+              "searchTime": 2500,
+              "serial": 1,
+              "serialType": "fixedValue",
+              "variable": "PORTRAIT_v1"
+             },
+             "id": "52f92839-c3c0-4055-9649-fbb1295e14d8",
+             "name": "c'e' Portrait (desc)?",
+             "type": "waitEle"
+            },
+            {
+             "position": {
+              "x": 62800,
+              "y": 297
+             },
+             "config": {
+              "conditionV3": [
+               [
+                {
+                 "probability": 50,
+                 "relation": "exist",
+                 "useVariable": "PORTRAIT_v1"
+                }
+               ]
+              ],
+              "children": [
+               {
+                "position": {
+                 "x": 62000,
+                 "y": 297
+                },
+                "config": {
+                 "doubleClick": false,
+                 "filterCollection": [
+                  [
+                   {
+                    "content": "Portrait",
+                    "filterType": "equal",
+                    "type": "desc"
+                   }
+                  ]
+                 ],
+                 "hiddenChildren": false,
+                 "randomDistance": 0,
+                 "searchTime": 3000,
+                 "serial": 1,
+                 "serialType": "fixedValue",
+                 "useOffset": false
+                },
+                "id": "c33cbff9-033c-4178-b624-3c87eb5b3982",
+                "name": "clicca Portrait (desc)",
+                "type": "click"
+               },
+               {
+                "position": {
+                 "x": 62400,
+                 "y": 297
+                },
+                "config": {},
+                "id": "c80345cb-6614-4c0a-a056-80d4b909ab17",
+                "name": "esci dal giro",
+                "type": "breakLoop"
+               }
+              ],
+              "other": []
+             },
+             "id": "69c4d9cc-eb1f-452b-8dde-f02e7146f64a",
+             "name": "IF c'e' Portrait (desc) -> clicca",
+             "type": "ifElse"
+            }
+           ],
+           "remark": "PORTRAIT"
+          },
+          "id": "801f3b22-6fcd-4e86-8a16-b63d69816de5",
+          "name": "scegli Portrait",
+          "type": "forTimes"
+         },
+         {
+          "position": {
+           "x": 63600,
+           "y": 297
+          },
+          "config": {
+           "timeoutMin": 900,
+           "timeoutMax": 1400,
+           "timeoutType": "randomInterval"
+          },
+          "id": "d3f184f0-60fa-4472-81b4-7cc973592269",
+          "name": "wait",
+          "type": "waitTime"
+         },
+         {
+          "position": {
+           "x": 67200,
+           "y": 297
+          },
+          "config": {
+           "serialType": "fixedValue",
+           "times": "3",
+           "children": [
+            {
+             "position": {
+              "x": 64000,
+              "y": 297
+             },
+             "config": {
+              "filterCollection": [
+               [
+                {
+                 "content": "Done",
+                 "filterType": "equal",
+                 "type": "text"
+                }
+               ]
+              ],
+              "hiddenChildren": false,
+              "searchTime": 2500,
+              "serial": 1,
+              "serialType": "fixedValue",
+              "variable": "RDONE_v0"
+             },
+             "id": "ae38e010-286e-4de9-b4c7-1c31e27b5b27",
+             "name": "c'e' la scritta Done?",
+             "type": "waitEle"
+            },
+            {
+             "position": {
+              "x": 65200,
+              "y": 297
+             },
+             "config": {
+              "conditionV3": [
+               [
+                {
+                 "probability": 50,
+                 "relation": "exist",
+                 "useVariable": "RDONE_v0"
+                }
+               ]
+              ],
+              "children": [
+               {
+                "position": {
+                 "x": 64400,
+                 "y": 297
+                },
+                "config": {
+                 "doubleClick": false,
+                 "filterCollection": [
+                  [
+                   {
+                    "content": "Done",
+                    "filterType": "equal",
+                    "type": "text"
+                   }
+                  ]
+                 ],
+                 "hiddenChildren": false,
+                 "randomDistance": 0,
+                 "searchTime": 3000,
+                 "serial": 1,
+                 "serialType": "fixedValue",
+                 "useOffset": false
+                },
+                "id": "95a0105d-e1f6-477e-ae48-4e1f954452d4",
+                "name": "clicca la scritta Done",
+                "type": "click"
+               },
+               {
+                "position": {
+                 "x": 64800,
+                 "y": 297
+                },
+                "config": {},
+                "id": "dfee127e-ee20-4096-8026-27f3ceb686bc",
+                "name": "esci dal giro",
+                "type": "breakLoop"
+               }
+              ],
+              "other": []
+             },
+             "id": "9ee213f1-31fe-4532-9336-28f816d093e9",
+             "name": "IF c'e' la scritta Done -> clicca",
+             "type": "ifElse"
+            },
+            {
+             "position": {
+              "x": 65600,
+              "y": 297
+             },
+             "config": {
+              "filterCollection": [
+               [
+                {
+                 "content": "Done",
+                 "filterType": "equal",
+                 "type": "desc"
+                }
+               ]
+              ],
+              "hiddenChildren": false,
+              "searchTime": 2500,
+              "serial": 1,
+              "serialType": "fixedValue",
+              "variable": "RDONE_v1"
+             },
+             "id": "3140166b-6d2b-41ad-b772-8d998cfaa900",
+             "name": "c'e' Done (desc)?",
+             "type": "waitEle"
+            },
+            {
+             "position": {
+              "x": 66800,
+              "y": 297
+             },
+             "config": {
+              "conditionV3": [
+               [
+                {
+                 "probability": 50,
+                 "relation": "exist",
+                 "useVariable": "RDONE_v1"
+                }
+               ]
+              ],
+              "children": [
+               {
+                "position": {
+                 "x": 66000,
+                 "y": 297
+                },
+                "config": {
+                 "doubleClick": false,
+                 "filterCollection": [
+                  [
+                   {
+                    "content": "Done",
+                    "filterType": "equal",
+                    "type": "desc"
+                   }
+                  ]
+                 ],
+                 "hiddenChildren": false,
+                 "randomDistance": 0,
+                 "searchTime": 3000,
+                 "serial": 1,
+                 "serialType": "fixedValue",
+                 "useOffset": false
+                },
+                "id": "f79addbe-1871-46e0-a20d-ad213145a5b6",
+                "name": "clicca Done (desc)",
+                "type": "click"
+               },
+               {
+                "position": {
+                 "x": 66400,
+                 "y": 297
+                },
+                "config": {},
+                "id": "fd2313f2-00e5-41f9-b7a3-d54ed6200ae2",
+                "name": "esci dal giro",
+                "type": "breakLoop"
+               }
+              ],
+              "other": []
+             },
+             "id": "68938937-fe4f-44ee-80da-6a0ddde9d19f",
+             "name": "IF c'e' Done (desc) -> clicca",
+             "type": "ifElse"
+            }
+           ],
+           "remark": "RDONE"
+          },
+          "id": "533834ac-3d5c-43d4-ae96-678a6dcbf255",
+          "name": "conferma col Done",
+          "type": "forTimes"
+         },
+         {
+          "position": {
+           "x": 67600,
+           "y": 297
+          },
+          "config": {
+           "timeoutMin": 1200,
+           "timeoutMax": 1800,
+           "timeoutType": "randomInterval"
+          },
+          "id": "0101593a-8297-4328-ab1a-3343c04479ec",
+          "name": "wait",
+          "type": "waitTime"
+         },
+         {
+          "position": {
+           "x": 68000,
+           "y": 297
+          },
+          "config": {
+           "error": false,
+           "isBase64": false,
+           "isScope": false
+          },
+          "id": "ae84becb-84b5-4d91-8735-00281b03590c",
+          "name": "FOTO 5 - Portrait applicato?",
+          "type": "screenshotPage"
+         },
+         {
+          "position": {
+           "x": 68400,
+           "y": 297
+          },
+          "config": {
+           "injectVariables": [],
+           "script": "async function main() { return { ratioOk: \"1\" }; }",
+           "type": "js",
+           "variableMap": [
+            {
+             "value": "ratioOk",
+             "variable": "ratioOk"
+            }
+           ]
+          },
+          "id": "967e4264-2e24-4eca-9c4f-e7d32b57627a",
+          "name": "ratio",
+          "type": "script"
+         }
+        ],
+        "other": []
+       },
+       "id": "67c8594e-5327-4642-9d92-04b85d6fd021",
+       "name": "IF editor aperto -> Ratio/Portrait",
+       "type": "ifElse"
+      },
+      {
+       "position": {
+        "x": 72400,
+        "y": 297
+       },
+       "config": {
+        "serialType": "fixedValue",
+        "times": "6",
+        "children": [
+         {
+          "position": {
+           "x": 69200,
+           "y": 297
+          },
+          "config": {
+           "filterCollection": [
+            [
+             {
+              "content": "com.instagram.android:id/creation_next_button",
+              "filterType": "equal",
+              "type": "id"
+             }
+            ]
+           ],
+           "hiddenChildren": false,
+           "searchTime": 2500,
+           "serial": 1,
+           "serialType": "fixedValue",
+           "variable": "NEXT2_v0"
+          },
+          "id": "bb5948b0-d2e4-48e8-8b55-a24b54c97442",
+          "name": "c'e' il bottone Next?",
+          "type": "waitEle"
+         },
+         {
+          "position": {
+           "x": 70400,
+           "y": 297
+          },
+          "config": {
+           "conditionV3": [
+            [
+             {
+              "probability": 50,
+              "relation": "exist",
+              "useVariable": "NEXT2_v0"
+             }
+            ]
+           ],
+           "children": [
+            {
+             "position": {
+              "x": 69600,
+              "y": 297
+             },
+             "config": {
+              "doubleClick": false,
+              "filterCollection": [
+               [
+                {
+                 "content": "com.instagram.android:id/creation_next_button",
+                 "filterType": "equal",
+                 "type": "id"
+                }
+               ]
+              ],
+              "hiddenChildren": false,
+              "randomDistance": 0,
+              "searchTime": 3000,
+              "serial": 1,
+              "serialType": "fixedValue",
+              "useOffset": false
+             },
+             "id": "610bad74-e1bf-4a00-a1c9-bcd889a1b73e",
+             "name": "clicca il bottone Next",
+             "type": "click"
+            },
+            {
+             "position": {
+              "x": 70000,
+              "y": 297
+             },
+             "config": {},
+             "id": "876638cb-e7ed-424d-9dd0-e63eb688e953",
+             "name": "esci dal giro",
+             "type": "breakLoop"
+            }
+           ],
+           "other": []
+          },
+          "id": "19818140-05cb-4ef4-bb03-88d67dd3f2bd",
+          "name": "IF c'e' il bottone Next -> clicca",
+          "type": "ifElse"
+         },
+         {
+          "position": {
+           "x": 70800,
+           "y": 297
+          },
+          "config": {
+           "filterCollection": [
+            [
+             {
+              "content": "Next",
+              "filterType": "equal",
+              "type": "text"
+             }
+            ]
+           ],
+           "hiddenChildren": false,
+           "searchTime": 2500,
+           "serial": 1,
+           "serialType": "fixedValue",
+           "variable": "NEXT2_v1"
+          },
+          "id": "1a35e53b-6ef5-4632-ab3e-72b1cdd6a7e4",
+          "name": "c'e' la scritta Next?",
+          "type": "waitEle"
+         },
+         {
+          "position": {
+           "x": 72000,
+           "y": 297
+          },
+          "config": {
+           "conditionV3": [
+            [
+             {
+              "probability": 50,
+              "relation": "exist",
+              "useVariable": "NEXT2_v1"
+             }
+            ]
+           ],
+           "children": [
+            {
+             "position": {
+              "x": 71200,
+              "y": 297
+             },
+             "config": {
+              "doubleClick": false,
+              "filterCollection": [
+               [
+                {
+                 "content": "Next",
+                 "filterType": "equal",
+                 "type": "text"
+                }
+               ]
+              ],
+              "hiddenChildren": false,
+              "randomDistance": 0,
+              "searchTime": 3000,
+              "serial": 1,
+              "serialType": "fixedValue",
+              "useOffset": false
+             },
+             "id": "771922ee-1b31-402b-a0f9-db44ec6afc99",
+             "name": "clicca la scritta Next",
+             "type": "click"
+            },
+            {
+             "position": {
+              "x": 71600,
+              "y": 297
+             },
+             "config": {},
+             "id": "894df739-7ff4-48de-bc7c-84dae94553a2",
+             "name": "esci dal giro",
+             "type": "breakLoop"
+            }
+           ],
+           "other": []
+          },
+          "id": "e74f0f95-fb88-44f1-ab58-7beea40945fb",
+          "name": "IF c'e' la scritta Next -> clicca",
+          "type": "ifElse"
+         }
+        ],
+        "remark": "NEXT2"
+       },
+       "id": "0457a5e7-49ba-473f-85c6-603beb02d8d4",
+       "name": "tocca Next (finale)",
+       "type": "forTimes"
+      },
+      {
+       "position": {
+        "x": 72800,
+        "y": 297
+       },
+       "config": {
+        "timeoutMin": 3000,
+        "timeoutMax": 4500,
+        "timeoutType": "randomInterval"
+       },
+       "id": "380b50e2-b6ff-426b-82cb-98b6d021185a",
+       "name": "schermata finale",
+       "type": "waitTime"
+      },
+      {
+       "position": {
+        "x": 73200,
+        "y": 297
+       },
+       "config": {
+        "error": false,
+        "isBase64": false,
+        "isScope": false
+       },
+       "id": "68a1f026-e742-43e8-8d1e-32159b4ac19c",
+       "name": "FOTO 9 - schermata finale",
+       "type": "screenshotPage"
+      },
+      {
+       "position": {
+        "x": 88800,
+        "y": 297
+       },
+       "config": {
+        "serialType": "fixedValue",
+        "times": "4",
+        "children": [
+         {
+          "position": {
+           "x": 73600,
+           "y": 297
+          },
+          "config": {
+           "filterCollection": [
+            [
+             {
+              "content": "com.instagram.android:id/caption_input_text_view",
+              "filterType": "equal",
+              "type": "id"
+             }
+            ]
+           ],
+           "hiddenChildren": true,
+           "searchTime": 3000,
+           "serial": 1,
+           "serialType": "fixedValue",
+           "variable": "capSegno"
+          },
+          "id": "09744a21-4d36-4cfe-b101-489899c4a690",
+          "name": "c'e' la casella caption?",
+          "type": "waitEle"
+         },
+         {
+          "position": {
+           "x": 88400,
+           "y": 297
+          },
+          "config": {
+           "conditionV3": [
+            [
+             {
+              "probability": 50,
+              "relation": "exist",
+              "useVariable": "capSegno"
+             }
+            ]
+           ],
+           "children": [
+            {
+             "position": {
+              "x": 74000,
+              "y": 297
+             },
+             "config": {
+              "injectVariables": [
+               "Caption"
+              ],
+              "script": "async function main({ Caption }) { const g=String(Caption===undefined||Caption===null?\"\":Caption); const lista=g.split(\"|\").map(s=>s.trim()).filter(Boolean); const c=lista.length?lista[Math.floor(Math.random()*lista.length)]:\"\"; return { capScelta: c }; }",
+              "type": "js",
+              "variableMap": [
+               {
+                "value": "capScelta",
+                "variable": "capScelta"
+               }
+              ]
+             },
+             "id": "56e655b3-3d01-4e45-b746-bea788963b45",
+             "name": "scegli la caption",
+             "type": "script"
+            },
+            {
+             "position": {
+              "x": 74400,
+              "y": 297
+             },
+             "config": {
+              "clear": true,
+              "content": [
+               "${capScelta}"
+              ],
+              "filterCollection": [
+               [
+                {
+                 "content": "com.instagram.android:id/caption_input_text_view",
+                 "filterType": "equal",
+                 "type": "id"
+                }
+               ]
+              ],
+              "hiddenChildren": true,
+              "inputType": "taskOrder",
+              "searchTime": 3000,
+              "serial": 1,
+              "serialType": "fixedValue",
+              "simulate": true,
+              "waitTime": 300
+             },
+             "id": "8c00b0f3-f648-4e7f-98a8-91d103ccd756",
+             "name": "scrivi la caption",
+             "type": "inputContent"
+            },
+            {
+             "position": {
+              "x": 74800,
+              "y": 297
+             },
+             "config": {
+              "timeoutMin": 1000,
+              "timeoutMax": 1600,
+              "timeoutType": "randomInterval"
+             },
+             "id": "c5228dbd-efc8-4e94-9560-cd60b07eb5bf",
+             "name": "wait",
+             "type": "waitTime"
+            },
+            {
+             "position": {
+              "x": 75200,
+              "y": 297
+             },
+             "config": {
+              "error": false,
+              "isBase64": false,
+              "isScope": false
+             },
+             "id": "4991e8dc-8207-4214-a77c-3c8b46507249",
+             "name": "FOTO 10 - caption scritta?",
+             "type": "screenshotPage"
+            },
+            {
+             "position": {
+              "x": 75600,
+              "y": 297
+             },
+             "config": {
+              "injectVariables": [],
+              "script": "async function main() { return { capOk: \"1\" }; }",
+              "type": "js",
+              "variableMap": [
+               {
+                "value": "capOk",
+                "variable": "capOk"
+               }
+              ]
+             },
+             "id": "2ff35d0b-4e9f-46af-9c33-3a691ab937ed",
+             "name": "caption",
+             "type": "script"
+            },
+            {
+             "position": {
+              "x": 84000,
+              "y": 297
+             },
+             "config": {
+              "serialType": "fixedValue",
+              "times": "3",
+              "children": [
+               {
+                "position": {
+                 "x": 76000,
+                 "y": 297
+                },
+                "config": {
+                 "filterCollection": [
+                  [
+                   {
+                    "content": "OK",
+                    "filterType": "equal",
+                    "type": "text"
+                   }
+                  ]
+                 ],
+                 "hiddenChildren": false,
+                 "searchTime": 2500,
+                 "serial": 1,
+                 "serialType": "fixedValue",
+                 "variable": "CAPOK_v0"
+                },
+                "id": "1aaca0cc-716e-4674-b9ca-355cda6f8a70",
+                "name": "c'e' la scritta OK?",
+                "type": "waitEle"
+               },
+               {
+                "position": {
+                 "x": 77200,
+                 "y": 297
+                },
+                "config": {
+                 "conditionV3": [
+                  [
+                   {
+                    "probability": 50,
+                    "relation": "exist",
+                    "useVariable": "CAPOK_v0"
+                   }
+                  ]
+                 ],
+                 "children": [
+                  {
+                   "position": {
+                    "x": 76400,
+                    "y": 297
+                   },
+                   "config": {
+                    "doubleClick": false,
+                    "filterCollection": [
+                     [
+                      {
+                       "content": "OK",
+                       "filterType": "equal",
+                       "type": "text"
+                      }
+                     ]
+                    ],
+                    "hiddenChildren": false,
+                    "randomDistance": 0,
+                    "searchTime": 3000,
+                    "serial": 1,
+                    "serialType": "fixedValue",
+                    "useOffset": false
+                   },
+                   "id": "c96c5aaf-a9a5-47c0-a71a-66a24ff818c2",
+                   "name": "clicca la scritta OK",
+                   "type": "click"
+                  },
+                  {
+                   "position": {
+                    "x": 76800,
+                    "y": 297
+                   },
+                   "config": {},
+                   "id": "3a04d10a-e974-4afc-9a88-620ec1738276",
+                   "name": "esci dal giro",
+                   "type": "breakLoop"
+                  }
+                 ],
+                 "other": []
+                },
+                "id": "b4a71c4b-1a05-4f8e-a45a-6779fd6b85f6",
+                "name": "IF c'e' la scritta OK -> clicca",
+                "type": "ifElse"
+               },
+               {
+                "position": {
+                 "x": 77600,
+                 "y": 297
+                },
+                "config": {
+                 "filterCollection": [
+                  [
+                   {
+                    "content": "OK",
+                    "filterType": "equal",
+                    "type": "desc"
+                   }
+                  ]
+                 ],
+                 "hiddenChildren": false,
+                 "searchTime": 2500,
+                 "serial": 1,
+                 "serialType": "fixedValue",
+                 "variable": "CAPOK_v1"
+                },
+                "id": "4c61b8ca-73bb-4d99-9395-4c9974f5f16a",
+                "name": "c'e' OK (desc)?",
+                "type": "waitEle"
+               },
+               {
+                "position": {
+                 "x": 78800,
+                 "y": 297
+                },
+                "config": {
+                 "conditionV3": [
+                  [
+                   {
+                    "probability": 50,
+                    "relation": "exist",
+                    "useVariable": "CAPOK_v1"
+                   }
+                  ]
+                 ],
+                 "children": [
+                  {
+                   "position": {
+                    "x": 78000,
+                    "y": 297
+                   },
+                   "config": {
+                    "doubleClick": false,
+                    "filterCollection": [
+                     [
+                      {
+                       "content": "OK",
+                       "filterType": "equal",
+                       "type": "desc"
+                      }
+                     ]
+                    ],
+                    "hiddenChildren": false,
+                    "randomDistance": 0,
+                    "searchTime": 3000,
+                    "serial": 1,
+                    "serialType": "fixedValue",
+                    "useOffset": false
+                   },
+                   "id": "6254bf3a-9f4e-4a7a-9df3-6797cdac07ee",
+                   "name": "clicca OK (desc)",
+                   "type": "click"
+                  },
+                  {
+                   "position": {
+                    "x": 78400,
+                    "y": 297
+                   },
+                   "config": {},
+                   "id": "ab82709d-8b38-43bb-aac6-f7d70e9e4d4e",
+                   "name": "esci dal giro",
+                   "type": "breakLoop"
+                  }
+                 ],
+                 "other": []
+                },
+                "id": "9346e993-e58a-4be9-bf98-97790864a041",
+                "name": "IF c'e' OK (desc) -> clicca",
+                "type": "ifElse"
+               },
+               {
+                "position": {
+                 "x": 79200,
+                 "y": 297
+                },
+                "config": {
+                 "filterCollection": [
+                  [
+                   {
+                    "content": "Ok",
+                    "filterType": "equal",
+                    "type": "text"
+                   }
+                  ]
+                 ],
+                 "hiddenChildren": false,
+                 "searchTime": 2500,
+                 "serial": 1,
+                 "serialType": "fixedValue",
+                 "variable": "CAPOK_v2"
+                },
+                "id": "a7c30d50-14b1-4f14-ba2c-8087c601415c",
+                "name": "c'e' la scritta Ok?",
+                "type": "waitEle"
+               },
+               {
+                "position": {
+                 "x": 80400,
+                 "y": 297
+                },
+                "config": {
+                 "conditionV3": [
+                  [
+                   {
+                    "probability": 50,
+                    "relation": "exist",
+                    "useVariable": "CAPOK_v2"
+                   }
+                  ]
+                 ],
+                 "children": [
+                  {
+                   "position": {
+                    "x": 79600,
+                    "y": 297
+                   },
+                   "config": {
+                    "doubleClick": false,
+                    "filterCollection": [
+                     [
+                      {
+                       "content": "Ok",
+                       "filterType": "equal",
+                       "type": "text"
+                      }
+                     ]
+                    ],
+                    "hiddenChildren": false,
+                    "randomDistance": 0,
+                    "searchTime": 3000,
+                    "serial": 1,
+                    "serialType": "fixedValue",
+                    "useOffset": false
+                   },
+                   "id": "2aee5b4b-a43e-4db7-afc2-6437aaa807fd",
+                   "name": "clicca la scritta Ok",
+                   "type": "click"
+                  },
+                  {
+                   "position": {
+                    "x": 80000,
+                    "y": 297
+                   },
+                   "config": {},
+                   "id": "eb1e8cf7-ac4d-4761-9975-019572e370be",
+                   "name": "esci dal giro",
+                   "type": "breakLoop"
+                  }
+                 ],
+                 "other": []
+                },
+                "id": "b6a65cae-3cb1-446f-9fe3-dff420cc014c",
+                "name": "IF c'e' la scritta Ok -> clicca",
+                "type": "ifElse"
+               },
+               {
+                "position": {
+                 "x": 80800,
+                 "y": 297
+                },
+                "config": {
+                 "filterCollection": [
+                  [
+                   {
+                    "content": "Done",
+                    "filterType": "equal",
+                    "type": "text"
+                   }
+                  ]
+                 ],
+                 "hiddenChildren": false,
+                 "searchTime": 2500,
+                 "serial": 1,
+                 "serialType": "fixedValue",
+                 "variable": "CAPOK_v3"
+                },
+                "id": "fdd653d8-d0a2-4fcf-a008-7eb2d6ae073d",
+                "name": "c'e' la scritta Done?",
+                "type": "waitEle"
+               },
+               {
+                "position": {
+                 "x": 82000,
+                 "y": 297
+                },
+                "config": {
+                 "conditionV3": [
+                  [
+                   {
+                    "probability": 50,
+                    "relation": "exist",
+                    "useVariable": "CAPOK_v3"
+                   }
+                  ]
+                 ],
+                 "children": [
+                  {
+                   "position": {
+                    "x": 81200,
+                    "y": 297
+                   },
+                   "config": {
+                    "doubleClick": false,
+                    "filterCollection": [
+                     [
+                      {
+                       "content": "Done",
+                       "filterType": "equal",
+                       "type": "text"
+                      }
+                     ]
+                    ],
+                    "hiddenChildren": false,
+                    "randomDistance": 0,
+                    "searchTime": 3000,
+                    "serial": 1,
+                    "serialType": "fixedValue",
+                    "useOffset": false
+                   },
+                   "id": "d619eee5-f3a5-41ab-858b-49da186366c0",
+                   "name": "clicca la scritta Done",
+                   "type": "click"
+                  },
+                  {
+                   "position": {
+                    "x": 81600,
+                    "y": 297
+                   },
+                   "config": {},
+                   "id": "26bace1d-2ee4-4379-bdef-16d7b9206b62",
+                   "name": "esci dal giro",
+                   "type": "breakLoop"
+                  }
+                 ],
+                 "other": []
+                },
+                "id": "3c11052e-90e3-4c4e-845f-fc3e1522b043",
+                "name": "IF c'e' la scritta Done -> clicca",
+                "type": "ifElse"
+               },
+               {
+                "position": {
+                 "x": 82400,
+                 "y": 297
+                },
+                "config": {
+                 "filterCollection": [
+                  [
+                   {
+                    "content": "Done",
+                    "filterType": "equal",
+                    "type": "desc"
+                   }
+                  ]
+                 ],
+                 "hiddenChildren": false,
+                 "searchTime": 2500,
+                 "serial": 1,
+                 "serialType": "fixedValue",
+                 "variable": "CAPOK_v4"
+                },
+                "id": "140bc52a-3728-4f59-8770-ac0a42fabee0",
+                "name": "c'e' Done (desc)?",
+                "type": "waitEle"
+               },
+               {
+                "position": {
+                 "x": 83600,
+                 "y": 297
+                },
+                "config": {
+                 "conditionV3": [
+                  [
+                   {
+                    "probability": 50,
+                    "relation": "exist",
+                    "useVariable": "CAPOK_v4"
+                   }
+                  ]
+                 ],
+                 "children": [
+                  {
+                   "position": {
+                    "x": 82800,
+                    "y": 297
+                   },
+                   "config": {
+                    "doubleClick": false,
+                    "filterCollection": [
+                     [
+                      {
+                       "content": "Done",
+                       "filterType": "equal",
+                       "type": "desc"
+                      }
+                     ]
+                    ],
+                    "hiddenChildren": false,
+                    "randomDistance": 0,
+                    "searchTime": 3000,
+                    "serial": 1,
+                    "serialType": "fixedValue",
+                    "useOffset": false
+                   },
+                   "id": "88aac7bf-2fe8-4d5d-8436-4f8cdc88a95d",
+                   "name": "clicca Done (desc)",
+                   "type": "click"
+                  },
+                  {
+                   "position": {
+                    "x": 83200,
+                    "y": 297
+                   },
+                   "config": {},
+                   "id": "67df9626-26bb-4ccd-90e2-a7d0e13e257e",
+                   "name": "esci dal giro",
+                   "type": "breakLoop"
+                  }
+                 ],
+                 "other": []
+                },
+                "id": "2432a26b-36d4-4b86-a93f-e9d899d8b922",
+                "name": "IF c'e' Done (desc) -> clicca",
+                "type": "ifElse"
+               }
+              ],
+              "remark": "CAPOK"
+             },
+             "id": "a6c8d3ca-90e9-495d-9b3a-f2e92d8994b7",
+             "name": "conferma la caption (OK in alto a destra)",
+             "type": "forTimes"
+            },
+            {
+             "position": {
+              "x": 84400,
+              "y": 297
+             },
+             "config": {
+              "timeoutMin": 1200,
+              "timeoutMax": 1800,
+              "timeoutType": "randomInterval"
+             },
+             "id": "d8103f26-0f28-4b62-aeac-ad628336006c",
+             "name": "wait",
+             "type": "waitTime"
+            },
+            {
+             "position": {
+              "x": 84800,
+              "y": 297
+             },
+             "config": {
+              "error": false,
+              "isBase64": false,
+              "isScope": false
+             },
+             "id": "43b505f1-9b0a-4700-8054-6016185308fb",
+             "name": "FOTO 10b - caption confermata?",
+             "type": "screenshotPage"
+            },
+            {
+             "position": {
+              "x": 85200,
+              "y": 297
+             },
+             "config": {
+              "injectVariables": [],
+              "script": "async function main() { return { capConf: \"1\" }; }",
+              "type": "js",
+              "variableMap": [
+               {
+                "value": "capConf",
+                "variable": "capConf"
+               }
+              ]
+             },
+             "id": "e7bd85c1-4508-4c0e-85e3-037361c1889b",
+             "name": "ok caption",
+             "type": "script"
+            },
+            {
+             "position": {
+              "x": 85600,
+              "y": 297
+             },
+             "config": {
+              "doubleClick": false,
+              "filterCollection": [
+               [
+                {
+                 "content": "Share",
+                 "filterType": "equal",
+                 "type": "text"
+                }
+               ]
+              ],
+              "hiddenChildren": false,
+              "randomDistance": 0,
+              "searchTime": 3000,
+              "serial": 1,
+              "serialType": "fixedValue",
+              "useOffset": false
+             },
+             "id": "e1750a35-2d64-4050-a224-a22af9ff21f6",
+             "name": "tocca Share",
+             "type": "click"
+            },
+            {
+             "position": {
+              "x": 86000,
+              "y": 297
+             },
+             "config": {
+              "timeoutMin": 1800,
+              "timeoutMax": 2500,
+              "timeoutType": "randomInterval"
+             },
+             "id": "6a22f52b-ea08-4478-b894-ec3293c5744c",
+             "name": "wait",
+             "type": "waitTime"
+            },
+            {
+             "position": {
+              "x": 86400,
+              "y": 297
+             },
+             "config": {
+              "filterCollection": [
+               [
+                {
+                 "content": "Share posts",
+                 "filterType": "equal",
+                 "type": "text"
+                }
+               ]
+              ],
+              "hiddenChildren": false,
+              "searchTime": 3000,
+              "serial": 1,
+              "serialType": "fixedValue",
+              "variable": "shSegno"
+             },
+             "id": "7114ee08-b8ee-4900-9f4b-6720bcf13776",
+             "name": "chiede 'Share posts'?",
+             "type": "waitEle"
+            },
+            {
+             "position": {
+              "x": 87200,
+              "y": 297
+             },
+             "config": {
+              "conditionV3": [
+               [
+                {
+                 "probability": 50,
+                 "relation": "exist",
+                 "useVariable": "shSegno"
+                }
+               ]
+              ],
+              "children": [
+               {
+                "position": {
+                 "x": 86800,
+                 "y": 297
+                },
+                "config": {
+                 "doubleClick": false,
+                 "filterCollection": [
+                  [
+                   {
+                    "content": "Share posts",
+                    "filterType": "equal",
+                    "type": "text"
+                   }
+                  ]
+                 ],
+                 "hiddenChildren": false,
+                 "randomDistance": 0,
+                 "searchTime": 3000,
+                 "serial": 1,
+                 "serialType": "fixedValue",
+                 "useOffset": false
+                },
+                "id": "4e7a78a0-467e-4879-9a5b-98edf72157ae",
+                "name": "tocca 'Share posts'",
+                "type": "click"
+               }
+              ],
+              "other": []
+             },
+             "id": "27f68683-cdae-4f46-86b5-27d44ada245d",
+             "name": "IF lo chiede -> confermalo",
+             "type": "ifElse"
+            },
+            {
+             "position": {
+              "x": 87600,
+              "y": 297
+             },
+             "config": {
+              "injectVariables": [],
+              "script": "async function main() { return { shareOk: \"1\" }; }",
+              "type": "js",
+              "variableMap": [
+               {
+                "value": "shareOk",
+                "variable": "shareOk"
+               }
+              ]
+             },
+             "id": "35057348-c2d2-4f85-8c3d-9defce274275",
+             "name": "share",
+             "type": "script"
+            },
+            {
+             "position": {
+              "x": 88000,
+              "y": 297
+             },
+             "config": {},
+             "id": "bf6a490c-1c5f-44aa-8806-701253095357",
+             "name": "esci dal giro",
+             "type": "breakLoop"
+            }
+           ],
+           "other": []
+          },
+          "id": "c1318ace-04f8-4933-84c8-10d2cee40dd3",
+          "name": "IF c'e' -> scrivi e condividi",
+          "type": "ifElse"
+         }
+        ],
+        "remark": "CAPTION"
+       },
+       "id": "220bb7b8-ff9a-447b-9f93-76aa971bba21",
+       "name": "caption + Share",
+       "type": "forTimes"
+      },
+      {
+       "position": {
+        "x": 90400,
+        "y": 297
+       },
+       "config": {
+        "serialType": "fixedValue",
+        "times": "2",
+        "children": [
+         {
+          "position": {
+           "x": 89200,
+           "y": 297
+          },
+          "config": {
+           "filterCollection": [
+            [
+             {
+              "content": "com.instagram.android:id/appirater_cancel_button",
+              "filterType": "equal",
+              "type": "id"
+             }
+            ]
+           ],
+           "hiddenChildren": false,
+           "searchTime": 2500,
+           "serial": 1,
+           "serialType": "fixedValue",
+           "variable": "voto"
+          },
+          "id": "542c0e97-651d-466e-8a16-ae4fb8a8a8d8",
+          "name": "c'e' il popup?",
+          "type": "waitEle"
+         },
+         {
+          "position": {
+           "x": 90000,
+           "y": 297
+          },
+          "config": {
+           "conditionV3": [
+            [
+             {
+              "probability": 50,
+              "relation": "exist",
+              "useVariable": "voto"
+             }
+            ]
+           ],
+           "children": [
+            {
+             "position": {
+              "x": 89600,
+              "y": 297
+             },
+             "config": {
+              "doubleClick": false,
+              "filterCollection": [
+               [
+                {
+                 "content": "com.instagram.android:id/appirater_cancel_button",
+                 "filterType": "equal",
+                 "type": "id"
+                }
+               ]
+              ],
+              "hiddenChildren": false,
+              "randomDistance": 0,
+              "searchTime": 3000,
+              "serial": 1,
+              "serialType": "fixedValue",
+              "useOffset": false
+             },
+             "id": "f73a2fa3-57d6-42f5-a85c-9c67d5ca83a8",
+             "name": "chiudi il popup",
+             "type": "click"
+            }
+           ],
+           "other": []
+          },
+          "id": "c6788162-7e24-46b4-b281-384feda78508",
+          "name": "IF c'e' -> chiudilo",
+          "type": "ifElse"
+         }
+        ],
+        "remark": "RATE"
+       },
+       "id": "89df6e73-26f1-4c96-babb-7c20f78297b2",
+       "name": "popup voto",
+       "type": "forTimes"
+      },
+      {
+       "position": {
+        "x": 90800,
+        "y": 297
+       },
+       "config": {
+        "timeoutMin": 6000,
+        "timeoutMax": 9000,
+        "timeoutType": "randomInterval"
+       },
+       "id": "5b01333b-4ed4-46ab-9e00-c16f9cfa17a4",
+       "name": "pubblicazione",
+       "type": "waitTime"
+      },
+      {
+       "position": {
+        "x": 91200,
+        "y": 297
+       },
+       "config": {
+        "error": false,
+        "isBase64": false,
+        "isScope": false
+       },
+       "id": "6084ac54-12f6-4b7f-bc47-a1b0d7a10142",
+       "name": "FOTO 11 - pubblicato?",
+       "type": "screenshotPage"
+      },
+      {
+       "position": {
+        "x": 93600,
+        "y": 297
+       },
+       "config": {
+        "serialType": "fixedValue",
+        "times": "6",
+        "children": [
+         {
+          "position": {
+           "x": 91600,
+           "y": 297
+          },
+          "config": {
+           "filterCollection": [
+            [
+             {
+              "content": "com.instagram.android:id/row_pending_media_status_text_views",
+              "filterType": "equal",
+              "type": "id"
+             }
+            ],
+            [
+             {
+              "content": "Posted!",
+              "filterType": "contain",
+              "type": "text"
+             }
+            ]
+           ],
+           "hiddenChildren": false,
+           "searchTime": 3000,
+           "serial": 1,
+           "serialType": "fixedValue",
+           "variable": "fatto"
+          },
+          "id": "f16a3b28-f34d-4674-810e-642078db2163",
+          "name": "in corso o fatto?",
+          "type": "waitEle"
+         },
+         {
+          "position": {
+           "x": 92800,
+           "y": 297
+          },
+          "config": {
+           "conditionV3": [
+            [
+             {
+              "probability": 50,
+              "relation": "exist",
+              "useVariable": "fatto"
+             }
+            ]
+           ],
+           "children": [
+            {
+             "position": {
+              "x": 92000,
+              "y": 297
+             },
+             "config": {
+              "injectVariables": [],
+              "script": "async function main() { return { pubblicato: \"1\", passo: \"CAROSELLO PUBBLICATO\" }; }",
+              "type": "js",
+              "variableMap": [
+               {
+                "value": "pubblicato",
+                "variable": "pubblicato"
+               },
+               {
+                "value": "passo",
+                "variable": "passo"
+               }
+              ]
+             },
+             "id": "352a6488-ec87-4676-a70f-8ff2c26533ef",
+             "name": "pubblicato",
+             "type": "script"
+            },
+            {
+             "position": {
+              "x": 92400,
+              "y": 297
+             },
+             "config": {},
+             "id": "23454747-eb2d-4d63-aa2a-f28e61aaf0fd",
+             "name": "esci dal giro",
+             "type": "breakLoop"
+            }
+           ],
+           "other": []
+          },
+          "id": "defed668-fb02-4dd0-9f9b-17aff71826cd",
+          "name": "IF confermato",
+          "type": "ifElse"
+         },
+         {
+          "position": {
+           "x": 93200,
+           "y": 297
+          },
+          "config": {
+           "timeoutMin": 2000,
+           "timeoutMax": 3000,
+           "timeoutType": "randomInterval"
+          },
+          "id": "fefd6f2f-8f09-41b2-b623-2761a2adb01e",
+          "name": "wait",
+          "type": "waitTime"
+         }
+        ],
+        "remark": "DONEPOST"
+       },
+       "id": "f8108e0d-3de6-4a52-ae76-60ec9593f6eb",
+       "name": "conferma pubblicazione",
+       "type": "forTimes"
+      },
+      {
+       "position": {
+        "x": 94000,
+        "y": 297
+       },
+       "config": {
+        "timeoutMin": 3000,
+        "timeoutMax": 4500,
+        "timeoutType": "randomInterval"
+       },
+       "id": "01ce4513-a492-4939-91dc-aa5ee1f6bb32",
+       "name": "lascia assestare dopo il post",
+       "type": "waitTime"
+      },
+      {
+       "position": {
+        "x": 94400,
+        "y": 297
+       },
+       "config": {
+        "doubleClick": false,
+        "filterCollection": [
+         [
+          {
+           "content": "Home",
+           "filterType": "equal",
+           "type": "desc"
+          }
+         ],
+         [
+          {
+           "content": "home",
+           "filterType": "equal",
+           "type": "desc"
+          }
+         ]
+        ],
+        "hiddenChildren": false,
+        "randomDistance": 0,
+        "searchTime": 2500,
+        "serial": 1,
+        "serialType": "fixedValue",
+        "useOffset": false,
+        "variable": "tabT"
+       },
+       "id": "77b020f7-fdd8-4e2f-8db5-7400f2c32c39",
+       "name": "tab Home (per nome)",
+       "type": "click"
+      },
+      {
+       "position": {
+        "x": 94800,
+        "y": 297
+       },
+       "config": {
+        "injectVariables": [
+         "tabT"
+        ],
+        "script": "async function main({ tabT }) { const v=String(tabT||\"\").trim(); return { tabOk: (v===\"true\"||v===\"1\")?\"1\":\"0\" }; }",
+        "type": "js",
+        "variableMap": [
+         {
+          "value": "tabOk",
+          "variable": "tabOk"
+         }
+        ]
+       },
+       "id": "18296de5-e41e-40ec-99e8-bb954fa8b74b",
+       "name": "preso?",
+       "type": "script"
+      },
+      {
+       "position": {
+        "x": 95600,
+        "y": 297
+       },
+       "config": {
+        "conditionV3": [
+         [
+          {
+           "probability": 50,
+           "relation": "equal",
+           "useVariable": "tabOk",
+           "result": "0"
+          }
+         ]
+        ],
+        "children": [
+         {
+          "position": {
+           "x": 95200,
+           "y": 297
+          },
+          "config": {
+           "excuteError": "noProcessing",
+           "randomDistance": 0,
+           "x": "${tabHomeX}",
+           "y": "${tabY}"
+          },
+          "id": "b81e23fd-4963-4303-a9f6-a67a8f7a343e",
+          "name": "tocca il tab Home",
+          "type": "clickXY"
+         }
+        ],
+        "other": []
+       },
+       "id": "6916bfb3-f965-4ce1-a89f-26a6de6d44bd",
+       "name": "IF no -> tocca la posizione",
+       "type": "ifElse"
+      },
+      {
+       "position": {
+        "x": 96000,
+        "y": 297
+       },
+       "config": {
+        "timeoutMin": 2000,
+        "timeoutMax": 3000,
+        "timeoutType": "randomInterval"
+       },
+       "id": "0690cc0e-3b9b-4776-8293-e4040231b147",
+       "name": "wait",
+       "type": "waitTime"
+      },
+      {
+       "position": {
+        "x": 97600,
+        "y": 297
+       },
+       "config": {
+        "serialType": "randomInterval",
+        "minTimes": 6,
+        "maxTimes": 11,
+        "hiddenChildren": false,
+        "children": [
+         {
+          "position": {
+           "x": 96400,
+           "y": 297
+          },
+          "config": {
+           "timeoutMin": 2200,
+           "timeoutMax": 5200,
+           "timeoutType": "randomInterval"
+          },
+          "id": "88967fb9-ee29-4393-befd-238b8d29b0a0",
+          "name": "guarda",
+          "type": "waitTime"
+         },
+         {
+          "position": {
+           "x": 96800,
+           "y": 297
+          },
+          "config": {
+           "injectVariables": [
+            "larg",
+            "alt"
+           ],
+           "script": "async function main({ larg, alt }) { const w=Number(larg)||720, h=Number(alt)||1440; const R=x=>String(Math.round(x)); return { gx: R(w*(0.38+Math.random()*0.24)), gy1: R(h*0.66), gy2: R(h*0.40), durata: String(140+Math.floor(Math.random()*51)) }; }",
+           "type": "js",
+           "variableMap": [
+            {
+             "value": "gx",
+             "variable": "gx"
+            },
+            {
+             "value": "gy1",
+             "variable": "gy1"
+            },
+            {
+             "value": "gy2",
+             "variable": "gy2"
+            },
+            {
+             "value": "durata",
+             "variable": "durata"
+            }
+           ]
+          },
+          "id": "2e620a76-ef26-4b6c-be4b-cc7480893470",
+          "name": "prepara lo scroll (home)",
+          "type": "script"
+         },
+         {
+          "position": {
+           "x": 97200,
+           "y": 297
+          },
+          "config": {
+           "content": "input swipe ${gx} ${gy1} ${gx} ${gy2} ${durata}",
+           "timeout": 120000,
+           "error": false,
+           "variable": "sw_home"
+          },
+          "id": "dc68d47d-702c-49ee-bea1-46b871e582fe",
+          "name": "scroll home (140-190 ms)",
+          "type": "executeADB"
+         }
+        ]
+       },
+       "id": "34301bab-8134-4372-badc-f9fccea92a5c",
+       "name": "dopo il post: home (a caso)",
+       "type": "forTimes"
+      },
+      {
+       "position": {
+        "x": 98000,
+        "y": 297
+       },
+       "config": {
+        "doubleClick": false,
+        "filterCollection": [
+         [
+          {
+           "content": "Reels",
+           "filterType": "equal",
+           "type": "desc"
+          }
+         ],
+         [
+          {
+           "content": "reels",
+           "filterType": "equal",
+           "type": "desc"
+          }
+         ]
+        ],
+        "hiddenChildren": false,
+        "randomDistance": 0,
+        "searchTime": 2500,
+        "serial": 1,
+        "serialType": "fixedValue",
+        "useOffset": false,
+        "variable": "tabT"
+       },
+       "id": "e927d3da-86aa-413a-bb2b-29607d8d5c91",
+       "name": "tab Reels (per nome)",
+       "type": "click"
+      },
+      {
+       "position": {
+        "x": 98400,
+        "y": 297
+       },
+       "config": {
+        "injectVariables": [
+         "tabT"
+        ],
+        "script": "async function main({ tabT }) { const v=String(tabT||\"\").trim(); return { tabOk: (v===\"true\"||v===\"1\")?\"1\":\"0\" }; }",
+        "type": "js",
+        "variableMap": [
+         {
+          "value": "tabOk",
+          "variable": "tabOk"
+         }
+        ]
+       },
+       "id": "58c22602-0aed-431f-9748-e51820dccdc3",
+       "name": "preso?",
+       "type": "script"
+      },
+      {
+       "position": {
+        "x": 99200,
+        "y": 297
+       },
+       "config": {
+        "conditionV3": [
+         [
+          {
+           "probability": 50,
+           "relation": "equal",
+           "useVariable": "tabOk",
+           "result": "0"
+          }
+         ]
+        ],
+        "children": [
+         {
+          "position": {
+           "x": 98800,
+           "y": 297
+          },
+          "config": {
+           "excuteError": "noProcessing",
+           "randomDistance": 0,
+           "x": "${tabReelsX}",
+           "y": "${tabY}"
+          },
+          "id": "53d63a41-19a0-4b8f-aa3d-e258724bfa8f",
+          "name": "tocca il tab Reels",
+          "type": "clickXY"
+         }
+        ],
+        "other": []
+       },
+       "id": "b843e5d3-4e1d-47ac-9751-12bd239e054c",
+       "name": "IF no -> tocca la posizione",
+       "type": "ifElse"
+      },
+      {
+       "position": {
+        "x": 99600,
+        "y": 297
+       },
+       "config": {
+        "timeoutMin": 2000,
+        "timeoutMax": 3000,
+        "timeoutType": "randomInterval"
+       },
+       "id": "219e5eab-35e2-4a5a-a63e-ca955a2fc924",
+       "name": "wait",
+       "type": "waitTime"
+      },
+      {
+       "position": {
+        "x": 101200,
+        "y": 297
+       },
+       "config": {
+        "serialType": "randomInterval",
+        "minTimes": 27,
+        "maxTimes": 38,
+        "hiddenChildren": false,
+        "children": [
+         {
+          "position": {
+           "x": 100000,
+           "y": 297
+          },
+          "config": {
+           "timeoutMin": 3500,
+           "timeoutMax": 8000,
+           "timeoutType": "randomInterval"
+          },
+          "id": "1d6a9b07-f383-4c17-9c52-ee5e2091e2c0",
+          "name": "guarda",
+          "type": "waitTime"
+         },
+         {
+          "position": {
+           "x": 100400,
+           "y": 297
+          },
+          "config": {
+           "injectVariables": [
+            "larg",
+            "alt"
+           ],
+           "script": "async function main({ larg, alt }) { const w=Number(larg)||720, h=Number(alt)||1440; const R=x=>String(Math.round(x)); return { gx: R(w*(0.38+Math.random()*0.24)), gy1: R(h*0.74), gy2: R(h*0.30), durata: String(140+Math.floor(Math.random()*51)) }; }",
+           "type": "js",
+           "variableMap": [
+            {
+             "value": "gx",
+             "variable": "gx"
+            },
+            {
+             "value": "gy1",
+             "variable": "gy1"
+            },
+            {
+             "value": "gy2",
+             "variable": "gy2"
+            },
+            {
+             "value": "durata",
+             "variable": "durata"
+            }
+           ]
+          },
+          "id": "95090e54-5923-4b04-bf07-84bc15cc6ffe",
+          "name": "prepara lo scroll (reels)",
+          "type": "script"
+         },
+         {
+          "position": {
+           "x": 100800,
+           "y": 297
+          },
+          "config": {
+           "content": "input swipe ${gx} ${gy1} ${gx} ${gy2} ${durata}",
+           "timeout": 120000,
+           "error": false,
+           "variable": "sw_reels"
+          },
+          "id": "64a5f991-6e05-4e3d-a056-e458a0ffeb16",
+          "name": "scroll reels (140-190 ms)",
+          "type": "executeADB"
+         }
+        ]
+       },
+       "id": "f6eb2351-3d8c-462d-a3f1-da837fa0efb4",
+       "name": "dopo il post: reels (a caso)",
+       "type": "forTimes"
+      },
+      {
+       "position": {
+        "x": 101600,
+        "y": 297
+       },
+       "config": {
+        "error": false,
+        "isBase64": false,
+        "isScope": false
+       },
+       "id": "43130212-49d2-4a4c-9ca2-6bd706e306c8",
+       "name": "FOTO 11b - fine warmup dopo",
+       "type": "screenshotPage"
+      },
+      {
+       "position": {
+        "x": 102000,
+        "y": 297
+       },
+       "config": {
+        "content": "input keyevent 3",
+        "timeout": 120000,
+        "error": false,
+        "variable": "fineOut"
+       },
+       "id": "125fac7a-c0e5-4208-bca8-97174fff04bd",
+       "name": "HOME del telefono",
+       "type": "executeADB"
+      }
+     ],
+     "other": []
+    },
+    "id": "761ab9bf-5955-4850-8be3-8d67146f694b",
+    "name": "IF le foto ci sono -> vai",
+    "type": "ifElse"
+   },
+   {
+    "position": {
+     "x": 102800,
+     "y": 297
+    },
+    "config": {
+     "error": false,
+     "isBase64": false,
+     "isScope": false
+    },
+    "id": "72a21d80-d8be-40da-9d88-8bd20a5ee65b",
+    "name": "FOTO 12 - fine",
+    "type": "screenshotPage"
+   },
+   {
+    "position": {
+     "x": 103200,
+     "y": 297
+    },
+    "config": {
+     "injectVariables": [
+      "nFoto",
+      "postOk",
+      "piuOk",
+      "canYletto",
+      "selOk",
+      "f2Ok",
+      "f3Ok",
+      "nextOk",
+      "ratioOk",
+      "tabOk",
+      "postOk",
+      "npY",
+      "homeT",
+      "homeOk",
+      "capOk",
+      "capConf",
+      "shareOk",
+      "pubblicato",
+      "passo"
+     ],
+     "script": "async function main(v) { const g=k=>String(v[k]===undefined||v[k]===null?\"-\":v[k]); return { ESITO: \"foto=\"+g(\"nFoto\")+\" | composer POST=\"+g(\"postOk\")+\" | +=\"+g(\"piuOk\")+\" | Select=\"+g(\"selOk\")+\" (Cancel y=\"+g(\"canYletto\")+\")\"+\" | foto2=\"+g(\"f2Ok\")+\" foto3=\"+g(\"f3Ok\")+\" | editor=\"+g(\"nextOk\")+\" | ratio=\"+g(\"ratioOk\")+\" | caption=\"+g(\"capOk\")+\"/\"+g(\"capConf\")+\" | Share=\"+g(\"shareOk\")+\" | PUBBLICATO=\"+g(\"pubblicato\")+\" || \"+g(\"passo\") }; }",
+     "type": "js",
+     "variableMap": [
+      {
+       "value": "ESITO",
+       "variable": "ESITO"
+      }
+     ]
+    },
+    "id": "e3486cf6-7d01-483b-8bfa-f95d4b9b232c",
+    "name": "RIEPILOGO",
+    "type": "script"
+   },
+   {
+    "position": {
+     "x": 103600,
+     "y": 297
+    },
+    "config": {},
+    "id": "5c8d55a9-6783-4d6f-a8ab-02f46070e803",
+    "name": "fine",
+    "type": "endTask"
+   }
+  ],
+  "otherContents": {
+   "startNode": {
+    "position": {
+     "x": 333,
+     "y": 297
+    },
+    "config": {},
+    "type": "start",
+    "id": "init-node"
+   },
+   "contents": [],
+   "edges": [],
+   "otherFunctionNode": []
+  },
+  "contentType": "phone",
+  "errorType": "skip"
+ }
+}
